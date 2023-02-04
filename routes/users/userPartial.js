@@ -4,9 +4,9 @@
 
 const userPartialRoute = require("express").Router();
 
-userPartialRoute.get("/", (req, res) => {
+userPartialRoute.get("/:userId", (req, res) => {
 	res.json({
-		message: "User partial page",
+		message: `User ${req.params.userId} partial page`,
 	});
 });
 

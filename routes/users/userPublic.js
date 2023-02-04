@@ -1,12 +1,12 @@
 /**
- * User publicroute
+ * User public route
  */
 
 const userPublicRoute = require("express").Router();
 
-userPublicRoute.get("/", (req, res) => {
+userPublicRoute.get("/:userId", (req, res) => {
 	res.json({
-		message: "User public page",
+		message: `User ${req.params.userId} public page`,
 	});
 });
 
