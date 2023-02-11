@@ -1,9 +1,19 @@
 const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
+var colors = require("colors");
 require("dotenv").config();
 
 const app = express();
+
+const morganMiddleware = require("./middlewares/morgan.middleware");
+
+// The morgan middleware does not need this.
+// This is for a manual log
+const logger = require("./utils/logger");
+
+// Morgan middleware for HTTP requests and errors logging
+app.use(morganMiddleware);
 
 //Setting up CORS to allow frontend to target backend
 var corsOptions = {
@@ -13,10 +23,10 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-// parse requests of content-type - application/json
+// Parse requests of content-type - application/json
 app.use(express.json());
 
-// parse requests of content-type - application/x-www-form-urlencoded
+// Parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
@@ -27,15 +37,16 @@ app.use(
 	})
 );
 
+// All routes
 app.use(require("./routes"));
 
-// routes
-// require("./app/routes/auth.routes")(app);
-// require("./app/routes/user.routes")(app);
-
-// set port, listen for requests
+// Set port, listening for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-	console.log(`Server is running on port ${PORT}.`);
-	console.log(`open http://localhost:${PORT}`);
+	logger.info("Panda-Server ".rainbow + `is running on port ${PORT}`.magenta);
+	console.log(
+		"Open ".magenta +
+			`http://localhost:${PORT}`.underline.italic.brightBlue +
+			" to access the server".magenta
+	);
 });

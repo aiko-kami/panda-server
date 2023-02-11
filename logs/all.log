@@ -1,0 +1,33 @@
+2023-Feb-11 12:57:49:5749	info:	Panda-Server is running on port 8080
+2023-Feb-11 12:58:01:581	info:	Panda-Server is running on port 8080
+2023-Feb-11 12:58:07:587	info:	Panda-Server is running on port 8080
+2023-Feb-11 12:58:12:5812	info:	Panda-Server is running on port 8080
+2023-Feb-11 12:59:42:5942	info:	Panda-Server is running on port 8080
+2023-Feb-11 12:59:51:5951	http:	::ffff:127.0.0.1 GET /users/me - - - - ms
+
+2023-Feb-11 13:00:27:027	info:	Panda-Server is running on port 8080
+2023-Feb-11 13:02:01:21	info:	Panda-Server is running on port 8080
+2023-Feb-11 13:02:04:24	info:	Panda-Server route
+2023-Feb-11 13:02:04:24	http:	::ffff:127.0.0.1 GET /users/me 304 - - 430.002 ms
+
+2023-Feb-11 13:03:01:31	info:	Panda-Server is running on port 8080
+2023-Feb-11 13:03:04:34	http:	::ffff:127.0.0.1 GET /users/me 200 27 - 419.680 ms
+
+2023-Feb-11 13:03:10:310	http:	::ffff:127.0.0.1 GET /users/me 304 - - 292.390 ms
+
+2023-Feb-11 13:04:08:48	http:	::ffff:127.0.0.1 GET /atlas/public/778 200 35 - 2.516 ms
+
+2023-Feb-11 13:04:42:442	info:	Panda-Server is running on port 8080
+2023-Feb-11 13:04:45:445	http:	::ffff:127.0.0.1	GET	/atlas/public/778	304	-	-	7.474 ms
+
+2023-Feb-11 13:04:58:458	http:	::ffff:127.0.0.1	GET	/users/me	304	-	-	458.936 ms
+
+2023-Feb-11 13:05:53:553	info:	Panda-Server is running on port 8080
+2023-Feb-11 13:05:56:556	http:	::ffff:127.0.0.1 GET /users/me 304 - - 376.970 ms
+
+2023-Feb-11 13:06:00:60	http:	::ffff:127.0.0.1 GET /users/me 304 - - 421.370 ms
+
+2023-Feb-11 13:07:23:723	info:	Panda-Server is running on port 8080
+2023-Feb-11 13:07:28:728	info:	Panda-Server is running on port 8080
+2023-Feb-11 13:07:30:730	info:	Panda-Server is running on port 8080
+2023-Feb-11 13:07:33:733	info:	Panda-Server is running on port 8080
