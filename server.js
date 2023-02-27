@@ -1,12 +1,16 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
-var colors = require("colors");
-require("dotenv").config();
+const colors = require("colors");
+const mongoose = require("mongoose");
+const morganMiddleware = require("./middlewares/morgan.middleware");
+const { validateRegistrationInputs } = require("./utils/validations");
 
 const app = express();
 
-const morganMiddleware = require("./middlewares/morgan.middleware");
+// Set port
+const PORT = process.env.PORT || 8080;
 
 // The morgan middleware does not need this.
 // This is for a manual log
@@ -16,7 +20,7 @@ const logger = require("./utils/logger");
 app.use(morganMiddleware);
 
 //Setting up CORS to allow frontend to target backend
-var corsOptions = {
+const corsOptions = {
 	//Domain and port from frontend allowed to access the server
 	origin: "http://localhost:8081",
 };
@@ -40,13 +44,20 @@ app.use(
 // All routes
 app.use(require("./routes"));
 
-// Set port, listening for requests
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-	logger.info("Panda-Server ".rainbow + `is running on port ${PORT}`.magenta);
-	console.log(
-		"Open ".magenta +
-			`http://localhost:${PORT}`.underline.italic.brightBlue +
-			" to access the server".magenta
-	);
-});
+// database connection
+mongoose.set("strictQuery", false);
+mongoose
+	.connect(process.env.MONGODB_URI_PUBLIC)
+	.then((result) => {
+		logger.info("Connected to PUBLIC database");
+		app.listen(PORT, () => {
+			logger.info("Panda-Server ".rainbow + `is running on port ${PORT}`.magenta);
+			console.log(
+				"Open ".magenta +
+					`http://localhost:${PORT}`.underline.italic.brightBlue +
+					" to access the server".magenta
+			);
+			console.log(validateRegistrationInputs("gh", "mail@ee.fr", "2bBlabla@", "2bBlabla@").status);
+		});
+	})
+	.catch((err) => console.log(err));
