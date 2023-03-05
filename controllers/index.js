@@ -1,2 +1,2 @@
-module.exports.userController = require("./user.controller");
-module.exports.projectController = require("./project.controller");
+module.exports.userController = require("./user/user.controller");
+module.exports.projectController = require("./project/project.controller");

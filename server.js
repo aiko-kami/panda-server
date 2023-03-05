@@ -47,7 +47,7 @@ app.use(require("./routes"));
 // database connection
 mongoose.set("strictQuery", false);
 mongoose
-	.connect(process.env.MONGODB_URI_PUBLIC)
+	.connect(process.env.MONGODB_URI_PRIVATE)
 	.then((result) => {
 		logger.info("Connected to PUBLIC database");
 		app.listen(PORT, () => {
