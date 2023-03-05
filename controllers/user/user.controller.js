@@ -11,6 +11,22 @@ function userData(data) {
 	this.createdAt = data.createdAt;
 }
 
+const getMyUserData = async (req, res) => {
+	try {
+		userService
+			.retrieveUserById(
+				"c5407ae2-eabb-4b64-8739-59fcac186c3d",
+				"username email createdAt profilePicture description"
+			)
+			.then((user) => {
+				return apiResponse.successResponseWithData(res, "Operation success", user);
+			});
+	} catch (err) {
+		//throw error in json response with status 500.
+		return apiResponse.ServerErrorResponse(res, err);
+	}
+};
+
 const getUser = async (req, res) => {
 	// Validate request
 	if (!req.body.email) {
@@ -43,7 +59,6 @@ const updateUser = async (req, res) => {
 const getNewUsers = async (req, res) => {
 	try {
 		userService.retrieveNewUsers(4, "username profilePicture description").then((newUsers) => {
-			console.log(newUsers);
 			if (newUsers !== null) {
 				return apiResponse.successResponseWithData(res, "Operation success", newUsers);
 			} else {
@@ -52,11 +67,12 @@ const getNewUsers = async (req, res) => {
 		});
 	} catch (err) {
 		//throw error in json response with status 500.
-		return apiResponse.ErrorResponse(res, err);
+		return apiResponse.ServerErrorResponse(res, err);
 	}
 };
 
 module.exports = {
+	getMyUserData,
 	getUser,
 	updateUser,
 	getNewUsers,
