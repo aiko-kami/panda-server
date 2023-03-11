@@ -433,3 +433,47 @@
 2023-Mar-05 23:55:13:5513	info:	Panda-Server is running on port 8080
 2023-Mar-05 23:55:19:5519	http:	::ffff:127.0.0.1 GET /users/me 200 73 - 33.027 ms
 
+2023-Mar-05 23:55:58:5558	info:	Connected to PUBLIC database
+2023-Mar-05 23:55:58:5558	info:	Panda-Server is running on port 8080
+2023-Mar-05 23:56:00:560	http:	::ffff:127.0.0.1 GET /users/me 200 143 - 30.950 ms
+
+2023-Mar-06 19:05:49:549	info:	Connected to PUBLIC database
+2023-Mar-06 19:05:49:549	info:	Panda-Server is running on port 8080
+2023-Mar-06 19:05:52:552	http:	::ffff:127.0.0.1 GET /users/me 200 158 - 162.786 ms
+
+2023-Mar-06 19:05:56:556	http:	::ffff:127.0.0.1 GET /users/me 304 - - 20.842 ms
+
+2023-Mar-06 19:06:00:60	http:	::ffff:127.0.0.1 GET /users/me 304 - - 64.568 ms
+
+2023-Mar-06 19:06:05:65	info:	Connected to PUBLIC database
+2023-Mar-06 19:06:05:65	info:	Panda-Server is running on port 8080
+2023-Mar-06 19:06:06:66	http:	::ffff:127.0.0.1 GET /users/me 200 761 - 222.403 ms
+
+2023-Mar-06 19:06:33:633	info:	Connected to PUBLIC database
+2023-Mar-06 19:06:33:633	info:	Panda-Server is running on port 8080
+2023-Mar-06 19:06:34:634	http:	::ffff:127.0.0.1 GET /users/me 200 87 - 301.947 ms
+
+2023-Mar-06 19:06:53:653	info:	Connected to PUBLIC database
+2023-Mar-06 19:06:53:653	info:	Panda-Server is running on port 8080
+2023-Mar-06 19:07:23:723	info:	Connected to PUBLIC database
+2023-Mar-06 19:07:23:723	info:	Panda-Server is running on port 8080
+2023-Mar-06 19:07:55:755	http:	::ffff:127.0.0.1 GET /auth/signup 404 39 - 21.145 ms
+
+2023-Mar-06 19:08:29:829	info:	Connected to PUBLIC database
+2023-Mar-06 19:08:29:829	info:	Panda-Server is running on port 8080
+2023-Mar-06 19:08:31:831	http:	::ffff:127.0.0.1 GET /auth/signup 404 39 - 18.413 ms
+
+2023-Mar-06 19:09:30:930	http:	::ffff:127.0.0.1 GET /users/me 200 761 - 34.696 ms
+
+2023-Mar-06 19:10:57:1057	http:	::ffff:127.0.0.1 GET /users/me 200 307 - 24.673 ms
+
+2023-Mar-06 19:11:26:1126	http:	::ffff:127.0.0.1 GET /users/me 200 321 - 20.771 ms
+
+2023-Mar-06 19:12:25:1225	http:	::ffff:127.0.0.1 GET /users/me 200 350 - 18.894 ms
+
+2023-Mar-06 19:23:10:2310	info:	Connected to PUBLIC database
+2023-Mar-06 19:23:10:2310	info:	Panda-Server is running on port 8080
+2023-Mar-06 19:23:19:2319	http:	::ffff:127.0.0.1 GET /users/newUsersOverview - - - - ms
+
+2023-Mar-06 19:23:21:2321	http:	::ffff:127.0.0.1 GET /users/newUsersOverview 200 496 - 23.582 ms
+
