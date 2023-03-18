@@ -5,7 +5,6 @@ const cookieSession = require("cookie-session");
 const colors = require("colors");
 const mongoose = require("mongoose");
 const morganMiddleware = require("./middlewares/morgan.middleware");
-const { validateRegistrationInputs } = require("./utils/validations");
 
 const app = express();
 
@@ -57,7 +56,6 @@ mongoose
 					`http://localhost:${PORT}`.underline.italic.brightBlue +
 					" to access the server".magenta
 			);
-			console.log(validateRegistrationInputs("gh", "mail@ee.fr", "2bBlabla@", "2bBlabla@").status);
 		});
 	})
 	.catch((err) => console.log(err));

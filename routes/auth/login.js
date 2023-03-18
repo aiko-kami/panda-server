@@ -3,11 +3,8 @@
  */
 
 const loginRoute = require("express").Router();
+const userController = require("../../controllers/user/user.controller");
 
-loginRoute.post("/", (req, res) => {
-	res.json({
-		message: "Login page",
-	});
-});
+loginRoute.post("/", userController.loginUser);
 
 module.exports = loginRoute;
