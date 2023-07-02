@@ -1,0 +1,22 @@
+2023-Mar-18 08:59:31:5931	info:	Connected to PUBLIC database
+2023-Mar-18 08:59:31:5931	info:	Panda-Server is running on port 8080
+2023-Mar-18 08:59:52:5952	info:	Connected to PUBLIC database
+2023-Mar-18 08:59:52:5952	info:	Panda-Server is running on port 8080
+2023-Mar-18 09:00:00:00	http:	::ffff:127.0.0.1 POST /auth/login 200 184 - 65.882 ms
+
+2023-Mar-18 09:09:10:910	http:	::ffff:127.0.0.1 POST /auth/logout 200 184 - 2.698 ms
+
+2023-Mar-18 09:09:11:911	http:	::ffff:127.0.0.1 POST /auth/logout 200 184 - 2.526 ms
+
+2023-Mar-18 09:09:12:912	http:	::ffff:127.0.0.1 POST /auth/logout 200 184 - 2.043 ms
+
+2023-Mar-18 09:09:15:915	http:	::ffff:127.0.0.1 POST /auth/logout 200 184 - 1.416 ms
+
+2023-Mar-18 09:09:17:917	http:	::ffff:127.0.0.1 POST /auth/logout 200 184 - 2.039 ms
+
+2023-Mar-18 09:09:18:918	http:	::ffff:127.0.0.1 POST /auth/logout 200 184 - 1.950 ms
+
+2023-Mar-18 09:09:19:919	http:	::ffff:127.0.0.1 POST /auth/logout 200 184 - 1.649 ms
+
+2023-Mar-18 09:19:43:1943	info:	Connected to PUBLIC database
+2023-Mar-18 09:19:43:1943	info:	Panda-Server is running on port 8080

@@ -3,11 +3,8 @@
  */
 
 const logoutRoute = require("express").Router();
+const authController = require("../../controllers/auth/auth.controller");
 
-logoutRoute.post("/", (req, res) => {
-	res.json({
-		message: "Logout page",
-	});
-});
+logoutRoute.post("/", authController.logout);
 
 module.exports = logoutRoute;
