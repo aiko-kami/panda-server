@@ -13,11 +13,16 @@ const generateToken = (userId, expires, secret = "MyBiGSecret00123777@") => {
 	const payload = {
 		sub: userId,
 		iat: DateTime.now().ts,
-		exp: expires,
 	};
-	return jwt.sign(payload, secret);
+	console.log(payload);
+	return jwt.sign(payload, secret, { expiresIn: expires });
+};
+
+const verifyToken = (token) => {
+	return jwt.verify(token, "MyBiGSecret00123777@");
 };
 
 module.exports = {
 	generateToken,
+	verifyToken,
 };
