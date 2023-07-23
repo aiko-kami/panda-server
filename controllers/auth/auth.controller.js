@@ -12,20 +12,15 @@ const login = async (req, res) => {
 
 // Logout user
 const logout = async (req, res) => {
-	const token = tokenService.generateToken(
-		4,
-		parseInt(process.env.JWT_ACCESS_LOGOUT_EXPIRATION_MINUTES)
-	);
+	const token = tokenService.generateToken(4, parseInt(process.env.JWT_ACCESS_SIGNUP_EXPIRATION));
 	return apiResponse.successResponseWithData(res, "Operation success", { token });
 };
 
 // Signup user
 const signup = async (req, res) => {
-	const token = tokenService.generateToken(
-		4,
-		parseInt(process.env.JWT_ACCESS_SIGNUP_EXPIRATION_MINUTES)
-	);
-	return apiResponse.successResponseWithData(res, "Operation success", { token });
+	const token = tokenService.generateToken(487, parseInt(process.env.JWT_ACCESS_SIGNUP_EXPIRATION));
+	//	const tokenV = tokenService.verifyToken(token);
+	return apiResponse.successResponseWithData(res, "Operation success", { token, tokenV });
 };
 
 module.exports = {

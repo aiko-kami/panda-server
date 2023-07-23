@@ -146,3 +146,33 @@
 2023-Jul-04 23:12:09:129	info:	Panda-Server is running on port 8080
 2023-Jul-04 23:12:24:1224	info:	Connected to PUBLIC database
 2023-Jul-04 23:12:24:1224	info:	Panda-Server is running on port 8080
+2023-Jul-18 00:42:40:4240	info:	Connected to PUBLIC database
+2023-Jul-18 00:42:40:4240	info:	Panda-Server is running on port 8080
+2023-Jul-18 00:45:06:456	info:	Connected to PUBLIC database
+2023-Jul-18 00:45:06:456	info:	Panda-Server is running on port 8080
+2023-Jul-18 00:45:09:459	http:	::ffff:127.0.0.1 POST /auth/signup 200 209 - 29.715 ms
+
+2023-Jul-18 00:47:14:4714	info:	Connected to PUBLIC database
+2023-Jul-18 00:47:14:4714	info:	Panda-Server is running on port 8080
+2023-Jul-18 00:47:16:4716	http:	::ffff:127.0.0.1 POST /auth/signup 200 268 - 31.097 ms
+
+2023-Jul-18 00:49:49:4949	info:	Connected to PUBLIC database
+2023-Jul-18 00:49:49:4949	info:	Panda-Server is running on port 8080
+2023-Jul-18 00:49:54:4954	http:	::ffff:127.0.0.1 POST /auth/signup 200 268 - 33.108 ms
+
+2023-Jul-18 00:49:59:4959	http:	::ffff:127.0.0.1 POST /auth/signup 200 268 - 4.835 ms
+
+2023-Jul-18 00:50:00:500	http:	::ffff:127.0.0.1 POST /auth/signup 200 268 - 3.763 ms
+
+2023-Jul-18 00:50:55:5055	info:	Connected to PUBLIC database
+2023-Jul-18 00:50:55:5055	info:	Panda-Server is running on port 8080
+2023-Jul-18 00:50:59:5059	http:	::ffff:127.0.0.1 POST /auth/signup 200 272 - 31.153 ms
+
+2023-Jul-18 00:51:28:5128	info:	Connected to PUBLIC database
+2023-Jul-18 00:51:28:5128	info:	Panda-Server is running on port 8080
+2023-Jul-18 00:51:31:5131	http:	::ffff:127.0.0.1 POST /auth/signup 200 286 - 33.297 ms
+
+2023-Jul-18 00:51:39:5139	info:	Connected to PUBLIC database
+2023-Jul-18 00:51:39:5139	info:	Panda-Server is running on port 8080
+2023-Jul-18 00:51:51:5151	info:	Connected to PUBLIC database
+2023-Jul-18 00:51:51:5151	info:	Panda-Server is running on port 8080
