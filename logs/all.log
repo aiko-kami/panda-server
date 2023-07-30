@@ -176,3 +176,91 @@
 2023-Jul-18 00:51:39:5139	info:	Panda-Server is running on port 8080
 2023-Jul-18 00:51:51:5151	info:	Connected to PUBLIC database
 2023-Jul-18 00:51:51:5151	info:	Panda-Server is running on port 8080
+2023-Jul-30 11:05:06:56	info:	Connected to PUBLIC database
+2023-Jul-30 11:05:06:56	info:	Panda-Server is running on port 8080
+2023-Jul-30 11:05:10:510	http:	::ffff:127.0.0.1 POST /auth/signup 400 48 - 19.013 ms
+
+2023-Jul-30 12:41:29:4129	http:	::ffff:127.0.0.1 POST /auth/signup 400 48 - 2.504 ms
+
+2023-Jul-30 12:41:30:4130	http:	::ffff:127.0.0.1 POST /auth/signup 400 48 - 0.774 ms
+
+2023-Jul-30 12:41:55:4155	http:	::ffff:127.0.0.1 GET /auth/signup 404 39 - 1.089 ms
+
+2023-Jul-30 12:42:01:421	http:	::ffff:127.0.0.1 POST /auth/signup 400 48 - 0.938 ms
+
+2023-Jul-30 12:45:02:452	http:	::ffff:127.0.0.1 POST /auth/signup 400 48 - 0.686 ms
+
+2023-Jul-30 12:50:52:5052	info:	Connected to PUBLIC database
+2023-Jul-30 12:50:52:5052	info:	Panda-Server is running on port 8080
+2023-Jul-30 12:52:30:5230	info:	Connected to PUBLIC database
+2023-Jul-30 12:52:30:5230	info:	Panda-Server is running on port 8080
+2023-Jul-30 12:52:33:5233	http:	::ffff:127.0.0.1 POST /auth/signup 400 52 - 211.708 ms
+
+2023-Jul-30 14:37:41:3741	http:	::ffff:127.0.0.1 POST /auth/signup 400 49 - 1196.265 ms
+
+2023-Jul-30 14:59:32:5932	http:	::ffff:127.0.0.1 POST /auth/signup 400 49 - 172.165 ms
+
+2023-Jul-30 15:21:11:2111	http:	::ffff:127.0.0.1 POST /auth/signup 500 57 - 5.373 ms
+
+2023-Jul-30 15:22:02:222	http:	::ffff:127.0.0.1 POST /auth/signup 500 57 - 3.652 ms
+
+2023-Jul-30 15:23:02:232	http:	::ffff:127.0.0.1 POST /auth/signup 500 57 - 2.809 ms
+
+2023-Jul-30 15:23:44:2344	http:	::ffff:127.0.0.1 POST /auth/signup 500 57 - 3.136 ms
+
+2023-Jul-30 15:23:51:2351	http:	::ffff:127.0.0.1 POST /auth/signup 500 57 - 3.061 ms
+
+2023-Jul-30 15:36:14:3614	info:	Connected to PUBLIC database
+2023-Jul-30 15:36:14:3614	info:	Panda-Server is running on port 8080
+2023-Jul-30 15:43:25:4325	info:	Connected to PUBLIC database
+2023-Jul-30 15:43:25:4325	info:	Panda-Server is running on port 8080
+2023-Jul-30 15:43:30:4330	http:	::ffff:127.0.0.1 POST /auth/signup 400 48 - 33.039 ms
+
+2023-Jul-30 15:44:54:4454	http:	::ffff:127.0.0.1 POST /auth/signup 400 48 - 6.324 ms
+
+2023-Jul-30 15:45:04:454	http:	::ffff:127.0.0.1 POST /auth/signup 400 48 - 3.111 ms
+
+2023-Jul-30 15:45:23:4523	http:	::ffff:127.0.0.1 POST /auth/signup 400 48 - 1.595 ms
+
+2023-Jul-30 15:45:23:4523	http:	::ffff:127.0.0.1 POST /auth/signup 400 48 - 2.244 ms
+
+2023-Jul-30 15:45:49:4549	info:	Connected to PUBLIC database
+2023-Jul-30 15:45:49:4549	info:	Panda-Server is running on port 8080
+2023-Jul-30 15:45:53:4553	http:	::ffff:127.0.0.1 POST /auth/signup 400 62 - 29.345 ms
+
+2023-Jul-30 15:46:34:4634	http:	::ffff:127.0.0.1 POST /auth/signup 400 12 - 2.667 ms
+
+2023-Jul-30 15:46:49:4649	http:	::ffff:127.0.0.1 POST /auth/signup 400 12 - 1.462 ms
+
+2023-Jul-30 15:46:50:4650	http:	::ffff:127.0.0.1 POST /auth/signup 400 12 - 1.157 ms
+
+2023-Jul-30 15:48:06:486	http:	::ffff:127.0.0.1 POST /auth/signup 400 48 - 1.795 ms
+
+2023-Jul-30 15:48:12:4812	http:	::ffff:127.0.0.1 POST /auth/signup 400 12 - 1.152 ms
+
+2023-Jul-30 15:49:58:4958	http:	::ffff:127.0.0.1 POST /auth/signup 400 12 - 0.941 ms
+
+2023-Jul-30 15:50:00:500	http:	::ffff:127.0.0.1 POST /auth/signup 400 12 - 1.149 ms
+
+2023-Jul-30 15:50:28:5028	http:	::ffff:127.0.0.1 POST /auth/signup 400 39 - 1.970 ms
+
+2023-Jul-30 15:50:37:5037	http:	::ffff:127.0.0.1 POST /auth/signup 400 12 - 1.208 ms
+
+2023-Jul-30 15:51:05:515	info:	Connected to PUBLIC database
+2023-Jul-30 15:51:05:515	info:	Panda-Server is running on port 8080
+2023-Jul-30 15:51:07:517	http:	::ffff:127.0.0.1 POST /auth/signup 400 45 - 19.447 ms
+
+2023-Jul-30 15:51:23:5123	http:	::ffff:127.0.0.1 POST /auth/signup 400 39 - 3.125 ms
+
+2023-Jul-30 15:51:31:5131	http:	::ffff:127.0.0.1 POST /auth/signup 400 62 - 6.193 ms
+
+2023-Jul-30 15:51:44:5144	http:	::ffff:127.0.0.1 POST /auth/signup 400 56 - 1.478 ms
+
+2023-Jul-30 15:51:59:5159	http:	::ffff:127.0.0.1 POST /auth/signup 400 86 - 1.814 ms
+
+2023-Jul-30 15:52:34:5234	http:	::ffff:127.0.0.1 POST /auth/signup 400 66 - 3.714 ms
+
+2023-Jul-30 15:52:54:5254	http:	::ffff:127.0.0.1 POST /auth/signup 400 145 - 2.400 ms
+
+2023-Jul-30 15:54:49:5449	http:	::ffff:127.0.0.1 POST /auth/signup 500 57 - 267.025 ms
+

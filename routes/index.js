@@ -3,7 +3,7 @@
  */
 
 const MainRouter = require("express").Router();
-const apiResponse = require("../utils/apiResponses");
+const apiResponse = require("../utils/apiResponse");
 
 // Main route
 

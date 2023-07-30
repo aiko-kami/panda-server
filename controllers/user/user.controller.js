@@ -1,5 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
-const apiResponse = require("../../utils/apiResponses");
+const apiResponse = require("../../utils/apiResponse");
 const { userService, tokenService } = require("../../services");
 
 const getMyUserData = async (req, res) => {
@@ -15,20 +15,20 @@ const getMyUserData = async (req, res) => {
 			});
 	} catch (err) {
 		// Throw error in json response with status 500.
-		return apiResponse.ServerErrorResponse(res, err);
+		return apiResponse.serverErrorResponse(res, err);
 	}
 };
 
 const getUser = async (req, res) => {
 	// Validate request
 	if (!req.body.email) {
-		return apiResponse.ClientErrorResponse(res, "Content can not be empty!");
+		return apiResponse.clientErrorResponse(res, "Content can not be empty!");
 	}
 
 	const email = req.body.email;
 
 	// Connect to database
-	const client = await MongoClient.connect(process.env.MONGODB_URI, {
+	const client = await MongoClient.connect(process.env.MONGODB_URI_PRIVATE, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	});
@@ -59,7 +59,7 @@ const getNewUsers = async (req, res) => {
 		});
 	} catch (err) {
 		// Throw error in json response with status 500.
-		return apiResponse.ServerErrorResponse(res, err);
+		return apiResponse.serverErrorResponse(res, err);
 	}
 };
 

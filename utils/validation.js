@@ -1,23 +1,23 @@
 const assert = require("assert");
 const validator = require("validator");
 
-const validateRegistrationInputs = function (username, email, password, password2) {
+const validateRegistrationInputs = function (username, email, password, confirmPassword) {
 	//String type validation
 	const invalidType =
 		typeof username !== "string" ||
 		typeof email !== "string" ||
 		typeof password !== "string" ||
-		typeof password2 !== "string";
+		typeof confirmPassword !== "string";
 
 	if (invalidType) {
-		return "invalid type of data";
+		return { message: "invalid type of data", status: 0 };
 	}
 
 	try {
 		assert(username, "Username required");
 		assert(email, "Email required");
 		assert(password, "Password required");
-		assert(password2, "Password confirmation required");
+		assert(confirmPassword, "Password confirmation required");
 
 		assert(
 			validator.isAlphanumeric(username, "en-US", { ignore: "_-" }),
@@ -30,7 +30,7 @@ const validateRegistrationInputs = function (username, email, password, password
 			validator.isLength(password, { min: 1, max: 125 }),
 			"Password can contain up to 125 characters"
 		);
-		assert.deepStrictEqual(password, password2, "Password and confirmation don't match");
+		assert.deepStrictEqual(password, confirmPassword, "Password and confirmation don't match");
 		assert(
 			validator.isStrongPassword(password, {
 				minLength: 8,
