@@ -264,3 +264,7 @@
 
 2023-Jul-30 15:54:49:5449	http:	::ffff:127.0.0.1 POST /auth/signup 500 57 - 267.025 ms
 
+2023-Jul-30 16:23:20:2320	http:	::ffff:127.0.0.1 POST /auth/signup 500 57 - 789.947 ms
+
+2023-Jul-30 16:23:27:2327	http:	::ffff:127.0.0.1 POST /auth/signup 400 62 - 2.366 ms
+

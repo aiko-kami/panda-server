@@ -3,8 +3,8 @@
  */
 
 const logoutRoute = require("express").Router();
-const authController = require("../../controllers/auth/auth.controller");
+const logoutController = require("../../controllers/logoutController");
 
-logoutRoute.post("/", authController.logout);
+logoutRoute.post("/", logoutController.logout);
 
 module.exports = logoutRoute;

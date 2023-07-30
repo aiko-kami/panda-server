@@ -3,8 +3,8 @@
  */
 
 const signupRoute = require("express").Router();
-const authController = require("../../controllers/auth/auth.controller");
+const signupController = require("../../controllers");
 
-signupRoute.post("/", authController.signup);
+signupRoute.post("/", signupController.signup);
 
 module.exports = signupRoute;

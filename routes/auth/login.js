@@ -3,8 +3,8 @@
  */
 
 const loginRoute = require("express").Router();
-const authController = require("../../controllers/auth/auth.controller");
+const loginController = require("../../controllers/loginController");
 
-loginRoute.post("/", authController.login);
+loginRoute.post("/", loginController.login);
 
 module.exports = loginRoute;
