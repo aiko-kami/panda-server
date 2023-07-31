@@ -33,8 +33,8 @@ const signup = async (req, res) => {
 		const newUser = await userService.signupUser(username, email, password);
 
 		// Generate the access and refresh tokens
-		const accessToken = tokenService.generateAccessToken(newUser._id);
-		const refreshToken = tokenService.generateRefreshToken(newUser._id);
+		const accessToken = tokenService.generateAccessToken(newUser.userId);
+		const refreshToken = tokenService.generateRefreshToken(newUser.userId);
 
 		// Send the access token and refresh token in the response
 		return apiResponse.successResponseWithData(res, "User successfully signed.", {
