@@ -3,7 +3,7 @@
  */
 
 const signupRoute = require("express").Router();
-const signupController = require("../../controllers");
+const { signupController } = require("../../controllers");
 
 signupRoute.post("/", signupController.signup);
 
