@@ -1,20 +1,5 @@
 const { userService, tokenService } = require("../../services");
-const { apiResponse, validation } = require("../../utils");
-
-// Login user
-const login = async (req, res) => {
-	const token = tokenService.generateToken(
-		4,
-		parseInt(process.env.JWT_ACCESS_LOGIN_EXPIRATION_MINUTES)
-	);
-	return apiResponse.successResponseWithData(res, "Operation success", { token });
-};
-
-// Logout user
-const logout = async (req, res) => {
-	const token = tokenService.generateToken(4, parseInt(process.env.JWT_ACCESS_SIGNUP_EXPIRATION));
-	return apiResponse.successResponseWithData(res, "Operation success", { token });
-};
+const { apiResponse, validation, validationEmail } = require("../../utils");
 
 // Signup user
 const signup = async (req, res) => {
@@ -48,8 +33,8 @@ const signup = async (req, res) => {
 		const newUser = await userService.signupUser(username, email, password);
 
 		// Generate the access and refresh tokens
-		const accessToken = tokenService.generateAccessToken(newUser._id);
-		const refreshToken = tokenService.generateRefreshToken(newUser._id);
+		const accessToken = tokenService.generateAccessToken(newUser.userId);
+		const refreshToken = tokenService.generateRefreshToken(newUser.userId);
 
 		// Send the access token and refresh token in the response
 		return apiResponse.successResponseWithData(res, "User successfully signed.", {

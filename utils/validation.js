@@ -10,7 +10,7 @@ const validateRegistrationInputs = function (username, email, password, confirmP
 		typeof confirmPassword !== "string";
 
 	if (invalidType) {
-		return { message: "invalid type of data", status: 0 };
+		return { status: "error", message: "Invalid type of data" };
 	}
 
 	try {
@@ -42,9 +42,9 @@ const validateRegistrationInputs = function (username, email, password, confirmP
 			"Password must contain at least 8 characters, a lower case letter, an upper case letter, a number and a special character"
 		);
 
-		return { message: "all registration inputs are valid", status: 1 };
+		return { status: "success", message: "All registration inputs are valid" };
 	} catch (bodyError) {
-		return { message: bodyError.message, status: 0 };
+		return { status: "error", message: bodyError.message };
 	}
 };
 

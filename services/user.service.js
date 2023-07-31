@@ -1,9 +1,5 @@
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
-var mongoose = require("mongoose");
-const config = require("../config/config");
-
 const { DateTime } = require("luxon");
 
 const v4 = require("uuid").v4;

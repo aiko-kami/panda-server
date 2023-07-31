@@ -1,5 +1,5 @@
 const { userService, tokenService } = require("../../services");
-const { apiResponse, validation } = require("../../utils");
+const { apiResponse, validation, validationEmail } = require("../../utils");
 
 // Signup user
 const signup = async (req, res) => {
@@ -13,7 +13,7 @@ const signup = async (req, res) => {
 			password,
 			confirmPassword
 		);
-		if (validate.status !== 1) {
+		if (validate.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validate.message);
 		}
 
@@ -31,6 +31,10 @@ const signup = async (req, res) => {
 
 		// Signup new user
 		const newUser = await userService.signupUser(username, email, password);
+
+		//Send vaildation email to confirm email address
+		const sent = await validationEmail.sendValidationEmail(newUser.userId);
+		console.log("🚀 ~ file: signup.controller.js:37 ~ signup ~ sent:", sent);
 
 		// Generate the access and refresh tokens
 		const accessToken = tokenService.generateAccessToken(newUser.userId);
