@@ -4,6 +4,10 @@ const User = require("../models/user.model");
 var mongoose = require("mongoose");
 const config = require("../config/config");
 
+const { DateTime } = require("luxon");
+
+const v4 = require("uuid").v4;
+
 const retrieveUserById = async (id, fields) => {
 	return User.findOne({ userId: id }).select(`-_id ${fields}`);
 };
@@ -21,8 +25,30 @@ async function checkEmailAvailability(email) {
 }
 
 async function signupUser(username, email, password) {
+	const userId = v4();
+
 	const hashedPassword = await bcrypt.hash(password, 10);
-	const newUser = new User({ username, email, password: hashedPassword });
+	const newUser = new User({
+		userId,
+		username,
+		email,
+		password: hashedPassword,
+		createdAt: DateTime.now().toHTTP(),
+		emailVerified: {
+			verified: false,
+			emailId: "",
+		},
+		image: "",
+		location: {
+			city: "",
+			country: "",
+		},
+		company: "",
+		description: "",
+		bio: "",
+		languages: [],
+		website: "",
+	});
 	return await newUser.save();
 }
 

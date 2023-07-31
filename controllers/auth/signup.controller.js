@@ -29,7 +29,7 @@ const signup = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, "Email is already in use.");
 		}
 
-		// Signup a new user
+		// Signup new user
 		const newUser = await userService.signupUser(username, email, password);
 
 		// Generate the access and refresh tokens
