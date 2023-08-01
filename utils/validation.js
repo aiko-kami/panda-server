@@ -43,8 +43,8 @@ const validateRegistrationInputs = function (username, email, password, confirmP
 		);
 
 		return { status: "success", message: "All registration inputs are valid" };
-	} catch (bodyError) {
-		return { status: "error", message: bodyError.message };
+	} catch (error) {
+		return { status: "error", message: error.message };
 	}
 };
 

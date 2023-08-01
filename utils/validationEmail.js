@@ -76,7 +76,10 @@ const sendValidationEmail = async function (userId) {
 				},
 			};
 			const sentMail = await sendEmail(data);
-			console.log("🚀 ~ file: validationEmail.js:79 ~ sendValidationEmail ~ sentMail:", sentMail);
+
+			if (sentMail.status !== "success") {
+				return { status: "error", message: sentMail.message };
+			}
 			return { status: "success", message: "Verification email sent successfully!" };
 		}
 	} catch (error) {

@@ -33,8 +33,14 @@ const signup = async (req, res) => {
 		const newUser = await userService.signupUser(username, email, password);
 
 		//Send vaildation email to confirm email address
-		const sent = await validationEmail.sendValidationEmail(newUser.userId);
-		console.log("🚀 ~ file: signup.controller.js:37 ~ signup ~ sent:", sent);
+		const validationEmailSent = await validationEmail.sendValidationEmail(newUser.userId);
+		if (validationEmailSent.status !== "success") {
+			console.error("Error occured while sending validation email: ", validationEmailSent);
+			return apiResponse.serverErrorResponse(
+				res,
+				"An error occurred during signup. The validation email could not be sent."
+			);
+		}
 
 		// Generate the access and refresh tokens
 		const accessToken = tokenService.generateAccessToken(newUser.userId);
