@@ -22,7 +22,7 @@ const getMyUserData = async (req, res) => {
 const getUser = async (req, res) => {
 	// Validate request
 	if (!req.body.email) {
-		return apiResponse.clientErrorResponse(res, "Content can not be empty!");
+		return apiResponse.clientErrorResponse(res, "Content can not be empty.");
 	}
 
 	const email = req.body.email;

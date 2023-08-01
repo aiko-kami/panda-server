@@ -524,3 +524,41 @@
 
 2023-Aug-01 22:14:24:1424	http:	::ffff:127.0.0.1 GET /users/newUsersOverview 200 500 - 79.193 ms
 
+2023-Aug-01 22:32:36:3236	info:	Connected to private database
+2023-Aug-01 22:32:36:3236	info:	Panda-Server is running on port 8080
+2023-Aug-01 23:22:45:2245	info:	Connected to private database
+2023-Aug-01 23:22:45:2245	info:	Panda-Server is running on port 8080
+2023-Aug-01 23:34:30:3430	info:	Connected to private database
+2023-Aug-01 23:34:30:3430	info:	Panda-Server is running on port 8080
+2023-Aug-01 23:45:29:4529	info:	Connected to private database
+2023-Aug-01 23:45:29:4529	info:	Panda-Server is running on port 8080
+2023-Aug-01 23:46:09:469	info:	Connected to private database
+2023-Aug-01 23:46:09:469	info:	Panda-Server is running on port 8080
+2023-Aug-01 23:47:09:479	info:	New user successfully signed.
+2023-Aug-01 23:47:09:479	http:	::ffff:127.0.0.1 POST /auth/signup 200 490 - 3353.679 ms
+
+2023-Aug-01 23:50:03:503	info:	Connected to private database
+2023-Aug-01 23:50:03:503	info:	Panda-Server is running on port 8080
+2023-Aug-01 23:50:20:5020	info:	New user successfully signed.
+2023-Aug-01 23:50:20:5020	http:	::ffff:127.0.0.1 POST /auth/signup 200 490 - 2538.784 ms
+
+2023-Aug-01 23:53:39:5339	info:	Connected to private database
+2023-Aug-01 23:53:39:5339	info:	Panda-Server is running on port 8080
+2023-Aug-01 23:53:51:5351	info:	Connected to private database
+2023-Aug-01 23:53:51:5351	info:	Panda-Server is running on port 8080
+2023-Aug-01 23:54:04:544	info:	New user successfully signed.
+2023-Aug-01 23:54:04:544	http:	::ffff:127.0.0.1 POST /auth/signup 200 490 - 2984.435 ms
+
+2023-Aug-01 23:54:59:5459	info:	Connected to private database
+2023-Aug-01 23:54:59:5459	info:	Panda-Server is running on port 8080
+2023-Aug-01 23:55:17:5517	info:	New user successfully signed.
+2023-Aug-01 23:55:17:5517	http:	::ffff:127.0.0.1 POST /auth/signup 200 490 - 2734.104 ms
+
+2023-Aug-01 23:58:40:5840	info:	Connected to private database
+2023-Aug-01 23:58:40:5840	info:	Panda-Server is running on port 8080
+2023-Aug-02 00:01:50:150	info:	Connected to private database
+2023-Aug-02 00:01:50:150	info:	Panda-Server is running on port 8080
+2023-Aug-02 00:23:11:2311	info:	Connected to private database
+2023-Aug-02 00:23:11:2311	info:	Panda-Server is running on port 8080
+2023-Aug-02 00:31:01:311	info:	Connected to private database
+2023-Aug-02 00:31:01:311	info:	Panda-Server is running on port 8080

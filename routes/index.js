@@ -25,7 +25,7 @@ MainRouter.use("/projects/projectPublic", require("./projects/projectPublic"));
 
 // Signup / Login
 
-MainRouter.use("/auth/signup", require("./auth/signup"));
+MainRouter.use("/auth/sign-up", require("./auth/signup"));
 MainRouter.use("/auth/login", require("./auth/login"));
 MainRouter.use("/auth/logout", require("./auth/logout"));
 
