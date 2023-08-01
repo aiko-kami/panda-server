@@ -1,5 +1,5 @@
 const { userService, tokenService } = require("../../services");
-const { apiResponse, validation, validationEmail } = require("../../utils");
+const { logger, apiResponse, validation, validationEmail } = require("../../utils");
 
 // Signup user
 const signup = async (req, res) => {
@@ -35,7 +35,7 @@ const signup = async (req, res) => {
 		//Send vaildation email to confirm email address
 		const validationEmailSent = await validationEmail.sendValidationEmail(newUser.userId);
 		if (validationEmailSent.status !== "success") {
-			console.error("Error occured while sending validation email: ", validationEmailSent);
+			logger.error("Error occured while sending validation email: ", validationEmailSent);
 			return apiResponse.serverErrorResponse(
 				res,
 				"An error occurred during signup. The validation email could not be sent."
@@ -47,14 +47,15 @@ const signup = async (req, res) => {
 		const refreshToken = tokenService.generateRefreshToken(newUser.userId);
 
 		// Send the access token and refresh token in the response
-		return apiResponse.successResponseWithData(res, "User successfully signed.", {
+		logger.info("New user successfully signed.", { userId: newUser.userId });
+		return apiResponse.successResponseWithData(res, "New user successfully signed.", {
 			accessToken,
 			refreshToken,
 		});
 
 		//catch error if occurred during signup
 	} catch (error) {
-		console.error("Error during signup:", error);
+		logger.error("Error during signup:", error);
 		return apiResponse.serverErrorResponse(res, "An error occurred during signup.");
 	}
 };

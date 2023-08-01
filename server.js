@@ -11,8 +11,7 @@ const app = express();
 // Set port
 const PORT = process.env.PORT || 8080;
 
-// The morgan middleware does not need this.
-// This is for a manual log
+// Winston manual logger
 const logger = require("./utils/logger");
 
 // Morgan middleware for HTTP requests and errors logging

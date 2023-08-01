@@ -472,3 +472,55 @@
 
 2023-Aug-01 19:08:36:836	info:	Connected to private database
 2023-Aug-01 19:08:36:836	info:	Panda-Server is running on port 8080
+2023-Aug-01 19:12:46:1246	info:	Connected to private database
+2023-Aug-01 19:12:46:1246	info:	Panda-Server is running on port 8080
+2023-Aug-01 20:39:41:3941	info:	Connected to private database
+2023-Aug-01 20:39:41:3941	info:	Panda-Server is running on port 8080
+2023-Aug-01 20:39:57:3957	http:	::ffff:127.0.0.1 POST /auth/signup 400 52 - 781.650 ms
+
+2023-Aug-01 20:41:32:4132	http:	::ffff:127.0.0.1 POST /auth/signup 400 49 - 674.664 ms
+
+2023-Aug-01 20:42:45:4245	info:	Connected to private database
+2023-Aug-01 20:42:45:4245	info:	Panda-Server is running on port 8080
+2023-Aug-01 20:42:49:4249	http:	::ffff:127.0.0.1 POST /auth/signup 400 52 - 182.674 ms
+
+2023-Aug-01 20:43:57:4357	info:	Connected to private database
+2023-Aug-01 20:43:57:4357	info:	Panda-Server is running on port 8080
+2023-Aug-01 20:50:32:5032	info:	New user successfully signed.
+2023-Aug-01 20:50:32:5032	http:	::ffff:127.0.0.1 POST /auth/signup 200 490 - 2472.978 ms
+
+{
+  message: '\x1B[32mConnected to private database\x1B[39m',
+  level: '\x1B[32minfo\x1B[39m',
+  timestamp: '2023-Aug-01 21:23:26:2326'
+}
+{
+  message: '\x1B[32m\x1B[31mP\x1B[32m\x1B[33ma\x1B[32m\x1B[32mn\x1B[32m\x1B[34md\x1B[32m\x1B[35ma\x1B[32m\x1B[31m-\x1B[32m\x1B[33mS\x1B[32m\x1B[32me\x1B[32m\x1B[34mr\x1B[32m\x1B[35mv\x1B[32m\x1B[31me\x1B[32m\x1B[33mr\x1B[32m \x1B[35mis running on port 8080\x1B[32m\x1B[39m',
+  level: '\x1B[32minfo\x1B[39m',
+  timestamp: '2023-Aug-01 21:23:26:2326'
+}
+2023-Aug-01 21:23:54:2354	info:	Connected to private database
+2023-Aug-01 21:23:54:2354	info:	Panda-Server is running on port 8080
+2023-Aug-01 21:24:33:2433	info:	Connected to private database
+2023-Aug-01 21:24:33:2433	info:	Panda-Server is running on port 8080
+2023-Aug-01 21:27:03:273	info:	Connected to private database
+2023-Aug-01 21:27:03:273	info:	Panda-Server is running on port 8080
+2023-Aug-01 21:27:24:2724	info:	Connected to private database
+2023-Aug-01 21:27:24:2724	info:	Panda-Server is running on port 8080
+2023-Aug-01 21:28:09:289	error:	Error occured while sending validation email:  API calls in strict mode, but no private key was passed
+2023-Aug-01 21:28:09:289	http:	::ffff:127.0.0.1 POST /auth/signup 500 97 - 3517.344 ms
+
+2023-Aug-01 22:10:19:1019	info:	Connected to private database
+2023-Aug-01 22:10:19:1019	info:	Panda-Server is running on port 8080
+2023-Aug-01 22:12:04:124	info:	Connected to private database
+2023-Aug-01 22:12:04:124	info:	Panda-Server is running on port 8080
+2023-Aug-01 22:12:54:1254	http:	::ffff:127.0.0.1 POST /users/newUsersOverviewRoute 404 39 - 17.669 ms
+
+2023-Aug-01 22:13:11:1311	http:	::ffff:127.0.0.1 POST /users/newUsersOverview 404 39 - 2.403 ms
+
+2023-Aug-01 22:13:29:1329	http:	::ffff:127.0.0.1 POST //users/newUsersOverview 404 39 - 0.773 ms
+
+2023-Aug-01 22:13:34:1334	http:	::ffff:127.0.0.1 POST /users/newUsersOverview 404 39 - 0.827 ms
+
+2023-Aug-01 22:14:24:1424	http:	::ffff:127.0.0.1 GET /users/newUsersOverview 200 500 - 79.193 ms
+

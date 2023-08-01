@@ -51,15 +51,15 @@ const transports = [
 	// Allow the use the console to print the messages
 	new winston.transports.Console(),
 	// Allow to print all the error level messages inside the error.log file
-	new winston.transports.File({
-		filename: "logs/error.log",
-		level: "error",
-		format: winston.format.uncolorize(),
-	}),
 	// Allow to print all the error message inside the all.log file
 	// (also the error log that are also printed inside the error.log(
 	new winston.transports.File({
 		filename: "logs/all.log",
+		format: winston.format.uncolorize(),
+	}),
+	new winston.transports.File({
+		level: "error",
+		filename: "logs/error.log",
 		format: winston.format.uncolorize(),
 	}),
 ];

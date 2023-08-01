@@ -11,11 +11,11 @@ const getMyUserData = async (req, res) => {
 			)
 			.then((user) => {
 				// Send response with my user data
-				return apiResponse.successResponseWithData(res, "Operation success", user);
+				return apiResponse.successResponseWithData(res, "Operation success.", user);
 			});
-	} catch (err) {
+	} catch (error) {
 		// Throw error in json response with status 500.
-		return apiResponse.serverErrorResponse(res, err);
+		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
@@ -50,23 +50,21 @@ const updateUser = async (req, res) => {
 // Get 4 new users
 const getNewUsers = async (req, res) => {
 	try {
-		userService.retrieveNewUsers(4, "username profilePicture description").then((newUsers) => {
-			if (newUsers !== null) {
-				return apiResponse.successResponseWithData(res, "Operation success", newUsers);
-			} else {
-				return apiResponse.successResponseWithData(res, "Operation success", {});
-			}
-		});
-	} catch (err) {
-		// Throw error in json response with status 500.
-		return apiResponse.serverErrorResponse(res, err);
+		const newUsers = await userService.retrieveNewUsers(4, "username profilePicture description");
+		if (newUsers !== null && newUsers.length > 0) {
+			return apiResponse.successResponseWithData(res, "Operation success.", newUsers);
+		} else {
+			return apiResponse.successResponse(res, "No user found.");
+		}
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
 // Login user
 const loginUser = async (req, res) => {
 	const token = tokenService.generateToken(4, parseInt(process.env.JWT_ACCESS_EXPIRATION_MINUTES));
-	return apiResponse.successResponseWithData(res, "Operation success", token);
+	return apiResponse.successResponseWithData(res, "Operation success.", token);
 };
 
 module.exports = {
