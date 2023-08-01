@@ -48,7 +48,7 @@ mongoose.set("strictQuery", false);
 mongoose
 	.connect(process.env.MONGODB_URI_PRIVATE)
 	.then((result) => {
-		logger.info("Connected to PUBLIC database");
+		logger.info(`Connected to ${process.env.DB_PRIVATE} database`);
 		app.listen(PORT, () => {
 			logger.info("Panda-Server ".rainbow + `is running on port ${PORT}`.magenta);
 			console.log(
