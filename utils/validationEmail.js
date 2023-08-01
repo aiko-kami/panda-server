@@ -61,7 +61,8 @@ const sendValidationEmail = async function (userId) {
 			).toString();
 
 			//Transform encrypted data into a valid link
-			const link = "https://www.neutroneer.com/sign-up/" + encodeURIComponent(encryptedData);
+			//Example https://www.neutroneer.com/sign-up/xxxxxxxxxxxxxxxxxxx
+			const link = `${process.env.WEBSITE_URL}/sign-up/${encodeURIComponent(encryptedData)}`;
 
 			//Send verification email containing the link
 			const data = {
