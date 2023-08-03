@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Winston manual logger
-const logger = require("./utils/logger");
+const { logger } = require("./utils");
 
 // Morgan middleware for HTTP requests and errors logging
 app.use(morganMiddleware);
@@ -57,4 +57,4 @@ mongoose
 			);
 		});
 	})
-	.catch((err) => console.log(err));
+	.catch((err) => logger.log(err));

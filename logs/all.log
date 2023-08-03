@@ -564,3 +564,733 @@
 2023-Aug-02 00:31:01:311	info:	Panda-Server is running on port 8080
 2023-Aug-02 00:31:04:314	info:	Connected to private database
 2023-Aug-02 00:31:04:314	info:	Panda-Server is running on port 8080
+2023-Aug-02 14:17:10:1710	info:	Connected to private database
+2023-Aug-02 14:17:10:1710	info:	Panda-Server is running on port 8080
+2023-Aug-02 14:18:54:1854	info:	Connected to private database
+2023-Aug-02 14:18:54:1854	info:	Panda-Server is running on port 8080
+2023-Aug-02 14:19:04:194	info:	Connected to private database
+2023-Aug-02 14:19:04:194	info:	Panda-Server is running on port 8080
+2023-Aug-02 14:19:39:1939	info:	Connected to private database
+2023-Aug-02 14:19:39:1939	info:	Panda-Server is running on port 8080
+2023-Aug-02 14:25:12:2512	info:	Connected to private database
+2023-Aug-02 14:25:12:2512	info:	Panda-Server is running on port 8080
+2023-Aug-02 14:30:16:3016	info:	Connected to private database
+2023-Aug-02 14:30:16:3016	info:	Panda-Server is running on port 8080
+2023-Aug-02 14:31:14:3114	info:	Connected to private database
+2023-Aug-02 14:31:14:3114	info:	Panda-Server is running on port 8080
+2023-Aug-02 14:35:59:3559	info:	Connected to private database
+2023-Aug-02 14:35:59:3559	info:	Panda-Server is running on port 8080
+2023-Aug-02 14:38:21:3821	http:	::ffff:127.0.0.1 POST /auth/signup 404 39 - 25.051 ms
+
+2023-Aug-02 14:38:34:3834	error:	Error occured while sending validation email:  An error occurred while sending the validation email.
+2023-Aug-02 14:38:34:3834	http:	::ffff:127.0.0.1 POST /auth/sign-up 500 97 - 453.226 ms
+
+2023-Aug-02 14:38:55:3855	http:	::ffff:127.0.0.1 POST /auth/sign-up 400 62 - 10.414 ms
+
+2023-Aug-02 14:39:37:3937	http:	::ffff:127.0.0.1 POST /auth/sign-up 400 52 - 406.033 ms
+
+2023-Aug-02 14:40:30:4030	error:	Error occured while sending validation email:  An error occurred while sending the validation email.
+2023-Aug-02 14:40:30:4030	http:	::ffff:127.0.0.1 POST /auth/sign-up 500 97 - 367.444 ms
+
+2023-Aug-02 14:45:28:4528	info:	Connected to private database
+2023-Aug-02 14:45:28:4528	info:	Panda-Server is running on port 8080
+2023-Aug-02 14:45:39:4539	info:	Connected to private database
+2023-Aug-02 14:45:39:4539	info:	Panda-Server is running on port 8080
+2023-Aug-02 14:46:02:462	info:	Connected to private database
+2023-Aug-02 14:46:02:462	info:	Panda-Server is running on port 8080
+2023-Aug-02 14:46:28:4628	info:	New user successfully signed.
+2023-Aug-02 14:46:28:4628	http:	::ffff:127.0.0.1 POST /auth/sign-up 200 54 - 4056.682 ms
+
+2023-Aug-02 18:45:40:4540	info:	Connected to private database
+2023-Aug-02 18:46:00:460	info:	Connected to private database
+2023-Aug-02 18:46:00:460	info:	Panda-Server is running on port 8080
+2023-Aug-02 18:46:09:469	info:	Connected to private database
+2023-Aug-02 18:46:09:469	info:	Panda-Server is running on port 8080
+2023-Aug-02 18:47:03:473	info:	Connected to private database
+2023-Aug-02 18:47:03:473	info:	Panda-Server is running on port 8080
+2023-Aug-02 18:47:55:4755	info:	Connected to private database
+2023-Aug-02 18:47:55:4755	info:	Panda-Server is running on port 8080
+2023-Aug-02 18:48:42:4842	info:	Connected to private database
+2023-Aug-02 18:48:42:4842	info:	Panda-Server is running on port 8080
+2023-Aug-02 18:50:09:509	info:	Connected to private database
+2023-Aug-02 18:50:09:509	info:	Panda-Server is running on port 8080
+2023-Aug-02 18:50:32:5032	info:	Connected to private database
+2023-Aug-02 18:50:32:5032	info:	Panda-Server is running on port 8080
+2023-Aug-02 18:51:00:510	info:	Connected to private database
+2023-Aug-02 18:51:00:510	info:	Panda-Server is running on port 8080
+2023-Aug-02 18:51:50:5150	info:	Connected to private database
+2023-Aug-02 18:51:50:5150	info:	Panda-Server is running on port 8080
+2023-Aug-02 18:52:21:5221	info:	Connected to private database
+2023-Aug-02 18:52:21:5221	info:	Panda-Server is running on port 8080
+2023-Aug-02 18:54:00:540	info:	Connected to private database
+2023-Aug-02 18:54:00:540	info:	Panda-Server is running on port 8080
+2023-Aug-02 18:56:07:567	info:	Connected to private database
+2023-Aug-02 18:56:07:567	info:	Panda-Server is running on port 8080
+2023-Aug-02 18:56:10:5610	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 52 - 125.063 ms
+
+2023-Aug-02 18:56:44:5644	info:	New user successfully signed.
+2023-Aug-02 18:56:44:5644	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 200 54 - 4540.664 ms
+
+2023-Aug-02 18:57:40:5740	error:	An error occurred during email verification: newUser is not defined
+2023-Aug-02 18:57:40:5740	http:	::ffff:127.0.0.1 POST /auth/sign-up/U2FsdGVkX18x%2BPZcQ3nN06cDOcyMkl%2B23OgFioVbZEgCZeJJ1jkXLBEN1yDBjUleyfrlIkEoNry8mRh0YD6A6g4SuoApISmknGwKXZ8uFv3iv9islGzUk43DUPvErIY%2FEZ64s4yM1%2FR4WTw2lujVThdBXtr7KLV2dzNMW1TKMTY%3D 500 69 - 267.407 ms
+
+2023-Aug-02 19:00:28:028	info:	Connected to private database
+2023-Aug-02 19:00:28:028	info:	Panda-Server is running on port 8080
+2023-Aug-02 19:02:02:22	info:	Connected to private database
+2023-Aug-02 19:02:02:22	info:	Panda-Server is running on port 8080
+2023-Aug-02 19:02:27:227	info:	New user successfully signed.
+2023-Aug-02 19:02:27:227	http:	::ffff:127.0.0.1 POST /auth/sign-up 200 54 - 3513.725 ms
+
+2023-Aug-02 19:02:33:233	error:	Error while verifying email validation link: Unexpected end of JSON input
+2023-Aug-02 19:02:33:233	error:	An error occurred during email verification:  An error occurred while verifying the email validation link.
+2023-Aug-02 19:02:33:233	http:	::ffff:127.0.0.1 POST /auth/sign-up/tre 500 69 - 7.428 ms
+
+2023-Aug-02 19:03:47:347	info:	Connected to private database
+2023-Aug-02 19:03:47:347	info:	Panda-Server is running on port 8080
+2023-Aug-02 19:03:47:347	error:	Error while verifying email validation link: Unexpected end of JSON input
+2023-Aug-02 19:03:47:347	error:	An error occurred during email verification:  Unexpected end of JSON input
+2023-Aug-02 19:03:47:347	http:	::ffff:127.0.0.1 POST /auth/sign-up/tre 500 69 - 25.087 ms
+
+2023-Aug-02 19:04:42:442	info:	Connected to private database
+2023-Aug-02 19:04:42:442	info:	Panda-Server is running on port 8080
+2023-Aug-02 19:04:44:444	error:	Error while verifying email validation link: Unexpected end of JSON input
+2023-Aug-02 19:04:44:444	error:	An error occurred during email verification:  Unexpected end of JSON input
+2023-Aug-02 19:04:44:444	http:	::ffff:127.0.0.1 POST /auth/sign-up/tre 500 69 - 25.920 ms
+
+2023-Aug-02 19:05:17:517	info:	Connected to private database
+2023-Aug-02 19:05:17:517	info:	Panda-Server is running on port 8080
+2023-Aug-02 19:05:21:521	error:	Error while verifying email validation link: Unexpected end of JSON input
+2023-Aug-02 19:05:21:521	error:	An error occurred during email verification:  Unexpected end of JSON input
+2023-Aug-02 19:05:21:521	http:	::ffff:127.0.0.1 POST /auth/sign-up/tre 500 69 - 28.153 ms
+
+2023-Aug-02 19:07:58:758	info:	Connected to private database
+2023-Aug-02 19:07:58:758	info:	Panda-Server is running on port 8080
+2023-Aug-02 19:08:21:821	info:	Email has been successfully verified.
+2023-Aug-02 19:08:21:821	http:	::ffff:127.0.0.1 POST /auth/sign-up/U2FsdGVkX1%2FSKLGEwXcrv8l4PPRskFe6W3t%2FSjXsnu%2FA%2FV6t%2BVFZiygaisgPF2gkThZy5iB2T%2F%2BByc2XU1sdAljbTM91h4hF1Yan%2Bczogh2rbXQS8ktjJakcX6BBP4GPHf9wmgnDrLpDaoaQ%2BQHJczAkmhqdNmYMXUmGQI%2BR2ig%3D 200 62 - 336.470 ms
+
+2023-Aug-02 19:11:27:1127	info:	Connected to private database
+2023-Aug-02 19:11:27:1127	info:	Panda-Server is running on port 8080
+2023-Aug-02 19:11:34:1134	error:	An error occurred during email verification:  email already verified
+2023-Aug-02 19:11:34:1134	http:	::ffff:127.0.0.1 POST /auth/sign-up/U2FsdGVkX1%2FSKLGEwXcrv8l4PPRskFe6W3t%2FSjXsnu%2FA%2FV6t%2BVFZiygaisgPF2gkThZy5iB2T%2F%2BByc2XU1sdAljbTM91h4hF1Yan%2Bczogh2rbXQS8ktjJakcX6BBP4GPHf9wmgnDrLpDaoaQ%2BQHJczAkmhqdNmYMXUmGQI%2BR2ig%3D 500 69 - 141.861 ms
+
+2023-Aug-02 19:11:44:1144	error:	Error while verifying email validation link: Unexpected end of JSON input
+2023-Aug-02 19:11:44:1144	error:	An error occurred during email verification:  Unexpected end of JSON input
+2023-Aug-02 19:11:44:1144	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 6.324 ms
+
+2023-Aug-02 19:11:50:1150	error:	Error while verifying email validation link: Unexpected end of JSON input
+2023-Aug-02 19:11:50:1150	error:	An error occurred during email verification:  Unexpected end of JSON input
+2023-Aug-02 19:11:50:1150	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 4.176 ms
+
+2023-Aug-02 19:12:00:120	info:	Connected to private database
+2023-Aug-02 19:12:00:120	info:	Panda-Server is running on port 8080
+2023-Aug-02 19:12:02:122	error:	Error while verifying email validation link: Unexpected end of JSON input
+2023-Aug-02 19:12:02:122	error:	An error occurred during email verification:  Unexpected end of JSON input
+2023-Aug-02 19:12:02:122	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 23.863 ms
+
+2023-Aug-02 19:13:01:131	info:	Connected to private database
+2023-Aug-02 19:13:01:131	info:	Panda-Server is running on port 8080
+2023-Aug-02 19:13:03:133	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-02 19:13:03:133	error:	An error occurred during email verification:  Invalid validation link
+2023-Aug-02 19:13:03:133	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 24.920 ms
+
+2023-Aug-02 19:13:51:1351	info:	Connected to private database
+2023-Aug-02 19:13:51:1351	info:	Panda-Server is running on port 8080
+2023-Aug-02 19:13:53:1353	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-02 19:13:53:1353	error:	An error occurred during email verification:  Invalid validation link
+2023-Aug-02 19:13:53:1353	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 25.133 ms
+
+2023-Aug-03 13:06:17:617	info:	Connected to private database
+2023-Aug-03 13:06:17:617	info:	Panda-Server is running on port 8080
+2023-Aug-03 13:06:19:619	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 13:06:19:619	error:	An error occurred during email verification:  Invalid validation link
+2023-Aug-03 13:06:19:619	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 28.865 ms
+
+2023-Aug-03 13:07:56:756	info:	Connected to private database
+2023-Aug-03 13:07:56:756	info:	Panda-Server is running on port 8080
+2023-Aug-03 13:07:58:758	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 13:07:58:758	error:	An error occurred during email verification: 
+2023-Aug-03 13:07:58:758	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 23.821 ms
+
+2023-Aug-03 13:08:43:843	info:	Connected to private database
+2023-Aug-03 13:08:43:843	info:	Panda-Server is running on port 8080
+2023-Aug-03 13:08:44:844	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 13:08:44:844	error:	An error occurred during email verification: 
+2023-Aug-03 13:08:44:844	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 27.449 ms
+
+2023-Aug-03 13:08:57:857	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 13:08:57:857	error:	An error occurred during email verification: 
+2023-Aug-03 13:08:57:857	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 5.405 ms
+
+2023-Aug-03 13:09:02:92	info:	Connected to private database
+2023-Aug-03 13:09:02:92	info:	Panda-Server is running on port 8080
+2023-Aug-03 13:09:03:93	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 13:09:03:93	error:	hello02
+2023-Aug-03 13:09:03:93	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 23.462 ms
+
+2023-Aug-03 13:09:14:914	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 13:09:14:914	error:	hello02
+2023-Aug-03 13:09:14:914	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 5.213 ms
+
+2023-Aug-03 13:09:19:919	info:	Connected to private database
+2023-Aug-03 13:09:19:919	info:	Panda-Server is running on port 8080
+2023-Aug-03 13:09:22:922	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 13:09:22:922	error:	bitch
+2023-Aug-03 13:09:22:922	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 24.314 ms
+
+2023-Aug-03 13:09:46:946	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 13:09:46:946	error:	bitch
+2023-Aug-03 13:09:46:946	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 4.986 ms
+
+2023-Aug-03 13:09:50:950	info:	Connected to private database
+2023-Aug-03 13:09:50:950	info:	Panda-Server is running on port 8080
+2023-Aug-03 13:09:51:951	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 13:09:51:951	error:	Invalid validation link
+2023-Aug-03 13:09:51:951	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 24.472 ms
+
+2023-Aug-03 13:10:06:106	info:	Connected to private database
+2023-Aug-03 13:10:06:106	info:	Panda-Server is running on port 8080
+2023-Aug-03 13:10:06:106	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 13:10:06:106	error:	Invalid validation link
+2023-Aug-03 13:10:06:106	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 28.238 ms
+
+2023-Aug-03 13:14:49:1449	info:	Connected to private database
+2023-Aug-03 13:14:49:1449	info:	Panda-Server is running on port 8080
+2023-Aug-03 13:15:29:1529	info:	Connected to private database
+2023-Aug-03 13:15:29:1529	info:	Panda-Server is running on port 8080
+2023-Aug-03 13:15:31:1531	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 13:15:31:1531	error:	Invalid validation link
+2023-Aug-03 13:15:31:1531	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 25.433 ms
+
+2023-Aug-03 13:16:17:1617	info:	Connected to private database
+2023-Aug-03 13:16:17:1617	info:	Panda-Server is running on port 8080
+2023-Aug-03 13:16:18:1618	error:	Error while vErifying email validation link: Invalid validation link
+2023-Aug-03 13:16:18:1618	error:	Invalid validation link
+2023-Aug-03 13:16:18:1618	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 22.845 ms
+
+2023-Aug-03 13:16:24:1624	info:	Connected to private database
+2023-Aug-03 13:16:24:1624	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:28:09:289	info:	Connected to private database
+2023-Aug-03 14:28:09:289	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:30:04:304	info:	Connected to private database
+2023-Aug-03 14:30:04:304	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:32:58:3258	info:	Connected to private database
+2023-Aug-03 14:32:58:3258	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:35:40:3540	info:	Connected to private database
+2023-Aug-03 14:35:40:3540	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:36:37:3637	info:	Connected to private database
+2023-Aug-03 14:36:37:3637	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:40:23:4023	info:	Connected to private database
+2023-Aug-03 14:40:23:4023	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:40:29:4029	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 14:40:29:4029	error:	Invalid validation link
+2023-Aug-03 14:40:29:4029	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 25.000 ms
+
+2023-Aug-03 14:41:11:4111	info:	Connected to private database
+2023-Aug-03 14:41:11:4111	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:41:12:4112	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 14:41:12:4112	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 26.045 ms
+
+2023-Aug-03 14:41:13:4113	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 14:41:13:4113	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 5.256 ms
+
+2023-Aug-03 14:41:41:4141	info:	Connected to private database
+2023-Aug-03 14:41:41:4141	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:41:42:4142	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 14:41:42:4142	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 69 - 20.784 ms
+
+2023-Aug-03 14:41:49:4149	info:	Connected to private database
+2023-Aug-03 14:41:50:4150	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:42:05:425	info:	Connected to private database
+2023-Aug-03 14:42:05:425	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:42:07:427	error:	Error while verifying email validation link: Invalid validation link
+2023-Aug-03 14:42:07:427	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 48 - 23.159 ms
+
+2023-Aug-03 14:42:42:4242	info:	Connected to private database
+2023-Aug-03 14:42:42:4242	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:43:26:4326	info:	Connected to private database
+2023-Aug-03 14:43:26:4326	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:43:27:4327	error:	Error while verifying email validation link: Invalid validation link.
+2023-Aug-03 14:43:27:4327	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 91 - 27.644 ms
+
+2023-Aug-03 14:44:09:449	info:	Connected to private database
+2023-Aug-03 14:44:09:449	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:44:10:4410	error:	Error while verifying email validation link: Invalid validation link.
+2023-Aug-03 14:44:10:4410	http:	::ffff:127.0.0.1 POST /auth/sign-up/U 500 92 - 23.116 ms
+
+2023-Aug-03 14:44:42:4442	info:	Connected to private database
+2023-Aug-03 14:44:42:4442	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:45:01:451	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 52 - 130.860 ms
+
+2023-Aug-03 14:45:49:4549	info:	Connected to private database
+2023-Aug-03 14:45:49:4549	info:	Panda-Server is running on port 8080
+2023-Aug-03 14:45:52:4552	info:	New user successfully signed.
+2023-Aug-03 14:45:52:4552	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 66 - 653.109 ms
+
+2023-Aug-03 14:46:19:4619	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 52 - 483.345 ms
+
+2023-Aug-03 14:47:59:4759	info:	New user successfully signed.
+2023-Aug-03 14:47:59:4759	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 66 - 306.166 ms
+
+2023-Aug-03 18:00:53:053	info:	Connected to private database
+2023-Aug-03 18:00:53:053	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:00:55:055	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 52 - 155.438 ms
+
+2023-Aug-03 18:01:00:10	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 45 - 2.949 ms
+
+2023-Aug-03 18:01:20:120	info:	Connected to private database
+2023-Aug-03 18:01:20:120	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:01:21:121	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 45 - 21.735 ms
+
+2023-Aug-03 18:03:46:346	info:	Connected to private database
+2023-Aug-03 18:03:46:346	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:09:26:926	info:	Connected to private database
+2023-Aug-03 18:09:26:926	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:16:34:1634	info:	Connected to private database
+2023-Aug-03 18:16:34:1634	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:17:29:1729	info:	Connected to private database
+2023-Aug-03 18:17:29:1729	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:17:33:1733	info:	Connected to private database
+2023-Aug-03 18:17:33:1733	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:18:36:1836	info:	Connected to private database
+2023-Aug-03 18:18:36:1836	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:19:19:1919	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 48 - 24.682 ms
+
+2023-Aug-03 18:19:43:1943	info:	Connected to private database
+2023-Aug-03 18:19:43:1943	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:19:47:1947	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 48 - 16.532 ms
+
+2023-Aug-03 18:20:19:2019	info:	Connected to private database
+2023-Aug-03 18:20:19:2019	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:20:20:2020	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 48 - 19.659 ms
+
+2023-Aug-03 18:20:42:2042	info:	Connected to private database
+2023-Aug-03 18:20:42:2042	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:20:43:2043	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 45 - 19.637 ms
+
+2023-Aug-03 18:20:57:2057	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 52 - 105.625 ms
+
+2023-Aug-03 18:21:24:2124	info:	Connected to private database
+2023-Aug-03 18:21:24:2124	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:21:25:2125	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 52 - 122.345 ms
+
+2023-Aug-03 18:21:27:2127	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 52 - 173.862 ms
+
+2023-Aug-03 18:22:08:228	info:	Connected to private database
+2023-Aug-03 18:22:08:228	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:22:09:229	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 53 - 111.994 ms
+
+2023-Aug-03 18:22:14:2214	info:	Connected to private database
+2023-Aug-03 18:22:14:2214	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:22:28:2228	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 49 - 425.882 ms
+
+2023-Aug-03 18:22:33:2233	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 52 - 81.484 ms
+
+2023-Aug-03 18:22:44:2244	info:	Connected to private database
+2023-Aug-03 18:22:44:2244	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:22:45:2245	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 50 - 181.850 ms
+
+2023-Aug-03 18:22:50:2250	info:	Connected to private database
+2023-Aug-03 18:22:50:2250	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:23:29:2329	info:	Connected to private database
+2023-Aug-03 18:23:29:2329	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:23:46:2346	info:	Connected to private database
+2023-Aug-03 18:23:46:2346	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:24:23:2423	info:	Connected to private database
+2023-Aug-03 18:24:23:2423	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:25:58:2558	info:	Connected to private database
+2023-Aug-03 18:25:58:2558	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:26:12:2612	error:	Error while signing up user:  User validation failed: userId: Path `userId` is required.
+2023-Aug-03 18:26:12:2612	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 65 - 513.675 ms
+
+2023-Aug-03 18:26:19:2619	info:	Connected to private database
+2023-Aug-03 18:26:19:2619	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:26:20:2620	error:	Error while signing up user:  User validation failed: userId: Path `userId` is required.
+2023-Aug-03 18:26:20:2620	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 66 - 341.088 ms
+
+2023-Aug-03 18:26:26:2626	info:	Connected to private database
+2023-Aug-03 18:26:26:2626	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:26:33:2633	info:	Connected to private database
+2023-Aug-03 18:26:33:2633	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:27:04:274	info:	Connected to private database
+2023-Aug-03 18:27:04:274	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:27:12:2712	info:	Connected to private database
+2023-Aug-03 18:27:12:2712	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:27:14:2714	error:	Error RRwhile signing up user:  User validation failed: userId: Path `userId` is required.
+2023-Aug-03 18:27:14:2714	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 66 - 476.226 ms
+
+2023-Aug-03 18:27:34:2734	info:	Connected to private database
+2023-Aug-03 18:27:34:2734	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:27:36:2736	info:	New user successfully signed up.
+2023-Aug-03 18:27:36:2736	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 12 - 966.262 ms
+
+2023-Aug-03 18:28:21:2821	info:	Connected to private database
+2023-Aug-03 18:28:21:2821	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:28:54:2854	info:	New user successfully signed up.
+2023-Aug-03 18:28:54:2854	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 12 - 492.859 ms
+
+2023-Aug-03 18:29:26:2926	info:	Connected to private database
+2023-Aug-03 18:29:26:2926	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:29:35:2935	info:	New user successfully signed up.
+2023-Aug-03 18:29:35:2935	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 12 - 636.730 ms
+
+2023-Aug-03 18:29:55:2955	info:	Connected to private database
+2023-Aug-03 18:29:55:2955	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:30:26:3026	info:	Connected to private database
+2023-Aug-03 18:30:26:3026	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:30:37:3037	info:	New user successfully signed up.
+2023-Aug-03 18:30:37:3037	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 12 - 454.679 ms
+
+2023-Aug-03 18:39:17:3917	info:	Connected to private database
+2023-Aug-03 18:39:17:3917	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:39:19:3919	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 52 - 220.202 ms
+
+2023-Aug-03 18:39:36:3936	info:	New user successfully signed up.
+2023-Aug-03 18:39:36:3936	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 12 - 621.677 ms
+
+2023-Aug-03 18:44:22:4422	info:	Connected to private database
+2023-Aug-03 18:44:22:4422	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:44:37:4437	info:	New user successfully signed up. UserId: 003eff36-583a-43d5-8524-1598a5857e72
+2023-Aug-03 18:44:37:4437	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 12 - 431.058 ms
+
+2023-Aug-03 18:45:39:4539	info:	Connected to private database
+2023-Aug-03 18:45:39:4539	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:45:44:4544	info:	New user successfully signed up. UserId: 111530dc-1f31-4e91-9cc9-1fcaabddd9c2
+2023-Aug-03 18:45:44:4544	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 12 - 419.979 ms
+
+2023-Aug-03 18:46:35:4635	info:	Connected to private database
+2023-Aug-03 18:46:35:4635	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:47:08:478	info:	Connected to private database
+2023-Aug-03 18:47:08:478	info:	Panda-Server is running on port 8080
+2023-Aug-03 18:47:49:4749	info:	Connected to private database
+2023-Aug-03 18:47:49:4749	info:	Panda-Server is running on port 8080
+2023-Aug-03 19:08:08:88	info:	Connected to private database
+2023-Aug-03 19:08:08:88	info:	Panda-Server is running on port 8080
+2023-Aug-03 19:09:32:932	info:	Connected to private database
+2023-Aug-03 19:09:32:932	info:	Panda-Server is running on port 8080
+2023-Aug-03 19:13:47:1347	info:	Connected to private database
+2023-Aug-03 19:13:47:1347	info:	Panda-Server is running on port 8080
+2023-Aug-03 19:14:27:1427	info:	Connected to private database
+2023-Aug-03 19:14:27:1427	info:	Panda-Server is running on port 8080
+2023-Aug-03 19:15:14:1514	info:	Connected to private database
+2023-Aug-03 19:15:14:1514	info:	Panda-Server is running on port 8080
+2023-Aug-03 19:15:17:1517	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 52 - 143.910 ms
+
+2023-Aug-03 19:15:22:1522	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 49 - 230.604 ms
+
+2023-Aug-03 19:15:31:1531	info:	Connected to private database
+2023-Aug-03 19:15:31:1531	info:	Panda-Server is running on port 8080
+2023-Aug-03 19:15:32:1532	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 50 - 106.668 ms
+
+2023-Aug-03 19:15:37:1537	info:	Connected to private database
+2023-Aug-03 19:15:37:1537	info:	Panda-Server is running on port 8080
+2023-Aug-03 19:15:54:1554	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 62 - 30.671 ms
+
+2023-Aug-03 19:15:58:1558	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 55 - 1.745 ms
+
+2023-Aug-03 19:16:09:169	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 145 - 2.690 ms
+
+2023-Aug-03 19:17:30:1730	info:	Connected to private database
+2023-Aug-03 19:17:30:1730	info:	Panda-Server is running on port 8080
+2023-Aug-03 19:17:35:1735	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 49 - 170.233 ms
+
+2023-Aug-03 19:17:48:1748	error:	Error while signing up user:  User validation failed: userId: Path `userId` is required.
+2023-Aug-03 19:17:48:1748	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 65 - 335.797 ms
+
+2023-Aug-03 19:18:19:1819	info:	Connected to private database
+2023-Aug-03 19:18:19:1819	info:	Panda-Server is running on port 8080
+2023-Aug-03 19:18:21:1821	error:	Error while signing up user:  User validation failed: userId: Path `userId` is required.
+2023-Aug-03 19:18:21:1821	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 83 - 444.920 ms
+
+2023-Aug-03 19:18:43:1843	info:	Connected to private database
+2023-Aug-03 19:18:43:1843	info:	Panda-Server is running on port 8080
+2023-Aug-03 19:18:45:1845	error:	Error while signing up user:  User validation failed: userId: Path `userId` is required.
+2023-Aug-03 19:18:45:1845	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 65 - 282.997 ms
+
+2023-Aug-03 19:18:54:1854	info:	Connected to private database
+2023-Aug-03 19:18:54:1854	info:	Panda-Server is running on port 8080
+2023-Aug-03 19:22:29:2229	info:	Connected to private database
+2023-Aug-03 19:22:29:2229	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:16:11:1611	info:	Connected to private database
+2023-Aug-03 23:16:11:1611	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:16:35:1635	info:	Connected to private database
+2023-Aug-03 23:16:35:1635	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:16:38:1638	info:	New user successfully signed up. UserId: 8e0451db-b866-4a14-89b2-8ec3e2281b77
+2023-Aug-03 23:16:38:1638	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 40 - 380.256 ms
+
+2023-Aug-03 23:17:45:1745	info:	Connected to private database
+2023-Aug-03 23:17:45:1745	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:17:47:1747	info:	New user successfully signed up. UserId: abb589a3-e0ca-440e-96c6-8370d381cf3e
+2023-Aug-03 23:17:47:1747	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 40 - 400.083 ms
+
+2023-Aug-03 23:18:26:1826	info:	Connected to private database
+2023-Aug-03 23:18:26:1826	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:18:28:1828	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 400 52 - 322.858 ms
+
+2023-Aug-03 23:18:39:1839	info:	New user successfully signed up. UserId: 445eaabf-2180-44a6-83c4-bb50fd68ecc5
+2023-Aug-03 23:18:40:1840	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 40 - 594.071 ms
+
+2023-Aug-03 23:18:55:1855	info:	Connected to private database
+2023-Aug-03 23:18:55:1855	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:19:34:1934	info:	Connected to private database
+2023-Aug-03 23:19:34:1934	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:20:20:2020	info:	Connected to private database
+2023-Aug-03 23:20:20:2020	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:20:29:2029	info:	New user successfully signed up. UserId: 21a15cb1-e1fd-4e9d-a963-a0672a042e2f
+2023-Aug-03 23:20:29:2029	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 40 - 719.331 ms
+
+2023-Aug-03 23:21:45:2145	info:	Connected to private database
+2023-Aug-03 23:21:45:2145	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:22:15:2215	info:	Connected to private database
+2023-Aug-03 23:22:15:2215	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:22:57:2257	info:	Connected to private database
+2023-Aug-03 23:22:57:2257	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:23:01:231	info:	New user successfully signed up. UserId: 1b97df61-6b7a-4d46-b969-81d7cbddb940
+2023-Aug-03 23:23:02:232	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1467.699 ms
+
+2023-Aug-03 23:24:10:2410	info:	Connected to private database
+2023-Aug-03 23:24:10:2410	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:24:31:2431	info:	Connected to private database
+2023-Aug-03 23:24:31:2431	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:24:41:2441	info:	Connected to private database
+2023-Aug-03 23:24:41:2441	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:25:58:2558	info:	Connected to private database
+2023-Aug-03 23:25:58:2558	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:26:10:2610	info:	Connected to private database
+2023-Aug-03 23:26:10:2610	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:26:15:2615	info:	Connected to private database
+2023-Aug-03 23:26:15:2615	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:27:49:2749	info:	Connected to private database
+2023-Aug-03 23:27:49:2749	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:29:14:2914	info:	Connected to private database
+2023-Aug-03 23:29:14:2914	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:29:14:2914	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 52 - 123.755 ms
+
+2023-Aug-03 23:29:23:2923	info:	New user successfully signed up. UserId: 16f30673-da13-48d0-938f-6e3d22d26daa
+2023-Aug-03 23:29:24:2924	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 85 - 1380.910 ms
+
+2023-Aug-03 23:29:42:2942	info:	Connected to private database
+2023-Aug-03 23:29:42:2942	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:33:31:3331	info:	Connected to private database
+2023-Aug-03 23:33:31:3331	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:34:41:3441	info:	Connected to private database
+2023-Aug-03 23:34:41:3441	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:35:15:3515	info:	Connected to private database
+2023-Aug-03 23:35:15:3515	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:35:18:3518	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 52 - 94.541 ms
+
+2023-Aug-03 23:35:29:3529	info:	New user successfully signed up. UserId: d7b40c6e-6747-4a51-8931-673052a964a6
+2023-Aug-03 23:35:30:3530	error:	Error sending verification email: Cannot read properties of undefined (reading 'error')
+2023-Aug-03 23:35:30:3530	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1410.532 ms
+
+2023-Aug-03 23:38:11:3811	info:	Connected to private database
+2023-Aug-03 23:38:11:3811	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:38:19:3819	info:	New user successfully signed up. UserId: 71968823-bd6e-4377-92cb-66531d2d792d
+2023-Aug-03 23:38:20:3820	error:	Error sending verification email: Cannot read properties of undefined (reading 'error')
+2023-Aug-03 23:38:20:3820	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1302.059 ms
+
+2023-Aug-03 23:38:27:3827	info:	Connected to private database
+2023-Aug-03 23:38:27:3827	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:38:38:3838	info:	Connected to private database
+2023-Aug-03 23:38:38:3838	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:39:04:394	info:	Connected to private database
+2023-Aug-03 23:39:04:394	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:39:12:3912	info:	Connected to private database
+2023-Aug-03 23:39:12:3912	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:39:16:3916	info:	New user successfully signed up. UserId: b1ed0d68-0052-4812-970e-0cb5467f9efe
+2023-Aug-03 23:39:17:3917	error:	Error sending verification email: Cannot read properties of undefined (reading 'error')
+2023-Aug-03 23:39:17:3917	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1432.255 ms
+
+2023-Aug-03 23:40:11:4011	info:	Connected to private database
+2023-Aug-03 23:40:11:4011	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:40:20:4020	info:	New user successfully signed up. UserId: cec8252c-7206-4450-92d0-71754cee62a8
+2023-Aug-03 23:40:21:4021	error:	Error sending verification email: Cannot read properties of undefined (reading 'error')
+2023-Aug-03 23:40:21:4021	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1398.715 ms
+
+2023-Aug-03 23:40:49:4049	info:	Connected to private database
+2023-Aug-03 23:40:49:4049	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:40:58:4058	info:	New user successfully signed up. UserId: 69d9dc94-5c83-46a4-80a0-4d902f481409
+2023-Aug-03 23:40:59:4059	error:	Error sending verification email: error is not defined
+2023-Aug-03 23:40:59:4059	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1249.674 ms
+
+2023-Aug-03 23:41:22:4122	info:	Connected to private database
+2023-Aug-03 23:41:22:4122	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:42:27:4227	info:	Connected to private database
+2023-Aug-03 23:42:27:4227	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:42:37:4237	info:	New user successfully signed up. UserId: 5ac913ea-0c69-48e4-aa61-5fdfb4d7b7fd
+2023-Aug-03 23:42:38:4238	error:	Error while sending an email: Error: API calls in strict mode, but no private key was passed
+2023-Aug-03 23:42:38:4238	error:	Error sending verification email: error is not defined
+2023-Aug-03 23:42:38:4238	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1387.779 ms
+
+2023-Aug-03 23:45:20:4520	info:	Connected to private database
+2023-Aug-03 23:45:20:4520	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:45:31:4531	info:	New user successfully signed up. UserId: b72a96be-83ba-4c19-b0e0-92e0a1a1cbb6
+2023-Aug-03 23:45:32:4532	error:	Error while sending an email: Error: API calls in strict mode, but no private key was passed
+2023-Aug-03 23:45:32:4532	error:	Error while sending verification email: 
+2023-Aug-03 23:45:32:4532	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1338.387 ms
+
+2023-Aug-03 23:46:47:4647	info:	Connected to private database
+2023-Aug-03 23:46:47:4647	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:46:52:4652	info:	New user successfully signed up. UserId: d4c5945e-43e8-4165-9b6b-7bda77d2f7c6
+2023-Aug-03 23:46:53:4653	error:	Error while sending an email: Error: API calls in strict mode, but no private key was passed
+2023-Aug-03 23:46:53:4653	error:	Error while sending verification email: 
+2023-Aug-03 23:46:53:4653	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1317.239 ms
+
+2023-Aug-03 23:48:04:484	info:	Connected to private database
+2023-Aug-03 23:48:04:484	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:48:09:489	info:	New user successfully signed up. UserId: 96ea7563-21fd-4774-b59f-470af918cdb2
+2023-Aug-03 23:48:10:4810	error:	Error while sending an email: Error: API calls in strict mode, but no private key was passed
+2023-Aug-03 23:48:10:4810	error:	Error while sending verification email: 
+2023-Aug-03 23:48:10:4810	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1332.978 ms
+
+2023-Aug-03 23:49:17:4917	info:	Connected to private database
+2023-Aug-03 23:49:17:4917	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:49:23:4923	info:	New user successfully signed up. UserId: 021db0ce-9ea6-4117-8777-11d2418b84e1
+2023-Aug-03 23:49:24:4924	error:	Error while sending an email: Error: API calls in strict mode, but no private key was passed
+2023-Aug-03 23:49:24:4924	error:	Error While sending verification email: 
+2023-Aug-03 23:49:24:4924	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1298.218 ms
+
+2023-Aug-03 23:49:30:4930	info:	Connected to private database
+2023-Aug-03 23:49:30:4930	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:50:26:5026	info:	Connected to private database
+2023-Aug-03 23:50:26:5026	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:50:34:5034	info:	New user successfully signed up. UserId: c729ddc3-5ef6-4047-9cc0-d5617e7846e7
+2023-Aug-03 23:50:35:5035	error:	Error while sending an email: Error: API calls in strict mode, but no private key was passed
+2023-Aug-03 23:50:35:5035	error:	Error while sending verification email: error
+2023-Aug-03 23:50:35:5035	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1279.015 ms
+
+2023-Aug-03 23:59:27:5927	info:	Connected to private database
+2023-Aug-03 23:59:27:5927	info:	Panda-Server is running on port 8080
+2023-Aug-03 23:59:38:5938	info:	New user successfully signed up. UserId: b635b7ca-7a3b-4d01-b4f3-a4892b005292
+2023-Aug-03 23:59:39:5939	error:	Error while sending an email: Error: API calls in strict mode, but no private key was passed
+2023-Aug-03 23:59:39:5939	error:	Error while sending verification email:  API calls in strict mode, but no private key was passed
+2023-Aug-03 23:59:39:5939	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1294.706 ms
+
+2023-Aug-04 00:01:08:18	info:	Connected to private database
+2023-Aug-04 00:01:08:18	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:01:19:119	info:	New user successfully signed up. UserId: 181eb860-6224-49ea-ae83-f7e9809542c6
+2023-Aug-04 00:01:20:120	error:	Error sending verification email: Cannot read properties of undefined (reading 'status')
+2023-Aug-04 00:01:20:120	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1412.897 ms
+
+2023-Aug-04 00:01:53:153	info:	Connected to private database
+2023-Aug-04 00:01:53:153	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:02:15:215	info:	New user successfully signed up. UserId: 586ec0bf-625e-402d-9f52-f65cb8b0b72b
+2023-Aug-04 00:02:16:216	error:	Error while sending an email: Error: API calls in strict mode, but no private key was passed
+2023-Aug-04 00:02:16:216	error:	Error while sending verification email:  API calls in strict mode, but no private key was passed
+2023-Aug-04 00:02:16:216	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1259.492 ms
+
+2023-Aug-04 00:03:06:36	info:	Connected to private database
+2023-Aug-04 00:03:06:36	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:03:17:317	info:	New user successfully signed up. UserId: abbb0bac-9106-4cd9-8789-be099eb71379
+2023-Aug-04 00:03:18:318	error:	Error while sending an email: API calls in strict mode, but no private key was passed
+2023-Aug-04 00:03:18:318	error:	Error while sending verification email:  API calls in strict mode, but no private key was passed
+2023-Aug-04 00:03:18:318	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1365.225 ms
+
+2023-Aug-04 00:04:18:418	info:	Connected to private database
+2023-Aug-04 00:04:18:418	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:04:27:427	info:	New user successfully signed up. UserId: 616dc4bd-a1d9-4604-a71c-0f016ad952d5
+2023-Aug-04 00:04:28:428	error:	Error while sending an email: API calls in strict mode, but no private key was passed
+2023-Aug-04 00:04:28:428	error:	Error while sending verification email: 
+2023-Aug-04 00:04:28:428	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 12 - 1334.307 ms
+
+2023-Aug-04 00:05:11:511	info:	Connected to private database
+2023-Aug-04 00:05:11:511	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:05:18:518	info:	New user successfully signed up. UserId: 4de9e178-ca51-4c5b-ac2d-586800f1d4cb
+2023-Aug-04 00:05:19:519	error:	Error while sending an email: API calls in strict mode, but no private key was passed
+2023-Aug-04 00:05:19:519	error:	Error while sending verification email: 
+2023-Aug-04 00:05:19:519	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 12 - 1286.470 ms
+
+2023-Aug-04 00:05:39:539	info:	Connected to private database
+2023-Aug-04 00:05:39:539	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:05:52:552	info:	New user successfully signed up. UserId: c05b6488-5371-4b3f-bf87-10c897c0a47a
+2023-Aug-04 00:05:53:553	error:	Error while sending an email: API calls in strict mode, but no private key was passed
+2023-Aug-04 00:05:53:553	error:	Error while sending verification email:  API calls in strict mode, but no private key was passed
+2023-Aug-04 00:05:53:553	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1301.697 ms
+
+2023-Aug-04 00:06:30:630	info:	Connected to private database
+2023-Aug-04 00:06:30:630	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:06:41:641	info:	New user successfully signed up. UserId: 4a552b1d-0e0a-4a4d-b4ec-8111a6c76b76
+2023-Aug-04 00:06:41:641	error:	Error while sending an email: API calls in strict mode, but no private key was passed
+2023-Aug-04 00:06:41:641	error:	Error while sending verification email:  API calls in strict mode, but no private key was passed
+2023-Aug-04 00:06:41:641	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1231.775 ms
+
+2023-Aug-04 00:07:05:75	info:	Connected to private database
+2023-Aug-04 00:07:05:75	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:22:30:2230	info:	Connected to private database
+2023-Aug-04 00:22:30:2230	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:22:38:2238	info:	Connected to private database
+2023-Aug-04 00:22:38:2238	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:22:49:2249	info:	New user successfully signed up. UserId: e11dab09-c50c-446e-8538-169227d0cf5e
+2023-Aug-04 00:22:50:2250	error:	Error while sending an email: API calls in strict mode, but no private key was passed
+2023-Aug-04 00:22:50:2250	error:	Error while sending verification email: 
+2023-Aug-04 00:22:50:2250	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1339.628 ms
+
+2023-Aug-04 00:23:41:2341	info:	Connected to private database
+2023-Aug-04 00:23:41:2341	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:23:47:2347	info:	Connected to private database
+2023-Aug-04 00:23:47:2347	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:23:56:2356	info:	New user successfully signed up. UserId: 1e408ab0-283a-4fce-9d07-41fcf5b83792
+2023-Aug-04 00:23:57:2357	error:	Error while sending an email: API calls in strict mode, but no private key was passed
+2023-Aug-04 00:23:57:2357	error:	Error while sending verification email:  API calls in strict mode, but no private key was passed
+2023-Aug-04 00:23:57:2357	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1389.451 ms
+
+2023-Aug-04 00:25:40:2540	info:	Connected to private database
+2023-Aug-04 00:25:40:2540	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:25:48:2548	info:	New user successfully signed up. UserId: 2c264801-22c3-495c-af4a-321e9e295403
+2023-Aug-04 00:25:49:2549	error:	Error while sending an email: API calls in strict mode, but no private key was passed
+2023-Aug-04 00:25:49:2549	error:	Error while sending verification email: API calls in strict mode, but no private key was passed
+2023-Aug-04 00:25:49:2549	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1365.879 ms
+
+2023-Aug-04 00:27:18:2718	info:	Connected to private database
+2023-Aug-04 00:27:18:2718	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:28:04:284	info:	Connected to private database
+2023-Aug-04 00:28:04:284	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:28:08:288	info:	New user successfully signed up. UserId: 8d0c0eb6-a2fb-4e93-ad09-f15102d70859
+2023-Aug-04 00:28:11:2811	error:	Error sending verification email: emailrId is not defined
+2023-Aug-04 00:28:11:2811	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 3444.296 ms
+
+2023-Aug-04 00:28:26:2826	info:	Connected to private database
+2023-Aug-04 00:28:26:2826	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:28:47:2847	info:	New user successfully signed up. UserId: e8ac9e11-a975-4745-814b-2d4367d15b66
+2023-Aug-04 00:28:49:2849	error:	Error Wending verification email: emailrId is not defined
+2023-Aug-04 00:28:49:2849	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 2276.915 ms
+
+2023-Aug-04 00:29:49:2949	info:	Connected to private database
+2023-Aug-04 00:29:49:2949	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:29:55:2955	info:	New user successfully signed up. UserId: f012b869-6931-4a32-9585-11b086aafb50
+2023-Aug-04 00:29:57:2957	error:	Error Wending verification email: emailrId is not defined
+2023-Aug-04 00:29:57:2957	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 2447.619 ms
+
+2023-Aug-04 00:30:57:3057	info:	Connected to private database
+2023-Aug-04 00:30:57:3057	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:31:54:3154	info:	Connected to private database
+2023-Aug-04 00:31:54:3154	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:33:11:3311	info:	Connected to private database
+2023-Aug-04 00:33:11:3311	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:33:31:3331	info:	Connected to private database
+2023-Aug-04 00:33:31:3331	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:33:43:3343	info:	Connected to private database
+2023-Aug-04 00:33:43:3343	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:33:44:3344	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 52 - 105.060 ms
+
+2023-Aug-04 00:33:52:3352	info:	New user successfully signed up. UserId: c73e6294-b9a1-431a-b049-d0739385c0b4
+2023-Aug-04 00:33:53:3353	error:	Error while sending an email: API calls in strict mode, but no private key was passed
+2023-Aug-04 00:33:53:3353	error:	Error while sending verification email: API calls in strict mode, but no private key was passed ---- API calls in strict mode, but no private key was passed
+2023-Aug-04 00:33:53:3353	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 500 80 - 1264.337 ms
+
+2023-Aug-04 00:34:17:3417	info:	Connected to private database
+2023-Aug-04 00:34:17:3417	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:37:38:3738	info:	Connected to private database
+2023-Aug-04 00:37:38:3738	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:37:42:3742	info:	Connected to private database
+2023-Aug-04 00:37:42:3742	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:37:50:3750	info:	New user successfully signed up. UserId: 7fd91807-637b-4f26-b10a-baf93b0d5963
+2023-Aug-04 00:37:52:3752	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 200 83 - 2969.966 ms
+
+2023-Aug-04 00:39:12:3912	info:	Connected to private database
+2023-Aug-04 00:39:12:3912	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:39:53:3953	info:	New user successfully signed up. UserId: a144e23e-f6c2-4932-94f0-97aff3ebd2a5
+2023-Aug-04 00:39:55:3955	info:	Verification email sent successfully.
+2023-Aug-04 00:39:55:3955	http:	::ffff:127.0.0.1 POST /auth/sign-up/ 200 83 - 2861.774 ms
+
+2023-Aug-04 00:40:46:4046	http:	::ffff:127.0.0.1 POST /auth/sign-up/U2FsdGVkX19SCEfSXmhNRY3wSY2wFG1w28zpZRNsNP9kYWc5uwsGp3Bp9Bx%2F5rIrr4kT89mTYwnsQtEQOZHUnXh%2Bv0axtyKUQ26jI%2Fc8U1iAdvFwDhhRnGKXVuCK9oHkv0uanT7surisfQUjTBcaUL%2FlxD8K6dOWp2Rji8SL23w%3D 200 62 - 131.033 ms
+

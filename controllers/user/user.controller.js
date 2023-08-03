@@ -1,5 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
-const apiResponse = require("../../utils/apiResponse");
+const { apiResponse } = require("../../utils");
 const { userService, tokenService } = require("../../services");
 
 const getMyUserData = async (req, res) => {
@@ -36,7 +36,6 @@ const getUser = async (req, res) => {
 
 	// Check if email already exists
 	const checkEmailExisting = await db.collection("users").findOne({ email });
-	console.log(checkEmailExisting);
 
 	return apiResponse.successResponseWithData(res, checkEmailExisting);
 };

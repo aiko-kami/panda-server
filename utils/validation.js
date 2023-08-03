@@ -41,8 +41,7 @@ const validateRegistrationInputs = function (username, email, password, confirmP
 			}),
 			"Password must contain at least 8 characters, a lower case letter, an upper case letter, a number and a special character"
 		);
-
-		return { status: "success", message: "All registration inputs are valid" };
+		return { status: "success", message: "All registration inputs are valid." };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}
