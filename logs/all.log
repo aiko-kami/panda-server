@@ -1294,3 +1294,11 @@
 
 2023-Aug-04 00:40:46:4046	http:	::ffff:127.0.0.1 POST /auth/sign-up/U2FsdGVkX19SCEfSXmhNRY3wSY2wFG1w28zpZRNsNP9kYWc5uwsGp3Bp9Bx%2F5rIrr4kT89mTYwnsQtEQOZHUnXh%2Bv0axtyKUQ26jI%2Fc8U1iAdvFwDhhRnGKXVuCK9oHkv0uanT7surisfQUjTBcaUL%2FlxD8K6dOWp2Rji8SL23w%3D 200 62 - 131.033 ms
 
+2023-Aug-04 00:41:07:417	info:	Connected to private database
+2023-Aug-04 00:41:07:417	info:	Panda-Server is running on port 8080
+2023-Aug-04 00:41:44:4144	http:	::ffff:127.0.0.1 POST /auth/sign-up/U2FsdGVkX19SCEfSXmhNRY3wSY2wFG1w28zpZRNsNP9kYWc5uwsGp3Bp9Bx%2F5rIrr4kT89mTYwnsQtEQOZHUnXh%2Bv0axtyKUQ26jI%2Fc8U1iAdvFwDhhRnGKXVuCK9oHkv0uanT7surisfQUjTBcaUL%2FlxD8K6dOWp2Rji8SL23w%3D 500 38 - 114.399 ms
+
+2023-Aug-04 00:41:51:4151	info:	New user successfully signed up. UserId: 75c93f6f-1de2-4e66-8744-92ed52059b78
+2023-Aug-04 00:41:53:4153	info:	Verification email sent successfully.
+2023-Aug-04 00:41:53:4153	http:	::ffff:127.0.0.1 POST /auth/sign-up 200 83 - 2396.709 ms
+
