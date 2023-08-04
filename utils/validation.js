@@ -47,6 +47,32 @@ const validateRegistrationInputs = function (username, email, password, confirmP
 	}
 };
 
+const validateLoginInputs = (identifier, password) => {
+	// String type validation
+	const invalidType = typeof identifier !== "string" || typeof password !== "string";
+
+	if (invalidType) {
+		return { status: "error", message: "Invalid type of data." };
+	}
+
+	try {
+		// Validate identifier (email or username)
+		if (validator.isEmpty(identifier)) {
+			throw new Error("Identifier is required.");
+		}
+
+		// Validate password
+		if (validator.isEmpty(password)) {
+			throw new Error("Password is required");
+		}
+
+		return { status: "success", message: "All login inputs are valid." };
+	} catch (bodyError) {
+		return { status: "error", message: bodyError.message };
+	}
+};
+
 module.exports = {
 	validateRegistrationInputs,
+	validateLoginInputs,
 };

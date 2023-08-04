@@ -1443,3 +1443,57 @@
 2023-Aug-04 23:23:49:2349	info:	Panda-Server is running on port 8080
 2023-Aug-04 23:24:13:2413	info:	Connected to private database
 2023-Aug-04 23:24:13:2413	info:	Panda-Server is running on port 8080
+2023-Aug-04 23:57:59:5759	info:	Connected to private database
+2023-Aug-04 23:57:59:5759	info:	Panda-Server is running on port 8080
+2023-Aug-04 23:58:15:5815	http:	::ffff:127.0.0.1 POST /auth/login/U2FsdGVkX19uf8r9ildJR9rywnUfQjiznfoJmSGVRiwSNfjBXg61FycpErLLuZfua4z%2FuowXDGnzsDnM9L0yN1PXLWAAFEs1jdvsELPZ%2Fcg9wAiaET8PMAx%2BebPNe6lw1HUp8PxTQyh%2FUReoExtq31o9D%2F2Q2%2FxWdacfkzWm7%2FY%3D 404 39 - 21.378 ms
+
+2023-Aug-04 23:58:27:5827	http:	::ffff:127.0.0.1 POST /auth/login/ 500 73 - 1.861 ms
+
+2023-Aug-04 23:58:37:5837	http:	::ffff:127.0.0.1 POST /auth/login/ 500 73 - 1.701 ms
+
+2023-Aug-05 00:00:24:024	info:	Connected to private database
+2023-Aug-05 00:00:24:024	info:	Panda-Server is running on port 8080
+2023-Aug-05 00:00:28:028	http:	::ffff:127.0.0.1 POST /auth/login/ 400 45 - 16.917 ms
+
+2023-Aug-05 00:00:49:049	info:	Connected to private database
+2023-Aug-05 00:00:49:049	info:	Panda-Server is running on port 8080
+2023-Aug-05 00:00:51:051	http:	::ffff:127.0.0.1 POST /auth/login/ 400 45 - 16.617 ms
+
+2023-Aug-05 00:00:56:056	info:	Connected to private database
+2023-Aug-05 00:00:56:056	info:	Panda-Server is running on port 8080
+2023-Aug-05 00:02:01:21	http:	::ffff:127.0.0.1 POST /auth/login/ 400 1101 - 18.685 ms
+
+2023-Aug-05 00:02:08:28	http:	::ffff:127.0.0.1 POST /auth/login/ 400 1101 - 1.540 ms
+
+2023-Aug-05 00:02:11:211	http:	::ffff:127.0.0.1 POST /auth/login/ 400 45 - 2.966 ms
+
+2023-Aug-05 00:02:52:252	http:	::ffff:127.0.0.1 POST /auth/login/ 500 74 - 1.758 ms
+
+2023-Aug-05 00:06:33:633	http:	::ffff:127.0.0.1 POST /auth/login/ 400 45 - 0.973 ms
+
+2023-Aug-05 00:06:39:639	http:	::ffff:127.0.0.1 POST /auth/login/ 400 45 - 0.575 ms
+
+2023-Aug-05 00:06:40:640	http:	::ffff:127.0.0.1 POST /auth/login/ 400 45 - 0.673 ms
+
+2023-Aug-05 00:06:48:648	http:	::ffff:127.0.0.1 POST /auth/login/ 500 74 - 0.688 ms
+
+2023-Aug-05 00:07:01:71	http:	::ffff:127.0.0.1 POST /auth/login/ 400 1101 - 0.949 ms
+
+2023-Aug-05 00:07:06:76	http:	::ffff:127.0.0.1 POST /auth/login/ 400 47 - 0.962 ms
+
+2023-Aug-05 00:07:26:726	http:	::ffff:127.0.0.1 POST /auth/login/ 400 1101 - 0.648 ms
+
+2023-Aug-05 00:07:27:727	http:	::ffff:127.0.0.1 POST /auth/login/ 400 1101 - 1.647 ms
+
+2023-Aug-05 00:07:28:728	http:	::ffff:127.0.0.1 POST /auth/login/ 400 1101 - 1.213 ms
+
+2023-Aug-05 00:07:32:732	http:	::ffff:127.0.0.1 POST /auth/login/ 400 45 - 0.882 ms
+
+2023-Aug-05 00:07:46:746	http:	::ffff:127.0.0.1 POST /auth/login/ 400 45 - 0.828 ms
+
+2023-Aug-05 00:07:47:747	http:	::ffff:127.0.0.1 POST /auth/login/ 400 45 - 1.107 ms
+
+2023-Aug-05 00:07:47:747	http:	::ffff:127.0.0.1 POST /auth/login/ 400 45 - 0.598 ms
+
+2023-Aug-05 00:07:51:751	http:	::ffff:127.0.0.1 POST /auth/login/ 400 45 - 0.837 ms
+
