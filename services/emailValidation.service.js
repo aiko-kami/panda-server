@@ -4,7 +4,7 @@ const v4 = require("uuid").v4;
 const { logger, emailDelivery } = require("../utils");
 
 //Function to send verification email (to validate the user email address with a personalized link)
-const sendVerificationEmail = async function (userId) {
+const sendVerificationEmail = async (userId) => {
 	//Create email ID
 	const emailId = v4();
 
@@ -71,21 +71,22 @@ const sendVerificationEmail = async function (userId) {
 };
 
 //Function to verify the personalized link used to validate the email address
-const verifyEmailValidationId = async function (validationId) {
+const verifyEmailValidationId = async (validationId) => {
 	try {
 		// Decrypt link
 		const bytes = CryptoJS.AES.decrypt(decodeURIComponent(validationId), process.env.ENCRYPT_KEY);
+
 		const toDecrypt = bytes.toString(CryptoJS.enc.Utf8);
 		if (!toDecrypt) {
 			// Invalid or missing decrypted data
-			throw new Error("Invalid validation link 1.");
+			throw new Error("Invalid validation link.");
 		}
 
 		var decrypted = JSON.parse(toDecrypt);
 
 		if (!decrypted || !decrypted.emailId || !decrypted.userId) {
 			// Invalid or missing decrypted data
-			throw new Error("Invalid validation link 2.");
+			throw new Error("Invalid validation link.");
 		}
 
 		const emailIdDecrypted = decrypted.emailId;
@@ -96,16 +97,16 @@ const verifyEmailValidationId = async function (validationId) {
 		//Return error if userId is not found
 		if (!user) {
 			//No user found in DB
-			return { status: "error", message: "wrong userId." };
+			throw new Error("Invalid validation link.");
 		} else if (user.emailVerified.verified) {
 			//Email already verified
-			return { status: "error", message: "email already verified." };
+			throw new Error("Email already verified.");
 		} else if (user.emailVerified.expirationTimestamp < Date.now()) {
 			//Link not valid anymore
-			return { status: "error", message: "Verification link expired." };
+			throw new Error("Verification link expired.");
 		} else if (user.emailVerified.emailId !== emailIdDecrypted) {
 			//Wrong emailId
-			return { status: "error", message: "Invalid validation link 3." };
+			throw new Error("Invalid validation link.");
 		} else if (user.emailVerified.emailId === emailIdDecrypted) {
 			//Matching OK email validated, update emailVerified field in DB
 			await User.findOneAndUpdate(
@@ -115,14 +116,14 @@ const verifyEmailValidationId = async function (validationId) {
 					"emailVerified.expirationTimestamp": 0,
 				}
 			);
-			logger.info(`Email has been successfully verified. ${user.emailVerified.emailId}`);
+			logger.info(`Email has been successfully verified. emailId: ${user.emailVerified.emailId}`);
 			return { status: "success", message: "Email has been successfully verified." };
 		}
 	} catch (error) {
-		logger.error("Error while verifying email validation link: ", error);
+		logger.error("Error while verifying the email validation link:", error);
 		return {
 			status: "error",
-			message: "An error occurred while verifying email validation link.",
+			message: `An error occurred while verifying the email validation link: ${error.message}`,
 		};
 	}
 };

@@ -21,7 +21,7 @@ const retrieveNewUsers = async (limit, fields) => {
 	return users;
 };
 
-async function checkUsernameAndEmailAvailability(username, email) {
+const checkUsernameAndEmailAvailability = async (username, email) => {
 	const existingUser = await User.findOne({ $or: [{ username }, { email }] });
 
 	if (existingUser) {
@@ -35,9 +35,9 @@ async function checkUsernameAndEmailAvailability(username, email) {
 	}
 	// If username and email are available, return null
 	return null;
-}
+};
 
-async function signupUser(username, email, password) {
+const signupUser = async (username, email, password) => {
 	try {
 		const userId = v4();
 
@@ -76,7 +76,7 @@ async function signupUser(username, email, password) {
 		logger.error("Error while signing up user: ", error);
 		return { status: "error", message: "An error occurred while signing up user." };
 	}
-}
+};
 
 module.exports = {
 	retrieveUserById,

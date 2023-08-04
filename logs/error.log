@@ -102,3 +102,21 @@
 2023-Aug-04 00:29:57:2957	error:	Error Wending verification email: emailrId is not defined
 2023-Aug-04 00:33:53:3353	error:	Error while sending an email: API calls in strict mode, but no private key was passed
 2023-Aug-04 00:33:53:3353	error:	Error while sending verification email: API calls in strict mode, but no private key was passed ---- API calls in strict mode, but no private key was passed
+2023-Aug-04 22:55:37:5537	error:	Error while verifying email validation link:  Invalid validation link 1.
+2023-Aug-04 22:56:55:5655	error:	Error while verifying email validation link:  Malformed UTF-8 data
+2023-Aug-04 22:57:22:5722	error:	Error while verifying email validation link:  Malformed UTF-8 data
+2023-Aug-04 22:58:44:5844	error:	Error while verifying email validation link:  Malformed UTF-8 data
+2023-Aug-04 22:58:47:5847	error:	Error while verifying email validation link:  Invalid validation link.
+2023-Aug-04 22:59:05:595	error:	Error while verifying email validation link:  Invalid validation link.
+2023-Aug-04 22:59:08:598	error:	Error while verifying email validation link:  Invalid validation link.
+2023-Aug-04 22:59:09:599	error:	Error while verifying email validation link:  Invalid validation link.
+2023-Aug-04 22:59:09:599	error:	Error while verifying email validation link:  Invalid validation link.
+2023-Aug-04 22:59:29:5929	error:	Error while verifying email validation link:  Malformed UTF-8 data
+2023-Aug-04 22:59:47:5947	error:	Error while verifying email validation link:  Malformed UTF-8 data
+2023-Aug-04 22:59:59:5959	error:	Error while verifying email validation link:  Invalid validation link.
+2023-Aug-04 23:00:17:017	error:	Error while verifying email validation link:  Invalid validation link.
+2023-Aug-04 23:11:31:1131	error:	Error while verifying email validation link:  Verification link expired.
+2023-Aug-04 23:12:37:1237	error:	Error while verifying email validation link: email already verified.
+2023-Aug-04 23:13:04:134	error:	Error while verifying email validation link: Email already verified.
+2023-Aug-04 23:15:27:1527	error:	Error while verifying email validation link: Email already verified.
+2023-Aug-04 23:20:22:2022	error:	Error while verifying the email validation link: Email already verified.

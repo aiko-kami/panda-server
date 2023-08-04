@@ -1,7 +1,7 @@
 const logger = require("./logger");
 
 // Function to send a vaildation email to confirm email address
-const sendEmail = async function (data) {
+const sendEmail = async (data) => {
 	try {
 		const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
 			method: "POST",
