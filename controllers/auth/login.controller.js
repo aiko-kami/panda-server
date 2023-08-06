@@ -19,6 +19,14 @@ const login = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, "Invalid login credentials.");
 		}
 
+		// Check if the user account is active
+		if (!user.emailVerified.verified) {
+			return apiResponse.clientErrorResponse(
+				res,
+				"Email not verified. Please verify your email address before logging in."
+			);
+		}
+
 		// Check if the provided password matches the hashed password in the database
 		const isPasswordValid = await loginService.comparePasswords(password, user.password);
 		if (!isPasswordValid) {
@@ -29,11 +37,10 @@ const login = async (req, res) => {
 		const accessToken = tokenService.generateAccessToken(user.userId);
 		const refreshToken = tokenService.generateRefreshToken(user.userId);
 
-		// Return the access token and refresh token in the response
-		return apiResponse.successResponseWithData(res, "User successfully logged in.", {
-			accessToken,
-			refreshToken,
-		});
+		tokenService.setTokensInCookies(res, accessToken, refreshToken);
+
+		// Return the user data in the response
+		return apiResponse.successResponseWithData(res, "User successfully logged in.", { user });
 
 		// Catch error if occurred during login
 	} catch (error) {

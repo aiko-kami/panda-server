@@ -1,25 +1,52 @@
-# 🐼 Panda Server
+<div align="center">
 
 [![author - @aiko-kami](https://img.shields.io/badge/author-%40aiko--kami-blue)](https://www.github.com/aiko-kami)
 ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/aiko-kami/panda-server)
 ![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/aiko-kami/panda-server/master)
 ![GitHub repo size](https://img.shields.io/github/repo-size/aiko-kami/panda-server)
-![Static Badge](https://img.shields.io/badge/_-JavaScript-brightgreen?logo=nodedotjs&labelColor=gray)
 
-The backend part of Sheepy my project management application.
+![Static Badge](https://img.shields.io/badge/-JavaScript-yellow?logo=nodedotjs&labelColor=gray)
+![Static Badge](https://img.shields.io/badge/-ExpressJS-yellow?logo=express&labelColor=gray)
+![Static Badge](https://img.shields.io/badge/-MongoDB-brightgreen?logo=mongodb&labelColor=grey)
+
+</div>
+
+# 🐣 Presentation
+
+Panda Server is the backend part of Sheepy, my project management application.
 
 ![Logo](https://github.com/aiko-kami/panda-server/blob/master/docs/logo%20Panda_server_Sheepy_blue.png?raw=true)
 
-Sheepy is a collaborative platform for projects creation and tracking. Our mission: To help you bring your projects to life !
+Sheepy is a collaborative platform for projects creation and tracking. Our mission: help you bring your projects to life!
 
-You can either create your own project or you can join a project. Create your dream project in a minute and find the talents you need. Find the project that inspires you and start contributing.
+You can either create your own project or join an existing one. Create your dream project in a minute and find the talents you need. Or find the project that inspires you and start contributing.
 
-| What                          | How                                                                              |
-| ----------------------------- | -------------------------------------------------------------------------------- |
-| Materialize your ideas        | Let us help you build up your next idea                                          |
-| Put your skills into practice | Help people looking for your talent and improve your skills by joining a project |
-| Work as a team                | You cannot achieve it alone? Find help from our community                        |
-| Have fun                      | The most important thing is to do what you like!                                 |
+**But what is a project?**
+
+You have an idea and a goal? You want to accomplish something meaningful? You have your project! It can be anything from making a short film, creating a podcast about local history to forming a music band or developing an original video game...
+
+<br>
+
+```
+ Materialize your ideas            ➡ Let us help you build up your next idea
+ Put your skills into practice     ➡ Help people looking for your talent and improve your skills by joining a project
+ Work as a team                    ➡ You cannot achieve it alone? Find help from our community
+ Have fun                          ➡ The most important thing is to do what you like!
+```
+
+## Table of Contents
+
+- [Presentation](#-presentation)
+- [Features](#-features)
+- [Installation](#-installation)
+- [Project Structure](#-project-structure)
+- [API Documentation](#-api-documentation)
+- [API Endpoints](#-api-endpoints)
+- [Environment Variables](#-environment-variables)
+- [Authors](#-authors)
+- [Contributing](#-contributing)
+- [Demo](#-demo)
+- [Status](#️-status)
 
 ## 🧰 Features
 
@@ -39,7 +66,7 @@ You can either create your own project or you can join a project. Create your dr
 
 ## 📦 Installation
 
-Panda server require [Node.js](https://nodejs.org/) to run.
+Panda server requires [Node.js](https://nodejs.org/) and [MongoDB](https://mongodb.com/) to run.
 
 Install the dependencies with npm:
 
@@ -54,7 +81,7 @@ Start the server in dev mode:
   npm run dev
 ```
 
-## Project Structure
+## 🗂 Project Structure
 
 ```
 src\
@@ -69,11 +96,11 @@ src\
  |--server.js       # App entry point
 ```
 
-## API Documentation
+## 📖 API Documentation
 
 Not available right now.
 
-## API Endpoints
+## 🧭 API Endpoints
 
 List of available routes:
 
@@ -154,3 +181,7 @@ Please contact neutroneer100@gmail.com
 ## 🌮 Demo
 
 NextJS version: [Sheepy](https://www.neutroneer.com/)
+
+## 🧗‍♂️ Status
+
+I am currently working on... **Login/Logout features**
