@@ -1,8 +1,9 @@
-const { userService, tokenService } = require("../../services");
+const { loginService, tokenService } = require("../../services");
 const { apiResponse, validation } = require("../../utils");
 
 // Login user
 const login = async (req, res) => {
+	//identifier  is either the username or the email
 	const { identifier, password } = req.body;
 
 	try {
@@ -13,15 +14,15 @@ const login = async (req, res) => {
 		}
 
 		// Check if the user exists in the database by email or username
-		const user = await userService.getUserByIdentifier(identifier);
-		if (!user) {
-			return apiResponse.clientErrorResponse(res, "User not found.");
+		const user = await loginService.getUserByUsernameOrEmail(identifier);
+		if (user.status !== "success") {
+			return apiResponse.clientErrorResponse(res, "Invalid login credentials.");
 		}
 
 		// Check if the provided password matches the hashed password in the database
-		const isPasswordMatch = await userService.comparePasswords(password, user.password);
-		if (!isPasswordMatch) {
-			return apiResponse.clientErrorResponse(res, "Invalid password.");
+		const isPasswordValid = await loginService.comparePasswords(password, user.password);
+		if (!isPasswordValid) {
+			return apiResponse.clientErrorResponse(res, "Invalid login credentials.");
 		}
 
 		// Generate the access and refresh tokens
@@ -38,12 +39,6 @@ const login = async (req, res) => {
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
-
-	const token = tokenService.generateToken(
-		4,
-		parseInt(process.env.JWT_ACCESS_LOGIN_EXPIRATION_MINUTES)
-	);
-	return apiResponse.successResponseWithData(res, "Operation success", { token });
 };
 
 module.exports = {

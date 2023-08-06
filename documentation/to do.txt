@@ -1,0 +1,13 @@
+- [x]  Sign-up
+- [x]  Login
+- [ ]  Logout 
+- [ ]  Mot de passe oublié 
+- [ ]  Créer projet
+- [ ]  Éditer projet
+- [ ]  Éditer profile
+- [ ]  Talents
+- [ ]  Amis
+- [ ]  Oauth
+- [ ]  Messagerie
+- [ ]  Q&A, comments
+- [ ]  Search

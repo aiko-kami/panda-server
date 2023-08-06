@@ -1,4 +1,4 @@
-const { userService, emailValidationService } = require("../../services");
+const { signupService, emailValidationService } = require("../../services");
 const { apiResponse, validation } = require("../../utils");
 
 // Signup user
@@ -18,7 +18,7 @@ const signup = async (req, res) => {
 		}
 
 		// Check if the username or the email already exist in the database
-		const existingUsernameOrEmail = await userService.checkUsernameAndEmailAvailability(
+		const existingUsernameOrEmail = await signupService.checkUsernameAndEmailAvailability(
 			username,
 			email
 		);
@@ -27,7 +27,7 @@ const signup = async (req, res) => {
 		}
 
 		// Signup new user
-		const newUserCreated = await userService.signupUser(username, email, password);
+		const newUserCreated = await signupService.signupUser(username, email, password);
 		if (newUserCreated.status !== "success") {
 			return apiResponse.serverErrorResponse(res, newUserCreated.message);
 		}
@@ -60,7 +60,9 @@ const verifyEmailLink = async (req, res) => {
 		if (emailVerified.status !== "success") {
 			return apiResponse.serverErrorResponse(res, emailVerified.message);
 		}
+
 		return apiResponse.successResponse(res, emailVerified.message);
+
 		//catch error if occurred during email verification link
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);

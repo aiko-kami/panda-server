@@ -17,7 +17,7 @@ const sendEmail = async (data) => {
 			throw new Error(errorText);
 		}
 	} catch (error) {
-		logger.error("Error while sending an email: " + error.message);
+		logger.error("Error while sending an email: ", error);
 		return { status: "error", message: error.message };
 	}
 };

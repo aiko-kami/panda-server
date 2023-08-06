@@ -1497,3 +1497,191 @@
 
 2023-Aug-05 00:07:51:751	http:	::ffff:127.0.0.1 POST /auth/login/ 400 45 - 0.837 ms
 
+2023-Aug-06 10:47:22:4722	info:	Connected to private database
+2023-Aug-06 10:47:22:4722	info:	Panda-Server is running on port 8080
+2023-Aug-06 10:47:32:4732	http:	::ffff:127.0.0.1 POST /auth/login/ 400 45 - 22.667 ms
+
+2023-Aug-06 10:47:42:4742	http:	::ffff:127.0.0.1 POST /auth/login/ 400 1101 - 2.982 ms
+
+2023-Aug-06 10:47:50:4750	http:	::ffff:127.0.0.1 POST /auth/login/ 400 1101 - 0.965 ms
+
+2023-Aug-06 10:48:01:481	http:	::ffff:127.0.0.1 POST /auth/login/ 500 74 - 2.972 ms
+
+2023-Aug-06 10:52:45:5245	info:	Connected to private database
+2023-Aug-06 10:52:45:5245	info:	Panda-Server is running on port 8080
+2023-Aug-06 10:53:01:531	info:	Connected to private database
+2023-Aug-06 10:53:01:531	info:	Panda-Server is running on port 8080
+2023-Aug-06 10:54:13:5413	info:	Connected to private database
+2023-Aug-06 10:54:13:5413	info:	Panda-Server is running on port 8080
+2023-Aug-06 10:54:39:5439	info:	Connected to private database
+2023-Aug-06 10:54:39:5439	info:	Panda-Server is running on port 8080
+2023-Aug-06 10:55:39:5539	info:	Connected to private database
+2023-Aug-06 10:55:39:5539	info:	Panda-Server is running on port 8080
+2023-Aug-06 10:56:44:5644	info:	Connected to private database
+2023-Aug-06 10:56:44:5644	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:00:09:09	info:	Connected to private database
+2023-Aug-06 11:00:09:09	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:00:47:047	info:	Connected to private database
+2023-Aug-06 11:00:47:047	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:08:22:822	info:	Connected to private database
+2023-Aug-06 11:08:22:822	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:09:04:94	info:	Connected to private database
+2023-Aug-06 11:09:04:94	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:10:34:1034	info:	Connected to private database
+2023-Aug-06 11:10:34:1034	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:10:37:1037	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 126.824 ms
+
+2023-Aug-06 11:10:57:1057	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 325.526 ms
+
+2023-Aug-06 11:11:27:1127	info:	Connected to private database
+2023-Aug-06 11:11:27:1127	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:11:30:1130	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 99.510 ms
+
+2023-Aug-06 11:11:47:1147	info:	Connected to private database
+2023-Aug-06 11:11:47:1147	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:11:48:1148	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 110.088 ms
+
+2023-Aug-06 11:12:05:125	info:	Connected to private database
+2023-Aug-06 11:12:05:125	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:12:06:126	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 145.023 ms
+
+2023-Aug-06 11:12:08:128	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 208.395 ms
+
+2023-Aug-06 11:12:29:1229	info:	Connected to private database
+2023-Aug-06 11:12:29:1229	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:12:41:1241	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 210.364 ms
+
+2023-Aug-06 11:12:42:1242	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 79.640 ms
+
+2023-Aug-06 11:12:43:1243	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 61.490 ms
+
+2023-Aug-06 11:13:08:138	info:	Connected to private database
+2023-Aug-06 11:13:08:138	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:13:09:139	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 119.392 ms
+
+2023-Aug-06 11:13:22:1322	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 100.292 ms
+
+2023-Aug-06 11:13:24:1324	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 322.583 ms
+
+2023-Aug-06 11:13:51:1351	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 62.997 ms
+
+2023-Aug-06 11:14:24:1424	info:	Connected to private database
+2023-Aug-06 11:14:24:1424	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:17:08:178	info:	Connected to private database
+2023-Aug-06 11:17:08:178	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:17:31:1731	info:	Connected to private database
+2023-Aug-06 11:17:31:1731	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:20:24:2024	info:	Connected to private database
+2023-Aug-06 11:20:24:2024	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:20:55:2055	info:	Connected to private database
+2023-Aug-06 11:20:55:2055	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:21:04:214	info:	Connected to private database
+2023-Aug-06 11:21:04:214	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:21:21:2121	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 118.573 ms
+
+2023-Aug-06 11:21:26:2126	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 164.909 ms
+
+2023-Aug-06 11:21:33:2133	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 200.144 ms
+
+2023-Aug-06 11:21:35:2135	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 76.082 ms
+
+2023-Aug-06 11:21:35:2135	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 88.585 ms
+
+2023-Aug-06 11:21:35:2135	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 75.661 ms
+
+2023-Aug-06 11:21:40:2140	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 88.596 ms
+
+2023-Aug-06 11:21:41:2141	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 104.002 ms
+
+2023-Aug-06 11:21:41:2141	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 81.403 ms
+
+2023-Aug-06 11:21:46:2146	info:	Connected to private database
+2023-Aug-06 11:21:46:2146	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:21:47:2147	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 539.352 ms
+
+2023-Aug-06 11:21:48:2148	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 91.283 ms
+
+2023-Aug-06 11:22:42:2242	info:	Connected to private database
+2023-Aug-06 11:22:42:2242	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:22:45:2245	http:	::ffff:127.0.0.1 POST /auth/login/ 400 40 - 191.365 ms
+
+2023-Aug-06 11:22:58:2258	info:	Connected to private database
+2023-Aug-06 11:22:58:2258	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:23:00:230	http:	::ffff:127.0.0.1 POST /auth/login/ 400 40 - 117.226 ms
+
+2023-Aug-06 11:23:08:238	http:	::ffff:127.0.0.1 POST /auth/login/ 400 40 - 91.672 ms
+
+2023-Aug-06 11:24:38:2438	info:	Connected to private database
+2023-Aug-06 11:24:38:2438	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:24:40:2440	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 128.667 ms
+
+2023-Aug-06 11:24:48:2448	http:	::ffff:127.0.0.1 POST /auth/login/ 400 40 - 93.496 ms
+
+2023-Aug-06 11:27:16:2716	info:	Connected to private database
+2023-Aug-06 11:27:16:2716	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:27:24:2724	info:	Connected to private database
+2023-Aug-06 11:27:25:2725	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:27:28:2728	http:	::ffff:127.0.0.1 POST /auth/login/ 400 40 - 92.521 ms
+
+2023-Aug-06 11:27:35:2735	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 799.089 ms
+
+2023-Aug-06 11:29:29:2929	info:	Connected to private database
+2023-Aug-06 11:29:29:2929	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:29:31:2931	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 139.672 ms
+
+2023-Aug-06 11:30:09:309	info:	Connected to private database
+2023-Aug-06 11:30:09:309	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:30:11:3011	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 98.482 ms
+
+2023-Aug-06 11:31:25:3125	info:	Connected to private database
+2023-Aug-06 11:31:25:3125	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:31:25:3125	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 121.505 ms
+
+2023-Aug-06 11:31:31:3131	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 104.662 ms
+
+2023-Aug-06 11:34:00:340	info:	Connected to private database
+2023-Aug-06 11:34:00:340	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:34:02:342	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 124.135 ms
+
+2023-Aug-06 11:34:54:3454	info:	Connected to private database
+2023-Aug-06 11:34:54:3454	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:35:18:3518	info:	Connected to private database
+2023-Aug-06 11:35:18:3518	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:36:35:3635	info:	Connected to private database
+2023-Aug-06 11:36:35:3635	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:37:01:371	info:	Connected to private database
+2023-Aug-06 11:37:01:371	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:37:03:373	http:	::ffff:127.0.0.1 POST /auth/login/ 500 99 - 127.917 ms
+
+2023-Aug-06 11:37:09:379	http:	::ffff:127.0.0.1 POST /auth/login/ 400 40 - 94.165 ms
+
+2023-Aug-06 11:38:15:3815	info:	Connected to private database
+2023-Aug-06 11:38:15:3815	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:38:33:3833	info:	Connected to private database
+2023-Aug-06 11:38:33:3833	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:40:07:407	info:	Connected to private database
+2023-Aug-06 11:40:07:407	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:43:15:4315	info:	Connected to private database
+2023-Aug-06 11:43:15:4315	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:43:16:4316	http:	::ffff:127.0.0.1 POST /auth/login/ 400 40 - 101.627 ms
+
+2023-Aug-06 11:43:17:4317	http:	::ffff:127.0.0.1 POST /auth/login/ 400 40 - 89.649 ms
+
+2023-Aug-06 11:43:21:4321	http:	::ffff:127.0.0.1 POST /auth/login/ 400 42 - 171.410 ms
+
+2023-Aug-06 11:45:12:4512	info:	Connected to private database
+2023-Aug-06 11:45:12:4512	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:47:28:4728	info:	Connected to private database
+2023-Aug-06 11:47:28:4728	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:47:33:4733	info:	Connected to private database
+2023-Aug-06 11:47:33:4733	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:51:18:5118	http:	::ffff:127.0.0.1 POST /auth/login/ 200 489 - 250.613 ms
+
+2023-Aug-06 11:51:27:5127	http:	::ffff:127.0.0.1 POST /auth/login/ 400 40 - 259.673 ms
+
+2023-Aug-06 11:53:22:5322	info:	Connected to private database
+2023-Aug-06 11:53:22:5322	info:	Panda-Server is running on port 8080
+2023-Aug-06 11:53:44:5344	http:	::ffff:127.0.0.1 POST /auth/login/ 200 489 - 246.290 ms
+
+2023-Aug-06 11:53:47:5347	http:	::ffff:127.0.0.1 POST /auth/login/ 400 51 - 69.028 ms
+
