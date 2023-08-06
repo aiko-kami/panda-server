@@ -11,6 +11,7 @@ The backend part of Sheepy my project management application.
 ![Logo](https://github.com/aiko-kami/panda-server/blob/master/docs/logo%20Panda_server_Sheepy_blue.png?raw=true)
 
 Sheepy is a collaborative platform for projects creation and tracking. Our mission: To help you bring your projects to life !
+
 You can either create your own project or you can join a project. Create your dream project in a minute and find the talents you need. Find the project that inspires you and start contributing.
 
 | What                          | How                                                                              |
@@ -57,13 +58,13 @@ Start the server in dev mode:
 
 ```
 src\
- |--config\         # Environment variables and configuration related things
- |--controllers\    # Route controllers (controller layer)
- |--docs\           # Swagger files
+ |--config\         # Configuration related variables
+ |--controllers\    # Route controllers
+ |--docs\           # Documentation
  |--middlewares\    # Custom middlewares
- |--models\         # Mongoose models (data layer)
+ |--models\         # Mongoose models
  |--routes\         # Routes
- |--services\       # Business logic (service layer)
+ |--services\       # Business logic
  |--utils\          # Utility classes and functions
  |--server.js       # App entry point
 ```
@@ -72,21 +73,21 @@ src\
 
 Not available right now.
 
-### API Endpoints
+## API Endpoints
 
 List of available routes:
 
-**Auth routes**:\
-`POST /auth/sign-up` - Sign-up\
-`POST /auth/login` - login\
-`POST /auth/forgot-password` - send reset password email\
-`POST /auth/reset-password` - reset password\
+- **Auth routes**:\
+  `POST /auth/sign-up` - Sign-up\
+  `POST /auth/login` - login\
+  `POST /auth/forgot-password` - send reset password email\
+  `POST /auth/reset-password` - reset password\
 
-**User routes**:\
+- **User routes**:\
 
 ## 🛠 Environment Variables
 
-To run this project, you will need the following environment variables in your .env file
+To run this project, you will need the following environment variables in your .env file:
 
 `PORT`
 
@@ -146,7 +147,7 @@ To run this project, you will need the following environment variables in your .
 
 ## 🍻 Contributing
 
-Contributions are always welcome!
+Contributions are welcome!
 
 Please contact neutroneer100@gmail.com
 
