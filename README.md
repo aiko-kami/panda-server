@@ -4,7 +4,7 @@
 
 The backend part of Sheepy my project management application.
 
-![Logo](documentation/logo Panda_server_Sheepy.png)
+![Logo](https://github.com/aiko-kami/panda-server/blob/master/documentation/logo%20Panda_server_Sheepy.png?raw=true)
 
 Sheepy is a collaborative platform for projects creation and tracking. Our mission: To help you bring your projects to life !
 You can either create your own project or you can join a project. Create your dream project in a minute and find the talents you need. Find the project that inspires you and start contributing.
