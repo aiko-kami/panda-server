@@ -34,11 +34,19 @@ You can either create your own project or you can join a project. Create your dr
 
 ## Installation
 
-Install Panda server with npm
+Panda server require [Node.js](https://nodejs.org/) to run.
+
+Install the dependencies with npm:
 
 ```bash
   cd panda-server
   npm install
+```
+
+Start the server in dev mode:
+
+```bash
+  npm run dev
 ```
 
 ## 🛠 Environment Variables
