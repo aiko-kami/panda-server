@@ -1790,3 +1790,70 @@
 2023-Aug-06 21:38:00:380	http:	::ffff:127.0.0.1 POST /auth/login/ 200 536 - 168.504 ms
 
 2023-Aug-06 22:56:31:5631	info:	Connected to private database
+2023-Aug-08 11:50:16:5016	info:	Connected to private database
+2023-Aug-08 11:50:16:5016	info:	Panda-Server is running on port 8080
+2023-Aug-08 11:50:25:5025	http:	::ffff:127.0.0.1 POST /auth/signup 404 39 - 25.112 ms
+
+2023-Aug-08 11:50:33:5033	http:	::ffff:127.0.0.1 POST /auth/sign-up 500 49 - 45.420 ms
+
+2023-Aug-08 11:55:57:5557	info:	Connected to private database
+2023-Aug-08 11:55:57:5557	info:	Panda-Server is running on port 8080
+2023-Aug-08 11:56:23:5623	info:	Connected to private database
+2023-Aug-08 11:56:23:5623	info:	Panda-Server is running on port 8080
+2023-Aug-08 11:56:25:5625	info:	Connected to private database
+2023-Aug-08 11:56:25:5625	info:	Panda-Server is running on port 8080
+2023-Aug-08 11:56:41:5641	info:	Connected to private database
+2023-Aug-08 11:56:41:5641	info:	Panda-Server is running on port 8080
+2023-Aug-08 11:56:42:5642	info:	New user successfully signed up. UserId: 79352ba6-571e-4710-b600-e819c9c57134
+2023-Aug-08 11:56:42:5642	error:	Error while sending an email:  fetch is not defined
+2023-Aug-08 11:56:42:5642	error:	Error while sending verification email:  fetch is not defined
+2023-Aug-08 11:56:42:5642	http:	::ffff:127.0.0.1 POST /auth/sign-up 500 80 - 239.237 ms
+
+2023-Aug-08 11:57:58:5758	http:	::ffff:127.0.0.1 POST /auth/login 400 1133 - 2.116 ms
+
+2023-Aug-08 11:58:02:582	http:	::ffff:127.0.0.1 POST /auth/login 400 46 - 1.608 ms
+
+2023-Aug-08 11:58:29:5829	http:	::ffff:127.0.0.1 POST /auth/login 400 96 - 27.206 ms
+
+2023-Aug-08 11:58:45:5845	error:	Error while storing tokens in database:  AccessToken is not defined
+2023-Aug-08 11:58:45:5845	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 129.098 ms
+
+2023-Aug-08 12:06:18:618	info:	Connected to private database
+2023-Aug-08 12:06:18:618	info:	Panda-Server is running on port 8080
+2023-Aug-08 12:06:30:630	error:	Error while storing tokens in database:  Cannot access 'accessToken' before initialization
+2023-Aug-08 12:06:30:630	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 145.276 ms
+
+2023-Aug-08 14:22:06:226	info:	Connected to private database
+2023-Aug-08 14:22:06:226	info:	Panda-Server is running on port 8080
+2023-Aug-08 14:22:09:229	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 187.036 ms
+
+2023-Aug-08 14:22:10:2210	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE0OTczMjk5NjIsImV4cCI6MTY5MTQ5NzMzMzU2Mn0.0KkUncTsyUxbS3t5Amr1azY8Iv5iaqJHiKXUMnBMCF0',
+  _id: new ObjectId("64d23371efe1309bed31a9ae"),
+  createdAt: 2023-08-08T12:22:09.981Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE0OTczMjk5NzcsImV4cCI6MTY5MTQ5NzkzNDc3N30.w0CrAdP1sT6IKJ6-CFD4SQwIV9g3_Za8eFWpV_LUDDI',
+  _id: new ObjectId("64d23371efe1309bed31a9af"),
+  createdAt: 2023-08-08T12:22:09.981Z,
+  __v: 0
+}
+2023-Aug-08 15:30:01:301	info:	Connected to private database
+2023-Aug-08 15:30:01:301	info:	Panda-Server is running on port 8080
+2023-Aug-08 15:30:28:3028	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE1MDE0MjgyNjUsImV4cCI6MTY5MTUwMTQzMTg2NX0.0BaZvsZG2UzZODu_qS9hBYU7IZ4ftVLEpie6eAL34tQ',
+  _id: new ObjectId("64d2437464947eacbc26b541"),
+  createdAt: 2023-08-08T13:30:28.287Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE1MDE0MjgyODIsImV4cCI6MTY5MTUwMjAzMzA4Mn0.tVLD7SKTDbdFrY_lhQHRiq71K-WtWBDjOuNIyXIXwKI',
+  _id: new ObjectId("64d2437464947eacbc26b542"),
+  createdAt: 2023-08-08T13:30:28.287Z,
+  __v: 0
+}
+2023-Aug-08 15:30:28:3028	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 213.909 ms
+

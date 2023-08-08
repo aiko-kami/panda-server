@@ -37,7 +37,8 @@ const login = async (req, res) => {
 		const accessToken = tokenService.generateAccessToken(user.userId);
 		const refreshToken = tokenService.generateRefreshToken(user.userId);
 
-		tokenService.setTokensInCookies(res, accessToken, refreshToken);
+		await tokenService.setTokensInCookies(res, accessToken, refreshToken);
+		await tokenService.storeTokensInDatabase(user.userId, accessToken, refreshToken);
 
 		// Return the user data in the response
 		return apiResponse.successResponseWithData(res, "User successfully logged in.", { user });

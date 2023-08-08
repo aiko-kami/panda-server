@@ -1,5 +1,8 @@
+const { AccessToken, RefreshToken } = require("../models");
+
 const jwt = require("jsonwebtoken");
 const { DateTime } = require("luxon");
+const { logger } = require("../utils");
 
 /**
  * Generate token
@@ -9,7 +12,7 @@ const { DateTime } = require("luxon");
  * @returns {string}
  */
 
-function generateAccessToken(userId, expires = "1h") {
+function generateAccessToken(userId, expires = process.env.JWT_ACCESS_TOKEN_EXPIRATION) {
 	const payload = {
 		sub: userId,
 		iat: DateTime.now().ts,
@@ -22,7 +25,7 @@ const verifyAccessToken = (accessToken) => {
 	return jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, true);
 };
 
-function generateRefreshToken(userId, expires = "7d") {
+function generateRefreshToken(userId, expires = process.env.JWT_REFRESH_TOKEN_EXPIRATION) {
 	const payload = {
 		sub: userId,
 		iat: DateTime.now().ts,
@@ -40,7 +43,6 @@ const generateToken = (userId, expires) => {
 		sub: userId,
 		iat: DateTime.now().ts,
 	};
-	console.log(payload);
 	return jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: expires });
 };
 
@@ -58,11 +60,41 @@ const setTokensInCookies = (res, accessToken, refreshToken) => {
 	});
 };
 
+const storeTokensInDatabase = async (userId, accessTokenToStore, refreshTokenToStore) => {
+	try {
+		const accessToken = new AccessToken({
+			userId: userId,
+			token: accessTokenToStore,
+		});
+
+		const refreshToken = new RefreshToken({
+			userId: userId,
+			token: refreshTokenToStore,
+		});
+
+		await accessToken.save();
+		await refreshToken.save();
+
+		logger.info(
+			`Tokens stored in database. accessToken: ${accessToken} - refreshToken: ${refreshToken}`
+		);
+		return {
+			status: "success",
+			message: "Tokens stored in database.",
+			data: { accessToken, refreshToken },
+		};
+	} catch (error) {
+		logger.error("Error while storing tokens in database: ", error);
+		return { status: "error", message: "An error occurred while storing tokens in database." };
+	}
+};
+
 module.exports = {
 	generateToken,
 	generateAccessToken,
 	generateRefreshToken,
-	setTokensInCookies,
 	verifyAccessToken,
 	verifyRefreshToken,
+	setTokensInCookies,
+	storeTokensInDatabase,
 };

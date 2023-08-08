@@ -120,3 +120,7 @@
 2023-Aug-04 23:13:04:134	error:	Error while verifying email validation link: Email already verified.
 2023-Aug-04 23:15:27:1527	error:	Error while verifying email validation link: Email already verified.
 2023-Aug-04 23:20:22:2022	error:	Error while verifying the email validation link: Email already verified.
+2023-Aug-08 11:56:42:5642	error:	Error while sending an email:  fetch is not defined
+2023-Aug-08 11:56:42:5642	error:	Error while sending verification email:  fetch is not defined
+2023-Aug-08 11:58:45:5845	error:	Error while storing tokens in database:  AccessToken is not defined
+2023-Aug-08 12:06:30:630	error:	Error while storing tokens in database:  Cannot access 'accessToken' before initialization

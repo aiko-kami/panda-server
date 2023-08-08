@@ -1,4 +1,4 @@
-const User = require("../models/user.model");
+const { User } = require("../models");
 
 const retrieveUserById = async (id, fields) => {
 	const user = User.findOne({ userId: id }).select(`-_id ${fields}`);
