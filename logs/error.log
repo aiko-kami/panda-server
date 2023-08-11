@@ -133,3 +133,5 @@
 2023-Aug-10 11:58:10:5810	error:	Error while storing tokens in database:  AccessToken validation failed: expiresAt: Cast to date failed for value "169166148630660*60*10" (type string) at path "expiresAt"
 2023-Aug-11 11:47:14:4714	error:	Error while sending an email:  fetch is not defined
 2023-Aug-11 11:47:14:4714	error:	Error while sending verification email:  fetch is not defined
+2023-Aug-11 14:16:46:1646	error:	Error while storing tokens in database:  AccessToken validation failed: expiresAt: Cast to date failed for value "function now() { [native code] }3600" (type string) at path "expiresAt"
+2023-Aug-11 14:16:51:1651	error:	Error while storing tokens in database:  AccessToken validation failed: expiresAt: Cast to date failed for value "function now() { [native code] }3600" (type string) at path "expiresAt"
