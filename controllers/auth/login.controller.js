@@ -40,9 +40,8 @@ const login = async (req, res) => {
 
 		tokenService.setTokensInCookies(res, accessToken, refreshToken);
 
-		const tokenStoredInDb = await tokenService.storeTokensInDatabase(
+		const tokenStoredInDb = await tokenService.storeRefreshTokenInDatabase(
 			user.userId,
-			accessToken,
 			refreshToken
 		);
 
