@@ -28,6 +28,7 @@ MainRouter.use("/projects/projectPublic", require("./projects/projectPublic"));
 MainRouter.use("/auth/sign-up", require("./auth/signup"));
 MainRouter.use("/auth/login", require("./auth/login"));
 MainRouter.use("/auth/logout", require("./auth/logout"));
+MainRouter.use("/auth/deleteAllTokens", require("./auth/deleteAllTokens"));
 
 // Atlas (general data)
 

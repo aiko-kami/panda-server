@@ -1857,3 +1857,1561 @@
 }
 2023-Aug-08 15:30:28:3028	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 213.909 ms
 
+2023-Aug-08 19:38:53:3853	info:	Connected to private database
+2023-Aug-08 19:38:53:3853	info:	Panda-Server is running on port 8080
+2023-Aug-08 19:39:22:3922	info:	Connected to private database
+2023-Aug-08 19:39:22:3922	info:	Panda-Server is running on port 8080
+2023-Aug-08 19:39:48:3948	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE1MTYzODgzNTcsImV4cCI6MTY5MTUxNjM5MTk1N30.5bhvxiBIB2cP48XF88mBeIT49gJUQ8qElrjM3XPlFjw',
+  _id: new ObjectId("64d27de44a4e222c4011bf1f"),
+  createdAt: 2023-08-08T17:39:48.380Z,
+  expireAt: 2023-08-08T17:39:48.380Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE1MTYzODgzNzYsImV4cCI6MTY5MTUxNjk5MzE3Nn0.NApSFRt7TDkP1nJc9A0LdrPWrC5J05WvM76qHoZWzgU',
+  _id: new ObjectId("64d27de44a4e222c4011bf20"),
+  createdAt: 2023-08-08T17:39:48.380Z,
+  expireAt: 2023-08-08T17:39:48.380Z,
+  __v: 0
+}
+2023-Aug-08 19:39:48:3948	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 459.860 ms
+
+2023-Aug-08 19:47:18:4718	info:	Connected to private database
+2023-Aug-08 19:47:18:4718	info:	Panda-Server is running on port 8080
+2023-Aug-08 19:47:34:4734	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE1MTY4NTQyNDgsImV4cCI6MTY5MTUxNjg1Nzg0OH0.-FPuaPthglVqDZ3lWtsh_rrJnX3CMe--7D-sjzOEPrg',
+  expireAt: 2023-08-08T17:47:16.000Z,
+  _id: new ObjectId("64d27fb6e9f2a1e5e4756988"),
+  createdAt: 2023-08-08T17:47:34.256Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE1MTY4NTQyNTAsImV4cCI6MTY5MTUxNzQ1OTA1MH0.uYd_ttSQKrXWYtb-g5UfftgQoyaMZBoHVQFSukrtZA8',
+  expireAt: 2023-08-08T17:47:16.000Z,
+  _id: new ObjectId("64d27fb6e9f2a1e5e4756989"),
+  createdAt: 2023-08-08T17:47:34.256Z,
+  __v: 0
+}
+2023-Aug-08 19:47:34:4734	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 449.108 ms
+
+2023-Aug-08 19:49:13:4913	info:	Connected to private database
+2023-Aug-08 19:49:13:4913	info:	Panda-Server is running on port 8080
+2023-Aug-08 19:49:37:4937	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE1MTY5Nzc0NTcsImV4cCI6MTY5MTUxNjk4MTA1N30.MFN5x9zBCjJhvtFzhxnsrCOd6zkI5eoJdeVKm1mUYRI',
+  expireAt: 2023-08-08T17:49:11.000Z,
+  _id: new ObjectId("64d2803148171705d0e04160"),
+  createdAt: 2023-08-08T17:49:37.462Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE1MTY5Nzc0NTksImV4cCI6MTY5MTUxNzU4MjI1OX0.DdtlPgjHmcmWqpZtD7HasMWx-H1jfzV7JW49oIb6nEo',
+  expireAt: 2023-08-08T17:49:11.000Z,
+  _id: new ObjectId("64d2803148171705d0e04161"),
+  createdAt: 2023-08-08T17:49:37.462Z,
+  __v: 0
+}
+2023-Aug-08 19:49:37:4937	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 506.479 ms
+
+2023-Aug-08 19:53:39:5339	info:	Connected to private database
+2023-Aug-08 19:53:39:5339	info:	Panda-Server is running on port 8080
+2023-Aug-08 19:53:45:5345	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE1MTcyMjUxOTksImV4cCI6MTY5MTUxNzIyODc5OX0.X-kPhQEJhSdxLsXTAbooPwsz6rvjTtCBwru7iUo2AlU',
+  expireAt: 2023-08-08T17:53:37.934Z,
+  _id: new ObjectId("64d2812948407c43c5f5cf2f"),
+  createdAt: 2023-08-08T17:53:45.223Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE1MTcyMjUyMTksImV4cCI6MTY5MTUxNzgzMDAxOX0.emJWQDTr5eAEv6xDgzYdFUrZOtYV39y163XO-OV-NoU',
+  expireAt: 2023-08-08T17:53:37.938Z,
+  _id: new ObjectId("64d2812948407c43c5f5cf30"),
+  createdAt: 2023-08-08T17:53:45.224Z,
+  __v: 0
+}
+2023-Aug-08 19:53:45:5345	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 525.790 ms
+
+2023-Aug-08 19:54:37:5437	info:	Connected to private database
+2023-Aug-08 19:54:37:5437	info:	Panda-Server is running on port 8080
+2023-Aug-08 19:54:42:5442	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE1MTcyODE4OTEsImV4cCI6MTY5MTUxNzI4NTQ5MX0.mEKXxlv4wL7jyfO2ThSiNCQfEHBHkZeBMrzl5japYSQ',
+  expireAt: 2023-08-08T17:54:36.000Z,
+  _id: new ObjectId("64d28161d96fa43fc987b7b7"),
+  createdAt: 2023-08-08T17:54:41.916Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE1MTcyODE5MTMsImV4cCI6MTY5MTUxNzg4NjcxM30.aWKaHG-mknwTm9W67YRgIxv30QBsA7T7kI5zQi1BhkQ',
+  expireAt: 2023-08-08T17:54:36.000Z,
+  _id: new ObjectId("64d28161d96fa43fc987b7b8"),
+  createdAt: 2023-08-08T17:54:41.917Z,
+  __v: 0
+}
+2023-Aug-08 19:54:42:5442	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 489.559 ms
+
+2023-Aug-09 22:32:28:3228	info:	Connected to private database
+2023-Aug-09 22:32:28:3228	info:	Panda-Server is running on port 8080
+2023-Aug-09 22:35:26:3526	info:	Connected to private database
+2023-Aug-09 22:35:26:3526	info:	Panda-Server is running on port 8080
+2023-Aug-09 22:35:31:3531	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2MTMzMzExNDIsImV4cCI6MTY5MTYxMzMzNDc0Mn0.yetIun__eu8QmFNeobBYvjr9HNkkZxHYlHJKQQVl7IA',
+  expireAt: 2023-08-09T20:35:15.000Z,
+  _id: new ObjectId("64d3f893cf88b5c28edced0b"),
+  createdAt: 2023-08-09T20:35:31.163Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2MTMzMzExNjAsImV4cCI6MTY5MTYxMzkzNTk2MH0.pLJg9OJ-TiRJFQf1NCSPF8uQQMqTd4C7CHBT3OgRzp8',
+  expireAt: 2023-08-09T20:35:15.000Z,
+  _id: new ObjectId("64d3f893cf88b5c28edced0c"),
+  createdAt: 2023-08-09T20:35:31.164Z,
+  __v: 0
+}
+2023-Aug-09 22:35:31:3531	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 301.884 ms
+
+2023-Aug-09 22:37:50:3750	info:	Connected to private database
+2023-Aug-09 22:37:50:3750	info:	Panda-Server is running on port 8080
+2023-Aug-09 22:37:54:3754	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2MTM0NzQ2OTUsImV4cCI6MTY5MTYxMzQ3ODI5NX0.vB6cl0oeiYShhVvdP0WHH-9LSPKouPEZeyAXNAOHeLM',
+  expireAt: 2023-08-09T20:37:39.000Z,
+  _id: new ObjectId("64d3f922f2d3a32aa2ac6270"),
+  createdAt: 2023-08-09T20:37:54.717Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2MTM0NzQ3MTQsImV4cCI6MTY5MTYxNDA3OTUxNH0.fZsSSrKRewuu2V6BLzs4nQEiqzMKwCtYcx0AY25XglQ',
+  expireAt: 2023-08-09T20:37:39.000Z,
+  _id: new ObjectId("64d3f922f2d3a32aa2ac6271"),
+  createdAt: 2023-08-09T20:37:54.717Z,
+  __v: 0
+}
+2023-Aug-09 22:37:54:3754	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 265.503 ms
+
+2023-Aug-09 22:42:57:4257	info:	Connected to private database
+2023-Aug-09 22:42:57:4257	info:	Panda-Server is running on port 8080
+2023-Aug-09 22:43:02:432	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2MTM3ODIxMjEsImV4cCI6MTY5MTYxMzc4NTcyMX0.nEHTjZ4nxVz9enBR2IIC7clSHaI8ceQhRkgYdJgYB-w',
+  expireAt: 2023-08-09T20:42:47.000Z,
+  _id: new ObjectId("64d3fa568b644d377a16ee32"),
+  createdAt: 2023-08-09T20:43:02.144Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2MTM3ODIxNDAsImV4cCI6MTY5MTYxNDM4Njk0MH0.upih2F2G7V16b-ryjZTfQYXemvq0vLHTUXpvugsh6eI',
+  expireAt: 2023-08-09T20:42:47.000Z,
+  _id: new ObjectId("64d3fa568b644d377a16ee33"),
+  createdAt: 2023-08-09T20:43:02.144Z,
+  __v: 0
+}
+2023-Aug-09 22:43:02:432	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 431.680 ms
+
+2023-Aug-09 22:47:39:4739	info:	Connected to private database
+2023-Aug-09 22:47:39:4739	info:	Panda-Server is running on port 8080
+2023-Aug-09 22:48:18:4818	info:	Connected to private database
+2023-Aug-09 22:48:18:4818	info:	Panda-Server is running on port 8080
+2023-Aug-09 22:49:24:4924	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2MTQxNjQ4NjAsImV4cCI6MTY5MTYxNDE2ODQ2MH0.mk0TGgRNdmbyFqBQjKKrUAQgJFi-Zyxr2wmX6clmzAY',
+  expireAt: 2023-08-09T20:48:07.000Z,
+  _id: new ObjectId("64d3fbd4aaf4d5d9b47522eb"),
+  createdAt: 2023-08-09T20:49:24.883Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2MTQxNjQ4ODAsImV4cCI6MTY5MTYxNDc2OTY4MH0.3liof1t1iBRQHsuh_LRJMt2sSw5vKCLxDlJEyI37kYY',
+  expireAt: 2023-08-09T20:48:07.000Z,
+  _id: new ObjectId("64d3fbd4aaf4d5d9b47522ec"),
+  createdAt: 2023-08-09T20:49:24.883Z,
+  __v: 0
+}
+2023-Aug-09 22:49:24:4924	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 296.310 ms
+
+2023-Aug-09 22:51:31:5131	info:	Connected to private database
+2023-Aug-09 22:51:31:5131	info:	Panda-Server is running on port 8080
+2023-Aug-09 22:51:33:5133	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2MTQyOTM2NjEsImV4cCI6MTY5MTYxNDI5NzI2MX0.spQkrkc9j1Okzn2p3-ib8Qh_1lOFuDomygPK-snARjs',
+  expireAt: 2023-08-09T20:51:20.000Z,
+  _id: new ObjectId("64d3fc55bd059290b49d599d"),
+  createdAt: 2023-08-09T20:51:33.684Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2MTQyOTM2ODAsImV4cCI6MTY5MTYxNDg5ODQ4MH0.5e2pfFCUwesj0VQaI5QL7rHdhr0rJQPnwHTUqTOlmJk',
+  expireAt: 2023-08-09T20:51:20.000Z,
+  _id: new ObjectId("64d3fc55bd059290b49d599e"),
+  createdAt: 2023-08-09T20:51:33.685Z,
+  __v: 0
+}
+2023-Aug-09 22:51:33:5133	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 352.629 ms
+
+2023-Aug-10 08:25:16:2516	info:	Connected to private database
+2023-Aug-10 08:25:16:2516	info:	Panda-Server is running on port 8080
+2023-Aug-10 08:25:26:2526	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NDg3MjYwNDMsImV4cCI6MTY5MTY0ODcyOTY0M30.WnDaFE2Inrce16hKou84fAwXi1K4zIwMrxjeyNgWsIE',
+  expiresAt: 2023-08-10T06:25:15.000Z,
+  _id: new ObjectId("64d482d60fed83f3531632ea"),
+  createdAt: 2023-08-10T06:25:26.060Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NDg3MjYwNTcsImV4cCI6MTY5MTY0OTMzMDg1N30.1G2te3D1lnpgrtPwyO0XqudlellgCGLa3DxdTo3BAd8',
+  expiresAt: 2023-08-10T06:25:15.000Z,
+  _id: new ObjectId("64d482d60fed83f3531632eb"),
+  createdAt: 2023-08-10T06:25:26.060Z,
+  __v: 0
+}
+2023-Aug-10 08:25:26:2526	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 224.173 ms
+
+2023-Aug-10 09:22:14:2214	info:	Connected to private database
+2023-Aug-10 09:22:14:2214	info:	Panda-Server is running on port 8080
+2023-Aug-10 09:22:15:2215	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTIxMzU2MTksImV4cCI6MTY5MTY1MjEzOTIxOX0.hwvtKQKjt9sExu2i2HqEbbxeD8YJHDavOmaHhvpw1zY',
+  expiresAt: 2023-08-10T07:22:13.000Z,
+  _id: new ObjectId("64d490277d9d834b6847feab"),
+  createdAt: 2023-08-10T07:22:15.638Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTIxMzU2MzUsImV4cCI6MTY5MTY1Mjc0MDQzNX0.MqZPXYnj7GNhTd6BNui2p5O4mYmozFE3EY8DLhHrcw8',
+  expiresAt: 2023-08-10T07:22:13.000Z,
+  _id: new ObjectId("64d490277d9d834b6847feac"),
+  createdAt: 2023-08-10T07:22:15.638Z,
+  __v: 0
+}
+2023-Aug-10 09:22:15:2215	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 228.700 ms
+
+2023-Aug-10 09:22:33:2233	info:	Connected to private database
+2023-Aug-10 09:22:33:2233	info:	Panda-Server is running on port 8080
+2023-Aug-10 09:22:44:2244	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTIxNjM5ODcsImV4cCI6MTY5MTY1MjE2NzU4N30.Oyu_05N0A6mT8sKndmO3EA7oouU_2MN5nIQ90OmdqBw',
+  expiresAt: 2023-08-10T07:22:33.000Z,
+  _id: new ObjectId("64d490448d904bf4ddc475f0"),
+  createdAt: 2023-08-10T07:22:44.011Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTIxNjQwMDcsImV4cCI6MTY5MTY1Mjc2ODgwN30.uxjTkWu3g8E_ms5W-c1tvfkWsrB5heWkc9OxVdvqM2I',
+  expiresAt: 2023-08-10T07:22:33.000Z,
+  _id: new ObjectId("64d490448d904bf4ddc475f1"),
+  createdAt: 2023-08-10T07:22:44.012Z,
+  __v: 0
+}
+2023-Aug-10 09:22:44:2244	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 231.755 ms
+
+2023-Aug-10 09:23:58:2358	info:	Connected to private database
+2023-Aug-10 09:23:58:2358	info:	Panda-Server is running on port 8080
+2023-Aug-10 09:24:02:242	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTIyNDI0OTUsImV4cCI6MzM4MzMzNTU3MzYzN30.WdA53wxiXSfBDm8iOJbP1hujpD4ZVNmuBHk4CSO2xAg',
+  expiresAt: 2023-08-10T07:23:57.000Z,
+  _id: new ObjectId("64d4909289555b9b7abb278e"),
+  createdAt: 2023-08-10T07:24:02.516Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTIyNDI1MTEsImV4cCI6MTY5MTY1Mjg0NzMxMX0.VgKx0eJQiegVurG4UiLU5f1w_B-zbK_yuMkuE2yJ96Y',
+  expiresAt: 2023-08-10T07:23:57.000Z,
+  _id: new ObjectId("64d4909289555b9b7abb278f"),
+  createdAt: 2023-08-10T07:24:02.516Z,
+  __v: 0
+}
+2023-Aug-10 09:24:02:242	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 245.131 ms
+
+2023-Aug-10 09:31:43:3143	info:	Connected to private database
+2023-Aug-10 09:31:43:3143	info:	Panda-Server is running on port 8080
+2023-Aug-10 09:31:47:3147	http:	::ffff:127.0.0.1 POST /auth/login 500 102 - 186.372 ms
+
+2023-Aug-10 09:32:07:327	info:	Connected to private database
+2023-Aug-10 09:32:07:327	info:	Panda-Server is running on port 8080
+2023-Aug-10 09:32:10:3210	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTI3MzAyMTQsImV4cCI6MTY5MTY4MzMzMTE0Mn0.lbGz-_6zDcNdCvvHHRKwmPMvb2zqp_S-Z5Dt4fuiVJA',
+  expiresAt: 2023-08-10T07:32:06.000Z,
+  _id: new ObjectId("64d4927a5719db45c961c9cf"),
+  createdAt: 2023-08-10T07:32:10.237Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTI3MzAyMzMsImV4cCI6MTY5MTY1MzMzNTAzM30.B6Eo5cFHP8jgSeODJzqkmA5qlursL9TYMR7CraewfZ8',
+  expiresAt: 2023-08-10T07:32:06.000Z,
+  _id: new ObjectId("64d4927a5719db45c961c9d0"),
+  createdAt: 2023-08-10T07:32:10.238Z,
+  __v: 0
+}
+2023-Aug-10 09:32:10:3210	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 287.876 ms
+
+2023-Aug-10 10:04:08:48	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTQ2NDg0OTAsImV4cCI6MTY5MTY4MzMzMTE0Mn0.J1uAQtJ2S6oT-nS6WpeKIyIkALKC3_u0goxcDu_nyTk',
+  expiresAt: 2023-08-10T07:32:06.000Z,
+  _id: new ObjectId("64d499f85719db45c961c9d4"),
+  createdAt: 2023-08-10T08:04:08.493Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTQ2NDg0OTIsImV4cCI6MTY5MTY1NTI1MzI5Mn0.Cw-QvmzHKHBz8UraTX_uBXaQHIMPsV-HzcfDO3LpqxM',
+  expiresAt: 2023-08-10T07:32:06.000Z,
+  _id: new ObjectId("64d499f85719db45c961c9d5"),
+  createdAt: 2023-08-10T08:04:08.493Z,
+  __v: 0
+}
+2023-Aug-10 10:04:08:48	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 165.189 ms
+
+2023-Aug-10 10:06:28:628	info:	Connected to private database
+2023-Aug-10 10:06:28:628	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:08:38:838	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTQ5MTg2ODMsImV4cCI6MTY5MTc2MzMzMTE0Mn0.pLHIYddUb-pc4Lt1ilg37ZzmeiS0G6WZE8wk0IYqerU',
+  expiresAt: 2023-08-10T08:06:27.000Z,
+  _id: new ObjectId("64d49b065c187dc452fab1f7"),
+  createdAt: 2023-08-10T08:08:38.707Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTQ5MTg3MDIsImV4cCI6MTY5MTY1NTUyMzUwMn0.k240Q6Cyh7n2HktCR9Izn7Esr1ybBxmrlhjNMn2Wy9U',
+  expiresAt: 2023-08-10T08:06:27.000Z,
+  _id: new ObjectId("64d49b065c187dc452fab1f8"),
+  createdAt: 2023-08-10T08:08:38.708Z,
+  __v: 0
+}
+2023-Aug-10 10:08:38:838	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 271.034 ms
+
+2023-Aug-10 10:09:17:917	info:	Connected to private database
+2023-Aug-10 10:09:17:917	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:09:20:920	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTQ5NjA2MjEsImV4cCI6MTY5MTc2MzMzMTE0Mn0.OCBBL7smDOQtzkOG9eR1Q50XCyRewOi6teJNXq0hbFI',
+  expiresAt: 2023-08-10T08:09:16.000Z,
+  _id: new ObjectId("64d49b300bfc9c273d5ae514"),
+  createdAt: 2023-08-10T08:09:20.643Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTQ5NjA2MzksImV4cCI6MTY5MTY1NTU2NTQzOX0.z3vP5OG_RUCCAtGASeUdwyrh0_R9Ttvc1XoP2G0BQGw',
+  expiresAt: 2023-08-10T08:09:16.000Z,
+  _id: new ObjectId("64d49b300bfc9c273d5ae515"),
+  createdAt: 2023-08-10T08:09:20.643Z,
+  __v: 0
+}
+2023-Aug-10 10:09:20:920	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 259.721 ms
+
+2023-Aug-10 10:13:05:135	info:	Connected to private database
+2023-Aug-10 10:13:05:135	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:13:06:136	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'Hello',
+  expiresAt: 2023-08-10T08:12:59.000Z,
+  _id: new ObjectId("64d49c124c4524b42a484dd9"),
+  createdAt: 2023-08-10T08:13:06.407Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTUxODY0MDIsImV4cCI6MTY5MTY1NTc5MTIwMn0.M-9vdI0y3ISbQBs_Z82fNnoZU1JpCYsOCLfekqc_J-A',
+  expiresAt: 2023-08-10T08:12:59.000Z,
+  _id: new ObjectId("64d49c124c4524b42a484dda"),
+  createdAt: 2023-08-10T08:13:06.408Z,
+  __v: 0
+}
+2023-Aug-10 10:13:06:136	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 229.478 ms
+
+2023-Aug-10 10:13:10:1310	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'Hello',
+  expiresAt: 2023-08-10T08:12:59.000Z,
+  _id: new ObjectId("64d49c164c4524b42a484dde"),
+  createdAt: 2023-08-10T08:13:10.348Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTUxOTAzNDcsImV4cCI6MTY5MTY1NTc5NTE0N30.BzjbPdk8MGuRMCXAQCIJ4mpT3ahl1CyDbuGlZ98O9ig',
+  expiresAt: 2023-08-10T08:12:59.000Z,
+  _id: new ObjectId("64d49c164c4524b42a484ddf"),
+  createdAt: 2023-08-10T08:13:10.348Z,
+  __v: 0
+}
+2023-Aug-10 10:13:10:1310	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 192.666 ms
+
+2023-Aug-10 10:13:43:1343	info:	Connected to private database
+2023-Aug-10 10:13:43:1343	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:13:47:1347	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTUyMjc3OTUsImV4cCI6MTY5MTc2MzMzMTE0Mn0.O1-G5g1T1aryRbl44S0mo_cpOBotIgTBMR7x4nUQ0T8',
+  expiresAt: 2023-08-10T08:13:42.000Z,
+  _id: new ObjectId("64d49c3b43ea365206c0ef89"),
+  createdAt: 2023-08-10T08:13:47.814Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTUyMjc4MTEsImV4cCI6MTY5MTY1NTgzMjYxMX0.TY2ICLmmAlBiUW4gACeGcoOfLDnj5OkK2hzl_S0QexQ',
+  expiresAt: 2023-08-10T08:13:42.000Z,
+  _id: new ObjectId("64d49c3b43ea365206c0ef8a"),
+  createdAt: 2023-08-10T08:13:47.814Z,
+  __v: 0
+}
+2023-Aug-10 10:13:47:1347	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 231.978 ms
+
+2023-Aug-10 10:15:06:156	info:	Connected to private database
+2023-Aug-10 10:15:06:156	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:15:16:1516	error:	Error while storing tokens in database:  AccessToken validation failed: expiresAt: Cast to date failed for value "function now() { [native code] }3600" (type string) at path "expiresAt"
+2023-Aug-10 10:15:16:1516	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 214.799 ms
+
+2023-Aug-10 10:16:01:161	info:	Connected to private database
+2023-Aug-10 10:16:01:161	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:16:03:163	error:	Error while storing tokens in database:  AccessToken validation failed: expiresAt: Cast to date failed for value "function now() { [native code] }3600" (type string) at path "expiresAt"
+2023-Aug-10 10:16:03:163	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 220.537 ms
+
+2023-Aug-10 10:16:31:1631	info:	Connected to private database
+2023-Aug-10 10:16:31:1631	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:16:44:1644	error:	Error while storing tokens in database:  AccessToken validation failed: expiresAt: Cast to date failed for value "function now() { [native code] }3600000" (type string) at path "expiresAt"
+2023-Aug-10 10:16:44:1644	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 190.291 ms
+
+2023-Aug-10 10:21:33:2133	info:	Connected to private database
+2023-Aug-10 10:21:33:2133	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:21:45:2145	info:	Connected to private database
+2023-Aug-10 10:21:45:2145	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:21:47:2147	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTU3MDc3NDksImV4cCI6MTY5MTc2MzMzMTE0Mn0.01UKai3ycCU9Sr3KHV3kNF3nk-cKgMvMrgrDARh8YQQ',
+  expiresAt: 2023-08-11T14:15:31.142Z,
+  _id: new ObjectId("64d49e1bfcddb9b829c1648d"),
+  createdAt: 2023-08-10T08:21:47.769Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTU3MDc3NjUsImV4cCI6MTY5MTY1NjMxMjU2NX0.72CHjxYa6ViaotUQso2DTaH5eGYZLHUWvrp-EcKm7j0',
+  expiresAt: 2023-08-10T08:21:44.000Z,
+  _id: new ObjectId("64d49e1bfcddb9b829c1648e"),
+  createdAt: 2023-08-10T08:21:47.769Z,
+  __v: 0
+}
+2023-Aug-10 10:21:47:2147	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 248.104 ms
+
+2023-Aug-10 10:22:37:2237	info:	Connected to private database
+2023-Aug-10 10:22:37:2237	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:22:38:2238	error:	Error while storing tokens in database:  AccessToken validation failed: expiresAt: Cast to date failed for value "function now() { [native code] }4000" (type string) at path "expiresAt"
+2023-Aug-10 10:22:38:2238	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 202.971 ms
+
+2023-Aug-10 10:24:38:2438	info:	Connected to private database
+2023-Aug-10 10:24:38:2438	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:24:42:2442	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTU4ODI0NzgsImV4cCI6MTY5MTc2MzMzMTE0Mn0.byhXbm8t-xL753cOUWKbInwu_KTWwakjZvz2VmYGSXA',
+  expiresAt: 2023-08-11T14:15:31.142Z,
+  _id: new ObjectId("64d49ecae32d3939b4042181"),
+  createdAt: 2023-08-10T08:24:42.499Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTU4ODI0OTUsImV4cCI6MTY5MTY1NjQ4NzI5NX0.PiirWvzpilAgmJCwr30iOXRTlo_aBfxKnqKzR9WHZrY',
+  expiresAt: 2023-08-10T08:24:38.000Z,
+  _id: new ObjectId("64d49ecae32d3939b4042182"),
+  createdAt: 2023-08-10T08:24:42.499Z,
+  __v: 0
+}
+2023-Aug-10 10:24:42:2442	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 247.088 ms
+
+2023-Aug-10 10:25:40:2540	info:	Connected to private database
+2023-Aug-10 10:25:40:2540	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:26:00:260	info:	Connected to private database
+2023-Aug-10 10:26:00:260	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:26:04:264	error:	Error while storing tokens in database:  AccessToken validation failed: expiresAt: Cast to date failed for value "function now() { [native code] }4000" (type string) at path "expiresAt"
+2023-Aug-10 10:26:04:264	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 245.739 ms
+
+2023-Aug-10 10:26:30:2630	info:	Connected to private database
+2023-Aug-10 10:26:30:2630	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:26:32:2632	error:	Error while storing tokens in database:  AccessToken validation failed: expiresAt: Cast to date failed for value "function now() { [native code] }4000" (type string) at path "expiresAt"
+2023-Aug-10 10:26:32:2632	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 282.419 ms
+
+2023-Aug-10 10:26:44:2644	info:	Connected to private database
+2023-Aug-10 10:26:44:2644	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:26:57:2657	info:	Connected to private database
+2023-Aug-10 10:26:57:2657	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:27:02:272	info:	Connected to private database
+2023-Aug-10 10:27:02:272	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:27:06:276	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTYwMjU5NTksImV4cCI6MTY5MTc2MzMzMTE0Mn0.YPj6H5fD3OcenjXRreqZRQfvJNxNE6Jq1Q4hqsikyYM',
+  expiresAt: 2023-08-10T08:33:01.951Z,
+  _id: new ObjectId("64d49f59cf9a6926ccaa1a54"),
+  createdAt: 2023-08-10T08:27:05.985Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTYwMjU5NzksImV4cCI6MTY5MTY1NjYzMDc3OX0.oB9tfhuB6_ujKMoXq6EluKcJiklXD9VkHRuDOhY5YiE',
+  expiresAt: 2023-08-10T08:27:01.000Z,
+  _id: new ObjectId("64d49f59cf9a6926ccaa1a55"),
+  createdAt: 2023-08-10T08:27:05.986Z,
+  __v: 0
+}
+2023-Aug-10 10:27:06:276	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 339.758 ms
+
+2023-Aug-10 10:27:29:2729	info:	Connected to private database
+2023-Aug-10 10:27:29:2729	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:27:31:2731	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTYwNTE1MzMsImV4cCI6MTY5MTc2MzMzMTE0Mn0.TXnJWWtpCiFyexwPDYXo-6jvxkBgOUArBPWyoNq0eLg',
+  expiresAt: 2023-09-21T00:27:28.714Z,
+  _id: new ObjectId("64d49f73a0e4be495e5802cc"),
+  createdAt: 2023-08-10T08:27:31.556Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTYwNTE1NTAsImV4cCI6MTY5MTY1NjY1NjM1MH0.m9yjwmmf6pr7vDWOAnLHGzG1Afzu8QWWW_j-KvxpREk',
+  expiresAt: 2023-08-10T08:27:28.000Z,
+  _id: new ObjectId("64d49f73a0e4be495e5802cd"),
+  createdAt: 2023-08-10T08:27:31.556Z,
+  __v: 0
+}
+2023-Aug-10 10:27:31:2731	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 251.885 ms
+
+2023-Aug-10 10:47:31:4731	info:	Connected to private database
+2023-Aug-10 10:47:31:4731	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:47:43:4743	info:	Connected to private database
+2023-Aug-10 10:47:43:4743	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:48:21:4821	info:	Connected to private database
+2023-Aug-10 10:48:21:4821	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:48:44:4844	http:	::ffff:127.0.0.1 POST /auth/login 500 62 - 132.352 ms
+
+2023-Aug-10 10:49:28:4928	info:	Connected to private database
+2023-Aug-10 10:49:28:4928	info:	Panda-Server is running on port 8080
+2023-Aug-10 10:49:33:4933	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 134.440 ms
+
+2023-Aug-10 10:49:33:4933	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTczNzM4MjAsImV4cCI6MTY5MTY1NzQwOTgyMH0.DFanZQtFWrVOJBUYFRnW1Sue3IHhzYNlr1RNRaVKQwk',
+  expiresAt: 2023-09-21T00:49:28.097Z,
+  _id: new ObjectId("64d4a49d027eb945ac734947"),
+  createdAt: 2023-08-10T08:49:33.836Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NTczNzM4MzMsImV4cCI6MTY5MTY1Nzk3ODYzM30.3VIAbui7QI6MzEpzVjgTHTuhKgdc0c8V4seJJrNkbB0',
+  expiresAt: 2023-08-10T08:49:28.000Z,
+  _id: new ObjectId("64d4a49d027eb945ac734948"),
+  createdAt: 2023-08-10T08:49:33.836Z,
+  __v: 0
+}
+2023-Aug-10 11:46:55:4655	info:	Connected to private database
+2023-Aug-10 11:46:55:4655	info:	Panda-Server is running on port 8080
+2023-Aug-10 11:48:02:482	info:	Connected to private database
+2023-Aug-10 11:48:02:482	info:	Panda-Server is running on port 8080
+2023-Aug-10 11:49:00:490	info:	Connected to private database
+2023-Aug-10 11:49:00:490	info:	Panda-Server is running on port 8080
+2023-Aug-10 11:49:18:4918	info:	Connected to private database
+2023-Aug-10 11:49:18:4918	info:	Panda-Server is running on port 8080
+2023-Aug-10 11:51:59:5159	info:	Connected to private database
+2023-Aug-10 11:51:59:5159	info:	Panda-Server is running on port 8080
+2023-Aug-10 11:53:12:5312	info:	Connected to private database
+2023-Aug-10 11:53:12:5312	info:	Panda-Server is running on port 8080
+2023-Aug-10 11:55:40:5540	info:	Connected to private database
+2023-Aug-10 11:55:40:5540	info:	Panda-Server is running on port 8080
+2023-Aug-10 11:55:52:5552	info:	Connected to private database
+2023-Aug-10 11:55:52:5552	info:	Panda-Server is running on port 8080
+2023-Aug-10 11:56:04:564	http:	::ffff:127.0.0.1 POST /auth/login 500 49 - 138.925 ms
+
+2023-Aug-10 11:57:16:5716	info:	Connected to private database
+2023-Aug-10 11:57:16:5716	info:	Panda-Server is running on port 8080
+2023-Aug-10 11:57:18:5718	http:	::ffff:127.0.0.1 POST /auth/login 500 49 - 221.448 ms
+
+2023-Aug-10 11:58:07:587	info:	Connected to private database
+2023-Aug-10 11:58:07:587	info:	Panda-Server is running on port 8080
+2023-Aug-10 11:58:10:5810	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 171.146 ms
+
+2023-Aug-10 11:58:10:5810	error:	Error while storing tokens in database:  AccessToken validation failed: expiresAt: Cast to date failed for value "169166148630660*60*10" (type string) at path "expiresAt"
+2023-Aug-10 11:59:19:5919	info:	Connected to private database
+2023-Aug-10 11:59:19:5919	info:	Panda-Server is running on port 8080
+2023-Aug-10 11:59:20:5920	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 212.393 ms
+
+2023-Aug-10 11:59:20:5920	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjE1NjA4MzUsImV4cCI6MTY5MTY2MTU5NjgzNX0._LB1S2mOSS8hVitX3sZtkVet47RSzTqopTm25_7M96s',
+  expiresAt: 2023-08-10T09:59:18.264Z,
+  _id: new ObjectId("64d4b4f81815e9556dbb3362"),
+  createdAt: 2023-08-10T09:59:20.867Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjE1NjA4NjEsImV4cCI6MTY5MTY2MjE2NTY2MX0.fj5eIlfeaqOUFRObpM9xDzJn5dyA3YShzGfANgzwuiI',
+  expiresAt: 2023-08-10T09:59:18.272Z,
+  _id: new ObjectId("64d4b4f81815e9556dbb3363"),
+  createdAt: 2023-08-10T09:59:20.868Z,
+  __v: 0
+}
+2023-Aug-10 12:23:14:2314	info:	Connected to private database
+2023-Aug-10 12:23:14:2314	info:	Panda-Server is running on port 8080
+2023-Aug-10 12:23:29:2329	info:	Connected to private database
+2023-Aug-10 12:23:29:2329	info:	Panda-Server is running on port 8080
+2023-Aug-10 12:23:54:2354	info:	Connected to private database
+2023-Aug-10 12:23:54:2354	info:	Panda-Server is running on port 8080
+2023-Aug-10 12:24:00:240	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 156.960 ms
+
+2023-Aug-10 12:24:00:240	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjMwNDAzNDgsImV4cCI6MTY5MTY2MzI5OTU0OH0.smAR8xXVGkJzICpcVnxDrumNuwoDQuKQ_M3fF8Oeemc',
+  expiresAt: 2023-08-10T10:23:53.454Z,
+  _id: new ObjectId("64d4bac01c1cfd4c7d283e65"),
+  createdAt: 2023-08-10T10:24:00.368Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjMwNDAzNjQsImV4cCI6MTY5MTY2MzY0NTE2NH0.O7kQnbB7qB9wo8pLGh4du1AFZ0nLoyuiYsYE-COSphk',
+  expiresAt: 2023-08-10T10:23:53.457Z,
+  _id: new ObjectId("64d4bac01c1cfd4c7d283e66"),
+  createdAt: 2023-08-10T10:24:00.369Z,
+  __v: 0
+}
+2023-Aug-10 12:25:37:2537	info:	Connected to private database
+2023-Aug-10 12:25:37:2537	info:	Panda-Server is running on port 8080
+2023-Aug-10 12:25:42:2542	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 160.815 ms
+
+2023-Aug-10 12:25:42:2542	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjMxNDI1OTAsImV4cCI6MTY5MTY2MzQwMTc5MH0.pAKTmsVhtvWH8yGasFkc63DTz5PNK0dnPyuc-TLyNKA',
+  expiresAt: 2023-08-10T10:25:36.645Z,
+  _id: new ObjectId("64d4bb26ab6e1d77dbc0b6e1"),
+  createdAt: 2023-08-10T10:25:42.609Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjMxNDI2MDYsImV4cCI6MTY5MTY2Mzc0NzQwNn0.tqsqkqqOHAb-kjTD5MQURrVcQRLVJ7EiA0clZxMNPZk',
+  expiresAt: 2023-08-10T10:25:36.648Z,
+  _id: new ObjectId("64d4bb26ab6e1d77dbc0b6e2"),
+  createdAt: 2023-08-10T10:25:42.610Z,
+  __v: 0
+}
+2023-Aug-10 12:27:44:2744	info:	Connected to private database
+2023-Aug-10 12:27:44:2744	info:	Panda-Server is running on port 8080
+2023-Aug-10 12:27:52:2752	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 180.639 ms
+
+2023-Aug-10 12:27:52:2752	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjMyNzE5ODQsImV4cCI6MTY5MTY2MzQ0NDc4NH0.F_pWibKaQPS12pYitkf_o7zKmbAfHVO45bLh_nH1rmw',
+  expiresAt: 2023-08-10T10:27:43.374Z,
+  _id: new ObjectId("64d4bba841b687679b672368"),
+  createdAt: 2023-08-10T10:27:52.007Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjMyNzIwMDMsImV4cCI6MTY5MTY2Mzg3NjgwM30.MoLzqUJCTLM-hFhThGwlc5VulW16MxG5KBYPZWmDnxg',
+  expiresAt: 2023-08-10T10:27:43.377Z,
+  _id: new ObjectId("64d4bba841b687679b672369"),
+  createdAt: 2023-08-10T10:27:52.007Z,
+  __v: 0
+}
+2023-Aug-10 12:30:16:3016	info:	Connected to private database
+2023-Aug-10 12:30:16:3016	info:	Panda-Server is running on port 8080
+2023-Aug-10 12:30:21:3021	http:	::ffff:127.0.0.1 POST /auth/login 500 62 - 163.518 ms
+
+2023-Aug-10 12:30:48:3048	info:	Connected to private database
+2023-Aug-10 12:30:48:3048	info:	Panda-Server is running on port 8080
+2023-Aug-10 12:30:50:3050	http:	::ffff:127.0.0.1 POST /auth/login 500 62 - 192.634 ms
+
+2023-Aug-10 12:31:22:3122	info:	Connected to private database
+2023-Aug-10 12:31:22:3122	info:	Panda-Server is running on port 8080
+2023-Aug-10 12:31:23:3123	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 194.709 ms
+
+2023-Aug-10 12:31:24:3124	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjM0ODM5MDcsImV4cCI6NjB9.5rAcApiuE0-eDpSdhNYPzXKxDTDQRzR9MgyhlhMpXok',
+  expiresAt: 2023-08-10T10:31:21.346Z,
+  _id: new ObjectId("64d4bc7b3a3b5a3a60d61548"),
+  createdAt: 2023-08-10T10:31:23.931Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjM0ODM5MjUsImV4cCI6MTY5MTY2NDA4ODcyNX0.mvQJvgowyytmlm0JyaKcm3y-95hcxop5GhA_oT1WcQE',
+  expiresAt: 2023-08-10T10:31:21.351Z,
+  _id: new ObjectId("64d4bc7b3a3b5a3a60d61549"),
+  createdAt: 2023-08-10T10:31:23.932Z,
+  __v: 0
+}
+2023-Aug-10 12:32:18:3218	info:	Connected to private database
+2023-Aug-10 12:32:18:3218	info:	Panda-Server is running on port 8080
+2023-Aug-10 12:32:21:3221	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 157.568 ms
+
+2023-Aug-10 12:32:21:3221	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjM1NDE3MjUsImV4cCI6MzYwMDB9.6OpeYnzjpOPCAmUiEV8DdlVPCXYCq8rTekETuv5b_Ww',
+  expiresAt: 2023-08-10T10:32:54.302Z,
+  _id: new ObjectId("64d4bcb5d760c20e1d414251"),
+  createdAt: 2023-08-10T10:32:21.742Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjM1NDE3MzksImV4cCI6MTY5MTY2NDE0NjUzOX0._OkGqECyLix0ZAmLGOXFTFZUiyVPDoY2V-3oKHybIj4',
+  expiresAt: 2023-08-10T10:32:18.365Z,
+  _id: new ObjectId("64d4bcb5d760c20e1d414252"),
+  createdAt: 2023-08-10T10:32:21.742Z,
+  __v: 0
+}
+2023-Aug-10 12:33:18:3318	info:	Connected to private database
+2023-Aug-10 12:33:18:3318	info:	Panda-Server is running on port 8080
+2023-Aug-10 12:34:39:3439	info:	Connected to private database
+2023-Aug-10 12:34:39:3439	info:	Panda-Server is running on port 8080
+2023-Aug-10 13:54:43:5443	info:	Connected to private database
+2023-Aug-10 13:54:43:5443	info:	Panda-Server is running on port 8080
+2023-Aug-10 13:54:50:5450	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 160.470 ms
+
+2023-Aug-10 13:54:50:5450	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg0OTAwMDksImV4cCI6MTY5MTY2ODY2MjgwOX0.qy8kF7dkud_uR5eanY2t9xZpoVdmTMBTATcRc2CsrNk',
+  expiresAt: 2023-08-10T11:55:15.573Z,
+  _id: new ObjectId("64d4d00a3f4f360d09da8e4d"),
+  createdAt: 2023-08-10T11:54:50.029Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg0OTAwMjYsImV4cCI6MTY5MTY2OTA5NDgyNn0.KUsoXtxHGgrjKzJXGecu6kP5EqHRZriRKybs_Sl0Fnw',
+  expiresAt: 2023-08-10T12:04:44.378Z,
+  _id: new ObjectId("64d4d00a3f4f360d09da8e4e"),
+  createdAt: 2023-08-10T11:54:50.029Z,
+  __v: 0
+}
+2023-Aug-10 13:55:41:5541	info:	Connected to private database
+2023-Aug-10 13:55:41:5541	info:	Panda-Server is running on port 8080
+2023-Aug-10 13:56:20:5620	info:	Connected to private database
+2023-Aug-10 13:56:20:5620	info:	Panda-Server is running on port 8080
+2023-Aug-10 13:56:29:5629	info:	Connected to private database
+2023-Aug-10 13:56:29:5629	info:	Panda-Server is running on port 8080
+2023-Aug-10 13:56:41:5641	http:	::ffff:127.0.0.1 POST /auth/login 500 47 - 121.643 ms
+
+2023-Aug-10 13:57:19:5719	info:	Connected to private database
+2023-Aug-10 13:57:19:5719	info:	Panda-Server is running on port 8080
+2023-Aug-10 13:57:23:5723	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 197.683 ms
+
+2023-Aug-10 13:57:23:5723	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg2NDMsImV4cCI6MTY5MTg0MTQ0M30.Iv0Aq-3mvoGy5Jf83hhe7aEcqyMIS0PzDm3_Ggh4__k',
+  expiresAt: 2023-08-10T11:57:54.483Z,
+  _id: new ObjectId("64d4d0a30ab4efacd756c89a"),
+  createdAt: 2023-08-10T11:57:23.171Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg2NDMxNTIsImV4cCI6MTY5MTY2OTI0Nzk1Mn0.8UeKJgUr7jQ5Z6S2aHQkLdPJZ98GtvHN1U-jKfgWodM',
+  expiresAt: 2023-08-10T12:07:23.287Z,
+  _id: new ObjectId("64d4d0a30ab4efacd756c89b"),
+  createdAt: 2023-08-10T11:57:23.172Z,
+  __v: 0
+}
+2023-Aug-10 13:57:57:5757	info:	Connected to private database
+2023-Aug-10 13:57:57:5757	info:	Panda-Server is running on port 8080
+2023-Aug-10 13:58:01:581	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 160.458 ms
+
+2023-Aug-10 13:58:01:581	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg2ODEsImV4cCI6MTY5MTg0MTQ4MX0.Ut971FpDKt9RHtgV1mqER3S6hxL-KsgPyNYUf5Z2BCg',
+  expiresAt: 2023-08-10T11:58:33.269Z,
+  _id: new ObjectId("64d4d0c96f30da9ec9cfa212"),
+  createdAt: 2023-08-10T11:58:01.899Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg2ODE4NzgsImV4cCI6MTY5MTY2OTI4NjY3OH0.JAOgMG7oMoW_FiSJl6YSsoiJUkgmxT0yAutfIS_JxN8',
+  expiresAt: 2023-08-10T12:08:02.071Z,
+  _id: new ObjectId("64d4d0c96f30da9ec9cfa213"),
+  createdAt: 2023-08-10T11:58:01.899Z,
+  __v: 0
+}
+2023-Aug-10 13:58:42:5842	info:	Connected to private database
+2023-Aug-10 13:58:42:5842	info:	Panda-Server is running on port 8080
+2023-Aug-10 13:58:44:5844	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 158.635 ms
+
+2023-Aug-10 13:58:44:5844	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg3MjQsImV4cCI6MTY5MTg0MTUyNH0.a8ab9jkFmCrigNb8jQkGQArxGzWvDhc0FJOGEhm4YZc',
+  expiresAt: 2023-08-10T11:59:17.765Z,
+  _id: new ObjectId("64d4d0f447d17ab0ecfad29d"),
+  createdAt: 2023-08-10T11:58:44.077Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg3MjQwNTgsImV4cCI6MTY5MTY2OTMyODg1OH0.zEhauzgE7omdQ8lATtD4obho5T6UD2USR4F6SNkgwn0',
+  expiresAt: 2023-08-10T12:08:46.567Z,
+  _id: new ObjectId("64d4d0f447d17ab0ecfad29e"),
+  createdAt: 2023-08-10T11:58:44.077Z,
+  __v: 0
+}
+2023-Aug-10 13:58:57:5857	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 103.097 ms
+
+2023-Aug-10 13:58:57:5857	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg3MzcsImV4cCI6MTY5MTg0MTUzN30.5icOCdFM60kXn2ebokRK3RC_zI34S3HC7s19KVRtQsM',
+  expiresAt: 2023-08-10T11:59:17.765Z,
+  _id: new ObjectId("64d4d10147d17ab0ecfad2a2"),
+  createdAt: 2023-08-10T11:58:57.197Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg3MzcxOTYsImV4cCI6MTY5MTY2OTM0MTk5Nn0._pep69eZAVkCWJHlv94lP1VhAHG4vgvlil2RodatuBc',
+  expiresAt: 2023-08-10T12:08:46.567Z,
+  _id: new ObjectId("64d4d10147d17ab0ecfad2a3"),
+  createdAt: 2023-08-10T11:58:57.197Z,
+  __v: 0
+}
+2023-Aug-10 13:59:45:5945	info:	Connected to private database
+2023-Aug-10 13:59:45:5945	info:	Panda-Server is running on port 8080
+2023-Aug-10 14:00:01:01	info:	Connected to private database
+2023-Aug-10 14:00:01:01	info:	Panda-Server is running on port 8080
+2023-Aug-10 14:00:13:013	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 161.598 ms
+
+2023-Aug-10 14:00:14:014	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg4MTMsImV4cCI6MTY5NjY2ODgxM30.KWpNYW8temhUsMZqw4uszE5deqZUwe8pP3zh5I3D9wo',
+  expiresAt: 2023-08-10T12:00:36.410Z,
+  _id: new ObjectId("64d4d14d4165c9cd53e9ade6"),
+  createdAt: 2023-08-10T12:00:13.780Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg4MTM3NjMsImV4cCI6MTY5MTY2OTQxODU2M30.P59naG0GRDOvQSvoRWFC8Jn0g_e0tKEq0BxMmJGNJjY',
+  expiresAt: 2023-08-10T12:10:05.213Z,
+  _id: new ObjectId("64d4d14d4165c9cd53e9ade7"),
+  createdAt: 2023-08-10T12:00:13.780Z,
+  __v: 0
+}
+2023-Aug-10 14:01:52:152	info:	Connected to private database
+2023-Aug-10 14:01:52:152	info:	Panda-Server is running on port 8080
+2023-Aug-10 14:01:55:155	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 140.228 ms
+
+2023-Aug-10 14:01:55:155	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg5MTUsImV4cCI6MTY5NjY2ODkxNX0.x61y5ZRS9U-_ns8A4Vd_4XnNwoww60gqtfGeyZ6gsf8',
+  expiresAt: 2023-08-10T12:02:27.491Z,
+  _id: new ObjectId("64d4d1b3a4124960f3552175"),
+  createdAt: 2023-08-10T12:01:55.847Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg5MTU4MzIsImV4cCI6MTY5MTY2OTUyMDYzMn0.-_iohrk61VJLBJsbBgwA29bUtGHdPCP5X8QXFtfeLVM',
+  expiresAt: 2023-08-10T12:11:56.294Z,
+  _id: new ObjectId("64d4d1b3a4124960f3552176"),
+  createdAt: 2023-08-10T12:01:55.847Z,
+  __v: 0
+}
+2023-Aug-10 14:02:32:232	info:	Connected to private database
+2023-Aug-10 14:02:32:232	info:	Panda-Server is running on port 8080
+2023-Aug-10 14:02:40:240	info:	Connected to private database
+2023-Aug-10 14:02:40:240	info:	Panda-Server is running on port 8080
+2023-Aug-10 14:02:43:243	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 194.665 ms
+
+2023-Aug-10 14:02:43:243	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg5NjMsImV4cCI6MTY5MTg0MTc2M30.E-sE2eWRY5caqIMH43gXfaHc6ak0_TUIkG4VLWWNuQ0',
+  expiresAt: 2023-08-10T12:03:15.524Z,
+  _id: new ObjectId("64d4d1e325b5455eb915f635"),
+  createdAt: 2023-08-10T12:02:43.866Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Njg5NjM4NDUsImV4cCI6MTY5MTY2OTU2ODY0NX0.zZlOS032z2b4OLH1ZtriRABPcZ9XxdmA8ezcZU-5kK0',
+  expiresAt: 2023-08-10T12:12:44.329Z,
+  _id: new ObjectId("64d4d1e325b5455eb915f636"),
+  createdAt: 2023-08-10T12:02:43.867Z,
+  __v: 0
+}
+2023-Aug-10 14:03:29:329	info:	Connected to private database
+2023-Aug-10 14:03:29:329	info:	Panda-Server is running on port 8080
+2023-Aug-10 14:03:33:333	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 164.627 ms
+
+2023-Aug-10 14:03:33:333	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjkwMTMsImV4cCI6MTY5MTcwNTAxM30.1h9_g1f0gjFpiKrU6u-3H_--sE0mUe-LhtU2aEjr2q8',
+  expiresAt: 2023-08-10T12:04:04.860Z,
+  _id: new ObjectId("64d4d2152299e910a99be70b"),
+  createdAt: 2023-08-10T12:03:33.180Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjkwMTMxNTksImV4cCI6MTY5MTY2OTYxNzk1OX0.aCvcPAfIDpS6gSVfpWCrXh2bBfBYVldlPKUvBfKPbaI',
+  expiresAt: 2023-08-10T12:13:33.663Z,
+  _id: new ObjectId("64d4d2152299e910a99be70c"),
+  createdAt: 2023-08-10T12:03:33.180Z,
+  __v: 0
+}
+2023-Aug-10 14:04:10:410	info:	Connected to private database
+2023-Aug-10 14:04:10:410	info:	Panda-Server is running on port 8080
+2023-Aug-10 14:04:13:413	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 145.542 ms
+
+2023-Aug-10 14:04:13:413	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjkwNTMsImV4cCI6MTY5NTI2OTA1M30.Qk51nRj7xEj4_FgWcJs7Zj3PxWF4avHkYumurtrjhCo',
+  expiresAt: 2023-08-10T12:04:45.906Z,
+  _id: new ObjectId("64d4d23dc3a9d2f3d82fce94"),
+  createdAt: 2023-08-10T12:04:13.245Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NjkwNTMyMjUsImV4cCI6MTY5MTY2OTY1ODAyNX0.jNY-7ca2g2lZZo7en3Mb7Ey5NzLgAeI7sEpOsFupcN0',
+  expiresAt: 2023-08-10T12:14:14.709Z,
+  _id: new ObjectId("64d4d23dc3a9d2f3d82fce95"),
+  createdAt: 2023-08-10T12:04:13.246Z,
+  __v: 0
+}
+2023-Aug-10 14:21:02:212	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 95.345 ms
+
+2023-Aug-10 14:21:02:212	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzAwNjIsImV4cCI6MTY5NTI3MDA2Mn0.FJ_snepj2pTdKwcbAVj84df46LJdPWQKDpf417h0Mg0',
+  expiresAt: 2023-08-10T12:04:45.906Z,
+  _id: new ObjectId("64d4d62ec3a9d2f3d82fce99"),
+  createdAt: 2023-08-10T12:21:02.762Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzAwNjI3NjEsImV4cCI6MTY5MTY3MDY2NzU2MX0.4fOwcda2Y5OHPl6RLq0ALY0E-9BseSxQzKL4W5tNxL8',
+  expiresAt: 2023-08-10T12:14:14.709Z,
+  _id: new ObjectId("64d4d62ec3a9d2f3d82fce9a"),
+  createdAt: 2023-08-10T12:21:02.762Z,
+  __v: 0
+}
+2023-Aug-10 14:22:22:2222	info:	Connected to private database
+2023-Aug-10 14:22:22:2222	info:	Panda-Server is running on port 8080
+2023-Aug-10 14:22:27:2227	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 147.225 ms
+
+2023-Aug-10 14:22:27:2227	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzAxNDcsImV4cCI6MTY5NTI3MDE0N30.0qAsoLfdQ-_dsLjpS1lALnR_L3qmGFjRRvnp-VGl5Vw',
+  expiresAt: 2023-08-10T12:22:57.891Z,
+  _id: new ObjectId("64d4d68387b4578268b270ee"),
+  createdAt: 2023-08-10T12:22:27.216Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzAxNDcxOTgsImV4cCI6MTY5MTY3MDc1MTk5OH0.iZwxMarzlQLe7skvZAz5qeUUPBsnUG83tZYxjYgOyZk',
+  expiresAt: 2023-08-10T12:32:26.696Z,
+  _id: new ObjectId("64d4d68387b4578268b270ef"),
+  createdAt: 2023-08-10T12:22:27.217Z,
+  __v: 0
+}
+2023-Aug-10 14:28:12:2812	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 103.315 ms
+
+2023-Aug-10 14:28:12:2812	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzA0OTIsImV4cCI6MTY5NTI3MDQ5Mn0.VyIrVtx58TECtKFSHquRg7yC89w7-U47RfPMjGV6qZo',
+  expiresAt: 2023-08-10T12:22:57.891Z,
+  _id: new ObjectId("64d4d7dc87b4578268b270f3"),
+  createdAt: 2023-08-10T12:28:12.618Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzA0OTI2MTYsImV4cCI6MTY5MTY3MTA5NzQxNn0.Bwt4_WOUMfN00mXuCEVzG7s2lA9ymF2_Vi_oGObFAlU',
+  expiresAt: 2023-08-10T12:32:26.696Z,
+  _id: new ObjectId("64d4d7dc87b4578268b270f4"),
+  createdAt: 2023-08-10T12:28:12.618Z,
+  __v: 0
+}
+2023-Aug-10 14:29:26:2926	info:	Connected to private database
+2023-Aug-10 14:29:26:2926	info:	Panda-Server is running on port 8080
+2023-Aug-10 14:29:34:2934	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 181.159 ms
+
+2023-Aug-10 14:29:35:2935	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzA1NzQsImV4cCI6MTY5NTI3MDU3NH0.qFshDJ4GFZ2vOFbBe5jDBO77TlltebkeERHl9U6Khcg',
+  expiresAt: 2023-08-10T12:30:01.735Z,
+  _id: new ObjectId("64d4d82eed07c8a901d22750"),
+  createdAt: 2023-08-10T12:29:34.937Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzA1NzQ5MTMsImV4cCI6MTY5MTY3NDE3NDkxM30.t8XYHKe8U6ML_pqvUTdTbfGXMa1nY-rgb5W2nhJCWgw',
+  expiresAt: 2023-08-10T12:39:30.539Z,
+  _id: new ObjectId("64d4d82eed07c8a901d22751"),
+  createdAt: 2023-08-10T12:29:34.937Z,
+  __v: 0
+}
+2023-Aug-10 14:31:28:3128	info:	Connected to private database
+2023-Aug-10 14:31:28:3128	info:	Panda-Server is running on port 8080
+2023-Aug-10 14:31:32:3132	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 144.560 ms
+
+2023-Aug-10 14:31:32:3132	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzA2OTIsImV4cCI6MTY5NTI3MDY5Mn0.FkMZFOtx6JBz2nbetr8_4Ld1bUYvP2utEBG5iMUqgkw',
+  expiresAt: 2023-08-10T12:32:03.954Z,
+  _id: new ObjectId("64d4d8a440e79efa7a68b04d"),
+  createdAt: 2023-08-10T12:31:32.828Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzA2OTI4MDksImV4cCI6MTY5MTY3NDI5MjgwOX0.3iJDOAq34PZjmmoq9R5QKw4AojZj2wMBBznqJgxTvnw',
+  expiresAt: 2023-08-10T12:41:32.756Z,
+  _id: new ObjectId("64d4d8a440e79efa7a68b04e"),
+  createdAt: 2023-08-10T12:31:32.829Z,
+  __v: 0
+}
+2023-Aug-10 14:32:29:3229	info:	Connected to private database
+2023-Aug-10 14:32:29:3229	info:	Panda-Server is running on port 8080
+2023-Aug-10 14:32:34:3234	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 146.813 ms
+
+2023-Aug-10 14:32:34:3234	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzA3NTQsImV4cCI6MTY5MjI3NTU1NH0.ZdhXcAAgkpmu27-2fXbM7svSicV_DKswCqRNJqGsqb4',
+  expiresAt: 2023-08-10T12:33:04.347Z,
+  _id: new ObjectId("64d4d8e2891dde2b9ba37bb5"),
+  createdAt: 2023-08-10T12:32:34.919Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzA3NTQ4OTksImV4cCI6MTY5MTY3MTM1OTY5OX0.QMdVzuyqVO3lfZ2t31C0APbci5q6hXgzzvqX4mqlxrk',
+  expiresAt: 2023-08-10T12:42:33.150Z,
+  _id: new ObjectId("64d4d8e2891dde2b9ba37bb6"),
+  createdAt: 2023-08-10T12:32:34.919Z,
+  __v: 0
+}
+2023-Aug-10 14:33:35:3335	info:	Connected to private database
+2023-Aug-10 14:33:35:3335	info:	Panda-Server is running on port 8080
+2023-Aug-10 14:33:38:3338	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 144.193 ms
+
+2023-Aug-10 14:33:38:3338	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzA4MTgsImV4cCI6MTY5MTY3MTQyMn0.UmzfHbTncmGcJ6G-Y2r7jVbYPciXwKJOEvqFHQkESq8',
+  expiresAt: 2023-08-10T12:34:10.319Z,
+  _id: new ObjectId("64d4d922711b9e24c44d965a"),
+  createdAt: 2023-08-10T12:33:38.491Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzA4MTg0NzIsImV4cCI6MTY5MTY3MDgxOTA3Nn0.3b7WEyN8GXqoLqeQLCpXKpv0tndc5yx9Qzz_lvI39cc',
+  expiresAt: 2023-08-10T12:43:39.123Z,
+  _id: new ObjectId("64d4d922711b9e24c44d965b"),
+  createdAt: 2023-08-10T12:33:38.491Z,
+  __v: 0
+}
+2023-Aug-10 14:34:37:3437	info:	Connected to private database
+2023-Aug-10 14:34:37:3437	info:	Panda-Server is running on port 8080
+2023-Aug-10 14:34:44:3444	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 157.143 ms
+
+2023-Aug-10 14:34:44:3444	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzA4ODQsImV4cCI6MTY5MTY3MTQ4OH0.fyy4DdaS4gzaeJcIW766f1f7kIyyOOR9nIK6Ax4v77I',
+  expiresAt: 2023-08-10T12:35:12.479Z,
+  _id: new ObjectId("64d4d9644fba18e827c4d7fc"),
+  createdAt: 2023-08-10T12:34:44.140Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzA4ODQxMTgsImV4cCI6MTY5MTY3MTQ4ODkxOH0.qmfOYTWfPb__JaT-U3QBoYu_TZTcW8Yw3PX72Gz9plM',
+  expiresAt: 2023-08-10T12:44:41.283Z,
+  _id: new ObjectId("64d4d9644fba18e827c4d7fd"),
+  createdAt: 2023-08-10T12:34:44.141Z,
+  __v: 0
+}
+2023-Aug-10 14:35:53:3553	info:	Connected to private database
+2023-Aug-10 14:35:53:3553	info:	Panda-Server is running on port 8080
+2023-Aug-10 15:49:58:4958	info:	Connected to private database
+2023-Aug-10 15:49:58:4958	info:	Panda-Server is running on port 8080
+2023-Aug-10 15:50:08:508	info:	Connected to private database
+2023-Aug-10 15:50:08:508	info:	Panda-Server is running on port 8080
+2023-Aug-10 15:50:14:5014	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 212.542 ms
+
+2023-Aug-10 15:50:14:5014	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU0MTQsImV4cCI6MTY5MjI4MDIxNH0.SCbawI6DoIwCBAsn9BnYApKsNQaQPFmenD0aDLSty00',
+  expiresAt: 2023-08-10T13:50:43.581Z,
+  _id: new ObjectId("64d4eb1651bb5ef7d382a633"),
+  createdAt: 2023-08-10T13:50:14.486Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU0MTQ0NTcsImV4cCI6MTY5MTY3NjAxOTI1N30.5PvFn2THvbj_7C5A07z0-ZfX5xaka_KRSIvVmGQqe3Y',
+  expiresAt: 2023-08-10T13:50:07.644Z,
+  _id: new ObjectId("64d4eb1651bb5ef7d382a634"),
+  createdAt: 2023-08-10T13:50:14.486Z,
+  __v: 0
+}
+2023-Aug-10 15:51:20:5120	info:	Connected to private database
+2023-Aug-10 15:51:20:5120	info:	Panda-Server is running on port 8080
+2023-Aug-10 15:51:27:5127	info:	Connected to private database
+2023-Aug-10 15:51:27:5127	info:	Panda-Server is running on port 8080
+2023-Aug-10 15:51:50:5150	info:	Connected to private database
+2023-Aug-10 15:51:50:5150	info:	Panda-Server is running on port 8080
+2023-Aug-10 15:51:53:5153	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 199.747 ms
+
+2023-Aug-10 15:51:53:5153	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU1MTMsImV4cCI6MTY5MTcxMTUxM30.sgIGqH3kmCkxlszGjFZ7_36ZzJVj3pta3VxVuoSVsEw',
+  expiresAt: 2023-08-10T13:52:26.018Z,
+  _id: new ObjectId("64d4eb7999dfbb01009439d5"),
+  createdAt: 2023-08-10T13:51:53.347Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU1MTMzMTcsImV4cCI6MTY5MTY3NjExODExN30.6CQyl0xFXeb03_vOC3ALPSi4UDg4wdBQYbMOJTcQ0qg',
+  expiresAt: 2023-08-10T13:51:50.083Z,
+  _id: new ObjectId("64d4eb7999dfbb01009439d6"),
+  createdAt: 2023-08-10T13:51:53.347Z,
+  __v: 0
+}
+2023-Aug-10 15:52:19:5219	info:	Connected to private database
+2023-Aug-10 15:52:19:5219	info:	Panda-Server is running on port 8080
+2023-Aug-10 15:52:20:5220	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 144.713 ms
+
+2023-Aug-10 15:52:21:5221	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU1NDAsImV4cCI6MTY5MTcxMTU0MH0.bG0uVZZKwnzg0UYoXUMgeiCyzwJww_2EkUW7H0CMaE0',
+  expiresAt: 2023-08-10T13:52:54.440Z,
+  _id: new ObjectId("64d4eb940a2bc8288f4a3f32"),
+  createdAt: 2023-08-10T13:52:20.962Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU1NDA5NDQsImV4cCI6MTY5MTY3NjE0NTc0NH0.sbPuNQMbADRUU7bhl_6cGh0702pNcqpn5Pa0YN1p2d8',
+  expiresAt: 2023-08-10T13:52:18.505Z,
+  _id: new ObjectId("64d4eb940a2bc8288f4a3f33"),
+  createdAt: 2023-08-10T13:52:20.963Z,
+  __v: 0
+}
+2023-Aug-10 15:53:37:5337	info:	Connected to private database
+2023-Aug-10 15:53:37:5337	info:	Panda-Server is running on port 8080
+2023-Aug-10 15:53:40:5340	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 152.798 ms
+
+2023-Aug-10 15:53:40:5340	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU2MjAsImV4cCI6MTY5MTcxMTYyMH0.iO6KvWCpLyVDC-ojsO0O-5IkCdYMkaNHS0nSbnDS2sw',
+  expiresAt: 2023-08-10T13:54:08.061Z,
+  _id: new ObjectId("64d4ebe4ff6c33f47788c93a"),
+  createdAt: 2023-08-10T13:53:40.201Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU2MjAxODMsImV4cCI6MTY5MTY3NjIyNDk4M30.5xq2ckvT0iFgNBMJ3aAEAIw8rV1BdA_ySLnNuHg_MJU',
+  expiresAt: 2023-08-10T13:53:32.124Z,
+  _id: new ObjectId("64d4ebe4ff6c33f47788c93b"),
+  createdAt: 2023-08-10T13:53:40.201Z,
+  __v: 0
+}
+2023-Aug-10 15:54:34:5434	info:	Connected to private database
+2023-Aug-10 15:54:34:5434	info:	Panda-Server is running on port 8080
+2023-Aug-10 15:54:36:5436	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 146.446 ms
+
+2023-Aug-10 15:54:36:5436	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU2NzYsImV4cCI6MTY5MTcxMTY3Nn0.XLTKxyia4A7vCwMJjjxKQWpgSYTMYF1cIFGJaDAgV4k',
+  expiresAt: 2023-08-10T13:55:05.173Z,
+  _id: new ObjectId("64d4ec1c47c98c9082dcf552"),
+  createdAt: 2023-08-10T13:54:36.548Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU2NzY1MjksImV4cCI6MTY5MTY3NjI4MTMyOX0.fESwyY3nDUxvKxD-xY65HxVeAkwpg8SVJ8ZdkXhsx-k',
+  expiresAt: 2023-08-10T13:54:29.237Z,
+  _id: new ObjectId("64d4ec1c47c98c9082dcf553"),
+  createdAt: 2023-08-10T13:54:36.548Z,
+  __v: 0
+}
+2023-Aug-10 15:55:05:555	info:	Connected to private database
+2023-Aug-10 15:55:05:555	info:	Panda-Server is running on port 8080
+2023-Aug-10 15:55:10:5510	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 142.023 ms
+
+2023-Aug-10 15:55:10:5510	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU3MTAsImV4cCI6MTY5MTcxMTcxMH0.HjSD_fxaas5RPZrMNnGwgoudLrJzKF-E2Yfw6lATTj4',
+  expiresAt: 2023-08-10T13:55:40.737Z,
+  _id: new ObjectId("64d4ec3e4952be5ceda13758"),
+  createdAt: 2023-08-10T13:55:10.254Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU3MTAyMzcsImV4cCI6MTY5MTY3NjMxNTAzN30.6mCQddsOEyjGhvRY-Pu8-BmNaLY3eaA_AAc9-FJ7Rwc',
+  expiresAt: 2023-08-10T13:55:04.800Z,
+  _id: new ObjectId("64d4ec3e4952be5ceda13759"),
+  createdAt: 2023-08-10T13:55:10.254Z,
+  __v: 0
+}
+2023-Aug-10 15:55:38:5538	info:	Connected to private database
+2023-Aug-10 15:55:38:5538	info:	Panda-Server is running on port 8080
+2023-Aug-10 15:55:49:5549	info:	Connected to private database
+2023-Aug-10 15:55:49:5549	info:	Panda-Server is running on port 8080
+2023-Aug-10 15:55:54:5554	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 142.272 ms
+
+2023-Aug-10 15:55:55:5555	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU3NTQsImV4cCI6MTY5MTcxMTc1NH0.ynN8jqVJjbI-48C1LZNRUH27SGH2ZLHss5y-k1VNA4k',
+  expiresAt: 2023-08-10T13:56:24.621Z,
+  _id: new ObjectId("64d4ec6a5b210b66a947a0ac"),
+  createdAt: 2023-08-10T13:55:54.967Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU3NTQ5NDgsImV4cCI6MTY5MTY4MTgwMjk0OH0.HS8jbcpuwsWrF0FSHiPM9d6Bfw3o-Vow5CqAZ3Hbs0A',
+  expiresAt: 2023-08-10T13:55:48.684Z,
+  _id: new ObjectId("64d4ec6a5b210b66a947a0ad"),
+  createdAt: 2023-08-10T13:55:54.967Z,
+  __v: 0
+}
+2023-Aug-10 15:56:38:5638	info:	Connected to private database
+2023-Aug-10 15:56:38:5638	info:	Panda-Server is running on port 8080
+2023-Aug-10 15:56:40:5640	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 142.908 ms
+
+2023-Aug-10 15:56:40:5640	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU4MDAsImV4cCI6MTY5MTcxMTgwMH0.AH--WL-j0yLlVOKxY1MiZA5rT52BHOsKoRs0GHSnyhk',
+  expiresAt: 2023-08-10T13:57:13.584Z,
+  _id: new ObjectId("64d4ec989cc148a2ecc801f5"),
+  createdAt: 2023-08-10T13:56:40.395Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2NzU4MDAzNzksImV4cCI6MTY5MTY3NjA1MjM3OX0.umbJwx-kw2-rRBpEe9qQknoEsQUZ_Ek9fSzWoEUWWgs',
+  expiresAt: 2023-08-10T13:56:37.648Z,
+  _id: new ObjectId("64d4ec989cc148a2ecc801f6"),
+  createdAt: 2023-08-10T13:56:40.395Z,
+  __v: 0
+}
+2023-Aug-10 16:30:08:308	info:	Connected to private database
+2023-Aug-10 16:30:08:308	info:	Panda-Server is running on port 8080
+2023-Aug-10 16:30:21:3021	info:	Connected to private database
+2023-Aug-10 16:30:21:3021	info:	Panda-Server is running on port 8080
+2023-Aug-10 16:30:28:3028	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 158.093 ms
+
+2023-Aug-10 16:30:29:3029	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Nzc4MjgsImV4cCI6MTY5MTcxMzgyOH0.obDwg1vX7y7uohN7WCnUOcPWfKuH0F20m_ftTic66dE',
+  expiresAt: 2023-08-10T14:30:57.232Z,
+  _id: new ObjectId("64d4f484893f3e4fe41cbd0c"),
+  createdAt: 2023-08-10T14:30:28.673Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2Nzc4Mjg2NTQsImV4cCI6MTY5MTY3ODA4MDY1NH0.ll86w5QItLFupA5ifIPhNUfqRLdQYElDFARpLatu6h0',
+  expiresAt: 2023-08-10T14:30:21.295Z,
+  _id: new ObjectId("64d4f484893f3e4fe41cbd0d"),
+  createdAt: 2023-08-10T14:30:28.673Z,
+  __v: 0
+}
+2023-Aug-10 17:17:20:1720	info:	Connected to private database
+2023-Aug-10 17:17:20:1720	info:	Panda-Server is running on port 8080
+2023-Aug-10 17:17:21:1721	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 150.867 ms
+
+2023-Aug-10 17:17:21:1721	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2ODA2NDEsImV4cCI6MTY5MTcxNjY0MX0.AAIr-cBujHlFUz9kALEbifjgz2pidvsMc-QM_T6yYqs',
+  expiresAt: 2023-08-10T15:17:51.780Z,
+  _id: new ObjectId("64d4ff81140415e231764f1d"),
+  createdAt: 2023-08-10T15:17:21.901Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2ODA2NDE4ODMsImV4cCI6MTY5MTY4MDg5Mzg4M30.B8F2SxxPvRTKC7V0C9FvBN9I-CPyvjyKaXtjlGErgWU',
+  expiresAt: 2023-08-10T15:17:15.845Z,
+  _id: new ObjectId("64d4ff81140415e231764f1e"),
+  createdAt: 2023-08-10T15:17:21.901Z,
+  __v: 0
+}
+2023-Aug-10 17:17:46:1746	info:	Connected to private database
+2023-Aug-10 17:17:46:1746	info:	Panda-Server is running on port 8080
+2023-Aug-10 17:18:43:1843	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 142.050 ms
+
+2023-Aug-10 17:18:44:1844	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2ODA3MjMsImV4cCI6MTY5MTcxNjcyM30.B1Yqn-K4BwhpKIEx31EVfbLqR30_pWdo9oVc8PGu178',
+  expiresAt: 2023-08-10T15:18:21.449Z,
+  _id: new ObjectId("64d4ffd3b5cea6e9649f7c6a"),
+  createdAt: 2023-08-10T15:18:43.935Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE2ODA3MjM5MTksImV4cCI6MTY5MTY4MDk3NTkxOX0.W15lK42Fy2cegqFCNLh69AOV1vnSNrIHpmyZCTi3_mc',
+  expiresAt: 2023-08-10T15:17:45.512Z,
+  _id: new ObjectId("64d4ffd3b5cea6e9649f7c6b"),
+  createdAt: 2023-08-10T15:18:43.935Z,
+  __v: 0
+}
+2023-Aug-10 17:19:32:1932	info:	Connected to private database
+2023-Aug-10 17:19:32:1932	info:	Panda-Server is running on port 8080
+2023-Aug-10 17:19:41:1941	info:	Connected to private database
+2023-Aug-10 17:19:41:1941	info:	Panda-Server is running on port 8080
+2023-Aug-10 17:19:43:1943	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 167.849 ms
+
+2023-Aug-10 17:21:33:2133	info:	Connected to private database
+2023-Aug-10 17:21:33:2133	info:	Panda-Server is running on port 8080
+2023-Aug-10 17:21:35:2135	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 217.170 ms
+
+2023-Aug-10 17:21:52:2152	info:	Connected to private database
+2023-Aug-10 17:21:52:2152	info:	Panda-Server is running on port 8080
+2023-Aug-10 17:21:53:2153	http:	::ffff:127.0.0.1 POST /auth/login 500 46 - 197.187 ms
+
+2023-Aug-10 17:22:30:2230	info:	Connected to private database
+2023-Aug-10 17:22:30:2230	info:	Panda-Server is running on port 8080
+2023-Aug-10 17:22:35:2235	http:	::ffff:127.0.0.1 POST /auth/login 500 46 - 156.721 ms
+
+2023-Aug-10 17:23:14:2314	info:	Connected to private database
+2023-Aug-10 17:23:14:2314	info:	Panda-Server is running on port 8080
+2023-Aug-10 17:23:16:2316	info:	🚀 ~ login ~ expirationDate_of_accessToken: Tue Jan 20 1970 14:55:16 GMT+0100 (Central European Standard Time)
+2023-Aug-10 17:23:16:2316	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 219.596 ms
+
+2023-Aug-10 17:24:27:2427	info:	Connected to private database
+2023-Aug-10 17:24:27:2427	info:	Panda-Server is running on port 8080
+2023-Aug-10 17:24:53:2453	info:	Connected to private database
+2023-Aug-10 17:24:53:2453	info:	Panda-Server is running on port 8080
+2023-Aug-10 17:24:55:2455	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 162.214 ms
+
+2023-Aug-10 17:25:38:2538	info:	Connected to private database
+2023-Aug-10 17:25:39:2539	info:	Panda-Server is running on port 8080
+2023-Aug-10 17:25:41:2541	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 165.261 ms
+
+2023-Aug-10 18:44:46:4446	info:	Connected to private database
+2023-Aug-10 18:44:46:4446	info:	Panda-Server is running on port 8080
+2023-Aug-10 18:46:11:4611	info:	Connected to private database
+2023-Aug-10 18:46:11:4611	info:	Panda-Server is running on port 8080
+2023-Aug-10 18:46:15:4615	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 268.352 ms
+
+2023-Aug-10 18:47:38:4738	info:	Connected to private database
+2023-Aug-10 18:47:39:4739	info:	Panda-Server is running on port 8080
+2023-Aug-10 18:47:45:4745	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 238.254 ms
+
+2023-Aug-10 18:49:20:4920	info:	Connected to private database
+2023-Aug-10 18:49:20:4920	info:	Panda-Server is running on port 8080
+2023-Aug-10 18:49:25:4925	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 239.756 ms
+
+2023-Aug-10 18:50:11:5011	info:	Connected to private database
+2023-Aug-10 18:50:11:5011	info:	Panda-Server is running on port 8080
+2023-Aug-10 18:50:16:5016	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 289.537 ms
+
+2023-Aug-10 18:50:49:5049	info:	Connected to private database
+2023-Aug-10 18:50:49:5049	info:	Panda-Server is running on port 8080
+2023-Aug-10 18:51:02:512	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 365.048 ms
+
+2023-Aug-10 18:52:53:5253	info:	Connected to private database
+2023-Aug-10 18:52:53:5253	info:	Panda-Server is running on port 8080
+2023-Aug-10 18:53:10:5310	info:	Connected to private database
+2023-Aug-10 18:53:10:5310	info:	Panda-Server is running on port 8080
+2023-Aug-10 18:53:12:5312	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 1132.785 ms
+
+2023-Aug-11 09:38:40:3840	info:	Connected to private database
+2023-Aug-11 09:38:40:3840	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:02:12:212	info:	Connected to private database
+2023-Aug-11 10:02:12:212	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:04:32:432	info:	Connected to private database
+2023-Aug-11 10:04:32:432	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:05:47:547	info:	Connected to private database
+2023-Aug-11 10:05:47:547	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:05:59:559	info:	Connected to private database
+2023-Aug-11 10:05:59:559	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:06:07:67	info:	Connected to private database
+2023-Aug-11 10:06:07:67	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:06:12:612	info:	Connected to private database
+2023-Aug-11 10:06:12:612	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:06:19:619	info:	Connected to private database
+2023-Aug-11 10:06:19:619	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:07:03:73	info:	Connected to private database
+2023-Aug-11 10:07:03:73	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:07:09:79	info:	Connected to private database
+2023-Aug-11 10:07:09:79	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:07:51:751	info:	Connected to private database
+2023-Aug-11 10:07:51:751	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:08:01:81	info:	Connected to private database
+2023-Aug-11 10:08:01:81	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:08:37:837	info:	Connected to private database
+2023-Aug-11 10:08:37:837	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:08:50:850	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 169.421 ms
+
+2023-Aug-11 10:09:49:949	info:	Connected to private database
+2023-Aug-11 10:09:49:949	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:09:50:950	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 171.827 ms
+
+2023-Aug-11 10:10:47:1047	info:	Connected to private database
+2023-Aug-11 10:10:47:1047	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:10:50:1050	info:	Deleted 2 access tokens and 8 refresh tokens.
+2023-Aug-11 10:10:50:1050	info:	Deleted 2 access tokens and 8 refresh tokens.
+2023-Aug-11 10:10:50:1050	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 208.381 ms
+
+2023-Aug-11 10:11:07:117	info:	Connected to private database
+2023-Aug-11 10:11:07:117	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:12:17:1217	info:	Connected to private database
+2023-Aug-11 10:12:17:1217	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:12:24:1224	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 171.673 ms
+
+2023-Aug-11 10:13:12:1312	info:	Connected to private database
+2023-Aug-11 10:13:12:1312	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:13:13:1313	http:	::ffff:127.0.0.1 POST /auth/login 400 1132 - 14.637 ms
+
+2023-Aug-11 10:13:21:1321	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 131.416 ms
+
+2023-Aug-11 10:14:39:1439	info:	Connected to private database
+2023-Aug-11 10:14:39:1439	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:14:41:1441	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 125.583 ms
+
+2023-Aug-11 10:15:06:156	info:	Connected to private database
+2023-Aug-11 10:15:06:156	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:15:12:1512	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 148.966 ms
+
+2023-Aug-11 10:16:19:1619	info:	Connected to private database
+2023-Aug-11 10:16:19:1619	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:16:21:1621	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 129.657 ms
+
+2023-Aug-11 10:17:10:1710	info:	Connected to private database
+2023-Aug-11 10:17:10:1710	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:17:47:1747	info:	Connected to private database
+2023-Aug-11 10:17:47:1747	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:18:50:1850	info:	Connected to private database
+2023-Aug-11 10:18:50:1850	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:18:53:1853	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 131.565 ms
+
+2023-Aug-11 10:19:55:1955	info:	Connected to private database
+2023-Aug-11 10:19:55:1955	info:	Panda-Server is running on port 8080
+2023-Aug-11 10:59:11:5911	info:	Connected to private database
+2023-Aug-11 10:59:11:5911	info:	Panda-Server is running on port 8080
+2023-Aug-11 11:02:51:251	info:	Connected to private database
+2023-Aug-11 11:02:51:251	info:	Panda-Server is running on port 8080
+2023-Aug-11 11:02:55:255	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 352.531 ms
+
+2023-Aug-11 11:06:26:626	info:	Connected to private database
+2023-Aug-11 11:06:26:626	info:	Panda-Server is running on port 8080
+2023-Aug-11 11:06:39:639	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 131.382 ms
+
+2023-Aug-11 11:10:20:1020	info:	Connected to private database
+2023-Aug-11 11:10:20:1020	info:	Panda-Server is running on port 8080
+2023-Aug-11 11:10:23:1023	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 166.671 ms
+
+2023-Aug-11 11:11:56:1156	info:	Connected to private database
+2023-Aug-11 11:11:56:1156	info:	Panda-Server is running on port 8080
+2023-Aug-11 11:11:59:1159	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 162.859 ms
+
+2023-Aug-11 11:12:00:120	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 89.194 ms
+
+2023-Aug-11 11:12:01:121	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 89.349 ms
+
+2023-Aug-11 11:12:01:121	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 92.792 ms
+
+2023-Aug-11 11:12:02:122	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 91.121 ms
+
+2023-Aug-11 11:12:14:1214	info:	Connected to private database
+2023-Aug-11 11:12:14:1214	info:	Panda-Server is running on port 8080
+2023-Aug-11 11:15:23:1523	info:	Connected to private database
+2023-Aug-11 11:15:23:1523	info:	Panda-Server is running on port 8080
+2023-Aug-11 11:17:20:1720	info:	Connected to private database
+2023-Aug-11 11:17:20:1720	info:	Panda-Server is running on port 8080
+2023-Aug-11 11:17:34:1734	info:	Connected to private database
+2023-Aug-11 11:17:34:1734	info:	Panda-Server is running on port 8080
+2023-Aug-11 11:23:06:236	info:	Connected to private database
+2023-Aug-11 11:23:06:236	info:	Panda-Server is running on port 8080
+2023-Aug-11 11:41:55:4155	info:	Connected to private database
+2023-Aug-11 11:41:55:4155	info:	Panda-Server is running on port 8080
+2023-Aug-11 11:43:17:4317	info:	Connected to private database
+2023-Aug-11 11:43:17:4317	info:	Panda-Server is running on port 8080
+2023-Aug-11 11:43:20:4320	info:	Deleted 0 access tokens and 8 refresh tokens.
+2023-Aug-11 11:43:20:4320	http:	::ffff:127.0.0.1 DELETE /auth/deleteAllTokens 200 70 - 64.777 ms
+
+2023-Aug-11 11:44:34:4434	info:	Connected to private database
+2023-Aug-11 11:44:34:4434	info:	Panda-Server is running on port 8080
+2023-Aug-11 11:46:48:4648	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 121.354 ms
+
+2023-Aug-11 11:47:05:475	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 104.310 ms
+
+2023-Aug-11 11:47:14:4714	info:	New user successfully signed up. UserId: 16b77331-d0b8-47c6-b56d-878e8f79ce3f
+2023-Aug-11 11:47:14:4714	error:	Error while sending an email:  fetch is not defined
+2023-Aug-11 11:47:14:4714	error:	Error while sending verification email:  fetch is not defined
+2023-Aug-11 11:47:14:4714	http:	::ffff:127.0.0.1 POST /auth/sign-up 500 80 - 169.888 ms
+
+2023-Aug-11 13:37:54:3754	info:	Connected to private database
+2023-Aug-11 13:37:54:3754	info:	Panda-Server is running on port 8080
+2023-Aug-11 13:37:58:3758	info:	Connected to private database
+2023-Aug-11 13:37:58:3758	info:	Panda-Server is running on port 8080
+2023-Aug-11 13:38:13:3813	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 121.249 ms
+
+2023-Aug-11 13:38:13:3813	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE3NTM4OTMsImV4cCI6MTY5MTc1NzQ5M30.Rd_0h8HxYJ7IZD0Ay6FCyehRtN2hIqnBD86aNXSpDfQ',
+  expiresAt: 2023-08-11T11:38:01.230Z,
+  _id: new ObjectId("64d61da5924593cfcf5af335"),
+  createdAt: 2023-08-11T11:38:13.825Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE3NTM4OTMsImV4cCI6MTY5MjM1ODY5M30.VlmQZgod5OmlHhG01lTrdQ4BHVUshR-yrV6RwxF1sxY',
+  expiresAt: 2023-08-11T11:48:02.433Z,
+  _id: new ObjectId("64d61da5924593cfcf5af336"),
+  createdAt: 2023-08-11T11:38:13.825Z,
+  __v: 0
+}
+2023-Aug-11 13:40:18:4018	info:	Connected to private database
+2023-Aug-11 13:40:18:4018	info:	Panda-Server is running on port 8080
+2023-Aug-11 13:40:20:4020	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 118.791 ms
+
+2023-Aug-11 13:40:20:4020	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE3NTQwMjAsImV4cCI6MTY5MTc1NzYyMH0.E5IGWiQ_OqWXIa0fm9i5VwatRMUISPI6zPJDS467EPk',
+  expiresAt: 2023-08-11T11:40:21.538Z,
+  _id: new ObjectId("64d61e2452107c8cec851708"),
+  createdAt: 2023-08-11T11:40:20.700Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE3NTQwMjAsImV4cCI6MTY5MjM1ODgyMH0.Uu6m1h4PI75MaoAm6ibD0Z83k4djukmfP4kooHkJ5gA',
+  expiresAt: 2023-08-11T11:50:22.740Z,
+  _id: new ObjectId("64d61e2452107c8cec851709"),
+  createdAt: 2023-08-11T11:40:20.700Z,
+  __v: 0
+}
+2023-Aug-11 13:41:32:4132	info:	Connected to private database
+2023-Aug-11 13:41:32:4132	info:	Panda-Server is running on port 8080
+2023-Aug-11 13:41:35:4135	http:	::ffff:127.0.0.1 POST /auth/login 500 12 - 140.913 ms
+
+2023-Aug-11 13:41:35:4135	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE3NTQwOTUsImV4cCI6MTY5MTc1NzY5NX0.pyBienFwUygw3zRvYJjeKU3R0t_ofYuwBm0VYVrc7bk',
+  expiresAt: 2023-08-11T11:41:35.425Z,
+  _id: new ObjectId("64d61e6f01ffb88c92aeb2b0"),
+  createdAt: 2023-08-11T11:41:35.021Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE3NTQwOTUsImV4cCI6MTY5MjM1ODg5NX0.HU3btLdMLs34kjDDT66hoJkQaf7ZqzmCInlTd8uwkLQ',
+  expiresAt: 2023-08-11T11:51:36.627Z,
+  _id: new ObjectId("64d61e6f01ffb88c92aeb2b1"),
+  createdAt: 2023-08-11T11:41:35.021Z,
+  __v: 0
+}
+2023-Aug-11 13:41:43:4143	info:	Connected to private database
+2023-Aug-11 13:41:43:4143	info:	Panda-Server is running on port 8080
+2023-Aug-11 13:44:13:4413	info:	Connected to private database
+2023-Aug-11 13:44:13:4413	info:	Panda-Server is running on port 8080
+2023-Aug-11 13:44:18:4418	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE3NTQyNTgsImV4cCI6MTY5MTc1Nzg1OH0.sW4e_JhHtlyJlXur5ljCWKprL2kEMC3EzhXbdpAVpJY',
+  expiresAt: 2023-08-11T11:44:16.098Z,
+  _id: new ObjectId("64d61f127a07948c8ef61d90"),
+  createdAt: 2023-08-11T11:44:18.152Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE3NTQyNTgsImV4cCI6MTY5MjM1OTA1OH0.yvBBHhsgiMqhsxQFeMVcza3aBmfkv_Tu7JGlm78tM5g',
+  expiresAt: 2023-08-11T11:54:17.300Z,
+  _id: new ObjectId("64d61f127a07948c8ef61d91"),
+  createdAt: 2023-08-11T11:44:18.153Z,
+  __v: 0
+}
+2023-Aug-11 13:44:18:4418	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 199.605 ms
+
+2023-Aug-11 13:45:53:4553	info:	Connected to private database
+2023-Aug-11 13:45:53:4553	info:	Panda-Server is running on port 8080
+2023-Aug-11 13:46:05:465	info:	Tokens stored in database. accessToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE3NTQzNjUsImV4cCI6MTY5MTc1Nzk2NX0.FzdYsSdGh82g49rc1BN6jL06rMyX43sOPwg3J25DS6A',
+  expiresAt: 2023-08-11T11:45:56.646Z,
+  _id: new ObjectId("64d61f7dd5820057a39bee58"),
+  createdAt: 2023-08-11T11:46:05.632Z,
+  __v: 0
+} - refreshToken: {
+  userId: '79352ba6-571e-4710-b600-e819c9c57134',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTM1MmJhNi01NzFlLTQ3MTAtYjYwMC1lODE5YzljNTcxMzQiLCJpYXQiOjE2OTE3NTQzNjUsImV4cCI6MTY5MjM1OTE2NX0.VkkpgHTkOSdKiHPtgV6BfQz4hNbQfo6LmQYVLefJX6Q',
+  expiresAt: 2023-08-11T11:55:57.850Z,
+  _id: new ObjectId("64d61f7dd5820057a39bee59"),
+  createdAt: 2023-08-11T11:46:05.633Z,
+  __v: 0
+}
+2023-Aug-11 13:46:05:465	http:	::ffff:127.0.0.1 POST /auth/login 200 475 - 229.240 ms
+

@@ -1,5 +1,6 @@
 const { loginService, tokenService } = require("../../services");
 const { apiResponse, validation } = require("../../utils");
+const jwt = require("jsonwebtoken");
 
 // Login user
 const login = async (req, res) => {
@@ -37,8 +38,17 @@ const login = async (req, res) => {
 		const accessToken = tokenService.generateAccessToken(user.userId);
 		const refreshToken = tokenService.generateRefreshToken(user.userId);
 
-		await tokenService.setTokensInCookies(res, accessToken, refreshToken);
-		await tokenService.storeTokensInDatabase(user.userId, accessToken, refreshToken);
+		tokenService.setTokensInCookies(res, accessToken, refreshToken);
+
+		const tokenStoredInDb = await tokenService.storeTokensInDatabase(
+			user.userId,
+			accessToken,
+			refreshToken
+		);
+
+		if (tokenStoredInDb.status !== "success") {
+			return apiResponse.serverErrorResponse(res, tokenStoredInDb.message);
+		}
 
 		// Return the user data in the response
 		return apiResponse.successResponseWithData(res, "User successfully logged in.", { user });

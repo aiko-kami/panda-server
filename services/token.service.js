@@ -15,9 +15,7 @@ const { logger } = require("../utils");
 function generateAccessToken(userId, expires = process.env.JWT_ACCESS_TOKEN_EXPIRATION) {
 	const payload = {
 		sub: userId,
-		iat: DateTime.now().ts,
 	};
-
 	return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expires });
 }
 
@@ -28,9 +26,7 @@ const verifyAccessToken = (accessToken) => {
 function generateRefreshToken(userId, expires = process.env.JWT_REFRESH_TOKEN_EXPIRATION) {
 	const payload = {
 		sub: userId,
-		iat: DateTime.now().ts,
 	};
-
 	return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: expires });
 }
 
@@ -50,13 +46,13 @@ const setTokensInCookies = (res, accessToken, refreshToken) => {
 	res.cookie("access_token", accessToken, {
 		httpOnly: true,
 		secure: true,
-		maxAge: 1000 * 60 * 60, // Cookie validity duration in milliseconds (1 hour)
+		maxAge: 1000 * parseInt(process.env.JWT_ACCESS_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
 	});
 
 	res.cookie("refresh_token", refreshToken, {
 		httpOnly: true,
 		secure: true,
-		maxAge: 1000 * 60 * 60 * 24 * 7, // Cookie validity duration in milliseconds (7 days)
+		maxAge: 1000 * parseInt(process.env.JWT_REFRESH_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
 	});
 };
 
@@ -89,6 +85,27 @@ const storeTokensInDatabase = async (userId, accessTokenToStore, refreshTokenToS
 	}
 };
 
+const deleteAllTokens = async () => {
+	try {
+		const deletedAccessTokens = await AccessToken.deleteMany({});
+		const deletedRefreshTokens = await RefreshToken.deleteMany({});
+
+		logger.info(
+			`Deleted ${deletedAccessTokens.deletedCount} access tokens and ${deletedRefreshTokens.deletedCount} refresh tokens.`
+		);
+		return {
+			status: "success",
+			message: `Deleted ${deletedAccessTokens.deletedCount} access tokens and ${deletedRefreshTokens.deletedCount} refresh tokens.`,
+		};
+	} catch (error) {
+		logger.error("Error while deleting tokens: ", error);
+		return {
+			status: "error",
+			message: "An error occurred while deleting tokens.",
+		};
+	}
+};
+
 module.exports = {
 	generateToken,
 	generateAccessToken,
@@ -97,4 +114,5 @@ module.exports = {
 	verifyRefreshToken,
 	setTokensInCookies,
 	storeTokensInDatabase,
+	deleteAllTokens,
 };
