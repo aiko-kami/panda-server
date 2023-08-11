@@ -1,9 +1,8 @@
 node_modules
 build
-logs/
-.log
 npm-debug.log
 .nyc
 .env
 .DS_Store
-logs/all.log
+logs
+*.log
