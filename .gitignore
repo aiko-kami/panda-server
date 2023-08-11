@@ -1,6 +1,6 @@
 node_modules
 build
-logs
+logs/
 .log
 npm-debug.log
 .nyc
