@@ -1,6 +1,6 @@
 const MongoClient = require("mongodb").MongoClient;
 const { apiResponse } = require("../../utils");
-const { userService, tokenService } = require("../../services");
+const { userService } = require("../../services");
 
 const getMyUserData = async (req, res) => {
 	try {
