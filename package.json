@@ -4,9 +4,13 @@
 	"private": "true",
 	"proxy": "http://localhost:8080",
 	"description": "",
+	"engines": {
+		"node": ">=14.20.1"
+	},
 	"main": "index.js",
 	"scripts": {
 		"dev": "nodemon app",
+		"start": "node app",
 		"vercel-build": "echo hello"
 	},
 	"author": "",
