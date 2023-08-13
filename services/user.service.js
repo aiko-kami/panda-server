@@ -1,7 +1,7 @@
 const { User } = require("../models");
 
 const retrieveUserById = async (id, fields) => {
-	const user = User.findOne({ userId: id }).select(`-_id ${fields}`);
+	const user = await User.findOne({ userId: id }).select(`-_id ${fields}`);
 	if (!user) {
 		return { status: "error", message: "User not found." };
 	}
