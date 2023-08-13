@@ -6,7 +6,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "nodemon server",
+		"dev": "nodemon app",
 		"vercel-build": "echo hello"
 	},
 	"author": "",
