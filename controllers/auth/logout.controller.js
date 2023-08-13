@@ -4,7 +4,6 @@ const { apiResponse } = require("../../utils");
 // Logout user
 const logout = async (req, res) => {
 	try {
-		// Get the user ID from the request (assuming it was added to the request during authentication)
 		const refreshToken = req.cookies.refresh_token;
 
 		// Remove the refresh token from the database

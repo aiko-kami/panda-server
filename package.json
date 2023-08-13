@@ -1,10 +1,13 @@
 {
 	"name": "panda-server",
 	"version": "1.0.0",
+	"private": "true",
+	"proxy": "http://localhost:8080",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "nodemon server"
+		"dev": "nodemon server",
+		"vercel-build": "echo hello"
 	},
 	"author": "",
 	"license": "ISC",

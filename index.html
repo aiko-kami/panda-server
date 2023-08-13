@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<h1>Login Example</h1>
+		<form>
+			<label for="identifier">Username or Email:</label>
+			<input type="text" id="identifier" /><br /><br />
+			<label for="password">Password:</label>
+			<input type="password" id="password" /><br /><br />
+			<button onclick="submitForm()">Submit</button>
+		</form>
+		<script>
+			function submitForm() {
+				var identifier = document.getElementById("identifier").value;
+				var password = document.getElementById("password").value;
+
+				console.log("🚀 ~ submitForm ~ password:", password);
+
+				// Send data to the backend
+				fetch("/auth/login", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ identifier: identifier, password: password }),
+				})
+					.then((response) => {
+						if (!response.ok) {
+							throw new Error(`HTTP error! Status: ${response.status}`);
+						}
+						return response.json();
+					})
+					.then((data) => {
+						// Handle the response from the backend
+						console.log(data);
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			}
+		</script>
+	</body>
+</html>

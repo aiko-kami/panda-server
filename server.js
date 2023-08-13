@@ -21,7 +21,7 @@ app.use(morganMiddleware);
 //Setting up CORS to allow frontend to target backend
 const corsOptions = {
 	//Domain and port from frontend allowed to access the server
-	origin: "http://localhost:8081",
+	origin: "http://localhost:5500",
 };
 
 app.use(cors(corsOptions));
@@ -59,3 +59,7 @@ mongoose
 		});
 	})
 	.catch((err) => logger.log(err));
+
+module.exports = {
+	app,
+};
