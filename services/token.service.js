@@ -4,14 +4,6 @@ const jwt = require("jsonwebtoken");
 const { DateTime } = require("luxon");
 const { logger } = require("../utils");
 
-/**
- * Generate token
- * @param {ObjectId} userId
- * @param {Moment} expires
- * @param {string} type
- * @returns {string}
- */
-
 function generateAccessToken(userId, expires = process.env.JWT_ACCESS_TOKEN_EXPIRATION) {
 	const payload = {
 		sub: userId,

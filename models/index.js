@@ -10,7 +10,6 @@ db.User = require("./user.model");
 
 //Import tokens models
 const tokenModels = require("./token.model");
-db.AccessToken = tokenModels.AccessToken;
 db.RefreshToken = tokenModels.RefreshToken;
 
 //Import role model
