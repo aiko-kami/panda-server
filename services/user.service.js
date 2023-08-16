@@ -16,7 +16,22 @@ const retrieveNewUsers = async (limit, fields) => {
 	return users;
 };
 
+const retrieveUserByEmail = async (email) => {
+	try {
+		const user = await User.findOne({ email });
+
+		if (!user) {
+			return { status: "error", message: "User not found." };
+		}
+
+		return { status: "success" };
+	} catch (error) {
+		return { status: "error", message: "An error occurred while fetching user." };
+	}
+};
+
 module.exports = {
 	retrieveUserById,
 	retrieveNewUsers,
+	retrieveUserByEmail,
 };

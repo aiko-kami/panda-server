@@ -1,7 +1,7 @@
 const assert = require("assert");
 const validator = require("validator");
 
-const validateRegistrationInputs = function (username, email, password, confirmPassword) {
+const validateRegistrationInputs = (username, email, password, confirmPassword) => {
 	//String type validation
 	const invalidType =
 		typeof username !== "string" ||
@@ -72,7 +72,24 @@ const validateLoginInputs = (identifier, password) => {
 	}
 };
 
+const validateEmail = (email) => {
+	//String type validation
+	if (typeof email !== "string") {
+		return { status: "error", message: "Invalid type of data" };
+	}
+
+	//Check email validity
+	try {
+		assert(email, "Email required");
+		assert(validator.isEmail(email), "Email wrongly formatted");
+		return { status: "success" };
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
+
 module.exports = {
 	validateRegistrationInputs,
 	validateLoginInputs,
+	validateEmail,
 };
