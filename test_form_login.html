@@ -7,15 +7,20 @@
 	</head>
 	<body>
 		<h1>Login Example</h1>
-		<form>
+		<form method="post" id="login">
 			<label for="identifier">Username or Email:</label>
 			<input type="text" id="identifier" /><br /><br />
 			<label for="password">Password:</label>
 			<input type="password" id="password" /><br /><br />
-			<button onclick="submitForm()">Submit</button>
+			<button type="submit">Submit</button>
 		</form>
 		<script>
-			function submitForm() {
+			const form = document.querySelector("#login");
+
+			form.addEventListener("submit", function (event) {
+				// stop form submission
+				event.preventDefault();
+
 				var identifier = document.getElementById("identifier").value;
 				var password = document.getElementById("password").value;
 
@@ -33,6 +38,7 @@
 						if (!response.ok) {
 							throw new Error(`HTTP error! Status: ${response.status}`);
 						}
+						console.log(response);
 						return response.json();
 					})
 					.then((data) => {
@@ -42,7 +48,7 @@
 					.catch((error) => {
 						console.error("Error:", error);
 					});
-			}
+			});
 		</script>
 	</body>
 </html>
