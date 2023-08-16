@@ -21,7 +21,7 @@ app.use(morganMiddleware);
 //Setting up CORS to allow frontend to target backend
 const corsOptions = {
 	//Domain and port from frontend allowed to access the server
-	origin: "http://localhost:5500",
+	origin: "https://panda-server-37m0.onrender.com",
 };
 
 app.use(cors(corsOptions));

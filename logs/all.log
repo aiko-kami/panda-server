@@ -730,3 +730,17 @@
 
 2023-Aug-13 21:55:46:5546	info:	Connected to private database
 2023-Aug-13 21:55:46:5546	info:	Panda-Server is running on port 8080
+2023-Aug-16 10:53:34:5334	info:	Connected to private database
+2023-Aug-16 10:53:34:5334	info:	Panda-Server is running on port 8080
+2023-Aug-16 10:53:50:5350	http:	::ffff:127.0.0.1 POST /auth/sign-up 400 45 - 20.087 ms
+
+2023-Aug-16 10:53:51:5351	http:	::ffff:127.0.0.1 POST /auth/sign-up 400 45 - 2.330 ms
+
+2023-Aug-16 10:54:42:5442	info:	Connected to private database
+2023-Aug-16 10:54:42:5442	info:	Panda-Server is running on port 8080
+2023-Aug-16 10:54:49:5449	info:	Connected to private database
+2023-Aug-16 10:54:49:5449	info:	Panda-Server is running on port 8080
+2023-Aug-16 11:15:50:1550	info:	Connected to private database
+2023-Aug-16 11:15:50:1550	info:	Panda-Server is running on port 8080
+2023-Aug-16 11:16:42:1642	info:	Connected to private database
+2023-Aug-16 11:16:42:1642	info:	Panda-Server is running on port 8080
