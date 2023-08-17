@@ -867,3 +867,7 @@
 2023-Aug-17 20:29:09:299	info:	Password reset email sent successfully.
 2023-Aug-17 20:29:09:299	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 200 51 - 1761.326 ms
 
+2023-Aug-17 20:44:28:4428	info:	Connected to private database
+2023-Aug-17 20:44:28:4428	info:	Panda-Server is running on port 8080
+2023-Aug-17 20:45:29:4529	info:	Connected to private database
+2023-Aug-17 20:45:29:4529	info:	Panda-Server is running on port 8080

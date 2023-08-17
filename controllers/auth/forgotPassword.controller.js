@@ -3,6 +3,7 @@ const { apiResponse, validation } = require("../../utils");
 
 const forgotPassword = async (req, res) => {
 	const { email } = req.body;
+	return apiResponse.clientErrorResponse(res, email);
 	try {
 		// Validate input data
 		const validateEmail = validation.validateEmail(email);
