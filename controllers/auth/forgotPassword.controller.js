@@ -3,13 +3,13 @@ const { apiResponse, validation } = require("../../utils");
 
 const forgotPassword = async (req, res) => {
 	const { email } = req.body;
-	return apiResponse.clientErrorResponse(res, email);
 	try {
 		// Validate input data
 		const validateEmail = validation.validateEmail(email);
 		if (validateEmail.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validateEmail.message);
 		}
+		return apiResponse.clientErrorResponse(res, validateEmail.status);
 
 		// Check if the user exists in the database using email
 		const existingUser = await userService.retrieveUserByEmail(email);
