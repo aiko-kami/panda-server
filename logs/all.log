@@ -803,3 +803,67 @@
 2023-Aug-17 17:37:37:3737	error:	Error while storing reset password token in database:  Cannot access 'ResetPasswordToken' before initialization
 2023-Aug-17 17:37:37:3737	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 90 - 53.898 ms
 
+2023-Aug-17 19:24:07:247	info:	Connected to private database
+2023-Aug-17 19:24:07:247	info:	Panda-Server is running on port 8080
+2023-Aug-17 19:25:09:259	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 61 - 56.578 ms
+
+2023-Aug-17 19:27:57:2757	info:	Connected to private database
+2023-Aug-17 19:27:57:2757	info:	Panda-Server is running on port 8080
+2023-Aug-17 19:27:59:2759	error:	Error while storing reset password token in database:  Cannot access 'ResetPasswordToken' before initialization
+2023-Aug-17 19:27:59:2759	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 90 - 59.508 ms
+
+2023-Aug-17 19:32:00:320	info:	Connected to private database
+2023-Aug-17 19:32:00:320	info:	Panda-Server is running on port 8080
+2023-Aug-17 19:32:15:3215	error:	Error while storing reset password token in database:  Cannot read properties of undefined (reading 'findOne')
+2023-Aug-17 19:32:15:3215	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 90 - 65.817 ms
+
+2023-Aug-17 19:32:32:3232	error:	Error while storing reset password token in database:  Cannot read properties of undefined (reading 'findOne')
+2023-Aug-17 19:32:32:3232	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 90 - 45.546 ms
+
+2023-Aug-17 19:32:34:3234	error:	Error while storing reset password token in database:  Cannot read properties of undefined (reading 'findOne')
+2023-Aug-17 19:32:34:3234	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 90 - 24.838 ms
+
+2023-Aug-17 19:39:30:3930	info:	Connected to private database
+2023-Aug-17 19:39:30:3930	info:	Panda-Server is running on port 8080
+2023-Aug-17 19:39:34:3934	error:	Error while storing reset password token in database:  Cannot read properties of undefined (reading 'findOne')
+2023-Aug-17 19:39:34:3934	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 90 - 73.108 ms
+
+2023-Aug-17 19:41:35:4135	info:	Connected to private database
+2023-Aug-17 19:41:35:4135	info:	Panda-Server is running on port 8080
+2023-Aug-17 19:41:50:4150	info:	Connected to private database
+2023-Aug-17 19:41:50:4150	info:	Panda-Server is running on port 8080
+2023-Aug-17 19:41:55:4155	info:	Reset password token stored in database. ResetPasswordToken: {
+  userId: '0366d1fe-c6a3-43ef-bf16-bcf4313dfa5f',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMzY2ZDFmZS1jNmEzLTQzZWYtYmYxNi1iY2Y0MzEzZGZhNWYiLCJpYXQiOjE2OTIyOTQxMTUsImV4cCI6MTY5MjM4MDUxNX0.8q6xsfaPGgFGGRTsTYVtFmO_ybps-zSvQ8K3pVUnVwY',
+  createdAt: 2023-08-17T17:41:55.560Z,
+  _id: new ObjectId("64de5be3315d37185ad67d8b"),
+  expiresAt: 2023-08-18T17:41:55.565Z,
+  __v: 0
+}
+2023-Aug-17 19:41:57:4157	info:	Password reset email sent successfully.
+2023-Aug-17 19:41:57:4157	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 200 51 - 1830.389 ms
+
+2023-Aug-17 20:18:33:1833	info:	Connected to private database
+2023-Aug-17 20:18:33:1833	info:	Panda-Server is running on port 8080
+2023-Aug-17 20:19:03:193	info:	Connected to private database
+2023-Aug-17 20:19:03:193	info:	Panda-Server is running on port 8080
+2023-Aug-17 20:27:55:2755	info:	Connected to private database
+2023-Aug-17 20:27:55:2755	info:	Panda-Server is running on port 8080
+2023-Aug-17 20:27:58:2758	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 48 - 52.486 ms
+
+2023-Aug-17 20:28:57:2857	info:	Connected to private database
+2023-Aug-17 20:28:57:2857	info:	Panda-Server is running on port 8080
+2023-Aug-17 20:29:07:297	info:	Connected to private database
+2023-Aug-17 20:29:07:297	info:	Panda-Server is running on port 8080
+2023-Aug-17 20:29:08:298	info:	Existing reset password token removed from database. userId: 0366d1fe-c6a3-43ef-bf16-bcf4313dfa5f
+2023-Aug-17 20:29:08:298	info:	Reset password token stored in database. ResetPasswordToken: {
+  userId: '0366d1fe-c6a3-43ef-bf16-bcf4313dfa5f',
+  token: 'U2FsdGVkX1%2B1EqMKUYr1TTpoMK1Ydcyp3zGc8S9SE2S9jmKacDnwP9oma9R0NOw5LkVeBAle6HT0Nkmd3Ai92LkQZmVp7%2BmKsTmT%2Bwa28AlRKLyHh06fjCs8tpws03lXeO1cMWBAH1Ly39tMdXjafw5dyF8n9Z9U9Hm0NH%2F16Bc%3D',
+  createdAt: 2023-08-17T18:29:08.331Z,
+  _id: new ObjectId("64de66f40a84f933ecef5bac"),
+  expiresAt: 2023-08-18T18:29:08.335Z,
+  __v: 0
+}
+2023-Aug-17 20:29:09:299	info:	Password reset email sent successfully.
+2023-Aug-17 20:29:09:299	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 200 51 - 1761.326 ms
+

@@ -11,6 +11,7 @@ db.User = require("./user.model");
 //Import tokens models
 const tokenModels = require("./token.model");
 db.RefreshToken = tokenModels.RefreshToken;
+db.ResetPasswordToken = tokenModels.ResetPasswordToken;
 
 //Import role model
 db.Role = require("./role.model");

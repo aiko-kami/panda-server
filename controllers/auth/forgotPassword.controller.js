@@ -21,8 +21,6 @@ const forgotPassword = async (req, res) => {
 		// Generate a reset token and store it in the database
 		const resetPasswordToken = tokenService.generateResetPasswordToken(existingUser.data.userId);
 
-		console.log("🚀 ~ forgotPassword ~ resetPasswordToken:", resetPasswordToken);
-
 		const tokenStoredInDb = await tokenService.storeResetPasswordTokenInDatabase(
 			existingUser.data.userId,
 			resetPasswordToken

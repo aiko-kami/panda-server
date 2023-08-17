@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 const { DateTime } = require("luxon");
 
 const refreshTokenExpirationSeconds =
-	parseInt(process.env.JWT_REFRESH_TOKEN_EXPIRATION_SECONDS) || 604800;
+	parseInt(process.env.REFRESH_TOKEN_EXPIRATION_SECONDS) || 604800;
 
 const resetPasswordTokenExpirationSeconds =
-	parseInt(process.env.JWT_RESET_PASSWORD_TOKEN_EXPIRATION_SECONDS) || 86400;
+	parseInt(process.env.RESET_PASSWORD_TOKEN_EXPIRATION_SECONDS) || 86400;
 
 // Schema for refresh tokens
 const refreshTokenSchema = new mongoose.Schema(

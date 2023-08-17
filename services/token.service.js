@@ -1,31 +1,38 @@
 const { RefreshToken, ResetPasswordToken } = require("../models");
-
+const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
+const v4 = require("uuid").v4;
 const { DateTime } = require("luxon");
 const { logger } = require("../utils");
 
-function generateAccessToken(userId, expires = process.env.JWT_ACCESS_TOKEN_EXPIRATION) {
+function generateAccessToken(userId, expires = process.env.ACCESS_TOKEN_EXPIRATION) {
 	const payload = {
 		sub: userId,
 	};
 	return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expires });
 }
 
-function generateRefreshToken(userId, expires = process.env.JWT_REFRESH_TOKEN_EXPIRATION) {
+function generateRefreshToken(userId, expires = process.env.REFRESH_TOKEN_EXPIRATION) {
 	const payload = {
 		sub: userId,
 	};
 	return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: expires });
 }
 
-function generateResetPasswordToken(
-	userId,
-	expires = process.env.JWT_RESET_PASSWORD_TOKEN_EXPIRATION
-) {
-	const payload = {
-		sub: userId,
-	};
-	return jwt.sign(payload, process.env.RESET_PASSWORD_TOKEN_SECRET, { expiresIn: expires });
+function generateResetPasswordToken(userId, expires = process.env.RESET_PASSWORD_TOKEN_EXPIRATION) {
+	const tokenUuid = v4();
+	const dataToEncrypt = { tokenUuid, userId };
+
+	// Encrypt
+	const encryptedData = CryptoJS.AES.encrypt(
+		JSON.stringify(dataToEncrypt),
+		process.env.RESET_PASSWORD_TOKEN_SECRET
+	).toString();
+
+	//Transform encrypted data into a valid token for URL
+	const resetPasswordToken = encodeURIComponent(encryptedData);
+
+	return resetPasswordToken;
 }
 
 const verifyAccessToken = (accessToken) => {
@@ -67,13 +74,13 @@ const setTokensInCookies = (res, accessToken, refreshToken) => {
 	res.cookie("access_token", accessToken, {
 		httpOnly: true,
 		secure: true,
-		maxAge: 1000 * parseInt(process.env.JWT_ACCESS_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
+		maxAge: 1000 * parseInt(process.env.ACCESS_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
 	});
 
 	res.cookie("refresh_token", refreshToken, {
 		httpOnly: true,
 		secure: true,
-		maxAge: 1000 * parseInt(process.env.JWT_REFRESH_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
+		maxAge: 1000 * parseInt(process.env.REFRESH_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
 	});
 };
 
@@ -122,21 +129,21 @@ const storeResetPasswordTokenInDatabase = async (userId, ResetPasswordTokenToSto
 			logger.info(`Existing reset password token removed from database. userId: ${userId}`);
 		}
 
-		const ResetPasswordToken = new ResetPasswordToken({
+		const resetPasswordToken = new ResetPasswordToken({
 			userId: userId,
 			createdAt: DateTime.now(),
 			token: ResetPasswordTokenToStore,
 		});
 
-		await ResetPasswordToken.save();
+		await resetPasswordToken.save();
 
 		logger.info(
-			`Reset password token stored in database. ResetPasswordToken: ${ResetPasswordToken}`
+			`Reset password token stored in database. ResetPasswordToken: ${resetPasswordToken}`
 		);
 		return {
 			status: "success",
 			message: "Reset password token stored in database.",
-			data: { ResetPasswordToken },
+			data: { resetPasswordToken },
 		};
 	} catch (error) {
 		logger.error("Error while storing reset password token in database: ", error);
@@ -166,8 +173,6 @@ const deleteAllTokens = async () => {
 };
 
 const removeRefreshTokenFromDatabase = async (refreshToken) => {
-	console.log("🚀 ~ removeRefreshTokenFromDatabase ~ refreshToken:", refreshToken);
-
 	try {
 		// Find and remove the refresh token associated with the given user ID
 		const removeResult = await RefreshToken.findOneAndRemove(refreshToken);
