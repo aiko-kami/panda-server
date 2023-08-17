@@ -9,7 +9,6 @@ const forgotPassword = async (req, res) => {
 		if (validateEmail.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validateEmail.message);
 		}
-		return apiResponse.clientErrorResponse(res, validateEmail.status);
 
 		// Check if the user exists in the database using email
 		const existingUser = await userService.retrieveUserByEmail(email);
