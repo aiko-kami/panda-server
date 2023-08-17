@@ -1,4 +1,4 @@
-const { AccessToken, RefreshToken } = require("../models");
+const { RefreshToken, ResetPasswordToken } = require("../models");
 
 const jwt = require("jsonwebtoken");
 const { DateTime } = require("luxon");
@@ -18,6 +18,16 @@ function generateRefreshToken(userId, expires = process.env.JWT_REFRESH_TOKEN_EX
 	return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: expires });
 }
 
+function generateResetPasswordToken(
+	userId,
+	expires = process.env.JWT_RESET_PASSWORD_TOKEN_EXPIRATION
+) {
+	const payload = {
+		sub: userId,
+	};
+	return jwt.sign(payload, process.env.RESET_PASSWORD_TOKEN_SECRET, { expiresIn: expires });
+}
+
 const verifyAccessToken = (accessToken) => {
 	try {
 		const tokenDecoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
@@ -34,6 +44,7 @@ const verifyAccessToken = (accessToken) => {
 		return { status: "error", message: "Invalid access token." };
 	}
 };
+
 const verifyRefreshToken = (refreshToken) => {
 	try {
 		const tokenDecoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
@@ -51,6 +62,7 @@ const verifyRefreshToken = (refreshToken) => {
 		return { status: "error", message: "Invalid refresh token." };
 	}
 };
+
 const setTokensInCookies = (res, accessToken, refreshToken) => {
 	res.cookie("access_token", accessToken, {
 		httpOnly: true,
@@ -99,17 +111,50 @@ const storeRefreshTokenInDatabase = async (userId, refreshTokenToStore) => {
 	}
 };
 
-const deleteAllTokens = async () => {
+const storeResetPasswordTokenInDatabase = async (userId, ResetPasswordTokenToStore) => {
 	try {
-		const deletedAccessTokens = await AccessToken.deleteMany({});
-		const deletedRefreshTokens = await RefreshToken.deleteMany({});
+		// Check if a reset password token already exists for the user
+		const existingToken = await ResetPasswordToken.findOne({ userId });
+
+		// If an existing token is found, remove former token from the database
+		if (existingToken) {
+			await existingToken.deleteOne();
+			logger.info(`Existing reset password token removed from database. userId: ${userId}`);
+		}
+
+		const ResetPasswordToken = new ResetPasswordToken({
+			userId: userId,
+			createdAt: DateTime.now(),
+			token: ResetPasswordTokenToStore,
+		});
+
+		await ResetPasswordToken.save();
 
 		logger.info(
-			`Deleted ${deletedAccessTokens.deletedCount} access tokens and ${deletedRefreshTokens.deletedCount} refresh tokens.`
+			`Reset password token stored in database. ResetPasswordToken: ${ResetPasswordToken}`
 		);
 		return {
 			status: "success",
-			message: `Deleted ${deletedAccessTokens.deletedCount} access tokens and ${deletedRefreshTokens.deletedCount} refresh tokens.`,
+			message: "Reset password token stored in database.",
+			data: { ResetPasswordToken },
+		};
+	} catch (error) {
+		logger.error("Error while storing reset password token in database: ", error);
+		return {
+			status: "error",
+			message: "An error occurred while storing reset password token in database.",
+		};
+	}
+};
+
+const deleteAllTokens = async () => {
+	try {
+		const deletedRefreshTokens = await RefreshToken.deleteMany({});
+
+		logger.info(`Deleted ${deletedRefreshTokens.deletedCount} refresh tokens.`);
+		return {
+			status: "success",
+			message: `Deleted ${deletedRefreshTokens.deletedCount} refresh tokens.`,
 		};
 	} catch (error) {
 		logger.error("Error while deleting tokens: ", error);
@@ -145,10 +190,12 @@ const removeRefreshTokenFromDatabase = async (refreshToken) => {
 module.exports = {
 	generateAccessToken,
 	generateRefreshToken,
+	generateResetPasswordToken,
 	verifyAccessToken,
 	verifyRefreshToken,
 	setTokensInCookies,
 	storeRefreshTokenInDatabase,
+	storeResetPasswordTokenInDatabase,
 	deleteAllTokens,
 	removeRefreshTokenFromDatabase,
 };

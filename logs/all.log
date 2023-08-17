@@ -744,3 +744,62 @@
 2023-Aug-16 11:15:50:1550	info:	Panda-Server is running on port 8080
 2023-Aug-16 11:16:42:1642	info:	Connected to private database
 2023-Aug-16 11:16:42:1642	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:28:27:2827	info:	Connected to private database
+2023-Aug-17 17:28:27:2827	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:29:36:2936	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 79 - 64.140 ms
+
+2023-Aug-17 17:31:07:317	info:	Connected to private database
+2023-Aug-17 17:31:07:317	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:31:08:318	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 79 - 65.371 ms
+
+2023-Aug-17 17:31:20:3120	info:	Connected to private database
+2023-Aug-17 17:31:20:3120	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:31:22:3122	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 79 - 43.907 ms
+
+2023-Aug-17 17:31:43:3143	info:	Connected to private database
+2023-Aug-17 17:31:43:3143	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:31:44:3144	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 79 - 53.927 ms
+
+2023-Aug-17 17:31:46:3146	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 79 - 39.785 ms
+
+2023-Aug-17 17:32:03:323	info:	Connected to private database
+2023-Aug-17 17:32:03:323	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:32:06:326	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 79 - 58.493 ms
+
+2023-Aug-17 17:32:15:3215	info:	Connected to private database
+2023-Aug-17 17:32:15:3215	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:32:17:3217	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 79 - 42.906 ms
+
+2023-Aug-17 17:32:33:3233	info:	Connected to private database
+2023-Aug-17 17:32:33:3233	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:32:35:3235	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 79 - 44.096 ms
+
+2023-Aug-17 17:32:58:3258	info:	Connected to private database
+2023-Aug-17 17:32:58:3258	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:33:02:332	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 79 - 46.301 ms
+
+2023-Aug-17 17:34:28:3428	info:	Connected to private database
+2023-Aug-17 17:34:28:3428	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:34:31:3431	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 79 - 55.032 ms
+
+2023-Aug-17 17:35:30:3530	info:	Connected to private database
+2023-Aug-17 17:35:30:3530	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:35:32:3532	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 79 - 49.849 ms
+
+2023-Aug-17 17:35:56:3556	info:	Connected to private database
+2023-Aug-17 17:35:56:3556	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:36:04:364	info:	Connected to private database
+2023-Aug-17 17:36:04:364	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:36:05:365	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 79 - 60.494 ms
+
+2023-Aug-17 17:36:31:3631	info:	Connected to private database
+2023-Aug-17 17:36:31:3631	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:36:32:3632	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 79 - 52.806 ms
+
+2023-Aug-17 17:37:18:3718	info:	Connected to private database
+2023-Aug-17 17:37:18:3718	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:37:36:3736	info:	Connected to private database
+2023-Aug-17 17:37:36:3736	info:	Panda-Server is running on port 8080
+2023-Aug-17 17:37:37:3737	error:	Error while storing reset password token in database:  Cannot access 'ResetPasswordToken' before initialization
+2023-Aug-17 17:37:37:3737	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 500 90 - 53.898 ms
+

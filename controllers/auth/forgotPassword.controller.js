@@ -1,9 +1,8 @@
-const { userService, emailService, tokenService } = require("../../services");
+const { userService, emailResetPasswordService, tokenService } = require("../../services");
 const { apiResponse, validation } = require("../../utils");
 
 const forgotPassword = async (req, res) => {
 	const { email } = req.body;
-
 	try {
 		// Validate input data
 		const validateEmail = validation.validateEmail(email);
@@ -11,24 +10,33 @@ const forgotPassword = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validateEmail.message);
 		}
 
-		// Check if the user exists in the database by email
+		// Check if the user exists in the database using email
 		const existingUser = await userService.retrieveUserByEmail(email);
+
+		//In case of error, return a generic message to avoid email enumeration attack
 		if (existingUser.status !== "success") {
-			return apiResponse.clientErrorResponse(res, "User not found.");
+			return apiResponse.successResponse(res, "Password reset email sent.");
 		}
 
 		// Generate a reset token and store it in the database
-		const resetToken = tokenService.generateResetToken(existingUser.data.userId);
-		const tokenStoredInDb = await tokenService.storeResetTokenInDatabase(
+		const resetPasswordToken = tokenService.generateResetPasswordToken(existingUser.data.userId);
+
+		console.log("🚀 ~ forgotPassword ~ resetPasswordToken:", resetPasswordToken);
+
+		const tokenStoredInDb = await tokenService.storeResetPasswordTokenInDatabase(
 			existingUser.data.userId,
-			resetToken
+			resetPasswordToken
 		);
 		if (tokenStoredInDb.status !== "success") {
 			return apiResponse.serverErrorResponse(res, tokenStoredInDb.message);
 		}
 
 		// Send reset password email to the user
-		const emailSent = await emailService.sendPasswordResetEmail(email, resetToken);
+		const emailSent = await emailResetPasswordService.sendPasswordResetEmail(
+			existingUser.data.email,
+			existingUser.data.username,
+			resetPasswordToken
+		);
 		if (emailSent.status !== "success") {
 			return apiResponse.serverErrorResponse(res, emailSent.message);
 		}

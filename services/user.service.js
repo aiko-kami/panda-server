@@ -21,12 +21,17 @@ const retrieveUserByEmail = async (email) => {
 		const user = await User.findOne({ email });
 
 		if (!user) {
-			return { status: "error", message: "User not found." };
+			logger.error("An error occurred while fetching user by email: No user found.");
+			return {
+				status: "error",
+				message: "An error occurred while fetching user by email: No user found.",
+			};
 		}
 
-		return { status: "success" };
+		return { status: "success", data: user };
 	} catch (error) {
-		return { status: "error", message: "An error occurred while fetching user." };
+		logger.error("An error occurred while fetching user by email: ", error);
+		return { status: "error", message: "An error occurred while fetching user by email." };
 	}
 };
 
