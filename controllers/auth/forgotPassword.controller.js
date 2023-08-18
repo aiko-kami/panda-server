@@ -1,4 +1,9 @@
-const { userService, emailResetPasswordService, tokenService } = require("../../services");
+const {
+	userService,
+	emailResetPasswordService,
+	generateTokenService,
+	storeTokenService,
+} = require("../../services");
 const { apiResponse, validation } = require("../../utils");
 
 const forgotPassword = async (req, res) => {
@@ -19,9 +24,11 @@ const forgotPassword = async (req, res) => {
 		}
 
 		// Generate a reset token and store it in the database
-		const resetPasswordToken = tokenService.generateResetPasswordToken(existingUser.data.userId);
+		const resetPasswordToken = generateTokenService.generateResetPasswordToken(
+			existingUser.data.userId
+		);
 
-		const tokenStoredInDb = await tokenService.storeResetPasswordTokenInDatabase(
+		const tokenStoredInDb = await storeTokenService.storeResetPasswordTokenInDatabase(
 			existingUser.data.userId,
 			resetPasswordToken
 		);

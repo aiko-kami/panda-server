@@ -1,4 +1,4 @@
-const { tokenService } = require("../../services");
+const { removeTokenService } = require("../../services");
 const { apiResponse } = require("../../utils");
 
 // Logout user
@@ -7,7 +7,7 @@ const logout = async (req, res) => {
 		const refreshToken = req.cookies.refresh_token;
 
 		// Remove the refresh token from the database
-		const removeRefreshTokenResult = await tokenService.removeRefreshTokenFromDatabase(
+		const removeRefreshTokenResult = await removeTokenService.removeRefreshTokenFromDatabase(
 			refreshToken
 		);
 		if (removeRefreshTokenResult.status !== "success") {

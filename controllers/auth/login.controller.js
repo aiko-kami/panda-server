@@ -1,6 +1,5 @@
-const { loginService, tokenService } = require("../../services");
+const { loginService, generateTokenService, storeTokenService } = require("../../services");
 const { apiResponse, validation } = require("../../utils");
-const jwt = require("jsonwebtoken");
 
 // Login user
 const login = async (req, res) => {
@@ -35,12 +34,12 @@ const login = async (req, res) => {
 		}
 
 		// Generate the access and refresh tokens
-		const accessToken = tokenService.generateAccessToken(user.userId);
-		const refreshToken = tokenService.generateRefreshToken(user.userId);
+		const accessToken = generateTokenService.generateAccessToken(user.userId);
+		const refreshToken = generateTokenService.generateRefreshToken(user.userId);
 
-		tokenService.setTokensInCookies(res, accessToken, refreshToken);
+		storeTokenService.setTokensInCookies(res, accessToken, refreshToken);
 
-		const tokenStoredInDb = await tokenService.storeRefreshTokenInDatabase(
+		const tokenStoredInDb = await storeTokenService.storeRefreshTokenInDatabase(
 			user.userId,
 			refreshToken
 		);

@@ -1,5 +1,5 @@
 const { apiResponse } = require("../utils");
-const { tokenService } = require("../services");
+const { verifyTokenService } = require("../services");
 
 const verifyAccessTokenForPrivateResourceMDW = (req, res, next) => {
 	const accessToken = req.cookies.access_token;
@@ -8,7 +8,7 @@ const verifyAccessTokenForPrivateResourceMDW = (req, res, next) => {
 		return apiResponse.clientErrorResponse(res, "Access token is missing.");
 	} else {
 		try {
-			const verifyResult = tokenService.verifyAccessToken(accessToken);
+			const verifyResult = verifyTokenService.verifyAccessToken(accessToken);
 
 			// Check if the token is valid and not expired
 			if (verifyResult.status === "success") {
