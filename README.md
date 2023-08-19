@@ -13,11 +13,11 @@
 
 # 🐣 Presentation
 
-Panda Server is the backend part of Sheepy, my project management application.
+Panda Server is the backend part of Sheepy, a collaborative platform for projects creation and tracking.
 
 ![Logo](https://github.com/aiko-kami/panda-server/blob/master/docs/logo%20Panda_server_Sheepy_blue.png?raw=true)
 
-Sheepy is a collaborative platform for projects creation and tracking. Our mission: help you bring your projects to life!
+Our mission in Sheepy: Help you bring your projects to life!
 
 You can either create your own project or join an existing one. Create your dream project in a minute and find the talents you need. Or find the project that inspires you and start contributing.
 
@@ -52,8 +52,8 @@ You have an idea and a goal? You want to accomplish something meaningful? You ha
 
 - [x] Sign-up
 - [x] Login
-- [ ] Logout
-- [ ] Forgot password
+- [x] Logout
+- [x] Forgot password
 - [ ] Create new project
 - [ ] Edit project
 - [ ] Edit user profile
@@ -116,56 +116,32 @@ List of available routes:
 
 To run this project, you will need the following environment variables in your .env file:
 
-`PORT`
-
-`COOKIE_SECRET`
-
-`MONGODB_URI`
-
-`MONGODB_URI_PUBLIC`
-
-`MONGODB_URI_PRIVATE`
-
-`MONGODB_URI_COPY`
-
-`DB_PUBLIC`
-
-`DB_PRIVATE`
-
-`NODE_ENV`
-
-`WEBSITE_URL`
-
-`GITHUB_ID`
-
-`GITHUB_SECRET`
-
-`JWT_SECRET`
-
-`ACCESS_TOKEN_SECRET`
-
-`REFRESH_TOKEN_SECRET`
-
-`ENCRYPT_KEY`
-
-`ACCESS_LOGIN_EXPIRATION`
-
-`ACCESS_LOGOUT_EXPIRATION`
-
-`ACCESS_SIGNUP_EXPIRATION`
-
-`REFRESH_EXPIRATION_DAYS`
-
-`RESET_PASSWORD_EXPIRATION_MINUTES`
-
-`VERIFY_EMAIL_EXPIRATION_MINUTES`
-
-`EMAILJS_SERVICE_ID`
-
-`EMAILJS_TEMPLATE_ID_VERIF`
-
-`EMAILJS_USER_ID`
-
+`PORT`  
+`COOKIE_SECRET`  
+`MONGODB_URI`  
+`MONGODB_URI_PUBLIC`  
+`MONGODB_URI_PRIVATE`  
+`DB_PUBLIC`  
+`DB_PRIVATE`  
+`DB_TEST`  
+`NODE_ENV`  
+`WEBSITE_URL`  
+`GITHUB_ID`  
+`GITHUB_SECRET`  
+`ACCESS_TOKEN_SECRET`  
+`REFRESH_TOKEN_SECRET`  
+`RESET_PASSWORD_TOKEN_SECRET`  
+`ENCRYPT_KEY`  
+`ACCESS_TOKEN_EXPIRATION`  
+`ACCESS_TOKEN_EXPIRATION_SECONDS`  
+`REFRESH_TOKEN_EXPIRATION`  
+`REFRESH_TOKEN_EXPIRATION_SECONDS`  
+`RESET_PASSWORD_TOKEN_EXPIRATION`  
+`RESET_PASSWORD_TOKEN_EXPIRATION_SECONDS`  
+`EMAILJS_SERVICE_ID`  
+`EMAILJS_TEMPLATE_ID_VERIF`  
+`EMAILJS_TEMPLATE_RESET_PASSWORD`  
+`EMAILJS_USER_ID`  
 `EMAILJS_ACCESS_TOKEN`
 
 ## 🐱‍💻 Authors
