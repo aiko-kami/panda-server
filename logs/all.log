@@ -871,3 +871,386 @@
 2023-Aug-17 20:44:28:4428	info:	Panda-Server is running on port 8080
 2023-Aug-17 20:45:29:4529	info:	Connected to private database
 2023-Aug-17 20:45:29:4529	info:	Panda-Server is running on port 8080
+2023-Aug-19 10:48:02:482	info:	Connected to private database
+2023-Aug-19 10:48:02:482	info:	Panda-Server is running on port 8080
+2023-Aug-19 10:55:04:554	info:	Connected to private database
+2023-Aug-19 10:55:04:554	info:	Panda-Server is running on port 8080
+2023-Aug-19 10:56:32:5632	info:	Connected to private database
+2023-Aug-19 10:56:32:5632	info:	Panda-Server is running on port 8080
+2023-Aug-19 10:56:38:5638	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword 204 0 - 1.504 ms
+
+2023-Aug-19 10:56:38:5638	info:	Removed 2 reset password token(s) from the database. userId: 65ba0ef1-b421-4469-bb59-0f3be59db8af
+2023-Aug-19 10:56:38:5638	info:	Reset password token stored in database. ResetPasswordToken: {
+  userId: '65ba0ef1-b421-4469-bb59-0f3be59db8af',
+  token: 'U2FsdGVkX1%2BuYv7OKu9wEY1mEYcSdxBk58RREplJxe4CqiNkoMmb1Pe%2F%2FOfFCOyOjCU7AljGQ4%2FQExFV98DBc5O8MuImwWVOphCpL7ZrqtRvsuYuPdGcMJsX9nYOTNX4u3WauoBClQeUO5%2FREadDWuFmwvoKzCQfHTkk7u7Q8rw%3D',
+  createdAt: 2023-08-19T08:56:32.032Z,
+  _id: new ObjectId("64e083c6d90dd6a29f98ab03"),
+  expiresAt: 2023-08-20T08:56:38.790Z,
+  __v: 0
+}
+2023-Aug-19 10:56:40:5640	info:	Password reset email sent successfully.
+2023-Aug-19 10:56:40:5640	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 200 51 - 1656.217 ms
+
+2023-Aug-19 10:56:51:5651	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword 204 0 - 0.323 ms
+
+2023-Aug-19 10:56:51:5651	info:	Removed 1 reset password token(s) from the database. userId: 65ba0ef1-b421-4469-bb59-0f3be59db8af
+2023-Aug-19 10:56:51:5651	info:	Reset password token stored in database. ResetPasswordToken: {
+  userId: '65ba0ef1-b421-4469-bb59-0f3be59db8af',
+  token: 'U2FsdGVkX1%2Fcv7tYqBmUI6QAGiJzOv0SAZIk9zbsmT3zgi6BoW31o8w7FIJ%2FZz1ApTd%2FIQqYkPKcKSERxaFyDzAwKkZecFuHcpV3u1CYPVs65cz7R7TD802NTrf%2FkSFzt%2F0kabOgxjlNjzB3FVmRaFA4a5XEqEOhTvl6HyoUixc%3D',
+  createdAt: 2023-08-19T08:56:32.032Z,
+  _id: new ObjectId("64e083d3d90dd6a29f98ab09"),
+  expiresAt: 2023-08-20T08:56:51.419Z,
+  __v: 0
+}
+2023-Aug-19 10:56:51:5651	info:	Removed 1 reset password token(s) from the database. userId: 65ba0ef1-b421-4469-bb59-0f3be59db8af
+2023-Aug-19 10:56:51:5651	info:	Reset password token stored in database. ResetPasswordToken: {
+  userId: '65ba0ef1-b421-4469-bb59-0f3be59db8af',
+  token: 'U2FsdGVkX18SfuKeIUSoUi7AaBq1DCIP1jev9yxW8Qx9bHNxgHqXwR21JDiHL6mjpr4KRcFS9IHqaqCQvbrWl2mEa5kQfv6otaQ9MNP0TW6LVS0KAFkJCDoXAedxQx4ABe5vbEVFx3OxQ4d7jKHtAOmCsqzhX6eFkYLdmWfi4d0%3D',
+  createdAt: 2023-08-19T08:56:32.032Z,
+  _id: new ObjectId("64e083d3d90dd6a29f98ab0e"),
+  expiresAt: 2023-08-20T08:56:51.578Z,
+  __v: 0
+}
+2023-Aug-19 10:56:51:5651	info:	Removed 1 reset password token(s) from the database. userId: 65ba0ef1-b421-4469-bb59-0f3be59db8af
+2023-Aug-19 10:56:51:5651	info:	Reset password token stored in database. ResetPasswordToken: {
+  userId: '65ba0ef1-b421-4469-bb59-0f3be59db8af',
+  token: 'U2FsdGVkX1%2FkEO5YwELpGnqHb5p5qGlDV3Pi1GDySUlfrr4vHEnaw%2B3hXx%2Fc0QQw0fVKBTHrp6h6M6Uoxt3%2BnyWbxPy7jRLpdcoB659Q765rufuZRRkhk%2BMsa8HJK4Ux2g30lB1%2BemiWdTVPGex01QJdorZSVFpufH%2FMIzhJoHk%3D',
+  createdAt: 2023-08-19T08:56:32.032Z,
+  _id: new ObjectId("64e083d3d90dd6a29f98ab12"),
+  expiresAt: 2023-08-20T08:56:51.658Z,
+  __v: 0
+}
+2023-Aug-19 10:56:51:5651	info:	Removed 1 reset password token(s) from the database. userId: 65ba0ef1-b421-4469-bb59-0f3be59db8af
+2023-Aug-19 10:56:51:5651	info:	Reset password token stored in database. ResetPasswordToken: {
+  userId: '65ba0ef1-b421-4469-bb59-0f3be59db8af',
+  token: 'U2FsdGVkX1%2B%2FeTalHF8ZRCi0x0yipDIfplFj8wS0QlSt3M0zAICWgBtb%2FN%2B%2FS1%2F%2F7NjXUqvjGj8eVPFWyY3naiBXaHDpKXKCAxT3IYZ6M0pPLvo3y%2BBKPnYf%2FdQSLz57cmfUiivqDOA5C%2BQ1TOkadFB%2BQUEF%2F2dYTgqKvQN1zh4%3D',
+  createdAt: 2023-08-19T08:56:32.032Z,
+  _id: new ObjectId("64e083d3d90dd6a29f98ab17"),
+  expiresAt: 2023-08-20T08:56:51.879Z,
+  __v: 0
+}
+2023-Aug-19 10:56:52:5652	info:	Password reset email sent successfully.
+2023-Aug-19 10:56:52:5652	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 200 51 - 1466.626 ms
+
+2023-Aug-19 10:56:52:5652	info:	Password reset email sent successfully.
+2023-Aug-19 10:56:52:5652	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 200 51 - 1440.267 ms
+
+2023-Aug-19 10:56:52:5652	info:	Password reset email sent successfully.
+2023-Aug-19 10:56:52:5652	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 200 51 - 1400.586 ms
+
+2023-Aug-19 10:56:53:5653	info:	Password reset email sent successfully.
+2023-Aug-19 10:56:53:5653	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 200 51 - 1413.525 ms
+
+2023-Aug-19 10:56:58:5658	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword 204 0 - 0.134 ms
+
+2023-Aug-19 10:56:59:5659	info:	Removed 1 reset password token(s) from the database. userId: 65ba0ef1-b421-4469-bb59-0f3be59db8af
+2023-Aug-19 10:56:59:5659	info:	Reset password token stored in database. ResetPasswordToken: {
+  userId: '65ba0ef1-b421-4469-bb59-0f3be59db8af',
+  token: 'U2FsdGVkX1%2BuQtWYcIle52Fm9sGryddvYrDRJhR7fWMpF8IPXy09ozii%2B%2Bx4mxi8Oi0uVLRmkOl0ne7bv3LbdvK%2Fz0McutYpKd5rUU7ETPUpTynEokkeXeLSyDsDuHTG4mv%2FbHT%2F%2Fxvtq%2BCPtAt4gAVH7XX%2BeJcleIa51vOJWMQ%3D',
+  createdAt: 2023-08-19T08:56:32.032Z,
+  _id: new ObjectId("64e083dbd90dd6a29f98ab1c"),
+  expiresAt: 2023-08-20T08:56:59.055Z,
+  __v: 0
+}
+2023-Aug-19 10:57:00:570	info:	Password reset email sent successfully.
+2023-Aug-19 10:57:00:570	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 200 51 - 1395.508 ms
+
+2023-Aug-19 11:15:57:1557	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword 204 0 - 0.158 ms
+
+2023-Aug-19 11:15:57:1557	info:	Removed 1 reset password token(s) from the database. userId: 65ba0ef1-b421-4469-bb59-0f3be59db8af
+2023-Aug-19 11:15:57:1557	info:	Reset password token stored in database. ResetPasswordToken: {
+  userId: '65ba0ef1-b421-4469-bb59-0f3be59db8af',
+  token: 'U2FsdGVkX19JJnbKdd14rEjpCACzQ1ya%2ByjGj7zVp4gptib2%2F8KEBShnNxlsPZuvg59XbCqWyDb19vk8EwYb77NMMe6Gdf8kwDD8zfb%2FeRNFjv4wI0G8Hv9GkUK0KNh8j6GTxZFz78TmMrFxjEYhwj%2BL7oUpEIINhuX052bfWjg%3D',
+  createdAt: 2023-08-19T08:56:32.032Z,
+  _id: new ObjectId("64e0884dd90dd6a29f98ab21"),
+  expiresAt: 2023-08-20T09:15:57.924Z,
+  __v: 0
+}
+2023-Aug-19 11:15:59:1559	info:	Password reset email sent successfully.
+2023-Aug-19 11:15:59:1559	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 200 51 - 1379.320 ms
+
+2023-Aug-19 11:16:05:165	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword 204 0 - 0.283 ms
+
+2023-Aug-19 11:16:05:165	info:	Removed 1 reset password token(s) from the database. userId: 65ba0ef1-b421-4469-bb59-0f3be59db8af
+2023-Aug-19 11:16:05:165	info:	Reset password token stored in database. ResetPasswordToken: {
+  userId: '65ba0ef1-b421-4469-bb59-0f3be59db8af',
+  token: 'U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D',
+  createdAt: 2023-08-19T08:56:32.032Z,
+  _id: new ObjectId("64e08855d90dd6a29f98ab26"),
+  expiresAt: 2023-08-20T09:16:05.168Z,
+  __v: 0
+}
+2023-Aug-19 11:16:06:166	info:	Password reset email sent successfully.
+2023-Aug-19 11:16:06:166	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 200 51 - 1293.132 ms
+
+2023-Aug-19 11:18:02:182	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword 204 0 - 0.138 ms
+
+2023-Aug-19 11:18:02:182	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 400 46 - 1.335 ms
+
+2023-Aug-19 11:21:30:2130	http:	::ffff:127.0.0.1 OPTIONS /auth/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 0.345 ms
+
+2023-Aug-19 11:21:30:2130	http:	::ffff:127.0.0.1 POST /auth/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 404 39 - 1.599 ms
+
+2023-Aug-19 11:31:22:3122	http:	::ffff:127.0.0.1 OPTIONS /auth/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 0.146 ms
+
+2023-Aug-19 11:31:22:3122	http:	::ffff:127.0.0.1 POST /auth/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 404 39 - 1.322 ms
+
+2023-Aug-19 11:31:58:3158	info:	Connected to private database
+2023-Aug-19 11:31:58:3158	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:32:24:3224	http:	::ffff:127.0.0.1 OPTIONS /auth/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 2.044 ms
+
+2023-Aug-19 11:32:24:3224	http:	::ffff:127.0.0.1 POST /auth/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 404 39 - 17.107 ms
+
+2023-Aug-19 11:33:34:3334	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 0.381 ms
+
+2023-Aug-19 11:33:34:3334	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 12.031 ms
+
+2023-Aug-19 11:36:20:3620	info:	Connected to private database
+2023-Aug-19 11:36:20:3620	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:36:40:3640	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.846 ms
+
+2023-Aug-19 11:36:40:3640	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 28.014 ms
+
+2023-Aug-19 11:39:00:390	info:	Connected to private database
+2023-Aug-19 11:39:00:390	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:39:02:392	info:	Connected to private database
+2023-Aug-19 11:39:02:392	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:39:13:3913	info:	Connected to private database
+2023-Aug-19 11:39:13:3913	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:39:18:3918	info:	Connected to private database
+2023-Aug-19 11:39:18:3918	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:39:21:3921	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.680 ms
+
+2023-Aug-19 11:39:21:3921	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 29.454 ms
+
+2023-Aug-19 11:39:35:3935	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 0.276 ms
+
+2023-Aug-19 11:39:35:3935	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 63 - 3.872 ms
+
+2023-Aug-19 11:39:47:3947	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 0.167 ms
+
+2023-Aug-19 11:39:47:3947	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 63 - 1.919 ms
+
+2023-Aug-19 11:40:54:4054	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 0.255 ms
+
+2023-Aug-19 11:40:54:4054	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 56 - 1.993 ms
+
+2023-Aug-19 11:40:59:4059	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 3.493 ms
+
+2023-Aug-19 11:41:08:418	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 0.134 ms
+
+2023-Aug-19 11:41:08:418	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 145 - 1.460 ms
+
+2023-Aug-19 11:41:14:4114	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 0.136 ms
+
+2023-Aug-19 11:41:14:4114	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 2.236 ms
+
+2023-Aug-19 11:41:27:4127	info:	Connected to private database
+2023-Aug-19 11:41:27:4127	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:41:45:4145	info:	Connected to private database
+2023-Aug-19 11:41:45:4145	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:41:45:4145	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.312 ms
+
+2023-Aug-19 11:41:45:4145	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 27.582 ms
+
+2023-Aug-19 11:42:33:4233	info:	Connected to private database
+2023-Aug-19 11:42:33:4233	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:42:41:4241	info:	Connected to private database
+2023-Aug-19 11:42:41:4241	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:42:45:4245	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.664 ms
+
+2023-Aug-19 11:42:45:4245	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 27.400 ms
+
+2023-Aug-19 11:43:00:430	info:	Connected to private database
+2023-Aug-19 11:43:00:430	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:43:06:436	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.471 ms
+
+2023-Aug-19 11:43:06:436	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 25.929 ms
+
+2023-Aug-19 11:43:39:4339	info:	Connected to private database
+2023-Aug-19 11:43:39:4339	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:43:48:4348	info:	Connected to private database
+2023-Aug-19 11:43:48:4348	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:43:52:4352	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.510 ms
+
+2023-Aug-19 11:43:52:4352	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 23.267 ms
+
+2023-Aug-19 11:44:38:4438	info:	Connected to private database
+2023-Aug-19 11:44:38:4438	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:44:39:4439	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.862 ms
+
+2023-Aug-19 11:44:40:4440	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 33.636 ms
+
+2023-Aug-19 11:44:49:4449	info:	Connected to private database
+2023-Aug-19 11:44:49:4449	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:44:50:4450	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.850 ms
+
+2023-Aug-19 11:44:50:4450	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 30.430 ms
+
+2023-Aug-19 11:45:20:4520	info:	Connected to private database
+2023-Aug-19 11:45:20:4520	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:45:22:4522	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.679 ms
+
+2023-Aug-19 11:45:22:4522	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 30.533 ms
+
+2023-Aug-19 11:45:48:4548	info:	Connected to private database
+2023-Aug-19 11:45:48:4548	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:45:50:4550	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.454 ms
+
+2023-Aug-19 11:45:50:4550	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 27.315 ms
+
+2023-Aug-19 11:46:45:4645	info:	Connected to private database
+2023-Aug-19 11:46:45:4645	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:46:48:4648	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.619 ms
+
+2023-Aug-19 11:46:49:4649	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 29.374 ms
+
+2023-Aug-19 11:47:51:4751	info:	Connected to private database
+2023-Aug-19 11:47:51:4751	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:47:53:4753	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.710 ms
+
+2023-Aug-19 11:47:53:4753	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 29.065 ms
+
+2023-Aug-19 11:48:54:4854	info:	Connected to private database
+2023-Aug-19 11:48:54:4854	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:49:09:499	info:	Connected to private database
+2023-Aug-19 11:49:09:499	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:49:13:4913	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 2.666 ms
+
+2023-Aug-19 11:49:13:4913	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 12 - 24.507 ms
+
+2023-Aug-19 11:49:26:4926	info:	Connected to private database
+2023-Aug-19 11:49:26:4926	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:49:27:4927	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.661 ms
+
+2023-Aug-19 11:49:27:4927	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 40 - 87.684 ms
+
+2023-Aug-19 11:50:24:5024	info:	Connected to private database
+2023-Aug-19 11:50:24:5024	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:50:28:5028	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.646 ms
+
+2023-Aug-19 11:50:28:5028	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 40 - 80.989 ms
+
+2023-Aug-19 11:50:41:5041	info:	Connected to private database
+2023-Aug-19 11:50:41:5041	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:50:42:5042	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.889 ms
+
+2023-Aug-19 11:50:42:5042	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 40 - 82.067 ms
+
+2023-Aug-19 11:53:41:5341	info:	Connected to private database
+2023-Aug-19 11:53:41:5341	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:53:46:5346	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.974 ms
+
+2023-Aug-19 11:53:46:5346	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 40 - 111.766 ms
+
+2023-Aug-19 11:54:27:5427	info:	Connected to private database
+2023-Aug-19 11:54:27:5427	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:54:28:5428	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.951 ms
+
+2023-Aug-19 11:54:28:5428	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 40 - 132.804 ms
+
+2023-Aug-19 11:55:18:5518	info:	Connected to private database
+2023-Aug-19 11:55:18:5518	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:55:48:5548	info:	Connected to private database
+2023-Aug-19 11:55:48:5548	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:56:15:5615	info:	Connected to private database
+2023-Aug-19 11:56:15:5615	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:56:17:5617	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.674 ms
+
+2023-Aug-19 11:56:17:5617	info:	User password updated successfully. userId: undefined
+2023-Aug-19 11:56:17:5617	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 500 56 - 240.825 ms
+
+2023-Aug-19 11:58:03:583	info:	Connected to private database
+2023-Aug-19 11:58:03:583	info:	Panda-Server is running on port 8080
+2023-Aug-19 11:58:08:588	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.493 ms
+
+2023-Aug-19 11:58:08:588	info:	User password updated successfully. userId: undefined
+2023-Aug-19 11:58:08:588	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 500 56 - 208.083 ms
+
+2023-Aug-19 11:59:20:5920	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 0.275 ms
+
+2023-Aug-19 11:59:20:5920	info:	User password updated successfully. userId: undefined
+2023-Aug-19 11:59:20:5920	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 500 56 - 168.161 ms
+
+2023-Aug-19 12:00:15:015	info:	Connected to private database
+2023-Aug-19 12:00:15:015	info:	Panda-Server is running on port 8080
+2023-Aug-19 12:00:15:015	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.766 ms
+
+2023-Aug-19 12:00:15:015	info:	User password updated successfully. userId: undefined
+2023-Aug-19 12:00:15:015	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 500 56 - 221.428 ms
+
+2023-Aug-19 12:03:21:321	info:	Connected to private database
+2023-Aug-19 12:03:21:321	info:	Panda-Server is running on port 8080
+2023-Aug-19 12:03:30:330	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 3.066 ms
+
+2023-Aug-19 12:03:30:330	info:	User password updated successfully. userId: undefined
+2023-Aug-19 12:03:30:330	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 500 56 - 262.626 ms
+
+2023-Aug-19 12:03:55:355	info:	Connected to private database
+2023-Aug-19 12:03:55:355	info:	Panda-Server is running on port 8080
+2023-Aug-19 12:04:14:414	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.626 ms
+
+2023-Aug-19 12:04:14:414	info:	User password updated successfully. userId: undefined
+2023-Aug-19 12:04:14:414	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 500 56 - 375.593 ms
+
+2023-Aug-19 12:04:44:444	info:	Connected to private database
+2023-Aug-19 12:04:44:444	info:	Panda-Server is running on port 8080
+2023-Aug-19 12:04:46:446	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.804 ms
+
+2023-Aug-19 12:04:46:446	info:	User password updated successfully. userId: undefined
+2023-Aug-19 12:04:46:446	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 500 56 - 299.796 ms
+
+2023-Aug-19 12:05:00:50	info:	Connected to private database
+2023-Aug-19 12:05:00:50	info:	Panda-Server is running on port 8080
+2023-Aug-19 12:05:02:52	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.849 ms
+
+2023-Aug-19 12:05:02:52	info:	User password updated successfully. userId: undefined
+2023-Aug-19 12:05:02:52	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 500 56 - 237.336 ms
+
+2023-Aug-19 12:05:29:529	info:	Connected to private database
+2023-Aug-19 12:05:29:529	info:	Panda-Server is running on port 8080
+2023-Aug-19 12:05:50:550	info:	Connected to private database
+2023-Aug-19 12:05:50:550	info:	Panda-Server is running on port 8080
+2023-Aug-19 12:05:52:552	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 1.653 ms
+
+2023-Aug-19 12:05:52:552	info:	User password updated successfully. userId: 65ba0ef1-b421-4469-bb59-0f3be59db8af
+2023-Aug-19 12:05:52:552	info:	Reset password token removed from database: U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D
+2023-Aug-19 12:05:52:552	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 200 53 - 336.709 ms
+
+2023-Aug-19 12:09:17:917	info:	Connected to private database
+2023-Aug-19 12:09:17:917	info:	Panda-Server is running on port 8080
+2023-Aug-19 12:09:25:925	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 4.109 ms
+
+2023-Aug-19 12:09:25:925	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 72 - 53.827 ms
+
+2023-Aug-19 12:09:35:935	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 204 0 - 0.268 ms
+
+2023-Aug-19 12:09:35:935	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX18ZiGIwMMUqMzgiOJcsfuFhBRLsaEVVXclHRN9l1uXdA%2BfPBBCFz71iUCqoRDFVf3%2BjTU6cG2k36h%2FSi3%2BgBVoARpBjs0WqCsO4brdWqt4E0OAh0hkMwF2hS2wOYydz96pkziGPCifOGQ9AofCPnEO9mVzOo8CdGgc%3D 400 72 - 51.768 ms
+
+2023-Aug-19 12:09:56:956	info:	Connected to private database
+2023-Aug-19 12:09:56:956	info:	Panda-Server is running on port 8080
+2023-Aug-19 12:10:07:107	info:	Connected to private database
+2023-Aug-19 12:10:07:107	info:	Panda-Server is running on port 8080
+2023-Aug-19 12:11:54:1154	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword 204 0 - 2.596 ms
+
+2023-Aug-19 12:11:54:1154	info:	Reset password token stored in database. ResetPasswordToken: {
+  userId: '65ba0ef1-b421-4469-bb59-0f3be59db8af',
+  token: 'U2FsdGVkX1%2Bqrs7eBelrhqvgcEuNDHakn%2FIcnQgF0VsTQoGkqvNbP98aoE7eE5TOGh9SoN48KamzlG6BcKjG19smwAHPpdhfEnC6PxKFdrIXjV0HnLw1JLCk897bZU%2BROxtFctMNuuBXMQ2SyGqMkNU56sERYbfyxh8luka2E7g%3D',
+  createdAt: 2023-08-19T10:10:07.042Z,
+  _id: new ObjectId("64e0956acc6823a35064ccd2"),
+  expiresAt: 2023-08-20T10:11:54.482Z,
+  __v: 0
+}
+2023-Aug-19 12:11:56:1156	info:	Password reset email sent successfully.
+2023-Aug-19 12:11:56:1156	http:	::ffff:127.0.0.1 POST /auth/forgotPassword 200 51 - 1936.385 ms
+
+2023-Aug-19 12:12:45:1245	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX1%2Bqrs7eBelrhqvgcEuNDHakn%2FIcnQgF0VsTQoGkqvNbP98aoE7eE5TOGh9SoN48KamzlG6BcKjG19smwAHPpdhfEnC6PxKFdrIXjV0HnLw1JLCk897bZU%2BROxtFctMNuuBXMQ2SyGqMkNU56sERYbfyxh8luka2E7g%3D 204 0 - 0.340 ms
+
+2023-Aug-19 12:12:46:1246	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX1%2Bqrs7eBelrhqvgcEuNDHakn%2FIcnQgF0VsTQoGkqvNbP98aoE7eE5TOGh9SoN48KamzlG6BcKjG19smwAHPpdhfEnC6PxKFdrIXjV0HnLw1JLCk897bZU%2BROxtFctMNuuBXMQ2SyGqMkNU56sERYbfyxh8luka2E7g%3D 400 145 - 6.174 ms
+
+2023-Aug-19 12:13:24:1324	http:	::ffff:127.0.0.1 OPTIONS /auth/forgotPassword/reset/U2FsdGVkX1%2Bqrs7eBelrhqvgcEuNDHakn%2FIcnQgF0VsTQoGkqvNbP98aoE7eE5TOGh9SoN48KamzlG6BcKjG19smwAHPpdhfEnC6PxKFdrIXjV0HnLw1JLCk897bZU%2BROxtFctMNuuBXMQ2SyGqMkNU56sERYbfyxh8luka2E7g%3D 204 0 - 0.172 ms
+
+2023-Aug-19 12:13:24:1324	info:	User password updated successfully. userId: 65ba0ef1-b421-4469-bb59-0f3be59db8af
+2023-Aug-19 12:13:24:1324	info:	Reset password token removed from database: U2FsdGVkX1%2Bqrs7eBelrhqvgcEuNDHakn%2FIcnQgF0VsTQoGkqvNbP98aoE7eE5TOGh9SoN48KamzlG6BcKjG19smwAHPpdhfEnC6PxKFdrIXjV0HnLw1JLCk897bZU%2BROxtFctMNuuBXMQ2SyGqMkNU56sERYbfyxh8luka2E7g%3D
+2023-Aug-19 12:13:24:1324	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX1%2Bqrs7eBelrhqvgcEuNDHakn%2FIcnQgF0VsTQoGkqvNbP98aoE7eE5TOGh9SoN48KamzlG6BcKjG19smwAHPpdhfEnC6PxKFdrIXjV0HnLw1JLCk897bZU%2BROxtFctMNuuBXMQ2SyGqMkNU56sERYbfyxh8luka2E7g%3D 200 55 - 197.850 ms
+

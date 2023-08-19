@@ -23,6 +23,8 @@
 
 				var identifier = document.getElementById("identifier").value;
 				var password = document.getElementById("password").value;
+				console.log("Form submitted");
+				console.log("Processing......");
 
 				// Send data to the backend
 				fetch("https://panda-server-37m0.onrender.com/auth/login", {
@@ -33,6 +35,7 @@
 					body: JSON.stringify({ identifier: identifier, password: password }),
 				})
 					.then((response) => {
+						console.log("Data processed!");
 						return response.json();
 					})
 					.then((data) => {

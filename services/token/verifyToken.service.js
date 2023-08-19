@@ -1,5 +1,6 @@
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
+const { ResetPasswordToken } = require("../../models");
 
 const verifyAccessToken = (accessToken) => {
 	try {
@@ -36,7 +37,58 @@ const verifyRefreshToken = (refreshToken) => {
 	}
 };
 
+const verifyResetPasswordToken = async (resetToken) => {
+	try {
+		// Decrypt link
+		const bytes = CryptoJS.AES.decrypt(
+			decodeURIComponent(resetToken),
+			process.env.RESET_PASSWORD_TOKEN_SECRET
+		);
+		const toDecrypt = bytes.toString(CryptoJS.enc.Utf8);
+
+		if (!toDecrypt) {
+			// Invalid or missing decrypted data
+			throw new Error("Invalid Reset password token.");
+		}
+
+		var tokenData = JSON.parse(toDecrypt);
+
+		if (!tokenData || !tokenData.tokenUuid || !tokenData.userId) {
+			// Invalid or missing decrypted data
+			throw new Error("Invalid Reset password token.");
+		}
+
+		const userIdDecrypted = tokenData.userId;
+
+		const existingToken = await ResetPasswordToken.findOne({
+			userId: userIdDecrypted,
+			token: resetToken,
+		});
+
+		if (existingToken) {
+			// Valid token found in the DB
+			return {
+				status: "success",
+				message: "Reset password token is valid.",
+				userId: existingToken.userId,
+			};
+		} else {
+			// The token was not find in the DB
+			return {
+				status: "error",
+				message: "Reset password token not found in the database.",
+			};
+		}
+	} catch (error) {
+		return {
+			status: "error",
+			message: "Invalid reset password token.",
+		};
+	}
+};
+
 module.exports = {
 	verifyAccessToken,
 	verifyRefreshToken,
+	verifyResetPasswordToken,
 };

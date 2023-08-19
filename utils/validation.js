@@ -91,8 +91,35 @@ const validateEmail = (email) => {
 	}
 };
 
+const validatePassword = (password, confirmPassword) => {
+	// Validate password using assertions
+	try {
+		assert(password, "Password required.");
+		assert(confirmPassword, "Password confirmation required.");
+		assert(
+			validator.isLength(password, { min: 1, max: 125 }),
+			"Password can contain up to 125 characters."
+		);
+		assert.deepStrictEqual(password, confirmPassword, "Password and confirmation don't match.");
+		assert(
+			validator.isStrongPassword(password, {
+				minLength: 8,
+				minLowercase: 1,
+				minUppercase: 1,
+				minNumbers: 1,
+				minSymbols: 1,
+			}),
+			"Password must contain at least 8 characters, a lowercase letter, an uppercase letter, a number, and a special character."
+		);
+		return { status: "success" };
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
+
 module.exports = {
 	validateRegistrationInputs,
 	validateLoginInputs,
 	validateEmail,
+	validatePassword,
 };

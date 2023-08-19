@@ -1,6 +1,6 @@
-const { RefreshToken, ResetPasswordToken } = require("../models");
+const { RefreshToken, ResetPasswordToken } = require("../../models");
 const { DateTime } = require("luxon");
-const { logger } = require("../utils");
+const { logger } = require("../../utils");
 
 const setTokensInCookies = (res, accessToken, refreshToken) => {
 	res.cookie("access_token", accessToken, {
@@ -53,17 +53,20 @@ const storeRefreshTokenInDatabase = async (userId, refreshTokenToStore) => {
 const storeResetPasswordTokenInDatabase = async (userId, ResetPasswordTokenToStore) => {
 	try {
 		// Check if a reset password token already exists for the user
-		const existingToken = await ResetPasswordToken.findOne({ userId });
+		const existingToken = await ResetPasswordToken.find({ userId });
 
-		// If an existing token is found, remove former token from the database
+		// If existing token(s) is(are) found, remove former token(s) from the database
 		if (existingToken) {
-			await existingToken.deleteOne();
-			logger.info(`Existing reset password token removed from database. userId: ${userId}`);
-		}
+			const deleteResult = await ResetPasswordToken.deleteMany({ userId });
 
+			if (deleteResult.deletedCount > 0) {
+				logger.info(
+					`Removed ${deleteResult.deletedCount} reset password token(s) from the database. userId: ${userId}`
+				);
+			}
+		}
 		const resetPasswordToken = new ResetPasswordToken({
 			userId: userId,
-			createdAt: DateTime.now(),
 			token: ResetPasswordTokenToStore,
 		});
 

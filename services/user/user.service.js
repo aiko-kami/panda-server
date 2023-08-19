@@ -1,11 +1,11 @@
-const { User } = require("../models");
+const { User } = require("../../models");
 
 const retrieveUserById = async (id, fields) => {
 	const user = await User.findOne({ userId: id }).select(`-_id ${fields}`);
 	if (!user) {
 		return { status: "error", message: "User not found." };
 	}
-	return user;
+	return { status: "success", data: user };
 };
 
 const retrieveNewUsers = async (limit, fields) => {
@@ -13,7 +13,7 @@ const retrieveNewUsers = async (limit, fields) => {
 	if (!users) {
 		return { status: "error", message: "No user found." };
 	}
-	return users;
+	return { status: "success", data: users };
 };
 
 const retrieveUserByEmail = async (email) => {

@@ -1,7 +1,10 @@
 // Authentication Services
-module.exports.userService = require("./user.service");
 module.exports.signupService = require("./signup.service");
 module.exports.loginService = require("./login.service");
+
+//User Services
+module.exports.userService = require("./user/user.service");
+module.exports.updateUserPasswordService = require("./user/updateUserPassword.service");
 
 // Token Services
 module.exports.generateTokenService = require("./token/generateToken.service");

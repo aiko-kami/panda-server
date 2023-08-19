@@ -1,9 +1,9 @@
-const { RefreshToken, ResetPasswordToken } = require("../models");
+const { RefreshToken, ResetPasswordToken } = require("../../models");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
 const v4 = require("uuid").v4;
 const { DateTime } = require("luxon");
-const { logger } = require("../utils");
+const { logger } = require("../../utils");
 
 const deleteAllTokens = async () => {
 	try {
@@ -43,7 +43,28 @@ const removeRefreshTokenFromDatabase = async (refreshToken) => {
 	}
 };
 
+const removeResetPasswordTokenFromDatabase = async (userId, resetToken) => {
+	try {
+		// Find and remove the reset password token associated with the given user ID
+		const removeResult = await ResetPasswordToken.findOneAndRemove({ userId, token: resetToken });
+
+		if (!removeResult) {
+			return { status: "error", message: "Reset password token not found." };
+		}
+
+		logger.info(`Reset password token removed from database: ${resetToken}`);
+		return { status: "success", message: "Reset password token removed from database." };
+	} catch (error) {
+		logger.error("Error while removing reset password token from database: ", error);
+		return {
+			status: "error",
+			message: "An error occurred while removing reset password token from database.",
+		};
+	}
+};
+
 module.exports = {
 	deleteAllTokens,
 	removeRefreshTokenFromDatabase,
+	removeResetPasswordTokenFromDatabase,
 };

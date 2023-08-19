@@ -6,6 +6,6 @@ const forgotPasswordRoute = require("express").Router();
 const { forgotPasswordController } = require("../../controllers");
 
 forgotPasswordRoute.post("/", forgotPasswordController.forgotPassword);
-forgotPasswordRoute.get("/reset/:resetPasswordId", forgotPasswordController.resetPassword);
+forgotPasswordRoute.post("/reset/:resetPasswordId", forgotPasswordController.resetPassword);
 
 module.exports = forgotPasswordRoute;
