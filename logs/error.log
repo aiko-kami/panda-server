@@ -1,9 +1,0 @@
-2023-Aug-11 23:40:40:4040	error:	Error while storing refresh token in database:  existingToken.remove is not a function
-2023-Aug-11 23:42:00:420	error:	Error while storing refresh token in database:  existingToken.remove is not a function
-2023-Aug-12 21:12:45:1245	error:	Error while verifying the email validation link: Email already verified.
-2023-Aug-17 17:37:37:3737	error:	Error while storing reset password token in database:  Cannot access 'ResetPasswordToken' before initialization
-2023-Aug-17 19:27:59:2759	error:	Error while storing reset password token in database:  Cannot access 'ResetPasswordToken' before initialization
-2023-Aug-17 19:32:15:3215	error:	Error while storing reset password token in database:  Cannot read properties of undefined (reading 'findOne')
-2023-Aug-17 19:32:32:3232	error:	Error while storing reset password token in database:  Cannot read properties of undefined (reading 'findOne')
-2023-Aug-17 19:32:34:3234	error:	Error while storing reset password token in database:  Cannot read properties of undefined (reading 'findOne')
-2023-Aug-17 19:39:34:3934	error:	Error while storing reset password token in database:  Cannot read properties of undefined (reading 'findOne')
