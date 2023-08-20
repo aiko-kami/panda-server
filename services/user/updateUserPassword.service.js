@@ -2,14 +2,19 @@ const { User } = require("../../models");
 const bcrypt = require("bcryptjs");
 const { logger } = require("../../utils");
 
+/**
+ * Update user's password in the database.
+ * @param {string} userId - The ID of the user whose password needs to be updated.
+ * @param {string} newPassword - The new password to set for the user.
+ * @returns {Object} - An object with a status and message indicating the result.
+ */
+
 const updateUserPassword = async (userId, newPassword) => {
 	try {
-		// Hachez le nouveau mot de passe avant de le mettre à jour dans la base de données
+		// Hash the new password
 		const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-		console.log("🚀 ~ updateUserPassword ~ hashedPassword:", hashedPassword);
-
-		// Mettez à jour le mot de passe dans la base de données pour l'utilisateur avec userId
+		// Update the password in the database for the user with userId
 		await User.findOneAndUpdate({ userId }, { password: hashedPassword });
 
 		logger.info(`User password updated successfully. userId: ${userId}`);

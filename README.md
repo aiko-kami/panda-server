@@ -19,11 +19,19 @@ Panda Server is the backend part of Sheepy, a collaborative platform for project
 
 Our mission in Sheepy: Help you bring your projects to life!
 
-You can either create your own project or join an existing one. Create your dream project in a minute and find the talents you need. Or find the project that inspires you and start contributing.
+You have brilliant project ideas but don't know where to find the right talents to bring it to life? Or perhaps you're a skilled individual eager to contribute to exciting projects but struggle to find the right opportunities?
 
-**But what is a project?**
+Sheepy is designed to connect passionate skilled individuals with groundbreaking project ideas. Whether you're a creative artist, a tech wizard, a culinary enthusiast, an aspiring entrepreneur, or a seasoned professional in any field, Sheepy provides you with the community and tools you need to turn your vision into reality.
+
+**What is a project?**
 
 You have an idea and a goal? You want to accomplish something meaningful? You have your project! It can be anything from making a short film, creating a podcast about local history to forming a music band or developing an original video game...
+
+**Main Features:**
+
+- **<ins>Project Proposals:</ins>** You have an inspiring project idea but need specific talents to make it happen? Post your project proposal on Sheepy! Describe your project's goal and the skills you're seeking. Watch your idea come to life as talented individuals from around the world express their interest in joining your project.
+
+- **<ins>Talent Showcase:** Are you a designer, developer, musician, writer, or have any other amazing talent to share? Sheepy enables you to create a stunning talent profile showcasing your expertise and experience. Share your portfolio and talents, making it easy for project creators to find and invite you to collaborate.
 
 <br>
 
@@ -33,6 +41,10 @@ You have an idea and a goal? You want to accomplish something meaningful? You ha
  Work as a team                    ➡ You cannot achieve it alone? Find help from our community
  Have fun                          ➡ The most important thing is to do what you like!
 ```
+
+<br>
+
+Don't let your ideas and talents go to waste – join Sheepy now!
 
 ## Table of Contents
 
@@ -81,7 +93,7 @@ Start the server in dev mode:
   npm run dev
 ```
 
-## 🗂 Project Structure
+## 🗂 Code Structure
 
 ```
 src\
@@ -107,8 +119,9 @@ List of available routes:
 - **Auth routes**:\
   `POST /auth/sign-up` - Sign-up\
   `POST /auth/login` - login\
-  `POST /auth/forgot-password` - send reset password email\
-  `POST /auth/reset-password` - reset password\
+  `POST /auth/logout` - logout\
+  `POST /auth/forgotPassword` - send reset password email\
+  `POST /auth/resetPassword/:resetToken` - reset password
 
 - **User routes**:\
 

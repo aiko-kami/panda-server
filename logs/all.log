@@ -1254,3 +1254,5 @@
 2023-Aug-19 12:13:24:1324	info:	Reset password token removed from database: U2FsdGVkX1%2Bqrs7eBelrhqvgcEuNDHakn%2FIcnQgF0VsTQoGkqvNbP98aoE7eE5TOGh9SoN48KamzlG6BcKjG19smwAHPpdhfEnC6PxKFdrIXjV0HnLw1JLCk897bZU%2BROxtFctMNuuBXMQ2SyGqMkNU56sERYbfyxh8luka2E7g%3D
 2023-Aug-19 12:13:24:1324	http:	::ffff:127.0.0.1 POST /auth/forgotPassword/reset/U2FsdGVkX1%2Bqrs7eBelrhqvgcEuNDHakn%2FIcnQgF0VsTQoGkqvNbP98aoE7eE5TOGh9SoN48KamzlG6BcKjG19smwAHPpdhfEnC6PxKFdrIXjV0HnLw1JLCk897bZU%2BROxtFctMNuuBXMQ2SyGqMkNU56sERYbfyxh8luka2E7g%3D 200 55 - 197.850 ms
 
+2023-Aug-19 13:01:28:128	info:	Connected to private database
+2023-Aug-19 13:01:28:128	info:	Panda-Server is running on port 8080
