@@ -9,7 +9,7 @@ const retrieveUserById = async (id, fields) => {
 };
 
 const retrieveNewUsers = async (limit, fields) => {
-	const users = User.find().sort({ createdAt: -1 }).limit(limit).select(`-_id ${fields}`);
+	const users = await User.find().sort({ createdAt: -1 }).limit(limit).select(`-_id ${fields}`);
 	if (!users) {
 		return { status: "error", message: "No user found." };
 	}

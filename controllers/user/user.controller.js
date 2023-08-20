@@ -50,8 +50,8 @@ const updateUser = async (req, res) => {
 const getNewUsers = async (req, res) => {
 	try {
 		const newUsers = await userService.retrieveNewUsers(4, "username profilePicture description");
-		if (newUsers !== null && newUsers.length > 0) {
-			return apiResponse.successResponseWithData(res, "Operation success.", newUsers);
+		if (newUsers !== null && newUsers.data.length > 0) {
+			return apiResponse.successResponseWithData(res, "Operation success.", newUsers.data);
 		} else {
 			return apiResponse.successResponse(res, "No user found.");
 		}
