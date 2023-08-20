@@ -13,7 +13,7 @@ MainRouter.use("/", require("./master"));
 
 MainRouter.use("/users/me", require("./users/me"));
 MainRouter.use("/users/userOverview", require("./users/userOverview"));
-MainRouter.use("/users/newUsOverview", require("./users/newUsOverview"));
+MainRouter.use("/users/lastUsersOverview", require("./users/lastUsersOverview"));
 MainRouter.use("/users/userPublic", require("./users/userPublic"));
 
 // Projects routes
