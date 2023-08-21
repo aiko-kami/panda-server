@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">63.63% </span>
+                <span class="strong">68.42% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/22</span>
+                <span class='fraction'>13/19</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.85% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/7</span>
+                <span class='fraction'>3/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">63.63% </span>
+                <span class="strong">68.42% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/22</span>
+                <span class='fraction'>13/19</span>
             </div>
         
             
@@ -126,18 +126,7 @@
 <a name='L61'></a><a href='#L61'>61</a>
 <a name='L62'></a><a href='#L62'>62</a>
 <a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,16 +160,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -203,7 +182,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -212,7 +190,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Function to send a success response (status 200) without additional data.
-const successResponse = function (res, msg) {
+const successResponse = (res, msg) =&gt; {
 	const data = {
 		status: 1,
 		message: msg,
@@ -221,7 +199,7 @@ const successResponse = function (res, msg) {
 };
 &nbsp;
 // Function to send a success response (status 200) with additional data.
-const successResponseWithData = function (res, msg, data) {
+const successResponseWithData = (res, msg, data) =&gt; {
 	const resData = {
 		status: 1,
 		message: msg,
@@ -230,8 +208,8 @@ const successResponseWithData = function (res, msg, data) {
 	return res.status(200).json(resData);
 };
 &nbsp;
-// Function to send a client error response (e.g., validation error, unauthorized access, etc.).
-const clientErrorResponse = function (res, msg) {
+// Function to send a client error response (e.g., user input errors, validation error, unauthorized access, etc.).
+const clientErrorResponse = (res, msg) =&gt; {
 	const data = {
 		status: 0,
 		message: msg,
@@ -239,18 +217,8 @@ const clientErrorResponse = function (res, msg) {
 	return res.status(400).json(data);
 };
 &nbsp;
-// Function to send a client validation error response with additional data (e.g., user input errors).
-const validationErrorWithData = <span class="fstat-no" title="function not covered" >fu</span>nction (res, msg, data) {
-	const resData = <span class="cstat-no" title="statement not covered" >{</span>
-		status: 0,
-		message: msg,
-		data: data,
-	};
-<span class="cstat-no" title="statement not covered" >	return res.status(400).json(resData);</span>
-};
-&nbsp;
 // Function to send a server error response (e.g., internal server error, database connection failure, etc.).
-const serverErrorResponse = <span class="fstat-no" title="function not covered" >fu</span>nction (res, msg) {
+const serverErrorResponse = <span class="fstat-no" title="function not covered" >(r</span>es, msg) =&gt; {
 	const data = <span class="cstat-no" title="statement not covered" >{</span>
 		status: 0,
 		message: msg,
@@ -259,7 +227,7 @@ const serverErrorResponse = <span class="fstat-no" title="function not covered" 
 };
 &nbsp;
 // Function to send a response when the requested resource is not found (e.g., 404 Not Found).
-const notFoundResponse = <span class="fstat-no" title="function not covered" >fu</span>nction (res, msg) {
+const notFoundResponse = <span class="fstat-no" title="function not covered" >(r</span>es, msg) =&gt; {
 	const data = <span class="cstat-no" title="statement not covered" >{</span>
 		status: 0,
 		message: msg,
@@ -280,7 +248,6 @@ module.exports = {
 	successResponse,
 	successResponseWithData,
 	clientErrorResponse,
-	validationErrorWithData,
 	serverErrorResponse,
 	notFoundResponse,
 	unauthorizedResponse,
@@ -292,7 +259,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-08-21T20:21:39.197Z
+                at 2023-08-21T21:26:22.058Z
             </div>
         <script src="prettify.js"></script>
         <script>

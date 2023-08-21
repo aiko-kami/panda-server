@@ -4,7 +4,6 @@ const {
 	successResponse,
 	successResponseWithData,
 	clientErrorResponse,
-	validationErrorWithData,
 	serverErrorResponse,
 	notFoundResponse,
 	unauthorizedResponse,

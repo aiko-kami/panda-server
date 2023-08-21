@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1692649299235" clover="3.2.0">
-  <project timestamp="1692649299235" name="All files">
-    <metrics statements="99" coveredstatements="82" conditionals="22" coveredconditionals="18" methods="14" coveredmethods="8" elements="135" coveredelements="108" complexity="0" loc="99" ncloc="99" packages="1" files="5" classes="5"/>
+<coverage generated="1692653182092" clover="3.2.0">
+  <project timestamp="1692653182092" name="All files">
+    <metrics statements="96" coveredstatements="81" conditionals="22" coveredconditionals="18" methods="13" coveredmethods="8" elements="131" coveredelements="107" complexity="0" loc="96" ncloc="96" packages="1" files="5" classes="5"/>
     <file name="apiResponse.js" path="C:\Users\Adri\Desktop\Code\panda-server\utils\apiResponse.js">
-      <metrics statements="22" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="3"/>
+      <metrics statements="19" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="3"/>
       <line num="2" count="2" type="stmt"/>
       <line num="3" count="2" type="stmt"/>
       <line num="7" count="2" type="stmt"/>
@@ -15,17 +15,14 @@
       <line num="26" count="2" type="stmt"/>
       <line num="30" count="2" type="stmt"/>
       <line num="31" count="0" type="stmt"/>
-      <line num="36" count="0" type="stmt"/>
-      <line num="40" count="2" type="stmt"/>
-      <line num="41" count="0" type="stmt"/>
-      <line num="45" count="0" type="stmt"/>
-      <line num="49" count="2" type="stmt"/>
-      <line num="50" count="0" type="stmt"/>
-      <line num="54" count="0" type="stmt"/>
-      <line num="58" count="2" type="stmt"/>
-      <line num="59" count="0" type="stmt"/>
-      <line num="63" count="0" type="stmt"/>
-      <line num="66" count="2" type="stmt"/>
+      <line num="35" count="0" type="stmt"/>
+      <line num="39" count="2" type="stmt"/>
+      <line num="40" count="0" type="stmt"/>
+      <line num="44" count="0" type="stmt"/>
+      <line num="48" count="2" type="stmt"/>
+      <line num="49" count="0" type="stmt"/>
+      <line num="53" count="0" type="stmt"/>
+      <line num="56" count="2" type="stmt"/>
     </file>
     <file name="emailDelivery.js" path="C:\Users\Adri\Desktop\Code\panda-server\utils\emailDelivery.js">
       <metrics statements="11" coveredstatements="3" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>

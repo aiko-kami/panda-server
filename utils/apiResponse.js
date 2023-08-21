@@ -57,7 +57,6 @@ module.exports = {
 	successResponse,
 	successResponseWithData,
 	clientErrorResponse,
-	validationErrorWithData,
 	serverErrorResponse,
 	notFoundResponse,
 	unauthorizedResponse,
