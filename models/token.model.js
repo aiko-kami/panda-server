@@ -15,6 +15,7 @@ const refreshTokenSchema = new mongoose.Schema(
 		createdAt: {
 			type: Date,
 			default: DateTime.now(),
+			required: true,
 		},
 		expiresAt: {
 			type: Date,
@@ -38,6 +39,7 @@ const resetPasswordTokenSchema = new mongoose.Schema(
 		createdAt: {
 			type: Date,
 			default: DateTime.now(),
+			required: true,
 		},
 		expiresAt: {
 			type: Date,
