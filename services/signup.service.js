@@ -1,9 +1,6 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
-const { DateTime } = require("luxon");
 const { logger } = require("../utils");
-
-const v4 = require("uuid").v4;
 
 const checkUsernameAndEmailAvailability = async (username, email) => {
 	const existingUser = await User.findOne({ $or: [{ username }, { email }] });
@@ -23,15 +20,11 @@ const checkUsernameAndEmailAvailability = async (username, email) => {
 
 const signupUser = async (username, email, password) => {
 	try {
-		const userId = v4();
-
 		const hashedPassword = await bcrypt.hash(password, 10);
 		const newUser = new User({
-			userId,
 			username,
 			email,
 			password: hashedPassword,
-			createdAt: DateTime.now().toHTTP(),
 			emailVerified: {
 				verified: false,
 				emailId: "",
