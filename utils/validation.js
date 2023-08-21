@@ -24,11 +24,11 @@ const validateRegistrationInputs = (username, email, password, confirmPassword) 
 			"Username can contain letters, numbers, dashes and underscores."
 		);
 		assert(validator.isLength(username, { min: 3, max: 32 }), "Username can be 3-32 characters.");
-		assert(validator.isEmail(email), "Email wrongly formatted.");
 		assert(
-			validator.isLength(email, { min: 2, max: 80 }),
-			"Email can contain up to 80 characters."
+			validator.isLength(email, { min: 2, max: 255 }),
+			"Email can contain up to 255 characters."
 		);
+		assert(validator.isEmail(email), "Email wrongly formatted.");
 		assert(
 			validator.isLength(password, { min: 1, max: 125 }),
 			"Password can contain up to 125 characters."
