@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
+const Category = require("./category.model");
 const { DateTime } = require("luxon");
 
 const memberSchema = new mongoose.Schema({
 	memberId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "User", // Ceci suppose que vous avez un modèle User pour stocker les détails des utilisateurs
+		ref: "User",
 		required: true,
 	},
 	role: String,
@@ -12,17 +13,24 @@ const memberSchema = new mongoose.Schema({
 		type: Date,
 		default: DateTime.now().toHTTP(),
 	},
-	// Ajoutez d'autres champs ici si nécessaire
 });
 
 const projectSchema = new mongoose.Schema(
 	{
-		projectId: { type: String, required: true },
-		title: { type: String, required: true },
+		projectId: { type: String, required: true, unique: true },
+		title: { type: String, required: true, unique: true },
 		goal: { type: String, required: true },
 		summary: { type: String, required: true },
 		description: { type: String, required: true },
-		categoriesIds: { type: [String], required: true },
+		categoriesIds: {
+			type: [
+				{
+					type: mongoose.Schema.Types.ObjectId,
+					ref: "Category",
+				},
+			],
+			required: true,
+		},
 		subCategoriesIds: { type: [String] }, // Optional
 		tagsIds: { type: [String] }, // Optional
 		status: {
@@ -33,7 +41,7 @@ const projectSchema = new mongoose.Schema(
 		},
 		phase: { type: String }, // Optional
 		members: [memberSchema], // Optional
-		location: { type: String }, // Optional
+		location: { city: { type: String }, country: { type: String } }, // Optional
 		skillsNeeded: {
 			type: [String], // Array of skills or talents needed
 			required: true,
@@ -51,7 +59,7 @@ const projectSchema = new mongoose.Schema(
 		visibility: {
 			// Optional
 			type: String,
-			enum: ["public", "private"], // Only 'public' or 'private' allowed
+			enum: ["public", "private"],
 			default: "public",
 		},
 		attachments: [String], // Array of file URLs - Optional
