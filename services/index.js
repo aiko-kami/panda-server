@@ -15,3 +15,6 @@ module.exports.removeTokenService = require("./token/removeToken.service");
 // Email services
 module.exports.emailValidationService = require("./emailValidation.service");
 module.exports.emailResetPasswordService = require("./emailResetPassword.service");
+
+// Project related services
+module.exports.categoryService = require("./project/category.service");

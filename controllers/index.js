@@ -8,6 +8,7 @@ module.exports.userController = require("./user/user.controller");
 
 // Project Controllers
 module.exports.projectController = require("./project/project.controller");
+module.exports.categoryController = require("./project/category.controller");
 
 // Auth Controllers
 module.exports.signupController = require("./auth/signup.controller");

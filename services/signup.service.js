@@ -22,14 +22,14 @@ const signupUser = async (username, email, password) => {
 	try {
 		const hashedPassword = await bcrypt.hash(password, 10);
 		const newUser = new User({
-			username,
-			email,
+			username: username,
+			email: email,
 			password: hashedPassword,
 			emailVerified: {
 				verified: false,
 				emailId: "",
 			},
-			image: "",
+			profilePicture: "",
 			location: {
 				city: "",
 				country: "",
