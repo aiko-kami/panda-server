@@ -118,12 +118,20 @@ List of available routes:
 
 - **Auth routes**:\
   `POST /auth/sign-up` - Sign-up\
+  `POST /auth/sign-up/:emailValidationId` - Verify the email address\
   `POST /auth/login` - login\
-  `POST /auth/logout` - logout\
+  `GET /auth/logout` - logout\
   `POST /auth/forgotPassword` - send reset password email\
   `POST /auth/resetPassword/:resetToken` - reset password
 
 - **User routes**:\
+  `GET /users/lastUsersOverview` - Retrieve new users
+
+- **Project routes**:\
+  `POST /projects/createProject` - Create new project\
+  `POST /projects/createCategory` - Create new project category\
+  `POST /projects/updateCategory` - Update project category\
+  `DELETE /projects/removeCategory` - Remove project category
 
 ## 🛠 Environment Variables
 
@@ -173,4 +181,4 @@ NextJS version: [Sheepy](https://www.neutroneer.com/)
 
 ## 🧗‍♂️ Status
 
-I am currently working on... **Login/Logout features**
+I am currently working on... **Project creation features**
