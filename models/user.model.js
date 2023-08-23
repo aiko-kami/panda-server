@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
 		emailVerified: {
 			verified: { type: Boolean, required: true },
 			emailId: { type: String },
-			expirationTimestamp: { type: Number, required: true },
+			expirationTimestamp: { type: Number },
 		},
 		profilePicture: { type: String },
 		location: { city: { type: String }, country: { type: String } },

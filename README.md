@@ -11,7 +11,7 @@
 
 </div>
 
-# 🐣 Presentation
+## 🐣 Presentation
 
 Panda Server is the backend part of Sheepy, a collaborative platform for projects creation and tracking.
 
@@ -46,7 +46,7 @@ You have an idea and a goal? You want to accomplish something meaningful? You ha
 
 Don't let your ideas and talents go to waste – join Sheepy now!
 
-# Table of Contents
+## Table of Contents
 
 - [Presentation](#-presentation)
 - [Features](#-features)
@@ -60,7 +60,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
 - [Demo](#-demo)
 - [Status](#️-status)
 
-# 🧰 Features
+## 🧰 Features
 
 - [x] Sign-up & Login
   - [x] Sign-up
@@ -78,7 +78,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
 - [ ] Q&A, comments
 - [ ] Search
 
-# 📦 Installation
+## 📦 Installation
 
 Panda server requires [Node.js](https://nodejs.org/) and [MongoDB](https://mongodb.com/) to run.
 
@@ -95,7 +95,7 @@ Start the server in dev mode:
   npm run dev
 ```
 
-# 🗂 Code Structure
+## 🗂 Code Structure
 
 ```
 src
