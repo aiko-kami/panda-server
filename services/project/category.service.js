@@ -21,7 +21,9 @@ const createCategory = async (name) => {
 		const existingCategory = await Category.findOne({ name });
 
 		if (existingCategory) {
-			logger.error("Category already present in the database.");
+			logger.error(
+				"Error while storing category in database: Category already present in the database."
+			);
 			return { status: "error", message: "Category already present in the database." };
 		}
 
@@ -48,6 +50,57 @@ const createCategory = async (name) => {
 	}
 };
 
+const updateCategory = async (categoryId, newName) => {
+	console.log("🚀 ~ updateCategory ~ newName:", newName);
+
+	console.log("🚀 ~ updateCategory ~ categoryId:", categoryId);
+
+	try {
+		// Validate input data
+		if (typeof newName !== "string") {
+			return { status: "error", message: "Invalid type of data." };
+		}
+
+		// Check if a category with the given categoryId exists
+		const existingCategory = await Category.findOne({ categoryId });
+		if (!existingCategory) {
+			return { status: "error", message: "Category not found." };
+		}
+
+		// Check if the new name is the same as the existing name (no change needed)
+		if (newName === existingCategory.name) {
+			logger.error("Error while storing category in database: Category name is unchanged.");
+			return { status: "error", message: "Category name is unchanged." };
+		}
+
+		// Check if the new name already exists in the collection (must be unique)
+		const nameExists = await Category.findOne({ name: newName });
+		if (nameExists) {
+			return { status: "error", message: "Category name already exists." };
+		}
+
+		// Update the category's name
+		existingCategory.name = newName;
+		await existingCategory.save();
+
+		logger.info(`Category updated successfully. categoryId: ${categoryId}`);
+
+		return {
+			status: "success",
+			message: "Category updated successfully.",
+			data: { updatedCategory: existingCategory },
+		};
+	} catch (error) {
+		logger.error(`Error while updating category: ${error}`);
+
+		return {
+			status: "error",
+			message: "An error occurred while updating the category.",
+		};
+	}
+};
+
 module.exports = {
 	createCategory,
+	updateCategory,
 };

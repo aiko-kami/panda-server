@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<h1>Project Category Example</h1>
+		<h2>Create new project category</h2>
+		<br />
+		<form method="post" id="newCategory">
+			<label for="categoryName1">Category name:</label>
+			<input type="text" id="categoryName1" /><br /><br />
+			<button type="submit">Submit</button>
+		</form>
+		<br />
+		<br />
+		<br />
+		<h2>Update project category</h2>
+		<br />
+		<form method="post" id="updateCategory">
+			<label for="categoryName2">Category name:</label>
+			<input type="text" id="categoryName2" /><br /><br />
+			<label for="categoryId">Category ID:</label>
+			<input type="text" id="categoryId" /><br /><br />
+			<button type="submit">Submit</button>
+		</form>
+		<script>
+			const formNewCategory = document.querySelector("#newCategory");
+			const formUpdateCategory = document.querySelector("#updateCategory");
+
+			formNewCategory.addEventListener("submit", function (event) {
+				// stop form submission
+				event.preventDefault();
+
+				var categoryName = document.getElementById("categoryName1").value;
+				console.log("Form submitted");
+				console.log("Processing......");
+
+				// Send data to the backend
+				fetch("http://localhost:8080/projects/createCategory", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ categoryName: categoryName }),
+				})
+					.then((response) => {
+						console.log("Data processed!");
+						return response.json();
+					})
+					.then((data) => {
+						// Handle the response from the backend
+						console.log(data.message);
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			});
+
+			formUpdateCategory.addEventListener("submit", function (event) {
+				// stop form submission
+				event.preventDefault();
+
+				var categoryNewName = document.getElementById("categoryName2").value;
+				var categoryId = document.getElementById("categoryId").value;
+				console.log("Form submitted");
+				console.log("Processing......");
+
+				// Send data to the backend
+				fetch("http://localhost:8080/projects/updateCategory", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ categoryNewName, categoryId }),
+				})
+					.then((response) => {
+						console.log("Data processed!");
+						return response.json();
+					})
+					.then((data) => {
+						// Handle the response from the backend
+						console.log(data.message);
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			});
+		</script>
+	</body>
+</html>
