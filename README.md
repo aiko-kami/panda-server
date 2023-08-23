@@ -68,10 +68,15 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Login
   - [x] Logout
   - [x] Forgot password
-- [ ] Create new project
-- [ ] Edit project
-- [ ] Edit user profile
-- [ ] Talents
+- [ ] Projects
+  - [x] Create new project category
+  - [x] Update project category
+  - [x] Delete project category
+  - [ ] Create new project
+  - [ ] Edit project
+- [ ] User profile
+  - [ ] Edit user profile
+  - [ ] Talents
 - [ ] Friends
 - [ ] O-auth
 - [ ] Messenger
