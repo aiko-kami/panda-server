@@ -96,16 +96,30 @@ Start the server in dev mode:
 ## 🗂 Code Structure
 
 ```
-src\
- |--config\         # Configuration related variables
- |--controllers\    # Route controllers
- |--docs\           # Documentation
- |--middlewares\    # Custom middlewares
- |--models\         # Mongoose models
- |--routes\         # Routes
- |--services\       # Business logic
- |--utils\          # Utility classes and functions
- |--server.js       # App entry point
+src
+├───config                # Configuration related variables
+├───controllers           # Route controllers
+│   ├───auth
+│   ├───project
+│   └───user
+├───docs                  # Documentation
+├───middlewares           # Custom middlewares
+├───models                # Mongoose models
+├───routes                # Routes
+│   ├───atlas
+│   ├───auth
+│   ├───master
+│   ├───projects
+│   └───users
+├───services              # Business logic
+│   ├───project
+│   ├───token
+│   └───user
+├───Tests                 # Tests
+│   ├───front-end
+│   └───utils
+└───utils                 # Utility classes and functions
+app.js                    # App entry point
 ```
 
 ## 📖 API Documentation
@@ -116,22 +130,31 @@ Not available right now.
 
 List of available routes:
 
-- **Auth routes**:\
-  `POST /auth/sign-up` - Sign-up\
-  `POST /auth/sign-up/:emailValidationId` - Verify the email address\
-  `POST /auth/login` - login\
-  `GET /auth/logout` - logout\
-  `POST /auth/forgotPassword` - send reset password email\
-  `POST /auth/resetPassword/:resetToken` - reset password
+- **Auth routes**:
 
-- **User routes**:\
-  `GET /users/lastUsersOverview` - Retrieve new users
+| Method | URI                                | Action                    |
+| ------ | ---------------------------------- | ------------------------- |
+| `POST` | `/auth/sign-up`                    | Sign-up                   |
+| `POST` | `/auth/sign-up/:emailValidationId` | Verify the email address  |
+| `POST` | `/auth/login`                      | Login                     |
+| `GET`  | `/auth/logout`                     | Logout                    |
+| `POST` | `/auth/forgotPassword`             | Send reset password email |
+| `POST` | `/auth/resetPassword/:resetToken`  | Reset password            |
 
-- **Project routes**:\
-  `POST /projects/createProject` - Create new project\
-  `POST /projects/createCategory` - Create new project category\
-  `POST /projects/updateCategory` - Update project category\
-  `DELETE /projects/removeCategory` - Remove project category
+- **User routes**:
+
+| Method | URI                        | Action             |
+| ------ | -------------------------- | ------------------ |
+| `GET`  | `/users/lastUsersOverview` | Retrieve new users |
+
+- **Project routes**:
+
+| Method   | URI                        | Action                      |
+| -------- | -------------------------- | --------------------------- |
+| `POST`   | `/projects/createProject`  | Create new project          |
+| `POST`   | `/projects/createCategory` | Create new project category |
+| `POST`   | `/projects/updateCategory` | Update project category     |
+| `DELETE` | `/projects/removeCategory` | Remove project category     |
 
 ## 🛠 Environment Variables
 
