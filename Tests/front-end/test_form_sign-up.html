@@ -6,8 +6,8 @@
 		<title>Document</title>
 	</head>
 	<body>
-		<h1>Login Example</h1>
-		<form method="post" id="login">
+		<h1>Sign-up Example</h1>
+		<form method="post" id="signup">
 			<label for="username">Username:</label>
 			<input type="username" id="username" /><br /><br />
 			<label for="email">Email:</label>
@@ -19,7 +19,7 @@
 			<button type="submit">Submit</button>
 		</form>
 		<script>
-			const form = document.querySelector("#login");
+			const form = document.querySelector("#signup");
 
 			form.addEventListener("submit", function (event) {
 				// stop form submission
@@ -32,6 +32,7 @@
 				console.log("Form submitted");
 				console.log("Processing......");
 				// Send data to the backend
+				// fetch("http://localhost:8080/auth/sign-up", {
 				fetch("https://panda-server-37m0.onrender.com/auth/sign-up", {
 					method: "POST",
 					headers: {
