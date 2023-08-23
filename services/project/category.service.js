@@ -51,10 +51,6 @@ const createCategory = async (name) => {
 };
 
 const updateCategory = async (categoryId, newName) => {
-	console.log("🚀 ~ updateCategory ~ newName:", newName);
-
-	console.log("🚀 ~ updateCategory ~ categoryId:", categoryId);
-
 	try {
 		// Validate input data
 		if (typeof newName !== "string") {
@@ -64,6 +60,7 @@ const updateCategory = async (categoryId, newName) => {
 		// Check if a category with the given categoryId exists
 		const existingCategory = await Category.findOne({ categoryId });
 		if (!existingCategory) {
+			logger.error("Error while storing category in database: Category not found.");
 			return { status: "error", message: "Category not found." };
 		}
 
@@ -76,6 +73,7 @@ const updateCategory = async (categoryId, newName) => {
 		// Check if the new name already exists in the collection (must be unique)
 		const nameExists = await Category.findOne({ name: newName });
 		if (nameExists) {
+			logger.error("Error while storing category in database: Category name already exists.");
 			return { status: "error", message: "Category name already exists." };
 		}
 
