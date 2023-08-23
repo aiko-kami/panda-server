@@ -46,12 +46,12 @@ You have an idea and a goal? You want to accomplish something meaningful? You ha
 
 Don't let your ideas and talents go to waste – join Sheepy now!
 
-## Table of Contents
+# Table of Contents
 
 - [Presentation](#-presentation)
 - [Features](#-features)
 - [Installation](#-installation)
-- [Project Structure](#-project-structure)
+- [Code Structure](#-code-structure)
 - [API Documentation](#-api-documentation)
 - [API Endpoints](#-api-endpoints)
 - [Environment Variables](#-environment-variables)
@@ -60,12 +60,14 @@ Don't let your ideas and talents go to waste – join Sheepy now!
 - [Demo](#-demo)
 - [Status](#️-status)
 
-## 🧰 Features
+# 🧰 Features
 
-- [x] Sign-up
-- [x] Login
-- [x] Logout
-- [x] Forgot password
+- [x] Sign-up & Login
+  - [x] Sign-up
+  - [x] Validate email address
+  - [x] Login
+  - [x] Logout
+  - [x] Forgot password
 - [ ] Create new project
 - [ ] Edit project
 - [ ] Edit user profile
@@ -76,7 +78,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
 - [ ] Q&A, comments
 - [ ] Search
 
-## 📦 Installation
+# 📦 Installation
 
 Panda server requires [Node.js](https://nodejs.org/) and [MongoDB](https://mongodb.com/) to run.
 
@@ -93,7 +95,7 @@ Start the server in dev mode:
   npm run dev
 ```
 
-## 🗂 Code Structure
+# 🗂 Code Structure
 
 ```
 src
@@ -135,7 +137,7 @@ List of available routes:
 | Method | URI                                | Action                    |
 | ------ | ---------------------------------- | ------------------------- |
 | `POST` | `/auth/sign-up`                    | Sign-up                   |
-| `POST` | `/auth/sign-up/:emailValidationId` | Verify the email address  |
+| `GET`  | `/auth/sign-up/:emailValidationId` | Verify the email address  |
 | `POST` | `/auth/login`                      | Login                     |
 | `GET`  | `/auth/logout`                     | Logout                    |
 | `POST` | `/auth/forgotPassword`             | Send reset password email |
@@ -152,6 +154,7 @@ List of available routes:
 | Method   | URI                        | Action                      |
 | -------- | -------------------------- | --------------------------- |
 | `POST`   | `/projects/createProject`  | Create new project          |
+| `POST`   | `/projects/updateProject`  | Update project              |
 | `POST`   | `/projects/createCategory` | Create new project category |
 | `POST`   | `/projects/updateCategory` | Update project category     |
 | `DELETE` | `/projects/removeCategory` | Remove project category     |
