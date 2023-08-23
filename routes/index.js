@@ -24,6 +24,7 @@ MainRouter.use("/projects/projectOverview", require("./projects/projectOverview"
 MainRouter.use("/projects/projectPublic", require("./projects/projectPublic"));
 MainRouter.use("/projects/createCategory", require("./projects/createCategory"));
 MainRouter.use("/projects/updateCategory", require("./projects/updateCategory"));
+MainRouter.use("/projects/removeCategory", require("./projects/removeCategory"));
 
 // Signup / Login
 

@@ -23,12 +23,24 @@
 			<label for="categoryName2">Category name:</label>
 			<input type="text" id="categoryName2" /><br /><br />
 			<label for="categoryId">Category ID:</label>
-			<input type="text" id="categoryId" /><br /><br />
+			<input type="text" id="categoryId1" /><br /><br />
 			<button type="submit">Submit</button>
 		</form>
+		<br />
+		<br />
+		<br />
+		<h2>Remove project category</h2>
+		<br />
+		<form method="post" id="removeCategory">
+			<label for="categoryId2">Category ID:</label>
+			<input type="text" id="categoryId2" /><br /><br />
+			<button type="submit">Submit</button>
+		</form>
+
 		<script>
 			const formNewCategory = document.querySelector("#newCategory");
 			const formUpdateCategory = document.querySelector("#updateCategory");
+			const formRemoveCategory = document.querySelector("#removeCategory");
 
 			formNewCategory.addEventListener("submit", function (event) {
 				// stop form submission
@@ -44,7 +56,7 @@
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ categoryName: categoryName }),
+					body: JSON.stringify({ categoryName }),
 				})
 					.then((response) => {
 						console.log("Data processed!");
@@ -64,7 +76,7 @@
 				event.preventDefault();
 
 				var categoryNewName = document.getElementById("categoryName2").value;
-				var categoryId = document.getElementById("categoryId").value;
+				var categoryId = document.getElementById("categoryId1").value;
 				console.log("Form submitted");
 				console.log("Processing......");
 
@@ -75,6 +87,35 @@
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({ categoryNewName, categoryId }),
+				})
+					.then((response) => {
+						console.log("Data processed!");
+						return response.json();
+					})
+					.then((data) => {
+						// Handle the response from the backend
+						console.log(data.message);
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			});
+
+			formRemoveCategory.addEventListener("submit", function (event) {
+				// stop form submission
+				event.preventDefault();
+
+				var categoryId = document.getElementById("categoryId2").value;
+				console.log("Form submitted");
+				console.log("Processing......");
+
+				// Send data to the backend
+				fetch("http://localhost:8080/projects/removeCategory", {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ categoryId }),
 				})
 					.then((response) => {
 						console.log("Data processed!");

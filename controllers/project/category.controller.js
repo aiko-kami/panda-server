@@ -2,7 +2,7 @@ const { categoryService } = require("../../services");
 const { apiResponse } = require("../../utils");
 
 /**
- * Create a new project category controller.
+ * Create new project category controller.
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
  * @returns {Object} - The response containing the created category or an error message.
@@ -27,7 +27,7 @@ const createCategory = async (req, res) => {
 };
 
 /**
- * Update a project category controller.
+ * Update project category controller.
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
  * @returns {Object} - The response containing the updated category or an error message.
@@ -51,7 +51,33 @@ const updateCategory = async (req, res) => {
 	}
 };
 
+/**
+ * Remove project category controller.
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ * @returns {Object} - The response containing the removed category or an error message.
+ */
+
+// Remove project category
+const removeCategory = async (req, res) => {
+	const { categoryId } = req.body;
+
+	try {
+		// Call the service to create the category
+		const removedCategory = await categoryService.removeCategory(categoryId);
+
+		if (removedCategory.status !== "success") {
+			return apiResponse.serverErrorResponse(res, removedCategory.message);
+		}
+
+		return apiResponse.successResponse(res, "Category removed successfully", removedCategory);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, "An error occurred while removing the category");
+	}
+};
+
 module.exports = {
 	createCategory,
 	updateCategory,
+	removeCategory,
 };

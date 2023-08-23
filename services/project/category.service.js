@@ -53,9 +53,12 @@ const createCategory = async (name) => {
 const updateCategory = async (categoryId, newName) => {
 	try {
 		// Validate input data
-		if (typeof newName !== "string") {
+		if (typeof categoryId !== "string" || newName !== "string") {
 			return { status: "error", message: "Invalid type of data." };
 		}
+
+		assert(categoryId, "Category Id required.");
+		assert(newName, "Category name required.");
 
 		// Check if a category with the given categoryId exists
 		const existingCategory = await Category.findOne({ categoryId });
@@ -98,7 +101,46 @@ const updateCategory = async (categoryId, newName) => {
 	}
 };
 
+const removeCategory = async (categoryId) => {
+	try {
+		// Validate input data
+		if (typeof categoryId !== "string") {
+			return { status: "error", message: "Invalid type of data." };
+		}
+		assert(categoryId, "Category Id required.");
+
+		// Check if a category with the given categoryId exists
+		const existingCategory = await Category.findOne({ categoryId });
+
+		console.log("🚀 ~ removeCategory ~ existingCategory:", existingCategory);
+
+		if (!existingCategory) {
+			logger.error("Error while storing category in database: Category not found.");
+			return { status: "error", message: "Category not found." };
+		}
+
+		// Remove the category from the database
+		await existingCategory.deleteOne();
+
+		logger.info(`Category removed successfully. categoryId: ${categoryId}`);
+
+		return {
+			status: "success",
+			message: "Category removed successfully.",
+			data: { removedCategory: existingCategory },
+		};
+	} catch (error) {
+		logger.error(`Error while removing category: ${error}`);
+
+		return {
+			status: "error",
+			message: "An error occurred while removing the category.",
+		};
+	}
+};
+
 module.exports = {
 	createCategory,
 	updateCategory,
+	removeCategory,
 };
