@@ -72,13 +72,28 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Create new project category
   - [x] Update project category
   - [x] Delete project category
+  - [x] Define project model
   - [ ] Create new project
   - [ ] Edit project
 - [ ] User profile
   - [ ] Edit user profile
   - [ ] Talents
+    - [ ] Define Talent model
+    - [ ] Create new talent
+    - [ ] Update talent
+    - [ ] Delete talent
+    - [ ] Share talent
 - [ ] Friends
-- [ ] O-auth
+  - [ ] Define friend model
+  - [ ] Send friend request
+  - [ ] Retrieve friend requests
+  - [ ] Accept/decline friend request
+- [ ] Join project
+  - [ ] Send join project request
+  - [ ] Accept/decline join project request
+  - [ ] Send project invitation
+  - [ ] Accept/decline project invitation
+- [ ] O-Auth
 - [ ] Messenger
 - [ ] Q&A, comments
 - [ ] Search
