@@ -22,11 +22,9 @@ MainRouter.use("/projects/createProject", require("./projects/createProject"));
 MainRouter.use("/projects/project", require("./projects/project"));
 MainRouter.use("/projects/projectOverview", require("./projects/projectOverview"));
 MainRouter.use("/projects/projectPublic", require("./projects/projectPublic"));
-MainRouter.use("/projects/createCategory", require("./projects/createCategory"));
-MainRouter.use("/projects/updateCategory", require("./projects/updateCategory"));
-MainRouter.use("/projects/removeCategory", require("./projects/removeCategory"));
+MainRouter.use("/projects/category", require("./projects/category"));
 
-// Signup / Login
+// Sign-up & Login
 
 MainRouter.use("/auth/sign-up", require("./auth/signup"));
 MainRouter.use("/auth/login", require("./auth/login"));
@@ -34,7 +32,7 @@ MainRouter.use("/auth/logout", require("./auth/logout"));
 MainRouter.use("/auth/forgotPassword", require("./auth/forgotPassword"));
 MainRouter.use("/auth/deleteAllTokens", require("./auth/deleteAllTokens"));
 
-// Atlas (general data)
+// Atlas (general public data)
 
 MainRouter.use("/atlas/public", require("./atlas/atlasPublic"));
 MainRouter.use("/atlas/internal", require("./atlas/atlasInternal"));

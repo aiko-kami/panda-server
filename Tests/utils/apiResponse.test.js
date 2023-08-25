@@ -110,6 +110,75 @@ test("Testing clientErrorResponse function with default message", () => {
 
 //serverErrorResponse
 
+test("Testing serverErrorResponse function with custom message", () => {
+	const res = mockResponse();
+	const msg = "Server error message";
+	serverErrorResponse(res, msg);
+
+	expect(res.status).toHaveBeenCalledWith(500);
+	expect(res.json).toHaveBeenCalledWith({
+		status: 0,
+		message: msg,
+	});
+});
+
+test("Testing serverErrorResponse function with default message", () => {
+	const res = mockResponse();
+	serverErrorResponse(res);
+
+	expect(res.status).toHaveBeenCalledWith(500);
+	expect(res.json).toHaveBeenCalledWith({
+		status: 0,
+		message: expect().toBeUndefined(),
+	});
+});
+
 //notFoundResponse
 
+test("Testing notFoundResponse function with custom message", () => {
+	const res = mockResponse();
+	const msg = "Not found message";
+	notFoundResponse(res, msg);
+
+	expect(res.status).toHaveBeenCalledWith(404);
+	expect(res.json).toHaveBeenCalledWith({
+		status: 0,
+		message: msg,
+	});
+});
+
+test("Testing notFoundResponse function with default message", () => {
+	const res = mockResponse();
+	notFoundResponse(res);
+
+	expect(res.status).toHaveBeenCalledWith(404);
+	expect(res.json).toHaveBeenCalledWith({
+		status: 0,
+		message: expect().toBeUndefined(),
+	});
+});
+
 //unauthorizedResponse
+
+test("Testing unauthorizedResponse function with custom message", () => {
+	const res = mockResponse();
+	const msg = "Unauthorized message";
+	unauthorizedResponse(res, msg);
+
+	expect(res.status).toHaveBeenCalledWith(401);
+	expect(res.json).toHaveBeenCalledWith({
+		status: 0,
+		message: msg,
+	});
+});
+
+test("Testing unauthorizedResponse function with default message", () => {
+	const res = mockResponse();
+	unauthorizedResponse(res);
+
+	expect(res.status).toHaveBeenCalledWith(401);
+	expect(res.json).toHaveBeenCalledWith({
+		status: 0,
+		message: expect().toBeUndefined(),
+	});
+});
