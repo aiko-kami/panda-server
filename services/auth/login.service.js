@@ -1,8 +1,6 @@
 const bcrypt = require("bcryptjs");
-const User = require("../models/user.model");
-const { logger } = require("../utils");
-
-const v4 = require("uuid").v4;
+const User = require("../../models/user.model");
+const { logger } = require("../../utils");
 
 // Function to get user by username or email
 const getUserByUsernameOrEmail = async (identifier) => {

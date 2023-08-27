@@ -1,15 +1,16 @@
 const bcrypt = require("bcryptjs");
-const User = require("../models/user.model");
-const { logger } = require("../utils");
+const User = require("../../models/user.model");
+const { logger } = require("../../utils");
 
 const checkUsernameAndEmailAvailability = async (username, email) => {
-	const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+	const usernameCapitalized = username.toUpperCase();
+	const existingUser = await User.findOne({ $or: [{ usernameCapitalized }, { email }] });
 
 	if (existingUser) {
 		return {
 			status: "error",
 			message:
-				existingUser.username === username
+				existingUser.usernameCapitalized === usernameCapitalized
 					? "Username is already in use."
 					: "Email is already in use.",
 		};
@@ -23,6 +24,7 @@ const signupUser = async (username, email, password) => {
 		const hashedPassword = await bcrypt.hash(password, 10);
 		const newUser = new User({
 			username: username,
+			usernameCapitalized: username.toUpperCase(),
 			email: email,
 			password: hashedPassword,
 			emailVerified: {

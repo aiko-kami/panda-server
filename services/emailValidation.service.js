@@ -30,8 +30,10 @@ const sendVerificationEmail = async (userId) => {
 			).toString();
 
 			//Transform encrypted data into a valid link
-			//Example https://www.neutroneer.com/signup/xxxxxxxxxxxxxxxxxxx
-			const link = `${process.env.WEBSITE_URL}/sign-up/${encodeURIComponent(encryptedData)}`;
+			//Example https://www.neutroneer.com/sign-up/xxxxxxxxxxxxxxxxxxx
+			const verification_link = `${process.env.WEBSITE_URL}/sign-up/${encodeURIComponent(
+				encryptedData
+			)}`;
 
 			//Send verification email containing the link
 			const data = {
@@ -42,7 +44,7 @@ const sendVerificationEmail = async (userId) => {
 				template_params: {
 					to_name: usernameCapitalized,
 					email_to: userEmail,
-					link,
+					verification_link,
 				},
 			};
 			const sentMail = await emailDelivery.sendEmail(data);

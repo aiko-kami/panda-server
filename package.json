@@ -12,7 +12,7 @@
 		"dev": "nodemon app",
 		"start": "node app",
 		"test": "jest",
-		"test-coverage": "jest --coverage"
+		"test-coverage": "jest --coverage --coverageDirectory=tests/coverage"
 	},
 	"author": "",
 	"license": "ISC",

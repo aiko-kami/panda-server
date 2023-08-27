@@ -137,7 +137,7 @@ src
 │   ├───project
 │   ├───token
 │   └───user
-├───Tests                 # Tests
+├───tests                 # Tests
 │   ├───front-end
 │   └───utils
 └───utils                 # Utility classes and functions

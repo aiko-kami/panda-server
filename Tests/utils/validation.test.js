@@ -95,6 +95,23 @@ test("Testing email too long", () => {
 	expect(result.message).toBe("Email can contain up to 255 characters.");
 });
 
+test("Testing an invalid email address format (invalid-email)", () => {
+	const result = validateRegistrationInputs(
+		"john_doe123",
+		"invalid-email",
+		"StrongPass123$",
+		"StrongPass123$"
+	);
+	expect(result.status).toBe("error");
+	expect(result.message).toBe("Email wrongly formatted.");
+});
+
+test("Testing an invalid email address format (@)", () => {
+	const result = validateRegistrationInputs("john_doe123", "@", "StrongPass123$", "StrongPass123$");
+	expect(result.status).toBe("error");
+	expect(result.message).toBe("Email wrongly formatted.");
+});
+
 test("Testing password too long", () => {
 	const longPassword = "a".repeat(126) + "StrongPass123$";
 	const result = validateRegistrationInputs(
@@ -116,6 +133,53 @@ test("Testing password and confirmation not matching", () => {
 	);
 	expect(result.status).toBe("error");
 	expect(result.message).toBe("Password and confirmation don't match.");
+});
+
+test("Testing a short password", () => {
+	const result = validateRegistrationInputs("john_doe123", "john@example.com", "Short", "Short");
+	expect(result.status).toBe("error");
+	expect(result.message).toBe(
+		"Password must contain at least 8 characters, a lowercase letter, an uppercase letter, a number, and a special character."
+	);
+});
+
+test("Testing a password without an uppercase letter", () => {
+	const result = validateRegistrationInputs(
+		"john_doe123",
+		"john@example.com",
+		"weakpassword123$",
+		"weakpassword123$"
+	);
+	expect(result.status).toBe("error");
+	expect(result.message).toBe(
+		"Password must contain at least 8 characters, a lowercase letter, an uppercase letter, a number, and a special character."
+	);
+});
+
+test("Testing a password without a number", () => {
+	const result = validateRegistrationInputs(
+		"john_doe123",
+		"john@example.com",
+		"NoNumberPass$",
+		"NoNumberPass$"
+	);
+	expect(result.status).toBe("error");
+	expect(result.message).toBe(
+		"Password must contain at least 8 characters, a lowercase letter, an uppercase letter, a number, and a special character."
+	);
+});
+
+test("Testing a password without a special character", () => {
+	const result = validateRegistrationInputs(
+		"john_doe123",
+		"john@example.com",
+		"NoSpecialChar123",
+		"NoSpecialChar123"
+	);
+	expect(result.status).toBe("error");
+	expect(result.message).toBe(
+		"Password must contain at least 8 characters, a lowercase letter, an uppercase letter, a number, and a special character."
+	);
 });
 
 //validateLoginInputs
@@ -196,7 +260,7 @@ test("Testing a missing email address (no data passed)", () => {
 test("Testing a missing email address (empty string)", () => {
 	const result = validateEmail(""); // Calling the function without an argument
 	expect(result.status).toBe("error");
-	expect(result.message).toBe("Email required");
+	expect(result.message).toBe("Email required.");
 });
 
 // validatePassword

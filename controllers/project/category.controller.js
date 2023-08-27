@@ -20,9 +20,13 @@ const createCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, createdCategory.message);
 		}
 
-		return apiResponse.successResponse(res, "Category created successfully", createdCategory);
+		return apiResponse.successResponseWithData(
+			res,
+			"Category created successfully.",
+			createdCategory
+		);
 	} catch (error) {
-		return apiResponse.serverErrorResponse(res, "An error occurred while creating the category");
+		return apiResponse.serverErrorResponse(res, "An error occurred while creating the category.");
 	}
 };
 
@@ -45,9 +49,13 @@ const updateCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, updatedCategory.message);
 		}
 
-		return apiResponse.successResponse(res, "Category updated successfully", updatedCategory);
+		return apiResponse.successResponseWithData(
+			res,
+			"Category updated successfully",
+			updatedCategory
+		);
 	} catch (error) {
-		return apiResponse.serverErrorResponse(res, "An error occurred while updating the category");
+		return apiResponse.serverErrorResponse(res, "An error occurred while updating the category.");
 	}
 };
 
@@ -70,9 +78,13 @@ const removeCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, removedCategory.message);
 		}
 
-		return apiResponse.successResponse(res, "Category removed successfully", removedCategory);
+		return apiResponse.successResponseWithData(
+			res,
+			"Category removed successfully.",
+			removedCategory
+		);
 	} catch (error) {
-		return apiResponse.serverErrorResponse(res, "An error occurred while removing the category");
+		return apiResponse.serverErrorResponse(res, "An error occurred while removing the category.");
 	}
 };
 

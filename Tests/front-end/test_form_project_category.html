@@ -51,8 +51,8 @@
 				console.log("Processing......");
 
 				// Send data to the backend
-				// fetch("http://localhost:8080/projects/createCategory", {
-				fetch("https://panda-server-37m0.onrender.com/projects/createCategory", {
+				fetch("http://localhost:8080/projects/category", {
+					// fetch("https://panda-server-37m0.onrender.com/projects/createCategory", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
@@ -82,9 +82,9 @@
 				console.log("Processing......");
 
 				// Send data to the backend
-				// fetch("http://localhost:8080/projects/updateCategory", {
-				fetch("https://panda-server-37m0.onrender.com/projects/updateCategory", {
-					method: "POST",
+				fetch("http://localhost:8080/projects/category", {
+					// fetch("https://panda-server-37m0.onrender.com/projects/updateCategory", {
+					method: "PATCH",
 					headers: {
 						"Content-Type": "application/json",
 					},
@@ -112,8 +112,8 @@
 				console.log("Processing......");
 
 				// Send data to the backend
-				// fetch("http://localhost:8080/projects/removeCategory", {
-				fetch("https://panda-server-37m0.onrender.com/projects/removeCategory", {
+				fetch("http://localhost:8080/projects/category", {
+					// fetch("https://panda-server-37m0.onrender.com/projects/removeCategory", {
 					method: "DELETE",
 					headers: {
 						"Content-Type": "application/json",

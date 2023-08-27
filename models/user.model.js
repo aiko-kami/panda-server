@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema(
 	{
 		userId: { type: String, default: v4(), required: true, unique: true },
 		username: { type: String, required: true, unique: true, trim: true },
+		usernameCapitalized: { type: String, required: true, unique: true, trim: true },
 		email: { type: String, required: true, unique: true, trim: true, lowercase: true },
 		password: { type: String, required: true, trim: true },
 		createdAt: { type: Date, default: DateTime.now().toHTTP(), required: true },

@@ -1,6 +1,6 @@
 const Category = require("../../models/category.model");
-const assert = require("assert");
 const { logger } = require("../../utils");
+const v4 = require("uuid").v4;
 
 /**
  * Create a new category if it does not already exist.
@@ -13,10 +13,11 @@ const createCategory = async (name) => {
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
 	}
+	if (!name) {
+		return { status: "error", message: "Category name required." };
+	}
 
 	try {
-		assert(name, "Category name required.");
-
 		// Check if a category with the same name already exists
 		const existingCategory = await Category.findOne({ name });
 
@@ -30,6 +31,7 @@ const createCategory = async (name) => {
 		// Create a new category document
 		const newCategory = new Category({
 			name: name,
+			categoryId: v4(),
 		});
 
 		// Save the category to the database
@@ -53,12 +55,15 @@ const createCategory = async (name) => {
 const updateCategory = async (categoryId, newName) => {
 	try {
 		// Validate input data
-		if (typeof categoryId !== "string" || newName !== "string") {
+		if (typeof categoryId !== "string" || typeof newName !== "string") {
 			return { status: "error", message: "Invalid type of data." };
 		}
-
-		assert(categoryId, "Category Id required.");
-		assert(newName, "Category name required.");
+		if (!categoryId) {
+			return { status: "error", message: "Category Id required." };
+		}
+		if (!newName) {
+			return { status: "error", message: "Category name required." };
+		}
 
 		// Check if a category with the given categoryId exists
 		const existingCategory = await Category.findOne({ categoryId });
@@ -107,7 +112,9 @@ const removeCategory = async (categoryId) => {
 		if (typeof categoryId !== "string") {
 			return { status: "error", message: "Invalid type of data." };
 		}
-		assert(categoryId, "Category Id required.");
+		if (!categoryId) {
+			return { status: "error", message: "Category Id required." };
+		}
 
 		// Check if a category with the given categoryId exists
 		const existingCategory = await Category.findOne({ categoryId });

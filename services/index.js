@@ -1,6 +1,6 @@
 // Authentication Services
-module.exports.signupService = require("./signup.service");
-module.exports.loginService = require("./login.service");
+module.exports.signupService = require("./auth/signup.service");
+module.exports.loginService = require("./auth/login.service");
 
 //User Services
 module.exports.userService = require("./user/user.service");
