@@ -1,8 +1,4 @@
 const { RefreshToken, ResetPasswordToken } = require("../../models");
-const CryptoJS = require("crypto-js");
-const jwt = require("jsonwebtoken");
-const v4 = require("uuid").v4;
-const { DateTime } = require("luxon");
 const { logger } = require("../../utils");
 
 const deleteAllTokens = async () => {

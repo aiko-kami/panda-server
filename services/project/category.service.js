@@ -1,6 +1,5 @@
 const Category = require("../../models/category.model");
 const { logger } = require("../../utils");
-const v4 = require("uuid").v4;
 
 /**
  * Create a new category if it does not already exist.
@@ -31,7 +30,6 @@ const createCategory = async (name) => {
 		// Create a new category document
 		const newCategory = new Category({
 			name: name,
-			categoryId: v4(),
 		});
 
 		// Save the category to the database
@@ -119,8 +117,6 @@ const removeCategory = async (categoryId) => {
 		// Check if a category with the given categoryId exists
 		const existingCategory = await Category.findOne({ categoryId });
 
-		console.log("🚀 ~ removeCategory ~ existingCategory:", existingCategory);
-
 		if (!existingCategory) {
 			logger.error("Error while storing category in database: Category not found.");
 			return { status: "error", message: "Category not found." };
@@ -138,7 +134,6 @@ const removeCategory = async (categoryId) => {
 		};
 	} catch (error) {
 		logger.error(`Error while removing category: ${error}`);
-
 		return {
 			status: "error",
 			message: "An error occurred while removing the category.",
@@ -146,8 +141,23 @@ const removeCategory = async (categoryId) => {
 	}
 };
 
+const verifyCategoryExists = async (categoryId) => {
+	try {
+		const existingCategory = await Category.findOne({ categoryId });
+
+		if (!existingCategory) {
+			return { status: "error", message: "Category not found." };
+		}
+		return { status: "success", category: existingCategory };
+	} catch (error) {
+		logger.error(`Error while checking the category: ${error}`);
+		return { status: "error", message: "An error occurred while checking the category." };
+	}
+};
+
 module.exports = {
 	createCategory,
 	updateCategory,
 	removeCategory,
+	verifyCategoryExists,
 };

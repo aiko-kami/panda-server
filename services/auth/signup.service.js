@@ -27,6 +27,7 @@ const signupUser = async (username, email, password) => {
 			usernameCapitalized: username.toUpperCase(),
 			email: email,
 			password: hashedPassword,
+			lastConnection: 0,
 			emailVerified: {
 				verified: false,
 				emailId: "",

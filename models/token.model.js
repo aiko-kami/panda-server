@@ -25,6 +25,9 @@ const refreshTokenSchema = new mongoose.Schema(
 		},
 	},
 	{
+		timestamps: true, // Automatically add createdAt and updatedAt timestamps
+	},
+	{
 		collection: "refreshTokens",
 	}
 );

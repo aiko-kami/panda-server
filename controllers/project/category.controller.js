@@ -51,7 +51,7 @@ const updateCategory = async (req, res) => {
 
 		return apiResponse.successResponseWithData(
 			res,
-			"Category updated successfully",
+			"Category updated successfully.",
 			updatedCategory
 		);
 	} catch (error) {

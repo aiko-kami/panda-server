@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<h1>Project Example</h1>
+		<h2>Create new project</h2>
+		<br />
+		<form method="post" id="newProject">
+			<label for="title">Project title*:</label>
+			<input type="text" id="title" /><br /><br />
+			<label for="goal">Goal*:</label>
+			<input type="text" id="goal" /><br /><br />
+			<label for="summary">Summary*:</label>
+			<input type="text" id="summary" /><br /><br />
+			<label for="description">Description*:</label>
+			<input type="text" id="description" /><br /><br />
+			<label for="categoryId">Category*:</label>
+			<input type="text" id="categoryId" /><br /><br />
+			<label for="subCategoryId">Sub-category:</label>
+			<input type="text" id="subCategoryId" /><br /><br />
+			<label for="tagsIds">Tags:</label>
+			<input type="text" id="tagsIds" /><br /><br />
+			<label for="city">City:</label>
+			<input type="text" id="city" /><br /><br />
+			<label for="country">Country:</label>
+			<input type="text" id="country" /><br /><br />
+			<label for="skillsNeeded">Skills needed*:</label>
+			<input type="text" id="skillsNeeded" /><br /><br />
+			<label for="startDate">Start date:</label>
+			<input type="text" id="startDate" /><br /><br />
+			<label for="projectObjectives">Objectives:</label>
+			<input type="text" id="projectObjectives" /><br /><br />
+			<label for="creatorMotivation">Motivation:</label>
+			<input type="text" id="creatorMotivation" /><br /><br />
+			<label for="visibility">Visibility*:</label>
+			<input type="text" id="visibility" /><br /><br />
+			<label for="attachments">Attachments:</label>
+			<input type="text" id="attachments" /><br /><br />
+			<button type="submit">Submit</button>
+		</form>
+		<script>
+			const form = document.querySelector("#newProject");
+
+			form.addEventListener("submit", function (event) {
+				// stop form submission
+				event.preventDefault();
+
+				const projectInputs = {
+					title: document.getElementById("title").value,
+					goal: document.getElementById("goal").value,
+					summary: document.getElementById("summary").value,
+					description: document.getElementById("description").value,
+					categoryId: document.getElementById("categoryId").value,
+					subCategoryId: document.getElementById("subCategoryId").value,
+					tagsIds: document.getElementById("tagsIds").value,
+					location: {
+						city: document.getElementById("city").value,
+						country: document.getElementById("country").value,
+					},
+					skillsNeeded: document.getElementById("skillsNeeded").value,
+					startDate: document.getElementById("startDate").value,
+					projectObjectives: document.getElementById("projectObjectives").value,
+					creatorMotivation: document.getElementById("creatorMotivation").value,
+					visibility: document.getElementById("visibility").value,
+					attachments: document.getElementById("attachments").value,
+				};
+
+				console.log("Form submitted");
+				console.log("Processing......");
+
+				// Send data to the backend
+				fetch("http://localhost:8080/projects/project", {
+					// fetch("https://panda-server-37m0.onrender.com/projects/project", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ projectInputs }),
+				})
+					.then((response) => {
+						console.log("Data processed!");
+						return response.json();
+					})
+					.then((data) => {
+						// Handle the response from the backend
+						console.log(data.message);
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			});
+		</script>
+	</body>
+</html>

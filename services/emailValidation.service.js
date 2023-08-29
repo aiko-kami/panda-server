@@ -6,10 +6,10 @@ const { logger, emailDelivery } = require("../utils");
 //Function to send verification email (to validate the user email address with a personalized link)
 const sendVerificationEmail = async (userId) => {
 	//Create email ID
-	const emailId = v4();
+	const emailId = v4;
 
 	try {
-		//Find user in the DB
+		//Find user in the database
 		const user = await User.findOne({ userId });
 
 		//Return error if userId is not found
@@ -95,7 +95,7 @@ const verifyEmailValidationId = async (validationId) => {
 		const emailIdDecrypted = decrypted.emailId;
 		const userIdDecrypted = decrypted.userId;
 
-		//Find user in the DB
+		//Find user in the database
 		const user = await User.findOne({ userId: userIdDecrypted });
 		//Return error if userId is not found
 		if (!user) {

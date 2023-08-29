@@ -6,7 +6,7 @@ const MainRouter = require("express").Router();
 const { apiResponse } = require("../utils");
 
 // Main route
-MainRouter.use("/", require("./master"));
+MainRouter.use("/", require("./home"));
 
 // Users routes
 MainRouter.use("/users", require("./users"));

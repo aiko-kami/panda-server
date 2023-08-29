@@ -1,6 +1,5 @@
 const User = require("../models/user.model");
 const CryptoJS = require("crypto-js");
-const v4 = require("uuid").v4;
 const { logger, emailDelivery } = require("../utils");
 
 //Function to send password reset email (when user forgot his/her password)
@@ -65,7 +64,7 @@ const verifyEmailValidationId = async (validationId) => {
 		const emailIdDecrypted = decrypted.emailId;
 		const userIdDecrypted = decrypted.userId;
 
-		//Find user in the DB
+		//Find user in the database
 		const user = await User.findOne({ userId: userIdDecrypted });
 		//Return error if userId is not found
 		if (!user) {

@@ -66,14 +66,14 @@ const verifyResetPasswordToken = async (resetToken) => {
 		});
 
 		if (existingToken) {
-			// Valid token found in the DB
+			// Valid token found in the database
 			return {
 				status: "success",
 				message: "Reset password token is valid.",
 				userId: existingToken.userId,
 			};
 		} else {
-			// The token was not find in the DB
+			// The token was not find in the database
 			return {
 				status: "error",
 				message: "Reset password token not found in the database.",

@@ -4,12 +4,13 @@ const { DateTime } = require("luxon");
 
 const userSchema = new mongoose.Schema(
 	{
-		userId: { type: String, default: v4(), required: true, unique: true },
+		userId: { type: String, default: v4, required: true, unique: true },
 		username: { type: String, required: true, unique: true, trim: true },
 		usernameCapitalized: { type: String, required: true, unique: true, trim: true },
 		email: { type: String, required: true, unique: true, trim: true, lowercase: true },
 		password: { type: String, required: true, trim: true },
 		createdAt: { type: Date, default: DateTime.now().toHTTP(), required: true },
+		lastConnection: { type: Date },
 		emailVerified: {
 			verified: { type: Boolean, required: true },
 			emailId: { type: String },
@@ -22,7 +23,9 @@ const userSchema = new mongoose.Schema(
 		bio: { type: String },
 		languages: [{ type: String }],
 		website: { type: String },
-		lastConnection: { type: Date },
+	},
+	{
+		timestamps: true, // Automatically add createdAt and updatedAt timestamps
 	},
 	{
 		collection: "users",

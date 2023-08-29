@@ -48,6 +48,12 @@ const login = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, tokenStoredInDb.message);
 		}
 
+		// Update User last connection to now
+		const lastConnectionUpdated = await loginService.updateLastConnection(user.userId);
+		if (!lastConnectionUpdated) {
+			return apiResponse.serverErrorResponse(res, lastConnectionUpdated.message);
+		}
+
 		// Return the user data in the response
 		return apiResponse.successResponseWithData(res, "User successfully logged in.", { user });
 
