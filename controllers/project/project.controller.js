@@ -18,12 +18,12 @@ const createProject = async (req, res) => {
 		description: req.body.projectInputs.description || "",
 		categoryId: req.body.projectInputs.categoryId || "",
 		subCategoryId: req.body.projectInputs.subCategoryId || "",
-		tagsIds: req.body.projectInputs.tagsIds || "",
-		members: req.body.projectInputs.members || "",
+		tagsIds: req.body.projectInputs.tagsIds || [],
+		members: req.body.projectInputs.members || [],
 		location: req.body.projectInputs.location || { city: "", country: "" },
-		skillsNeeded: req.body.projectInputs.skillsNeeded || "",
+		talentsNeeded: req.body.projectInputs.talentsNeeded || [],
 		startDate: parseInt(req.body.projectInputs.startDate) || 0,
-		projectObjectives: req.body.projectInputs.projectObjectives || "",
+		objectives: req.body.projectInputs.objectives || "",
 		creatorMotivation: req.body.projectInputs.creatorMotivation || "",
 		visibility: req.body.projectInputs.visibility || "public",
 		attachments: req.body.projectInputs.attachments || "",
@@ -38,10 +38,11 @@ const createProject = async (req, res) => {
 
 		// Verify that category exists in the database
 		const categoryVerified = await categoryService.verifyCategoryExists(projectData.categoryId);
-
 		if (categoryVerified.status !== "success") {
 			return apiResponse.clientErrorResponse(res, categoryVerified.message);
 		}
+
+		projectData.categoryMongo_Id = categoryVerified.category._id;
 
 		//Verify that title does not already exists in the database
 		const existingTitle = await projectService.checkTitleAvailability(projectData.title);

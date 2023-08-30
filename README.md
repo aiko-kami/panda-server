@@ -73,8 +73,11 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Update project category
   - [x] Delete project category
   - [x] Define project model
-  - [ ] Create new project
+  - [x] Create new project
   - [ ] Edit project
+    - [ ] Edit project data (title, goal, summary, description, category, subcategory, tags, phase, location, talentsNeeded, startDate, objectives, creatorMotivation, visibility, attachments)
+    - [ ] Add a member
+    - [ ] Change project status
 - [ ] User profile
   - [ ] Edit user profile
   - [ ] Talents
@@ -152,6 +155,12 @@ Not available right now.
 
 List of available routes:
 
+- **Main route**:
+
+| Method | URI | Action |
+| ------ | --- | ------ |
+| `GET`  | `/` | Home   |
+
 - **Auth routes**:
 
 | Method | URI                                | Action                    |
@@ -165,19 +174,23 @@ List of available routes:
 
 - **User routes**:
 
-| Method | URI                        | Action             |
-| ------ | -------------------------- | ------------------ |
-| `GET`  | `/users/lastUsersOverview` | Retrieve new users |
+| Method | URI                        | Action                      |
+| ------ | -------------------------- | --------------------------- |
+| `GET`  | `/users/lastUsersOverview` | Retrieve new users          |
+| `GET`  | `/users/me`                | Retrieve user personal data |
 
 - **Project routes**:
 
-| Method   | URI                        | Action                      |
-| -------- | -------------------------- | --------------------------- |
-| `POST`   | `/projects/createProject`  | Create new project          |
-| `POST`   | `/projects/updateProject`  | Update project              |
-| `POST`   | `/projects/createCategory` | Create new project category |
-| `POST`   | `/projects/updateCategory` | Update project category     |
-| `DELETE` | `/projects/removeCategory` | Remove project category     |
+| Method   | URI                            | Action                       |
+| -------- | ------------------------------ | ---------------------------- |
+| `POST`   | `/projects/project`            | Create new project           |
+| `PATCH`  | `/projects/project/:projectId` | Edie project                 |
+| `GET`    | `/projects/project/:projectId` | Retrieve project             |
+| `GET`    | `/projectOverview/:projectId`  | Retrieve project overview    |
+| `GET`    | `/projectPublic/:projectId`    | Retrieve project public data |
+| `POST`   | `/projects/category`           | Create new project category  |
+| `PATCH`  | `/projects/category`           | Update project category      |
+| `DELETE` | `/projects/category`           | Remove project category      |
 
 ## 🛠 Environment Variables
 

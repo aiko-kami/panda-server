@@ -4,10 +4,9 @@ const { DateTime } = require("luxon");
 const v4 = require("uuid").v4;
 
 const memberSchema = new mongoose.Schema({
-	memberId: {
+	userId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "User",
-		required: true,
 	},
 	role: String,
 	startDate: {
@@ -25,8 +24,8 @@ const projectSchema = new mongoose.Schema(
 		goal: { type: String, required: true, trim: true },
 		summary: { type: String, required: true, trim: true },
 		description: { type: String, required: true },
-		projectCategory: {
-			type: String,
+		category: {
+			type: mongoose.Schema.Types.ObjectId,
 			ref: "Category",
 			required: true,
 		},
@@ -40,10 +39,10 @@ const projectSchema = new mongoose.Schema(
 			message: "The value {VALUE} is not valid.",
 		},
 		phase: { type: String }, // Optional
-		//		members: [memberSchema], // Optional
+		members: [memberSchema], // Optional
 		location: { city: { type: String }, country: { type: String } }, // Optional
-		skillsNeeded: {
-			type: [String], // Array of skills or talents needed
+		talentsNeeded: {
+			type: [String], // Array of talents needed
 			required: true,
 		},
 		createdAt: {
@@ -52,7 +51,7 @@ const projectSchema = new mongoose.Schema(
 			required: true,
 		},
 		startDate: { type: Date }, // Optional
-		projectObjectives: String, // Optional
+		objectives: { type: [String] }, // Optional
 		creatorMotivation: String, // Optional
 		visibility: {
 			// Optional

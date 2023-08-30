@@ -112,13 +112,13 @@ const validateNewProjectInputs = (projectData) => {
 		typeof projectData.description !== "string" ||
 		typeof projectData.categoryId !== "string" ||
 		typeof projectData.subCategoryId !== "string" ||
-		typeof projectData.tagsIds !== "string" ||
-		typeof projectData.members !== "string" ||
+		typeof projectData.tagsIds !== "object" ||
+		typeof projectData.members !== "object" ||
 		typeof projectData.location.city !== "string" ||
 		typeof projectData.location.country !== "string" ||
-		typeof projectData.skillsNeeded !== "string" ||
+		typeof projectData.talentsNeeded !== "object" ||
 		typeof projectData.startDate !== "number" ||
-		typeof projectData.projectObjectives !== "string" ||
+		typeof projectData.objectives !== "string" ||
 		typeof projectData.creatorMotivation !== "string" ||
 		typeof projectData.visibility !== "string" ||
 		typeof projectData.attachments !== "string";
@@ -142,7 +142,7 @@ const validateNewProjectInputs = (projectData) => {
 	if (!projectData.categoryId) {
 		return { status: "error", message: "Category is required." };
 	}
-	if (!projectData.skillsNeeded) {
+	if (!projectData.talentsNeeded) {
 		return { status: "error", message: "Skills needed are required." };
 	}
 	// Validate specific field constraints

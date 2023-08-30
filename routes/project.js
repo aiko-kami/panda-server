@@ -9,6 +9,7 @@ const { projectController, categoryController } = require("../controllers");
 projectRoute.post("/project", projectController.createProject);
 projectRoute.patch("/project/:projectId", projectController.createProject);
 projectRoute.get("/project/:projectId", projectController.createProject);
+projectRoute.post("/project/submit/:projectId", projectController.createProject);
 projectRoute.get("/projectOverview/:projectId", projectController.createProject);
 projectRoute.get("/projectPublic/:projectId", projectController.createProject);
 

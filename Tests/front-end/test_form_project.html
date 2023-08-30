@@ -22,18 +22,22 @@
 			<input type="text" id="categoryId" /><br /><br />
 			<label for="subCategoryId">Sub-category:</label>
 			<input type="text" id="subCategoryId" /><br /><br />
-			<label for="tagsIds">Tags:</label>
-			<input type="text" id="tagsIds" /><br /><br />
+			<label for="tag1">Tag 1:</label>
+			<input type="text" id="tag1" /><br /><br />
+			<label for="tag2">Tag 2:</label>
+			<input type="text" id="tag2" /><br /><br />
+			<label for="tag3">Tag 3:</label>
+			<input type="text" id="tag3" /><br /><br />
 			<label for="city">City:</label>
 			<input type="text" id="city" /><br /><br />
 			<label for="country">Country:</label>
 			<input type="text" id="country" /><br /><br />
-			<label for="skillsNeeded">Skills needed*:</label>
-			<input type="text" id="skillsNeeded" /><br /><br />
+			<label for="talentsNeeded">Talents needed*:</label>
+			<input type="text" id="talentsNeeded" /><br /><br />
 			<label for="startDate">Start date:</label>
 			<input type="text" id="startDate" /><br /><br />
-			<label for="projectObjectives">Objectives:</label>
-			<input type="text" id="projectObjectives" /><br /><br />
+			<label for="objectives">Objectives:</label>
+			<input type="text" id="objectives" /><br /><br />
 			<label for="creatorMotivation">Motivation:</label>
 			<input type="text" id="creatorMotivation" /><br /><br />
 			<label for="visibility">Visibility*:</label>
@@ -49,6 +53,10 @@
 				// stop form submission
 				event.preventDefault();
 
+				const tag1 = document.getElementById("tag1").value;
+				const tag2 = document.getElementById("tag2").value;
+				const tag3 = document.getElementById("tag3").value;
+
 				const projectInputs = {
 					title: document.getElementById("title").value,
 					goal: document.getElementById("goal").value,
@@ -56,14 +64,14 @@
 					description: document.getElementById("description").value,
 					categoryId: document.getElementById("categoryId").value,
 					subCategoryId: document.getElementById("subCategoryId").value,
-					tagsIds: document.getElementById("tagsIds").value,
+					tagsIds: [tag1, tag2, tag3],
 					location: {
 						city: document.getElementById("city").value,
 						country: document.getElementById("country").value,
 					},
-					skillsNeeded: document.getElementById("skillsNeeded").value,
+					talentsNeeded: [document.getElementById("talentsNeeded").value],
 					startDate: document.getElementById("startDate").value,
-					projectObjectives: document.getElementById("projectObjectives").value,
+					objectives: document.getElementById("objectives").value,
 					creatorMotivation: document.getElementById("creatorMotivation").value,
 					visibility: document.getElementById("visibility").value,
 					attachments: document.getElementById("attachments").value,
