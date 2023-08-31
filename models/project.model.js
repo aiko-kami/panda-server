@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Category = require("./category.model");
 const { DateTime } = require("luxon");
 const v4 = require("uuid").v4;
 

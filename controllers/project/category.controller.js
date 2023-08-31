@@ -68,9 +68,8 @@ const updateCategory = async (req, res) => {
 
 // Remove project category
 const removeCategory = async (req, res) => {
-	const { categoryId } = req.body;
-
 	try {
+		const { categoryId } = req.body;
 		// Call the service to create the category
 		const removedCategory = await categoryService.removeCategory(categoryId);
 

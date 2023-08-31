@@ -11,3 +11,63 @@
 - [ ]  Messagerie
 - [ ]  Q&A, comments
 - [ ]  Search
+
+Visitor's rights:
+- Can SEE public projects data
+- Can SEE public users data
+
+
+User's rights:
+
+On the website:
+- Can SEE his own personal data
+- Can EDIT his own personal data
+- Can SEE public projects data
+- Can SEE public users data
+- Can SEND/RECEIVE friends requests
+- Can SEND/RECEIVE join project requests/invitations
+
+
+For a specific project:
+- Can EDIT project data: Title/Goal/Summary/Description/Category/subCategory/Tags/Location/TalentsNeeded/StartDate/Status/Phase/Objectives/CreatorMotivation/Visibility/Attachments
+- Can SEE join project requests
+- Can ACCEPT/REJECT join project requests
+- Can send join project invitations
+- Can REMOVE project members
+
+Admin of a project can choose rights individually or for all members at once.
+Admin can share or give admin rights to another project member.
+By default the creator of the project is the admin.
+
+The Admin has all the following rights:
+
+Project rights:
+{
+  "_id": {
+    "$oid": "ruleID_XXXXXXXXXXX"
+  },
+  "projectId": {
+    "$oid": "projectID_XXXXXXXX"
+  },
+  "canEditTitle": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"],
+  "canEditGoal": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"],
+  "canEditSummary": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"],
+  "canEditDescription": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"],
+  "canEditCategory": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"],
+  "canEditsubCategory": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"],
+  "canEditTags": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"],
+  "canEditLocation": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"],
+  "canEditTalentsNeeded": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"],
+  "canEditStartDate": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"],
+  "canEditStatus": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"],
+  "canEditPhase": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"],
+  "canEditObjectives": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"],
+  "canEditCreatorMotivation": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"],
+  "canEditVisibility": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"],
+  "canEditAttachments": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"]
+
+  "canSeeJoinProjectRequests": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"]
+  "canAnswerJoinProjectRequests": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"]
+  "canSendJoinProjectInvitations": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"]
+  "canRemoveMembers": ["userID_XXXXXX","userID_XXXXXX","userID_XXXXXX","userID_XXXXXX"]
+}

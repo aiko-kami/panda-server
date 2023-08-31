@@ -5,8 +5,9 @@
 const projectRoute = require("express").Router();
 
 const { projectController, categoryController } = require("../controllers");
+const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
-projectRoute.post("/project", projectController.createProject);
+projectRoute.post("/project", verifyAccess, projectController.createProject);
 projectRoute.patch("/project/:projectId", projectController.createProject);
 projectRoute.get("/project/:projectId", projectController.createProject);
 projectRoute.post("/project/submit/:projectId", projectController.createProject);
