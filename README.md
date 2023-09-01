@@ -15,7 +15,7 @@
 
 Panda Server is the backend part of Sheepy, a collaborative platform for projects creation and tracking.
 
-![Logo](https://github.com/aiko-kami/panda-server/blob/master/docs/logo%20Panda_server_Sheepy_blue.png?raw=true)
+![Logo](https://github.com/aiko-kami/panda-server/blob/master/docs/logo%20New_Panda_server_Sheepy_blue.png?raw=true)
 
 Our mission in Sheepy: Help you bring your projects to life!
 
@@ -74,7 +74,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Delete project category
   - [x] Define project model
   - [x] Create new project
-  - [] Define sub-categories in categories
+  - [ ] Define sub-categories in categories
     - [ ] Add sub-category
     - [ ] Update sub-category
     - [ ] Delete sub-category
