@@ -10,6 +10,11 @@ const categorySchema = new mongoose.Schema(
 			unique: true,
 			trim: true,
 		},
+		subCategories: {
+			type: [String],
+			required: true,
+			trim: true,
+		},
 	},
 	{
 		timestamps: true, // Automatically add createdAt and updatedAt timestamps

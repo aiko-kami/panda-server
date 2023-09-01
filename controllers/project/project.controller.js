@@ -1,4 +1,4 @@
-const { projectService, categoryService } = require("../../services");
+const { projectService, categoryService, userService } = require("../../services");
 const { apiResponse, validation } = require("../../utils");
 
 /**
@@ -18,9 +18,8 @@ const createProject = async (req, res) => {
 			summary: req.body.projectInputs.summary || "",
 			description: req.body.projectInputs.description || "",
 			categoryId: req.body.projectInputs.categoryId || "",
-			subCategoryId: req.body.projectInputs.subCategoryId || "",
+			subCategory: req.body.projectInputs.subCategory || "",
 			tagsIds: req.body.projectInputs.tagsIds || [],
-			members: req.body.projectInputs.members || [],
 			location: req.body.projectInputs.location || { city: "", country: "" },
 			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
 			startDate: parseInt(req.body.projectInputs.startDate) || 0,
@@ -36,8 +35,11 @@ const createProject = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		// Verify that category exists in the database
-		const categoryVerified = await categoryService.verifyCategoryExists(projectData.categoryId);
+		// Verify that category and sub-category exist in the database
+		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(
+			projectData.categoryId,
+			projectData.subCategory
+		);
 		if (categoryVerified.status !== "success") {
 			return apiResponse.clientErrorResponse(res, categoryVerified.message);
 		}
@@ -49,6 +51,13 @@ const createProject = async (req, res) => {
 		if (existingTitle.status !== "success") {
 			return apiResponse.clientErrorResponse(res, existingTitle.message);
 		}
+
+		//Verify that user (project creator) exists in the database and convert userId into database _id
+		const existingCreator = await userService.retrieveUserById(req.userId);
+		if (existingCreator.status !== "success") {
+			return apiResponse.clientErrorResponse(res, existingCreator.message);
+		}
+		projectData.creatorId = existingCreator.data._id;
 
 		// Create the project
 		const createResult = await projectService.createProject(projectData);

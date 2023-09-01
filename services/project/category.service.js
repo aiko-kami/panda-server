@@ -6,19 +6,22 @@ const { logger } = require("../../utils");
  * @param {string} name - The name of the category.
  * @returns {Promise} - A promise that resolves with the created category or rejects with an error.
  */
-const createCategory = async (name) => {
+const createCategory = async (categoryName, subCategories) => {
 	//String type validation
-	const invalidType = typeof name !== "string";
+	const invalidType = typeof categoryName !== "string" || typeof subCategories !== "object";
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
 	}
-	if (!name) {
+	if (!categoryName) {
 		return { status: "error", message: "Category name required." };
+	}
+	if (!subCategories) {
+		return { status: "error", message: "Sub-categories required." };
 	}
 
 	try {
 		// Check if a category with the same name already exists
-		const existingCategory = await Category.findOne({ name });
+		const existingCategory = await Category.findOne({ name: categoryName });
 
 		if (existingCategory) {
 			logger.error(
@@ -29,7 +32,8 @@ const createCategory = async (name) => {
 
 		// Create a new category document
 		const newCategory = new Category({
-			name: name,
+			name: categoryName,
+			subCategories,
 		});
 
 		// Save the category to the database
@@ -141,17 +145,22 @@ const removeCategory = async (categoryId) => {
 	}
 };
 
-const verifyCategoryExists = async (categoryId) => {
+const verifyCategoryAndSubCategoryExist = async (categoryId, subCategoryName) => {
 	try {
 		const existingCategory = await Category.findOne({ categoryId });
 
 		if (!existingCategory) {
 			return { status: "error", message: "Category not found." };
 		}
+
+		if (!existingCategory.subCategories.includes(subCategoryName)) {
+			return { status: "error", message: "Sub-category not found." };
+		}
+
 		return { status: "success", category: existingCategory };
 	} catch (error) {
-		logger.error(`Error while checking the category: ${error}`);
-		return { status: "error", message: "An error occurred while checking the category." };
+		logger.error(`Error while checking category/sub-category: ${error}`);
+		return { status: "error", message: "An error occurred while checking category/sub-category." };
 	}
 };
 
@@ -159,5 +168,5 @@ module.exports = {
 	createCategory,
 	updateCategory,
 	removeCategory,
-	verifyCategoryExists,
+	verifyCategoryAndSubCategoryExist,
 };

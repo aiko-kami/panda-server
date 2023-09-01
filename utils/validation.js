@@ -111,9 +111,8 @@ const validateNewProjectInputs = (projectData) => {
 		typeof projectData.summary !== "string" ||
 		typeof projectData.description !== "string" ||
 		typeof projectData.categoryId !== "string" ||
-		typeof projectData.subCategoryId !== "string" ||
+		typeof projectData.subCategory !== "string" ||
 		typeof projectData.tagsIds !== "object" ||
-		typeof projectData.members !== "object" ||
 		typeof projectData.location.city !== "string" ||
 		typeof projectData.location.country !== "string" ||
 		typeof projectData.talentsNeeded !== "object" ||

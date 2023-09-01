@@ -15,8 +15,6 @@ const verifyAccess = (req, res, next) => {
 				// If token is valid, set user ID on request for future use if needed
 				req.userId = verifyResult.payload.sub;
 
-				console.log("🚀 ~ verifyAccess ~ verifyResult:", verifyResult);
-
 				// Proceed to the private resource
 				next();
 			} else {

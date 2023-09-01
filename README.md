@@ -25,13 +25,13 @@ Sheepy is designed to connect passionate skilled individuals with groundbreaking
 
 **What is a project?**
 
-You have an idea and a goal? You want to accomplish something meaningful? You have your project! It can be anything from making a short film, creating a podcast about local history to forming a music band or developing an original video game...
+You have an idea and a goal? You want to accomplish something meaningful? You have your project! It can be anything from making a short film about marine wildlife, creating a podcast about local history to forming a music band or developing an original video game...
 
 **Main Features:**
 
 - **<ins>Project Proposals:</ins>** You have an inspiring project idea but need specific talents to make it happen? Post your project proposal on Sheepy! Describe your project's goal and the skills you're seeking. Watch your idea come to life as talented individuals from around the world express their interest in joining your project.
 
-- **<ins>Talent Showcase:** Are you a designer, developer, musician, writer, or have any other amazing talent to share? Sheepy enables you to create a stunning talent profile showcasing your expertise and experience. Share your portfolio and talents, making it easy for project creators to find and invite you to collaborate.
+- **<ins>Talent Showcase:</ins>** Are you a designer, developer, musician, writer, or have any other amazing talent to share? Sheepy enables you to create a stunning talent profile showcasing your expertise and experience. Share your portfolio and talents, making it easy for project creators to find and invite you to collaborate.
 
 <br>
 
@@ -74,6 +74,10 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Delete project category
   - [x] Define project model
   - [x] Create new project
+  - [] Define sub-categories in categories
+    - [ ] Add sub-category
+    - [ ] Update sub-category
+    - [ ] Delete sub-category
   - [ ] Edit project
     - [ ] Edit project data (title, goal, summary, description, category, subcategory, tags, phase, location, talentsNeeded, startDate, objectives, creatorMotivation, visibility, attachments)
     - [ ] Add a member
@@ -86,20 +90,24 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [ ] Update talent
     - [ ] Delete talent
     - [ ] Share talent
-- [ ] Friends
-  - [ ] Define friend model
-  - [ ] Send friend request
-  - [ ] Retrieve friend requests
-  - [ ] Accept/decline friend request
 - [ ] Join project
   - [ ] Send join project request
   - [ ] Accept/decline join project request
   - [ ] Send project invitation
   - [ ] Accept/decline project invitation
+- [ ] Friends
+  - [ ] Define friend model
+  - [ ] Send friend request
+  - [ ] Retrieve friend requests
+  - [ ] Accept/decline friend request
 - [ ] O-Auth
 - [ ] Messenger
 - [ ] Q&A, comments
 - [ ] Search
+  - [ ] Filter by categories/sub-categories
+  - [ ] Filter by locations
+  - [ ] Filter by talents needed
+  - [ ] Filter by tags
 
 ## 📦 Installation
 

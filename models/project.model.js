@@ -7,7 +7,14 @@ const memberSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "User",
 	},
-	role: String,
+	talent: String,
+	role: {
+		type: String,
+		required: true,
+		default: "member",
+		enum: ["owner", "member"],
+		message: "The value {VALUE} is not valid.",
+	},
 	startDate: {
 		type: Date,
 		default: DateTime.now().toHTTP(),
@@ -28,7 +35,7 @@ const projectSchema = new mongoose.Schema(
 			ref: "Category",
 			required: true,
 		},
-		subCategoryId: { type: String }, // Optional
+		subCategory: { type: String }, // Optional
 		tagsIds: { type: [String] }, // Optional
 		status: {
 			type: String,
@@ -39,7 +46,11 @@ const projectSchema = new mongoose.Schema(
 		},
 		phase: { type: String }, // Optional
 		members: [memberSchema], // Optional
-		location: { city: { type: String }, country: { type: String } }, // Optional
+		location: {
+			city: { type: String },
+			country: { type: String },
+			onlineOnly: { type: Boolean, default: false },
+		}, // Optional
 		talentsNeeded: {
 			type: [String], // Array of talents needed
 			required: true,

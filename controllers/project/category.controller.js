@@ -10,11 +10,11 @@ const { apiResponse } = require("../../utils");
 
 // Create project category
 const createCategory = async (req, res) => {
-	const { categoryName } = req.body;
+	const { categoryName, subCategories } = req.body;
 
 	try {
 		// Call the service to create the category
-		const createdCategory = await categoryService.createCategory(categoryName);
+		const createdCategory = await categoryService.createCategory(categoryName, subCategories);
 
 		if (createdCategory.status !== "success") {
 			return apiResponse.serverErrorResponse(res, createdCategory.message);

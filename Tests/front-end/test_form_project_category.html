@@ -12,6 +12,10 @@
 		<form method="post" id="newCategory">
 			<label for="categoryName1">Category name:</label>
 			<input type="text" id="categoryName1" /><br /><br />
+			<label for="subCategoryName1">Sub-category name:</label>
+			<input type="text" id="subCategoryName1" /><br /><br />
+			<label for="subCategoryName2">Other sub-category name:</label>
+			<input type="text" id="subCategoryName2" /><br /><br />
 			<button type="submit">Submit</button>
 		</form>
 		<br />
@@ -46,7 +50,10 @@
 				// stop form submission
 				event.preventDefault();
 
-				var categoryName = document.getElementById("categoryName1").value;
+				const categoryName = document.getElementById("categoryName1").value;
+				const subCategoryName1 = document.getElementById("subCategoryName1").value;
+				const subCategoryName2 = document.getElementById("subCategoryName2").value;
+				const subCategories = [subCategoryName1, subCategoryName2];
 				console.log("Form submitted");
 				console.log("Processing......");
 
@@ -57,7 +64,7 @@
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ categoryName }),
+					body: JSON.stringify({ categoryName, subCategories }),
 				})
 					.then((response) => {
 						console.log("Data processed!");
@@ -76,8 +83,8 @@
 				// stop form submission
 				event.preventDefault();
 
-				var categoryNewName = document.getElementById("categoryName2").value;
-				var categoryId = document.getElementById("categoryId1").value;
+				const categoryNewName = document.getElementById("categoryName2").value;
+				const categoryId = document.getElementById("categoryId1").value;
 				console.log("Form submitted");
 				console.log("Processing......");
 
@@ -107,7 +114,7 @@
 				// stop form submission
 				event.preventDefault();
 
-				var categoryId = document.getElementById("categoryId2").value;
+				const categoryId = document.getElementById("categoryId2").value;
 				console.log("Form submitted");
 				console.log("Processing......");
 
