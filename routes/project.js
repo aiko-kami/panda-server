@@ -18,4 +18,8 @@ projectRoute.post("/category", categoryController.createCategory);
 projectRoute.patch("/category", categoryController.updateCategory);
 projectRoute.delete("/category", categoryController.removeCategory);
 
+projectRoute.post("/subCategory", categoryController.addSubCategory);
+projectRoute.patch("/subCategory", categoryController.updateSubCategory);
+projectRoute.delete("/subCategory", categoryController.removeSubCategory);
+
 module.exports = projectRoute;

@@ -24,10 +24,10 @@
 		<h2>Update project category</h2>
 		<br />
 		<form method="post" id="updateCategory">
+			<label for="categoryId1">Category ID:</label>
+			<input type="text" id="categoryId1" /><br /><br />
 			<label for="categoryName2">Category new name:</label>
 			<input type="text" id="categoryName2" /><br /><br />
-			<label for="categoryId">Category ID:</label>
-			<input type="text" id="categoryId1" /><br /><br />
 			<button type="submit">Submit</button>
 		</form>
 		<br />
@@ -40,11 +40,53 @@
 			<input type="text" id="categoryId2" /><br /><br />
 			<button type="submit">Submit</button>
 		</form>
+		<br />
+		<br />
+		<br />
+		<h2>Add sub-category</h2>
+		<br />
+		<form method="post" id="addSubCategory">
+			<label for="categoryId3">Category ID:</label>
+			<input type="text" id="categoryId3" /><br /><br />
+			<label for="subCategoryName3">Sub-category name:</label>
+			<input type="text" id="subCategoryName3" /><br /><br />
+			<button type="submit">Submit</button>
+		</form>
+		<br />
+		<br />
+		<br />
+		<h2>Update sub-category</h2>
+		<br />
+		<form method="post" id="updateSubCategory">
+			<label for="categoryId4">Category ID:</label>
+			<input type="text" id="categoryId4" /><br /><br />
+			<label for="subCategoryOldName">Sub-category old name:</label>
+			<input type="text" id="subCategoryOldName" /><br /><br />
+			<label for="subCategoryNewName">Sub-category new name:</label>
+			<input type="text" id="subCategoryNewName" /><br /><br />
+			<button type="submit">Submit</button>
+		</form>
+		<br />
+		<br />
+		<br />
+		<h2>Remove sub-category</h2>
+		<br />
+		<form method="post" id="removeSubCategory">
+			<label for="categoryId5">Category ID:</label>
+			<input type="text" id="categoryId5" /><br /><br />
+			<label for="subCategoryName4">Sub-category name:</label>
+			<input type="text" id="subCategoryName4" /><br /><br />
+			<button type="submit">Submit</button>
+		</form>
 
 		<script>
 			const formNewCategory = document.querySelector("#newCategory");
 			const formUpdateCategory = document.querySelector("#updateCategory");
 			const formRemoveCategory = document.querySelector("#removeCategory");
+
+			const formAddSubCategory = document.querySelector("#addSubCategory");
+			const formUpdateSubCategory = document.querySelector("#updateSubCategory");
+			const formRemoveSubCategory = document.querySelector("#removeSubCategory");
 
 			formNewCategory.addEventListener("submit", function (event) {
 				// stop form submission
@@ -126,6 +168,100 @@
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({ categoryId }),
+				})
+					.then((response) => {
+						console.log("Data processed!");
+						return response.json();
+					})
+					.then((data) => {
+						// Handle the response from the backend
+						console.log(data.message);
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			});
+
+			formAddSubCategory.addEventListener("submit", function (event) {
+				// stop form submission
+				event.preventDefault();
+
+				const categoryId = document.getElementById("categoryId3").value;
+				const subCategoryName = document.getElementById("subCategoryName3").value;
+				console.log("Form submitted");
+				console.log("Processing......");
+
+				// Send data to the backend
+				fetch("http://localhost:8080/projects/subCategory", {
+					// fetch("https://panda-server-37m0.onrender.com/projects/createCategory", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ categoryId, subCategoryName }),
+				})
+					.then((response) => {
+						console.log("Data processed!");
+						return response.json();
+					})
+					.then((data) => {
+						// Handle the response from the backend
+						console.log(data.message);
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			});
+
+			formUpdateSubCategory.addEventListener("submit", function (event) {
+				// stop form submission
+				event.preventDefault();
+
+				const categoryId = document.getElementById("categoryId4").value;
+				const subCategoryOldName = document.getElementById("subCategoryOldName").value;
+				const subCategoryNewName = document.getElementById("subCategoryNewName").value;
+				console.log("Form submitted");
+				console.log("Processing......");
+
+				// Send data to the backend
+				fetch("http://localhost:8080/projects/subCategory", {
+					// fetch("https://panda-server-37m0.onrender.com/projects/createCategory", {
+					method: "PATCH",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ categoryId, subCategoryOldName, subCategoryNewName }),
+				})
+					.then((response) => {
+						console.log("Data processed!");
+						return response.json();
+					})
+					.then((data) => {
+						// Handle the response from the backend
+						console.log(data.message);
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			});
+
+			formRemoveSubCategory.addEventListener("submit", function (event) {
+				// stop form submission
+				event.preventDefault();
+
+				const categoryId = document.getElementById("categoryId5").value;
+				const subCategoryName = document.getElementById("subCategoryName4").value;
+				console.log("Form submitted");
+				console.log("Processing......");
+
+				// Send data to the backend
+				fetch("http://localhost:8080/projects/subCategory", {
+					// fetch("https://panda-server-37m0.onrender.com/projects/createCategory", {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ categoryId, subCategoryName }),
 				})
 					.then((response) => {
 						console.log("Data processed!");
