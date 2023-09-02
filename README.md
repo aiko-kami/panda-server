@@ -74,10 +74,10 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Delete project category
   - [x] Define project model
   - [x] Create new project
-  - [ ] Define sub-categories in categories
-    - [ ] Add sub-category
-    - [ ] Update sub-category
-    - [ ] Delete sub-category
+  - [x] Define sub-categories in categories
+    - [x] Add sub-category
+    - [x] Update sub-category
+    - [x] Delete sub-category
   - [ ] Edit project
     - [ ] Edit project data (title, goal, summary, description, category, subcategory, tags, phase, location, talentsNeeded, startDate, objectives, creatorMotivation, visibility, attachments)
     - [ ] Add a member
