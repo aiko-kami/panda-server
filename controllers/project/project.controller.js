@@ -10,25 +10,24 @@ const { apiResponse, projectValidation } = require("../../utils");
 
 // Create project
 const createProject = async (req, res) => {
+	//Retrieve and initialize project data
+	const projectData = {
+		title: req.body.projectInputs.title || "",
+		goal: req.body.projectInputs.goal || "",
+		summary: req.body.projectInputs.summary || "",
+		description: req.body.projectInputs.description || "",
+		categoryId: req.body.projectInputs.categoryId || "",
+		subCategory: req.body.projectInputs.subCategory || "",
+		tagsIds: req.body.projectInputs.tagsIds || [],
+		location: req.body.projectInputs.location || { city: "", country: "" },
+		talentsNeeded: req.body.projectInputs.talentsNeeded || [],
+		startDate: parseInt(req.body.projectInputs.startDate) || 0,
+		objectives: req.body.projectInputs.objectives || "",
+		creatorMotivation: req.body.projectInputs.creatorMotivation || "",
+		visibility: req.body.projectInputs.visibility || "public",
+		attachments: req.body.projectInputs.attachments || "",
+	};
 	try {
-		//Retrieve and initialize project data
-		const projectData = {
-			title: req.body.projectInputs.title || "",
-			goal: req.body.projectInputs.goal || "",
-			summary: req.body.projectInputs.summary || "",
-			description: req.body.projectInputs.description || "",
-			categoryId: req.body.projectInputs.categoryId || "",
-			subCategory: req.body.projectInputs.subCategory || "",
-			tagsIds: req.body.projectInputs.tagsIds || [],
-			location: req.body.projectInputs.location || { city: "", country: "" },
-			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
-			startDate: parseInt(req.body.projectInputs.startDate) || 0,
-			objectives: req.body.projectInputs.objectives || "",
-			creatorMotivation: req.body.projectInputs.creatorMotivation || "",
-			visibility: req.body.projectInputs.visibility || "public",
-			attachments: req.body.projectInputs.attachments || "",
-		};
-
 		// Validate input data for creating a project
 		const validationResult = projectValidation.validateNewProjectInputs(projectData);
 		if (validationResult.status !== "success") {

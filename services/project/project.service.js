@@ -2,7 +2,7 @@ const Project = require("../../models/project.model");
 const { logger } = require("../../utils");
 
 /**
- * Create a new project if it does not already exist.
+ * Create a new project.
  * @param {string} name - The name of the project.
  * @returns {Promise} - A promise that resolves with the created project or rejects with an error.
  */

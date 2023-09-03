@@ -1,5 +1,5 @@
 const { categoryService } = require("../../services");
-const { apiResponse } = require("../../utils");
+const { apiResponse, categoryValidation } = require("../../utils");
 
 /**
  * Create new project category controller.
@@ -8,9 +8,17 @@ const { apiResponse } = require("../../utils");
  * @returns {Object} - The response containing the created category or an error message.
  */
 const createCategory = async (req, res) => {
-	const { categoryName, subCategories } = req.body;
-
+	const { categoryName, subCategories = [] } = req.body;
 	try {
+		// Validate input data for creating a category
+		const validationResult = categoryValidation.validateCategoryNameAndSubCategories(
+			categoryName,
+			subCategories
+		);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
 		// Call the service to create the category
 		const createdCategory = await categoryService.createCategory(categoryName, subCategories);
 
@@ -36,8 +44,16 @@ const createCategory = async (req, res) => {
  */
 const updateCategory = async (req, res) => {
 	const { categoryId, categoryNewName } = req.body;
-
 	try {
+		// Validate input data for creating a category
+		const validationResult = categoryValidation.validateCategoryIdAndCategoryName(
+			categoryId,
+			categoryNewName
+		);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
 		// Call the service to create the category
 		const updatedCategory = await categoryService.updateCategory(categoryId, categoryNewName);
 
@@ -62,8 +78,14 @@ const updateCategory = async (req, res) => {
  * @returns {Object} - The response containing the removed category or an error message.
  */
 const removeCategory = async (req, res) => {
+	const { categoryId } = req.body;
 	try {
-		const { categoryId } = req.body;
+		// Validate input data for creating a category
+		const validationResult = categoryValidation.validateCategoryId(categoryId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
 		// Call the service to create the category
 		const removedCategory = await categoryService.removeCategory(categoryId);
 
@@ -88,8 +110,17 @@ const removeCategory = async (req, res) => {
  * @returns {Object} - The response containing the added sub-category or an error message.
  */
 const addSubCategory = async (req, res) => {
+	const { categoryId, subCategoryName } = req.body;
 	try {
-		const { categoryId, subCategoryName } = req.body;
+		// Validate input data for creating a category
+		const validationResult = categoryValidation.validateCategoryIdAndSubCategoryName(
+			categoryId,
+			subCategoryName
+		);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
 		// Call the service to add the sub-category
 		const addedSubCategory = await categoryService.addSubCategory(categoryId, subCategoryName);
 
@@ -114,8 +145,18 @@ const addSubCategory = async (req, res) => {
  * @returns {Object} - The response containing the updated sub-category or an error message.
  */
 const updateSubCategory = async (req, res) => {
+	const { categoryId, subCategoryOldName, subCategoryNewName } = req.body;
 	try {
-		const { categoryId, subCategoryOldName, subCategoryNewName } = req.body;
+		// Validate input data for creating a category
+		const validationResult = categoryValidation.validateCategoryIdAndSubCategoryOldAndNewNames(
+			categoryId,
+			subCategoryOldName,
+			subCategoryNewName
+		);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
 		// Call the service to update the sub-category
 		const updatedSubCategory = await categoryService.updateSubCategory(
 			categoryId,
@@ -147,8 +188,17 @@ const updateSubCategory = async (req, res) => {
  * @returns {Object} - The response containing the removed sub-category or an error message.
  */
 const removeSubCategory = async (req, res) => {
+	const { categoryId, subCategoryName } = req.body;
 	try {
-		const { categoryId, subCategoryName } = req.body;
+		// Validate input data for creating a category
+		const validationResult = categoryValidation.validateCategoryIdAndSubCategoryName(
+			categoryId,
+			subCategoryName
+		);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
 		// Call the service to remove the sub-category
 		const removedSubCategory = await categoryService.removeSubCategory(categoryId, subCategoryName);
 
