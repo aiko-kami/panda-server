@@ -1,5 +1,5 @@
 const { signupService, emailValidationService } = require("../../services");
-const { apiResponse, validation } = require("../../utils");
+const { apiResponse, authValidation } = require("../../utils");
 
 // Signup user
 const signup = async (req, res) => {
@@ -7,7 +7,7 @@ const signup = async (req, res) => {
 
 	try {
 		// Validate input data
-		const validateInputs = validation.validateRegistrationInputs(
+		const validateInputs = authValidation.validateRegistrationInputs(
 			username,
 			email,
 			password,

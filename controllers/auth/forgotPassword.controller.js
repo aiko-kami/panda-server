@@ -7,7 +7,7 @@ const {
 	updateUserPasswordService,
 	removeTokenService,
 } = require("../../services");
-const { apiResponse, validation } = require("../../utils");
+const { apiResponse, authValidation } = require("../../utils");
 
 /**
  * Handles the process of sending a password reset email to a user.
@@ -20,9 +20,9 @@ const forgotPassword = async (req, res) => {
 	const { email } = req.body;
 	try {
 		// Validate input data
-		const validateEmail = validation.validateEmail(email);
-		if (validateEmail.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validateEmail.message);
+		const validatedEmail = authValidation.validateEmail(email);
+		if (validatedEmail.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validatedEmail.message);
 		}
 
 		// Check if the user exists in the database using email
@@ -67,7 +67,7 @@ const resetPassword = async (req, res) => {
 
 	try {
 		// Validate password and password confirmation input data
-		const passwordValidation = validation.validatePassword(newPassword, confirmPassword);
+		const passwordValidation = authValidation.validatePassword(newPassword, confirmPassword);
 		if (passwordValidation.status !== "success") {
 			return apiResponse.clientErrorResponse(res, passwordValidation.message);
 		}

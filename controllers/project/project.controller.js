@@ -1,5 +1,5 @@
 const { projectService, categoryService, userService } = require("../../services");
-const { apiResponse, validation } = require("../../utils");
+const { apiResponse, projectValidation } = require("../../utils");
 
 /**
  * Create new project controller.
@@ -30,7 +30,7 @@ const createProject = async (req, res) => {
 		};
 
 		// Validate input data for creating a project
-		const validationResult = validation.validateNewProjectInputs(projectData);
+		const validationResult = projectValidation.validateNewProjectInputs(projectData);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}

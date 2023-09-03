@@ -1,5 +1,5 @@
 const { loginService, generateTokenService, storeTokenService } = require("../../services");
-const { apiResponse, validation } = require("../../utils");
+const { apiResponse, authValidation } = require("../../utils");
 
 // Login user
 const login = async (req, res) => {
@@ -8,7 +8,7 @@ const login = async (req, res) => {
 
 	try {
 		// Validate input data
-		const validateInputs = validation.validateLoginInputs(identifier, password);
+		const validateInputs = authValidation.validateLoginInputs(identifier, password);
 		if (validateInputs.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validateInputs.message);
 		}
