@@ -3,15 +3,11 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Login Example</title>
+		<title>Test Cookies Example</title>
 	</head>
 	<body>
-		<h1>Login Example</h1>
+		<h1>Test Cookies Example</h1>
 		<form method="post" id="login">
-			<label for="identifier">Username or Email:</label>
-			<input type="text" id="identifier" /><br /><br />
-			<label for="password">Password:</label>
-			<input type="password" id="password" /><br /><br />
 			<button type="submit">Submit</button>
 		</form>
 		<script>
@@ -21,19 +17,16 @@
 				// stop form submission
 				event.preventDefault();
 
-				var identifier = document.getElementById("identifier").value;
-				var password = document.getElementById("password").value;
 				console.log("Form submitted");
 				console.log("Processing......");
 
 				// Send data to the backend
-				// fetch("http://localhost:8080/auth/login", {
-				fetch("https://panda-server-37m0.onrender.com/auth/login", {
-					method: "POST",
+				fetch("http://localhost:8080/atlas/setCookies", {
+					// fetch("https://panda-server-37m0.onrender.com/auth/login", {
+					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ identifier: identifier, password: password }),
 				})
 					.then((response) => {
 						console.log("Data processed!");

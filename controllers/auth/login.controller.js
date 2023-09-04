@@ -38,6 +38,8 @@ const login = async (req, res) => {
 		const refreshToken = generateTokenService.generateRefreshToken(user.userId);
 
 		storeTokenService.setTokensInCookies(res, accessToken, refreshToken);
+		const cookies = res.getHeaders()["set-cookie"];
+		console.log("Cookies set in the response:", cookies);
 
 		const tokenStoredInDb = await storeTokenService.storeRefreshTokenInDatabase(
 			user.userId,
