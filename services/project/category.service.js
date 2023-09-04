@@ -229,6 +229,25 @@ const removeSubCategory = async (categoryId, subCategoryName) => {
 	}
 };
 
+const verifyCategoryAndSubCategoryExist = async (categoryId, subCategoryName) => {
+	try {
+		const existingCategory = await Category.findOne({ categoryId });
+
+		if (!existingCategory) {
+			return { status: "error", message: "Category not found." };
+		}
+
+		if (!existingCategory.subCategories.includes(subCategoryName)) {
+			return { status: "error", message: "Sub-category not found." };
+		}
+
+		return { status: "success", category: existingCategory };
+	} catch (error) {
+		logger.error(`Error while checking category/sub-category: ${error}`);
+		return { status: "error", message: "An error occurred while checking category/sub-category." };
+	}
+};
+
 module.exports = {
 	createCategory,
 	updateCategory,
@@ -236,4 +255,5 @@ module.exports = {
 	addSubCategory,
 	updateSubCategory,
 	removeSubCategory,
+	verifyCategoryAndSubCategoryExist,
 };

@@ -3,7 +3,7 @@ const { apiResponse, authValidation } = require("../../utils");
 
 // Signup user
 const signup = async (req, res) => {
-	const { username, email, password, confirmPassword } = req.body;
+	const { username = "", email = "", password = "", confirmPassword = "" } = req.body;
 
 	try {
 		// Validate input data

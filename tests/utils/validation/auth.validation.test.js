@@ -1,7 +1,7 @@
-const { validation } = require("../../utils");
+const { authValidation } = require("../../../utils");
 
 const { validateRegistrationInputs, validateLoginInputs, validateEmail, validatePassword } =
-	validation;
+	authValidation;
 
 //validateRegistrationInputs
 

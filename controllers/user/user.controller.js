@@ -3,10 +3,11 @@ const { apiResponse } = require("../../utils");
 const { userService } = require("../../services");
 
 const getMyUserData = async (req, res) => {
+	const { userId = "" } = req.body;
 	try {
 		userService
 			.retrieveUserById(
-				req.body.userId,
+				userId,
 				"username email createdAt location company description bio languages website profilePicture"
 			)
 			.then((user) => {
@@ -20,12 +21,12 @@ const getMyUserData = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
+	const { email = "" } = req.body;
+
 	// Validate request
-	if (!req.body.email) {
+	if (!email) {
 		return apiResponse.clientErrorResponse(res, "Content can not be empty.");
 	}
-
-	const email = req.body.email;
 
 	// Connect to database
 	const client = await MongoClient.connect(process.env.MONGODB_URI_PRIVATE, {

@@ -1,6 +1,6 @@
 const validateCategoryNameAndSubCategories = (categoryName, subCategories) => {
 	//String type validation
-	const invalidType = typeof categoryName !== "string" || typeof subCategories !== "object";
+	const invalidType = typeof categoryName !== "string" || !Array.isArray(subCategories);
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
 	}

@@ -9,19 +9,19 @@ const validateNewProjectInputs = (projectData) => {
 		typeof projectData.description !== "string" ||
 		typeof projectData.categoryId !== "string" ||
 		typeof projectData.subCategory !== "string" ||
-		typeof projectData.tagsIds !== "object" ||
+		!Array.isArray(projectData.tagsIds) ||
 		typeof projectData.location.city !== "string" ||
 		typeof projectData.location.country !== "string" ||
-		typeof projectData.talentsNeeded !== "object" ||
+		!Array.isArray(projectData.talentsNeeded) ||
 		typeof projectData.startDate !== "number" ||
 		typeof projectData.objectives !== "string" ||
 		typeof projectData.creatorMotivation !== "string" ||
 		typeof projectData.visibility !== "string" ||
 		typeof projectData.attachments !== "string";
-
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
 	}
+
 	// Check if required fields are present
 	if (!projectData.title) {
 		return { status: "error", message: "Title is required." };
@@ -38,8 +38,8 @@ const validateNewProjectInputs = (projectData) => {
 	if (!projectData.categoryId) {
 		return { status: "error", message: "Category is required." };
 	}
-	if (!projectData.talentsNeeded) {
-		return { status: "error", message: "Skills needed are required." };
+	if (projectData.talentsNeeded.length == 0) {
+		return { status: "error", message: "Talents needed are required." };
 	}
 	// Validate specific field constraints
 	if (!validator.isLength(projectData.title, { min: 4, max: 100 })) {

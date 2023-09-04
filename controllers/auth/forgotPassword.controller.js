@@ -17,7 +17,7 @@ const { apiResponse, authValidation } = require("../../utils");
  */
 
 const forgotPassword = async (req, res) => {
-	const { email } = req.body;
+	const { email = "" } = req.body;
 	try {
 		// Validate input data
 		const validatedEmail = authValidation.validateEmail(email);
@@ -63,7 +63,7 @@ const forgotPassword = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
-	const { newPassword, confirmPassword, resetToken } = req.body;
+	const { newPassword = "", confirmPassword = "", resetToken = "" } = req.body;
 
 	try {
 		// Validate password and password confirmation input data
