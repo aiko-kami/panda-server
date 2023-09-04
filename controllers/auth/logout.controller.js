@@ -10,12 +10,9 @@ const logout = async (req, res) => {
 		const removeRefreshTokenResult = await removeTokenService.removeRefreshTokenFromDatabase(
 			refreshToken
 		);
-		console.log("hello1");
-		res.clearCookie("cookieName");
 		if (removeRefreshTokenResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, removeRefreshTokenResult.message);
 		}
-		console.log("hello2");
 		// Clear the access and refresh tokens from cookies
 		res.clearCookie("access_token");
 		res.clearCookie("refresh_token");

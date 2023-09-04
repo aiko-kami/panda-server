@@ -19,8 +19,8 @@ atlasRoute.get("/private/:dataId", (req, res) => {
 });
 
 // Test set cookies
-atlasRoute.get("/setCookies", (req, res) => {
-	res.cookie("cookieName", "cookieValue");
+atlasRoute.post("/setCookies", (req, res) => {
+	res.cookie("coOokieName", "coOokieValue");
 	res.json({
 		message: `Atlas public ${req.params.dataId} page`,
 	});

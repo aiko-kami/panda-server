@@ -38,8 +38,6 @@ const login = async (req, res) => {
 		const refreshToken = generateTokenService.generateRefreshToken(user.userId);
 
 		storeTokenService.setTokensInCookies(res, accessToken, refreshToken);
-		const cookies = res.getHeaders()["set-cookie"];
-		console.log("Cookies set in the response:", cookies);
 
 		const tokenStoredInDb = await storeTokenService.storeRefreshTokenInDatabase(
 			user.userId,
@@ -55,11 +53,6 @@ const login = async (req, res) => {
 		if (!lastConnectionUpdated) {
 			return apiResponse.serverErrorResponse(res, lastConnectionUpdated.message);
 		}
-		res.cookie("myTest", "accessToken", {
-			httpOnly: false,
-			secure: false,
-			maxAge: 1000 * parseInt(process.env.ACCESS_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
-		});
 
 		// Return the user data in the response
 		return apiResponse.successResponseWithData(res, "User successfully logged in.", { user });

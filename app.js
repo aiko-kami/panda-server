@@ -18,10 +18,13 @@ const { logger } = require("./utils");
 // Morgan middleware for HTTP requests and errors logging
 app.use(morganMiddleware);
 
+const isDevelopment = process.env.NODE_ENV === "development";
+
 //Setting up CORS to allow frontend to target backend
 const corsOptions = {
 	//Domain and port from frontend allowed to access the server
-	origin: "*",
+	origin: true,
+	credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -36,7 +39,7 @@ app.use(
 	cookieSession({
 		name: "panda01-session",
 		secret: process.env.COOKIE_SECRET, // should use as secret environment variable
-		httpOnly: true,
+		httpOnly: !isDevelopment, // Set httpOnly to true in production and to false in development
 	})
 );
 

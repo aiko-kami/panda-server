@@ -3,16 +3,18 @@ const { DateTime } = require("luxon");
 const { logger } = require("../../utils");
 
 const setTokensInCookies = (res, accessToken, refreshToken) => {
+	const isDevelopment = process.env.NODE_ENV === "development";
+
 	res.cookie("access_token", accessToken, {
-		httpOnly: true,
-		secure: true,
+		httpOnly: isDevelopment, // Set httpOnly to true in production and to false in development
 		maxAge: 1000 * parseInt(process.env.ACCESS_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
+		signed: true,
 	});
 
 	res.cookie("refresh_token", refreshToken, {
-		httpOnly: true,
-		secure: true,
+		httpOnly: isDevelopment, // Set httpOnly to true in production and to false in development
 		maxAge: 1000 * parseInt(process.env.REFRESH_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
+		signed: true,
 	});
 };
 
