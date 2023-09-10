@@ -68,7 +68,45 @@ const checkTitleAvailability = async (title) => {
 	}
 };
 
-const updateProject = async (projectId, updatedData) => {};
+const updateProject = async (projectId, updatedData, userId) => {
+	// Find the project by projectId
+	const project = await Project.findOne({ projectId });
+	// Check if the project exists
+	if (!project) {
+		return { status: "error", message: "Project not found." };
+	}
+
+	try {
+		// Update the project properties
+		project.title = updatedData.title;
+		project.goal = updatedData.goal;
+		project.summary = updatedData.summary;
+		project.description = updatedData.description;
+		project.tagsIds = updatedData.tagsIds;
+		project.location = updatedData.location;
+		project.talentsNeeded = updatedData.talentsNeeded;
+		project.startDate = updatedData.startDate;
+		project.phase = updatedData.phase;
+		project.objectives = updatedData.objectives;
+		project.creatorMotivation = updatedData.creatorMotivation;
+		project.visibility = updatedData.visibility;
+		project.updatedBy = userId;
+
+		// Save the updated project
+		const updatedProject = await project.save();
+
+		return {
+			status: "success",
+			message: "Project updated successfully.",
+			data: { updatedProject },
+		};
+	} catch (error) {
+		return {
+			status: "error",
+			message: "An error occurred while updating the project",
+		};
+	}
+};
 
 module.exports = {
 	createProject,
