@@ -3,9 +3,9 @@ const { apiResponse, authValidation } = require("../../utils");
 
 // Signup user
 const signup = async (req, res) => {
-	const { username = "", email = "", password = "", confirmPassword = "" } = req.body;
-
 	try {
+		const { username = "", email = "", password = "", confirmPassword = "" } = req.body;
+
 		// Validate input data
 		const validateInputs = authValidation.validateRegistrationInputs(
 			username,
@@ -53,9 +53,9 @@ const signup = async (req, res) => {
 
 // Verify the email address via the personalized link sent to the user
 const verifyEmailLink = async (req, res) => {
-	const emailValidationId = req.params.emailValidationId;
-
 	try {
+		const emailValidationId = req.params.emailValidationId;
+
 		const emailVerified = await emailValidationService.verifyEmailValidationId(emailValidationId);
 		if (emailVerified.status !== "success") {
 			return apiResponse.serverErrorResponse(res, emailVerified.message);

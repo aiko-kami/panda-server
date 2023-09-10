@@ -39,7 +39,6 @@ const projectSchema = new mongoose.Schema(
 			ref: "Category",
 		},
 		subCategory: { type: String }, // Optional
-		tagsIds: { type: [String] }, // Optional
 		status: {
 			type: String,
 			required: true,
@@ -48,23 +47,17 @@ const projectSchema = new mongoose.Schema(
 			message: "The value {VALUE} is not valid.",
 		},
 		phase: { type: String }, // Optional
-		members: [memberSchema], // Optional
 		location: {
 			city: { type: String },
 			country: { type: String },
 			onlineOnly: { type: Boolean, default: false },
 		}, // Optional
-		talentsNeeded: {
-			type: [String], // Array of talents needed
-			required: true,
-		},
 		createdAt: {
 			type: Date,
 			required: true,
 			default: DateTime.now().toHTTP(),
 		},
 		startDate: { type: Date }, // Optional
-		objectives: { type: [String] }, // Optional
 		creatorMotivation: String, // Optional
 		visibility: {
 			// Optional
@@ -74,8 +67,15 @@ const projectSchema = new mongoose.Schema(
 			enum: projectVisibility,
 			message: "The value {VALUE} is not valid.",
 		},
-		attachments: [String], // Array of file URLs - Optional
 		updatedBy: { type: String, required: true },
+		tagsIds: { type: [String] }, // Optional
+		members: [memberSchema], // Optional
+		talentsNeeded: {
+			type: [String], // Array of talents needed
+			required: true,
+		},
+		objectives: { type: [String] }, // Optional
+		attachments: [String], // Array of file URLs - Optional
 	},
 	{
 		collection: "projects",

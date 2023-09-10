@@ -8,8 +8,9 @@ const { apiResponse, categoryValidation } = require("../../utils");
  * @returns {Object} - The response containing the created category or an error message.
  */
 const createCategory = async (req, res) => {
-	const { categoryName = "", subCategories = [] } = req.body;
 	try {
+		const { categoryName = "", subCategories = [] } = req.body;
+
 		// Validate input data for creating a category
 		const validationResult = categoryValidation.validateCategoryNameAndSubCategories(
 			categoryName,
@@ -43,8 +44,9 @@ const createCategory = async (req, res) => {
  * @returns {Object} - The response containing the updated category or an error message.
  */
 const updateCategory = async (req, res) => {
-	const { categoryId = "", categoryNewName = "" } = req.body;
 	try {
+		const { categoryId = "", categoryNewName = "" } = req.body;
+
 		// Validate input data for creating a category
 		const validationResult = categoryValidation.validateCategoryIdAndCategoryName(
 			categoryId,
@@ -78,8 +80,9 @@ const updateCategory = async (req, res) => {
  * @returns {Object} - The response containing the removed category or an error message.
  */
 const removeCategory = async (req, res) => {
-	const { categoryId = "" } = req.body;
 	try {
+		const { categoryId = "" } = req.body;
+
 		// Validate input data for creating a category
 		const validationResult = categoryValidation.validateCategoryId(categoryId);
 		if (validationResult.status !== "success") {
@@ -110,8 +113,9 @@ const removeCategory = async (req, res) => {
  * @returns {Object} - The response containing the added sub-category or an error message.
  */
 const addSubCategory = async (req, res) => {
-	const { categoryId = "", subCategoryName = "" } = req.body;
 	try {
+		const { categoryId = "", subCategoryName = "" } = req.body;
+
 		// Validate input data for creating a category
 		const validationResult = categoryValidation.validateCategoryIdAndSubCategoryName(
 			categoryId,
@@ -145,8 +149,9 @@ const addSubCategory = async (req, res) => {
  * @returns {Object} - The response containing the updated sub-category or an error message.
  */
 const updateSubCategory = async (req, res) => {
-	const { categoryId = "", subCategoryOldName = "", subCategoryNewName = "" } = req.body;
 	try {
+		const { categoryId = "", subCategoryOldName = "", subCategoryNewName = "" } = req.body;
+
 		// Validate input data for creating a category
 		const validationResult = categoryValidation.validateCategoryIdAndSubCategoryOldAndNewNames(
 			categoryId,
@@ -188,8 +193,9 @@ const updateSubCategory = async (req, res) => {
  * @returns {Object} - The response containing the removed sub-category or an error message.
  */
 const removeSubCategory = async (req, res) => {
-	const { categoryId = "", subCategoryName = "" } = req.body;
 	try {
+		const { categoryId = "", subCategoryName = "" } = req.body;
+
 		// Validate input data for creating a category
 		const validationResult = categoryValidation.validateCategoryIdAndSubCategoryName(
 			categoryId,

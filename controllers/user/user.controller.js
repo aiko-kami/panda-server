@@ -3,8 +3,9 @@ const { apiResponse } = require("../../utils");
 const { userService } = require("../../services");
 
 const getMyUserData = async (req, res) => {
-	const { userId = "" } = req.body;
 	try {
+		const { userId = "" } = req.body;
+
 		userService
 			.retrieveUserById(
 				userId,

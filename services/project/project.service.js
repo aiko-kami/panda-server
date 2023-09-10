@@ -8,6 +8,12 @@ const { logger } = require("../../utils");
  */
 const createProject = async (projectData) => {
 	try {
+		const projectLocation = {
+			city: projectData.locationCountry,
+			country: projectData.locationCity,
+			onlineOnly: projectData.locationOnlineOnly,
+		};
+
 		// Create a new project in the database
 		const newProject = new Project({
 			title: projectData.title,
@@ -17,18 +23,18 @@ const createProject = async (projectData) => {
 			description: projectData.description,
 			category: projectData.categoryMongo_Id,
 			subCategory: projectData.subCategory,
-			tagsIds: projectData.tagsIds,
 			status: projectData.status,
 			phase: projectData.phase,
-			members: [{ userId: projectData.creatorId, role: "owner" }],
-			location: projectData.location,
-			talentsNeeded: projectData.talentsNeeded,
+			location: projectLocation,
 			startDate: projectData.startDate,
-			objectives: projectData.objectives,
 			creatorMotivation: projectData.creatorMotivation,
 			visibility: projectData.visibility,
-			attachments: projectData.attachments,
 			updatedBy: projectData.creatorId,
+			tagsIds: projectData.tagsIds,
+			members: [{ userId: projectData.creatorId, role: "owner" }],
+			talentsNeeded: projectData.talentsNeeded,
+			objectives: projectData.objectives,
+			attachments: projectData.attachments,
 		});
 
 		// Save the project to the database
@@ -77,20 +83,26 @@ const updateProject = async (projectId, updatedData, userId) => {
 	}
 
 	try {
+		const projectLocation = {
+			city: updatedData.locationCountry,
+			country: updatedData.locationCity,
+			onlineOnly: updatedData.locationOnlineOnly,
+		};
+
 		// Update the project properties
 		project.title = updatedData.title;
 		project.goal = updatedData.goal;
 		project.summary = updatedData.summary;
 		project.description = updatedData.description;
-		project.tagsIds = updatedData.tagsIds;
-		project.location = updatedData.location;
-		project.talentsNeeded = updatedData.talentsNeeded;
+		project.location = projectLocation;
 		project.startDate = updatedData.startDate;
 		project.phase = updatedData.phase;
-		project.objectives = updatedData.objectives;
 		project.creatorMotivation = updatedData.creatorMotivation;
 		project.visibility = updatedData.visibility;
 		project.updatedBy = userId;
+		project.tagsIds = updatedData.tagsIds;
+		project.talentsNeeded = updatedData.talentsNeeded;
+		project.objectives = updatedData.objectives;
 
 		// Save the updated project
 		const updatedProject = await project.save();

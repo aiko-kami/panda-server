@@ -1,4 +1,9 @@
-const { projectService, categoryService, userService } = require("../../services");
+const {
+	projectService,
+	categoryService,
+	userService,
+	userRightsService,
+} = require("../../services");
 const { apiResponse, projectValidation, projectTools } = require("../../utils");
 
 /**
@@ -8,25 +13,27 @@ const { apiResponse, projectValidation, projectTools } = require("../../utils");
  * @returns {Object} - The response containing the created project or an error message.
  */
 const createProject = async (req, res) => {
-	const userId = req.userId;
-	//Retrieve and initialize project data
-	const projectData = {
-		title: req.body.projectInputs.title || "",
-		goal: req.body.projectInputs.goal || "",
-		summary: req.body.projectInputs.summary || "",
-		description: req.body.projectInputs.description || "",
-		categoryId: req.body.projectInputs.categoryId || "",
-		subCategory: req.body.projectInputs.subCategory || "",
-		tagsIds: req.body.projectInputs.tagsIds || [],
-		location: req.body.projectInputs.location || { city: "", country: "" },
-		talentsNeeded: req.body.projectInputs.talentsNeeded || [],
-		startDate: parseInt(req.body.projectInputs.startDate) || 0,
-		objectives: req.body.projectInputs.objectives || [],
-		creatorMotivation: req.body.projectInputs.creatorMotivation || "",
-		visibility: req.body.projectInputs.visibility || "public",
-		attachments: req.body.projectInputs.attachments || [],
-	};
 	try {
+		const userId = req.userId;
+		//Retrieve and initialize project data
+		const projectData = {
+			title: req.body.projectInputs.title || "",
+			goal: req.body.projectInputs.goal || "",
+			summary: req.body.projectInputs.summary || "",
+			description: req.body.projectInputs.description || "",
+			categoryId: req.body.projectInputs.categoryId || "",
+			subCategory: req.body.projectInputs.subCategory || "",
+			locationCountry: req.body.projectInputs.locationCountry || "",
+			locationCity: req.body.projectInputs.locationCity || "",
+			locationOnlineOnly: Boolean(req.body.projectInputs.locationOnlineOnly) || false,
+			startDate: parseInt(req.body.projectInputs.startDate) || 0,
+			creatorMotivation: req.body.projectInputs.creatorMotivation || "",
+			visibility: req.body.projectInputs.visibility || "public",
+			tagsIds: req.body.projectInputs.tagsIds || [],
+			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
+			objectives: req.body.projectInputs.objectives || [],
+			attachments: req.body.projectInputs.attachments || [],
+		};
 		// Validate input data for creating a project
 		const validationResult = projectValidation.validateNewProjectInputs(projectData);
 		if (validationResult.status !== "success") {
@@ -90,17 +97,17 @@ const updateProject = async (req, res) => {
 			goal: req.body.projectNewData.goal || "",
 			summary: req.body.projectNewData.summary || "",
 			description: req.body.projectNewData.description || "",
-			tagsIds: req.body.projectNewData.tagsIds || [],
-			location: req.body.projectNewData.location || { city: "", country: "" },
-			talentsNeeded: req.body.projectNewData.talentsNeeded || [],
+			locationCountry: req.body.projectNewData.locationCountry || "",
+			locationCity: req.body.projectNewData.locationCity || "",
+			locationOnlineOnly: Boolean(req.body.projectNewData.locationOnlineOnly) || false,
 			startDate: parseInt(req.body.projectNewData.startDate) || 0,
 			phase: req.body.projectNewData.phase || "",
-			objectives: req.body.projectNewData.objectives || [],
 			creatorMotivation: req.body.projectNewData.creatorMotivation || "",
 			visibility: req.body.projectNewData.visibility || "",
+			tagsIds: req.body.projectNewData.tagsIds || [],
+			talentsNeeded: req.body.projectNewData.talentsNeeded || [],
+			objectives: req.body.projectNewData.objectives || [],
 		};
-		console.log("🚀 ~ updateProject ~ projectId:", projectId);
-		console.log("🚀 ~ updateProject ~ userId:", userId);
 		console.log("🚀 ~ updateProject ~ updatedProjectInputs:", updatedProjectInputs);
 
 		// Validate input data for updating a project
@@ -109,22 +116,21 @@ const updateProject = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
+		// Check user's rights to update the fields of the project
+		const filterProjectInputs = projectTools.filterFieldsToUpdate(updatedProjectInputs);
+
 		// Check user rights for updating the project
 		const userRights = await userRightsService.checkUserRights(
 			userId,
 			projectId,
-			updatedProjectInputs
+			filterProjectInputs
 		);
 		if (!userRights.canEdit) {
 			return apiResponse.unauthorizedResponse(res, userRights.message);
 		}
 
 		// Update the project
-		const updateResult = await projectService.updateProject(
-			projectId,
-			updatedProjectInputs,
-			userId
-		);
+		const updateResult = await projectService.updateProject(projectId, filterProjectInputs, userId);
 		if (updateResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updateResult.message);
 		}

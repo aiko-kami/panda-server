@@ -3,10 +3,10 @@ const { apiResponse, authValidation } = require("../../utils");
 
 // Login user
 const login = async (req, res) => {
-	//identifier  is either the username or the email
-	const { identifier = "", password = "" } = req.body;
-
 	try {
+		//identifier is either the username or the email
+		const { identifier = "", password = "" } = req.body;
+
 		// Validate input data
 		const validationResult = authValidation.validateLoginInputs(identifier, password);
 		if (validationResult.status !== "success") {

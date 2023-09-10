@@ -10,14 +10,15 @@ const validateNewProjectInputs = (projectData) => {
 		typeof projectData.description !== "string" ||
 		typeof projectData.categoryId !== "string" ||
 		typeof projectData.subCategory !== "string" ||
-		!Array.isArray(projectData.tagsIds) ||
-		typeof projectData.location.city !== "string" ||
-		typeof projectData.location.country !== "string" ||
-		!Array.isArray(projectData.talentsNeeded) ||
+		typeof projectData.locationCountry !== "string" ||
+		typeof projectData.locationCity !== "string" ||
+		typeof projectData.locationOnlineOnly !== "boolean" ||
 		typeof projectData.startDate !== "number" ||
-		!Array.isArray(projectData.objectives) ||
 		typeof projectData.creatorMotivation !== "string" ||
 		typeof projectData.visibility !== "string" ||
+		!Array.isArray(projectData.tagsIds) ||
+		!Array.isArray(projectData.talentsNeeded) ||
+		!Array.isArray(projectData.objectives) ||
 		!Array.isArray(projectData.attachments);
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
@@ -73,15 +74,16 @@ const validateUpdatedProjectInputs = (projectData) => {
 		typeof projectData.goal !== "string" ||
 		typeof projectData.summary !== "string" ||
 		typeof projectData.description !== "string" ||
-		!Array.isArray(projectData.tagsIds) ||
-		typeof projectData.location.city !== "string" ||
-		typeof projectData.location.country !== "string" ||
-		!Array.isArray(projectData.talentsNeeded) ||
+		typeof projectData.locationCountry !== "string" ||
+		typeof projectData.locationCity !== "string" ||
+		typeof projectData.locationOnlineOnly !== "boolean" ||
 		typeof projectData.startDate !== "number" ||
 		typeof projectData.phase !== "string" ||
-		!Array.isArray(projectData.objectives) ||
 		typeof projectData.creatorMotivation !== "string" ||
-		typeof projectData.visibility !== "string";
+		typeof projectData.visibility !== "string" ||
+		!Array.isArray(projectData.tagsIds) ||
+		!Array.isArray(projectData.talentsNeeded) ||
+		!Array.isArray(projectData.objectives);
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
 	}
@@ -101,7 +103,7 @@ const validateUpdatedProjectInputs = (projectData) => {
 	if (projectData.talentsNeeded.length == 0) {
 		return { status: "error", message: "Talents needed are required." };
 	}
-	if (projectData.visibility) {
+	if (!projectData.visibility) {
 		return { status: "error", message: "Visibility is required." };
 	}
 	// Validate specific field constraints
