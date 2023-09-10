@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const { DateTime } = require("luxon");
 const v4 = require("uuid").v4;
+const projectStatus = process.env.PROJECT_STATUS.split(", ");
+const projectVisibility = process.env.PROJECT_VISIBILITY.split(", ");
+const projectMembersRoles = process.env.PROJECT_MEMBERS_ROLES.split(", ");
 
 const memberSchema = new mongoose.Schema({
 	userId: {
@@ -11,8 +14,8 @@ const memberSchema = new mongoose.Schema({
 	role: {
 		type: String,
 		required: true,
-		default: "member",
-		enum: ["owner", "member"],
+		default: projectMembersRoles[0],
+		enum: projectMembersRoles,
 		message: "The value {VALUE} is not valid.",
 	},
 	startDate: {
@@ -32,16 +35,16 @@ const projectSchema = new mongoose.Schema(
 		description: { type: String, required: true },
 		category: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "Category",
 			required: true,
+			ref: "Category",
 		},
 		subCategory: { type: String }, // Optional
 		tagsIds: { type: [String] }, // Optional
 		status: {
 			type: String,
 			required: true,
-			default: "draft",
-			enum: ["draft", "submitted", "active", "on hold", "completed", "archived", "cancelled"],
+			default: projectStatus[0],
+			enum: projectStatus,
 			message: "The value {VALUE} is not valid.",
 		},
 		phase: { type: String }, // Optional
@@ -57,8 +60,8 @@ const projectSchema = new mongoose.Schema(
 		},
 		createdAt: {
 			type: Date,
-			default: DateTime.now().toHTTP(),
 			required: true,
+			default: DateTime.now().toHTTP(),
 		},
 		startDate: { type: Date }, // Optional
 		objectives: { type: [String] }, // Optional
@@ -66,17 +69,17 @@ const projectSchema = new mongoose.Schema(
 		visibility: {
 			// Optional
 			type: String,
-			enum: ["public", "private"],
-			default: "public",
 			required: true,
+			default: projectVisibility[0],
+			enum: projectVisibility,
+			message: "The value {VALUE} is not valid.",
 		},
 		attachments: [String], // Array of file URLs - Optional
-	},
-	{
-		timestamps: true, // Automatically add createdAt and updatedAt timestamps
+		updatedBy: { type: String, required: true },
 	},
 	{
 		collection: "projects",
+		timestamps: true, // Automatically add createdAt and updatedAt timestamps
 	}
 );
 

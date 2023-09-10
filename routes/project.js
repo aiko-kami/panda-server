@@ -8,7 +8,7 @@ const { projectController, categoryController } = require("../controllers");
 const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
 projectRoute.post("/project", verifyAccess, projectController.createProject);
-projectRoute.patch("/project/:projectId", projectController.createProject);
+projectRoute.patch("/project/:projectId", verifyAccess, projectController.updateProject);
 projectRoute.get("/project/:projectId", projectController.createProject);
 projectRoute.post("/project/submit/:projectId", projectController.createProject);
 projectRoute.get("/projectOverview/:projectId", projectController.createProject);

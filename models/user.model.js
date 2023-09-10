@@ -25,10 +25,8 @@ const userSchema = new mongoose.Schema(
 		website: { type: String },
 	},
 	{
-		timestamps: true, // Automatically add createdAt and updatedAt timestamps
-	},
-	{
 		collection: "users",
+		timestamps: true, // Automatically add createdAt and updatedAt timestamps
 	}
 );
 

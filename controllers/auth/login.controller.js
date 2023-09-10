@@ -8,9 +8,9 @@ const login = async (req, res) => {
 
 	try {
 		// Validate input data
-		const validateInputs = authValidation.validateLoginInputs(identifier, password);
-		if (validateInputs.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validateInputs.message);
+		const validationResult = authValidation.validateLoginInputs(identifier, password);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
 		// Check if the user exists in the database by email or username

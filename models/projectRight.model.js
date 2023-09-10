@@ -37,10 +37,8 @@ const projectRightsSchema = new mongoose.Schema(
 		},
 	},
 	{
-		timestamps: true, // Automatically add createdAt and updatedAt timestamps
-	},
-	{
 		collection: "projectRights",
+		timestamps: true, // Automatically add createdAt and updatedAt timestamps
 	}
 );
 

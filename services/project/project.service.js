@@ -28,6 +28,7 @@ const createProject = async (projectData) => {
 			creatorMotivation: projectData.creatorMotivation,
 			visibility: projectData.visibility,
 			attachments: projectData.attachments,
+			updatedBy: projectData.creatorId,
 		});
 
 		// Save the project to the database
@@ -67,7 +68,10 @@ const checkTitleAvailability = async (title) => {
 	}
 };
 
+const updateProject = async (projectId, updatedData) => {};
+
 module.exports = {
 	createProject,
 	checkTitleAvailability,
+	updateProject,
 };

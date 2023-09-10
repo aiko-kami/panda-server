@@ -240,6 +240,35 @@ describe("validateNewProjectInputs", () => {
 		});
 	});
 
+	test("should return error when visibility is missing", () => {
+		const projectData = {
+			title: "Project Title",
+			goal: "Project Goal",
+			summary: "Project Summary",
+			description: "Project Description with correct length",
+			categoryId: "12345",
+			subCategory: "Subcategory",
+			tagsIds: ["tag1", "tag2"],
+			location: {
+				city: "City",
+				country: "Country",
+			},
+			talentsNeeded: ["Skill1", "Skill2"],
+			startDate: 1630000000,
+			objectives: "Project Objectives",
+			creatorMotivation: "Motivation",
+			visibility: "",
+			attachments: "Attachment1, Attachment2",
+		};
+
+		const result = validateNewProjectInputs(projectData);
+
+		expect(result).toEqual({
+			status: "error",
+			message: "Visibility is required.",
+		});
+	});
+
 	test("should return error when title is too long", () => {
 		const projectData = {
 			title:
@@ -355,6 +384,35 @@ describe("validateNewProjectInputs", () => {
 		expect(result).toEqual({
 			status: "error",
 			message: "Description must be 20-2000 characters.",
+		});
+	});
+
+	test("should return error when visibility is not in the correct list", () => {
+		const projectData = {
+			title: "Project Title",
+			goal: "Project Goal",
+			summary: "Project Summary",
+			description: "Project Desc",
+			categoryId: "12345",
+			subCategory: "Subcategory",
+			tagsIds: ["tag1", "tag2"],
+			location: {
+				city: "City",
+				country: "Country",
+			},
+			talentsNeeded: ["Skill1", "Skill2"],
+			startDate: 1630000000,
+			objectives: "Project Objectives",
+			creatorMotivation: "Motivation",
+			visibility: "wrong",
+			attachments: "Attachment1, Attachment2",
+		};
+
+		const result = validateNewProjectInputs(projectData);
+
+		expect(result).toEqual({
+			status: "error",
+			message: "Invalid project visibility.",
 		});
 	});
 });
