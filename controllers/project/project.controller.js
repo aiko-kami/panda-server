@@ -26,16 +26,18 @@ const createProject = async (req, res) => {
 			locationCountry: req.body.projectInputs.locationCountry || "",
 			locationCity: req.body.projectInputs.locationCity || "",
 			locationOnlineOnly: Boolean(req.body.projectInputs.locationOnlineOnly) || false,
-			startDate: parseInt(req.body.projectInputs.startDate) || 0,
+			startDate: req.body.projectInputs.startDate || "",
 			creatorMotivation: req.body.projectInputs.creatorMotivation || "",
 			visibility: req.body.projectInputs.visibility || "public",
-			tagsIds: req.body.projectInputs.tagsIds || [],
+			tags: req.body.projectInputs.tags || [],
 			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
 			objectives: req.body.projectInputs.objectives || [],
 			attachments: req.body.projectInputs.attachments || [],
 		};
+
 		// Validate input data for creating a project
 		const validationResult = projectValidation.validateNewProjectInputs(projectData);
+
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
@@ -82,7 +84,7 @@ const createProject = async (req, res) => {
 
 /**
  * Update existing project controller.
- * Allows to update the following elements of a project: title, goal, summary, description, tagsIds, location, talentsNeeded, startDate, phase, objectives, creatorMotivation, visibility
+ * Allows to update the following elements of a project: title, goal, summary, description, tags, location, talentsNeeded, startDate, phase, objectives, creatorMotivation, visibility
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
  * @returns {Object} - The response containing the updated project or an error message.
@@ -99,16 +101,15 @@ const updateProject = async (req, res) => {
 			description: req.body.projectNewData.description || "",
 			locationCountry: req.body.projectNewData.locationCountry || "",
 			locationCity: req.body.projectNewData.locationCity || "",
-			locationOnlineOnly: Boolean(req.body.projectNewData.locationOnlineOnly) || false,
-			startDate: parseInt(req.body.projectNewData.startDate) || 0,
+			locationOnlineOnly: req.body.projectNewData.locationOnlineOnly || "no value passed",
+			startDate: req.body.projectNewData.startDate || "",
 			phase: req.body.projectNewData.phase || "",
 			creatorMotivation: req.body.projectNewData.creatorMotivation || "",
 			visibility: req.body.projectNewData.visibility || "",
-			tagsIds: req.body.projectNewData.tagsIds || [],
+			tags: req.body.projectNewData.tags || [],
 			talentsNeeded: req.body.projectNewData.talentsNeeded || [],
 			objectives: req.body.projectNewData.objectives || [],
 		};
-		console.log("🚀 ~ updateProject ~ updatedProjectInputs:", updatedProjectInputs);
 
 		// Validate input data for updating a project
 		const validationResult = projectValidation.validateUpdatedProjectInputs(updatedProjectInputs);
@@ -145,7 +146,14 @@ const updateProject = async (req, res) => {
 	}
 };
 
+const updateProjectStatus = async (req, res) => {};
+const updateProjectMembers = async (req, res) => {};
+const updateProjectAttachments = async (req, res) => {};
+
 module.exports = {
 	createProject,
 	updateProject,
+	updateProjectStatus,
+	updateProjectMembers,
+	updateProjectAttachments,
 };

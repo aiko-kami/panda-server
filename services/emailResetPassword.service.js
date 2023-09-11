@@ -1,4 +1,4 @@
-const User = require("../models/user.model");
+const { User } = require("../models");
 const CryptoJS = require("crypto-js");
 const { logger, emailDelivery } = require("../utils");
 

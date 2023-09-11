@@ -13,7 +13,7 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
-			tagsIds: ["tag1", "tag2"],
+			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
@@ -44,7 +44,7 @@ describe("validateNewProjectInputs", () => {
 			// Invalid data type for categoryId (should be a string)
 			categoryId: 123,
 			subCategory: "Subcategory",
-			tagsIds: ["tag1", "tag2"],
+			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
@@ -74,7 +74,7 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
-			tagsIds: ["tag1", "tag2"],
+			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
@@ -103,7 +103,7 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
-			tagsIds: ["tag1", "tag2"],
+			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
@@ -132,7 +132,7 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
-			tagsIds: ["tag1", "tag2"],
+			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
@@ -161,7 +161,7 @@ describe("validateNewProjectInputs", () => {
 			description: "",
 			categoryId: "12345",
 			subCategory: "Subcategory",
-			tagsIds: ["tag1", "tag2"],
+			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
@@ -190,7 +190,7 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "",
 			subCategory: "Subcategory",
-			tagsIds: ["tag1", "tag2"],
+			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
@@ -219,7 +219,7 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
-			tagsIds: ["tag1", "tag2"],
+			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
@@ -248,7 +248,7 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
-			tagsIds: ["tag1", "tag2"],
+			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
@@ -278,7 +278,7 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
-			tagsIds: ["tag1", "tag2"],
+			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
@@ -308,7 +308,7 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
-			tagsIds: ["tag1", "tag2"],
+			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
@@ -337,7 +337,7 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
-			tagsIds: ["tag1", "tag2"],
+			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
@@ -366,7 +366,7 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Desc",
 			categoryId: "12345",
 			subCategory: "Subcategory",
-			tagsIds: ["tag1", "tag2"],
+			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
@@ -395,7 +395,7 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Desc",
 			categoryId: "12345",
 			subCategory: "Subcategory",
-			tagsIds: ["tag1", "tag2"],
+			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",

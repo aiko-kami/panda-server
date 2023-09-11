@@ -57,7 +57,9 @@ const projectSchema = new mongoose.Schema(
 			required: true,
 			default: DateTime.now().toHTTP(),
 		},
-		startDate: { type: Date }, // Optional
+		startDate: {
+			type: Date,
+		}, // Optional
 		creatorMotivation: String, // Optional
 		visibility: {
 			// Optional
@@ -68,7 +70,7 @@ const projectSchema = new mongoose.Schema(
 			message: "The value {VALUE} is not valid.",
 		},
 		updatedBy: { type: String, required: true },
-		tagsIds: { type: [String] }, // Optional
+		tags: { type: [String] }, // Optional
 		members: [memberSchema], // Optional
 		talentsNeeded: {
 			type: [String], // Array of talents needed

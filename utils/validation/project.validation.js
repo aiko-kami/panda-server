@@ -13,10 +13,10 @@ const validateNewProjectInputs = (projectData) => {
 		typeof projectData.locationCountry !== "string" ||
 		typeof projectData.locationCity !== "string" ||
 		typeof projectData.locationOnlineOnly !== "boolean" ||
-		typeof projectData.startDate !== "number" ||
+		typeof projectData.startDate !== "string" ||
 		typeof projectData.creatorMotivation !== "string" ||
 		typeof projectData.visibility !== "string" ||
-		!Array.isArray(projectData.tagsIds) ||
+		!Array.isArray(projectData.tags) ||
 		!Array.isArray(projectData.talentsNeeded) ||
 		!Array.isArray(projectData.objectives) ||
 		!Array.isArray(projectData.attachments);
@@ -43,7 +43,7 @@ const validateNewProjectInputs = (projectData) => {
 	if (projectData.talentsNeeded.length == 0) {
 		return { status: "error", message: "Talents needed are required." };
 	}
-	if (projectData.visibility) {
+	if (!projectData.visibility) {
 		return { status: "error", message: "Visibility is required." };
 	}
 	// Validate specific field constraints
@@ -76,12 +76,12 @@ const validateUpdatedProjectInputs = (projectData) => {
 		typeof projectData.description !== "string" ||
 		typeof projectData.locationCountry !== "string" ||
 		typeof projectData.locationCity !== "string" ||
-		typeof projectData.locationOnlineOnly !== "boolean" ||
-		typeof projectData.startDate !== "number" ||
+		typeof projectData.locationOnlineOnly !== "string" ||
+		typeof projectData.startDate !== "string" ||
 		typeof projectData.phase !== "string" ||
 		typeof projectData.creatorMotivation !== "string" ||
 		typeof projectData.visibility !== "string" ||
-		!Array.isArray(projectData.tagsIds) ||
+		!Array.isArray(projectData.tags) ||
 		!Array.isArray(projectData.talentsNeeded) ||
 		!Array.isArray(projectData.objectives);
 	if (invalidType) {

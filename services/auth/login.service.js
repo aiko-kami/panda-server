@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const User = require("../../models/user.model");
+const { User } = require("../../models");
 const { logger } = require("../../utils");
 const { DateTime } = require("luxon");
 

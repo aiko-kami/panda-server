@@ -3,12 +3,12 @@ const mongoose = require("mongoose");
 const projectRightsSchema = new mongoose.Schema(
 	{
 		projectId: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: String,
 			ref: "Project", // Reference to the Project model
 			required: true,
 		},
 		userId: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: String,
 			ref: "User", // Reference to the User model
 			required: true,
 		},
@@ -17,8 +17,6 @@ const projectRightsSchema = new mongoose.Schema(
 			canEditGoal: { type: Boolean, default: false },
 			canEditSummary: { type: Boolean, default: false },
 			canEditDescription: { type: Boolean, default: false },
-			canEditCategory: { type: Boolean, default: false },
-			canEditSubCategory: { type: Boolean, default: false },
 			canEditTags: { type: Boolean, default: false },
 			canEditLocation: { type: Boolean, default: false },
 			canEditTalentsNeeded: { type: Boolean, default: false },

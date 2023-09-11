@@ -43,8 +43,16 @@ const filterFieldsToUpdate = (projectData) => {
 			filteredInputs.locationCity = projectData.locationCity;
 		}
 	}
-	if (projectData.locationOnlineOnly) {
+	if (projectData.locationOnlineOnly !== "no value passed") {
 		filteredInputs.locationOnlineOnly = projectData.locationOnlineOnly;
+	}
+
+	if (projectData.startDate) {
+		if (projectData.startDate === "@--empty--string") {
+			filteredInputs.startDate = "";
+		} else {
+			filteredInputs.startDate = projectData.startDate;
+		}
 	}
 	if (projectData.startDate) {
 		if (projectData.startDate === "@--empty--string") {
@@ -67,11 +75,11 @@ const filterFieldsToUpdate = (projectData) => {
 			filteredInputs.creatorMotivation = projectData.creatorMotivation;
 		}
 	}
-	if (projectData.tagsIds && projectData.tagsIds.length > 0) {
-		if (projectData.tagsIds[0] === "@--empty--string") {
-			filteredInputs.tagsIds = [];
+	if (projectData.tags && projectData.tags.length > 0) {
+		if (projectData.tags[0] === "@--empty--string") {
+			filteredInputs.tags = [];
 		} else {
-			filteredInputs.tagsIds = projectData.tagsIds;
+			filteredInputs.tags = projectData.tags;
 		}
 	}
 	if (projectData.talentsNeeded && projectData.talentsNeeded.length > 0) {

@@ -79,9 +79,11 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] Update sub-category
     - [x] Delete sub-category
   - [ ] Edit project
-    - [ ] Edit project data (title, goal, summary, description, category, subcategory, tags, phase, location, talentsNeeded, startDate, objectives, creatorMotivation, visibility, attachments)
-    - [ ] Add a member
-    - [ ] Change project status
+    - [x] Edit project data (title, goal, summary, description, tags, phase, location, talentsNeeded, startDate, objectives, creatorMotivation, visibility)
+    - [ ] Edit user's project rights
+    - [ ] Edit members
+    - [ ] Edit project status
+    - [ ] Edit attachments
 - [ ] User profile
   - [ ] Edit user profile
   - [ ] Talents

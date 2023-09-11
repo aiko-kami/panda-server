@@ -1,4 +1,4 @@
-const Project = require("../../models/project.model");
+const { Project } = require("../../models");
 const { logger } = require("../../utils");
 
 /**
@@ -26,16 +26,18 @@ const createProject = async (projectData) => {
 			status: projectData.status,
 			phase: projectData.phase,
 			location: projectLocation,
-			startDate: projectData.startDate,
+			startDate: projectData.startDate !== "" ? projectData.startDate : undefined,
 			creatorMotivation: projectData.creatorMotivation,
 			visibility: projectData.visibility,
 			updatedBy: projectData.creatorId,
-			tagsIds: projectData.tagsIds,
+			tags: projectData.tags,
 			members: [{ userId: projectData.creatorId, role: "owner" }],
 			talentsNeeded: projectData.talentsNeeded,
 			objectives: projectData.objectives,
 			attachments: projectData.attachments,
 		});
+
+		console.log("🚀 ~ createProject ~ newProject:", newProject);
 
 		// Save the project to the database
 		const createdProject = await newProject.save();
@@ -91,16 +93,17 @@ const updateProject = async (projectId, updatedData, userId) => {
 
 		// Update the project properties
 		project.title = updatedData.title;
+		project.titleCapitalized = updatedData.title.toUpperCase();
 		project.goal = updatedData.goal;
 		project.summary = updatedData.summary;
 		project.description = updatedData.description;
 		project.location = projectLocation;
-		project.startDate = updatedData.startDate;
-		project.phase = updatedData.phase;
+		(project.startDate = updatedData.startDate !== "" ? updatedData.startDate : undefined),
+			(project.phase = updatedData.phase);
 		project.creatorMotivation = updatedData.creatorMotivation;
 		project.visibility = updatedData.visibility;
 		project.updatedBy = userId;
-		project.tagsIds = updatedData.tagsIds;
+		project.tags = updatedData.tags;
 		project.talentsNeeded = updatedData.talentsNeeded;
 		project.objectives = updatedData.objectives;
 
