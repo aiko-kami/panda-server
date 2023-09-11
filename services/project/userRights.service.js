@@ -8,18 +8,28 @@ const { logger } = require("../../utils");
  * @param {string} updatedFields - An object containing the fields the user wants to update.
  * @returns {Promise} - An object indicating whether the user has the necessary rights or rejects with an error.
  */
-const checkUserRights = async (userId, projectId, updatedFields) => {
-	console.log("🚀 ~ checkUserRights ~ updatedFields:", updatedFields);
+const setProjectOwnerRights = async (userId, projectId) => {
+	try {
+	} catch (error) {
+		logger.error(`Error while setting project owner's rights: ${error}`);
+		return { status: "error", message: "An error occurred while setting project owner's rights." };
+	}
+};
 
+/**
+ * Check user's rights to update specific fields of a project.
+ * @param {string} userId - The user ID of the user requesting the update.
+ * @param {string} projectId - The ID of the project being updated.
+ * @param {string} updatedFields - An object containing the fields the user wants to update.
+ * @returns {Promise} - An object indicating whether the user has the necessary rights or rejects with an error.
+ */
+const checkUserRights = async (userId, projectId, updatedFields) => {
 	try {
 		// Find the user's rights for the specified project
 		const userRights = await ProjectRights.findOne({
 			userId: userId,
 			projectId: projectId,
 		});
-
-		console.log("🚀 ~ checkUserRights ~ userRights:", userRights);
-
 		if (!userRights) {
 			return {
 				canEdit: false,
@@ -36,12 +46,8 @@ const checkUserRights = async (userId, projectId, updatedFields) => {
 			) {
 				continue; // Skip these fields for now
 			}
-
-			console.log("🚀 ~ checkUserRights ~ field:", field);
-
 			let canEditField =
 				userRights.permissions[`canEdit${field.charAt(0).toUpperCase() + field.slice(1)}`];
-			console.log("🚀 ~ checkUserRights ~ canEditField:", canEditField);
 			if (!canEditField) {
 				return {
 					canEdit: false,
@@ -68,10 +74,50 @@ const checkUserRights = async (userId, projectId, updatedFields) => {
 			message: "User has permission to edit the specified fields.",
 		};
 	} catch (error) {
-		throw new Error("Error checking user rights: " + error.message);
+		logger.error(`Error while checking user rights: ${error}`);
+		return { status: "error", message: "An error occurred while checking user rights." };
+	}
+};
+
+/**
+ * retrieve the project rights document for the specified project and user.
+ * @param {string} projectId - The ID of the project.
+ * @param {string} userId - The ID of the user.
+ * @returns {Object} - An object containing whether the user's rights or rejects with an error.
+ */
+const retrieveProjectRights = async (projectId, userId) => {
+	try {
+		const projectRights = await ProjectRights.findOne({
+			projectId: projectId,
+			userId: userId,
+		});
+
+		if (!projectRights) {
+			logger.error(
+				"An error occurred while retrieving user's project rights: Project rights not found for this user and project."
+			);
+			return {
+				status: "error",
+				message:
+					"An error occurred while retrieving user's project rights: Project rights not found for this user and project.",
+			};
+		}
+		return {
+			status: "success",
+			message: "Project rights found successfully.",
+			projectRights: projectRights,
+		};
+	} catch (error) {
+		logger.error(`Error while retrieving user's project rights: ${error}`);
+		return {
+			status: "error",
+			message: "An error occurred while retrieving user's project rights.",
+		};
 	}
 };
 
 module.exports = {
+	setProjectOwnerRights,
 	checkUserRights,
+	retrieveProjectRights,
 };

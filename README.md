@@ -80,6 +80,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] Delete sub-category
   - [ ] Edit project
     - [x] Edit project data (title, goal, summary, description, tags, phase, location, talentsNeeded, startDate, objectives, creatorMotivation, visibility)
+    - [ ] Set project owner rights
     - [ ] Edit user's project rights
     - [ ] Edit members
     - [ ] Edit project status
