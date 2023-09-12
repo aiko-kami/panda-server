@@ -80,11 +80,11 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] Delete sub-category
   - [ ] Edit project
     - [x] Edit project data (title, goal, summary, description, tags, phase, location, talentsNeeded, startDate, objectives, creatorMotivation, visibility)
+    - [x] Edit user's project rights
     - [ ] Set project owner rights
-    - [ ] Edit user's project rights
-    - [ ] Edit members
+    - [ ] Edit project members (add new member to a project and set default new member rights, remove members from a project)
     - [ ] Edit project status
-    - [ ] Edit attachments
+    - [ ] Edit project attachments
 - [ ] User profile
   - [ ] Edit user profile
   - [ ] Talents
