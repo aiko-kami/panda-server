@@ -4,7 +4,7 @@ const { logger } = require("../../utils");
 const { DateTime } = require("luxon");
 
 // Function to get user by username or email
-const getUserByUsernameOrEmail = async (identifier) => {
+const retrieveUserByUsernameOrEmail = async (identifier) => {
 	try {
 		const user = await User.findOne({ $or: [{ username: identifier }, { email: identifier }] });
 		if (!user) {
@@ -63,7 +63,7 @@ const updateLastConnection = async (userId) => {
 };
 
 module.exports = {
-	getUserByUsernameOrEmail,
+	retrieveUserByUsernameOrEmail,
 	comparePasswords,
 	updateLastConnection,
 };

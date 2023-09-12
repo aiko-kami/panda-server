@@ -4,7 +4,7 @@ const { loginService } = require("../../../services");
 // Mock
 jest.mock("bcryptjs");
 
-// getUserByUsernameOrEmail
+// retrieveUserByUsernameOrEmail
 
 // comparePasswords
 

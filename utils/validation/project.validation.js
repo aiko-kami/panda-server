@@ -2,7 +2,7 @@ const validator = require("validator");
 const projectVisibility = process.env.PROJECT_VISIBILITY.split(", ");
 
 const validateNewProjectInputs = (projectData) => {
-	//String type validation
+	//Types validation
 	const invalidType =
 		typeof projectData.title !== "string" ||
 		typeof projectData.goal !== "string" ||

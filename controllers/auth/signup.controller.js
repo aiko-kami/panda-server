@@ -18,7 +18,7 @@ const signup = async (req, res) => {
 		}
 
 		// Check if the username or the email already exist in the database
-		const existingUsernameOrEmail = await signupService.checkUsernameAndEmailAvailability(
+		const existingUsernameOrEmail = await signupService.verifyUsernameAndEmailAvailability(
 			username,
 			email
 		);

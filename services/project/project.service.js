@@ -59,7 +59,7 @@ const createProject = async (projectData) => {
 	}
 };
 
-const checkTitleAvailability = async (title) => {
+const verifyTitleAvailability = async (title) => {
 	const titleCapitalized = title.toUpperCase();
 	const existingTitle = await Project.findOne({ titleCapitalized });
 	try {
@@ -125,6 +125,6 @@ const updateProject = async (projectId, updatedData, userId) => {
 
 module.exports = {
 	createProject,
-	checkTitleAvailability,
+	verifyTitleAvailability,
 	updateProject,
 };

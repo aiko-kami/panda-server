@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const { User } = require("../../models");
 const { logger } = require("../../utils");
 
-const checkUsernameAndEmailAvailability = async (username, email) => {
+const verifyUsernameAndEmailAvailability = async (username, email) => {
 	const usernameCapitalized = username.toUpperCase();
 	const existingUser = await User.findOne({ $or: [{ usernameCapitalized }, { email }] });
 
@@ -59,6 +59,6 @@ const signupUser = async (username, email, password) => {
 };
 
 module.exports = {
-	checkUsernameAndEmailAvailability,
+	verifyUsernameAndEmailAvailability,
 	signupUser,
 };

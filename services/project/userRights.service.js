@@ -16,6 +16,14 @@ const setProjectOwnerRights = async (userId, projectId) => {
 	}
 };
 
+const setProjectNewMemberRights = async (userId, projectId) => {
+	try {
+	} catch (error) {
+		logger.error(`Error while setting project owner's rights: ${error}`);
+		return { status: "error", message: "An error occurred while setting project owner's rights." };
+	}
+};
+
 /**
  * Check user's rights to update specific fields of a project.
  * @param {string} userId - The user ID of the user requesting the update.
@@ -23,7 +31,7 @@ const setProjectOwnerRights = async (userId, projectId) => {
  * @param {string} updatedFields - An object containing the fields the user wants to update.
  * @returns {Promise} - An object indicating whether the user has the necessary rights or rejects with an error.
  */
-const checkUserRights = async (userId, projectId, updatedFields) => {
+const validateUserRights = async (userId, projectId, updatedFields) => {
 	try {
 		// Find the user's rights for the specified project
 		const userRights = await ProjectRights.findOne({
@@ -116,8 +124,66 @@ const retrieveProjectRights = async (projectId, userId) => {
 	}
 };
 
+/**
+ * Update user project rights service.
+ * @param {string} projectId - The ID of the project.
+ * @param {string} userId - The ID of the user.
+ * @param {Object} updatedPermissions - An object containing the updated permissions.
+ * @returns {Object} - An object containing a status and a message.
+ */
+const updateUserProjectRights = async (
+	projectId,
+	userIdUpdated,
+	updatedPermissions,
+	userIdUpdater
+) => {
+	try {
+		// Find the project rights document for the specified project and user
+		const projectRights = await ProjectRights.findOne({
+			projectId: projectId,
+			userId: userIdUpdated,
+		});
+
+		if (!projectRights) {
+			return {
+				status: "error",
+				message: "Project rights not found for this user and project.",
+			};
+		}
+
+		// Update the permissions based on the request
+		for (const permission in updatedPermissions) {
+			if (Object.prototype.hasOwnProperty.call(updatedPermissions, permission)) {
+				// Check if the permission is a valid field in ProjectRights
+				if (projectRights.permissions.hasOwnProperty(permission)) {
+					projectRights.permissions[permission] = updatedPermissions[permission];
+				}
+			}
+		}
+		// Set the 'updatedBy' field to the ID of the user who is updating
+		projectRights.updatedBy = userIdUpdater;
+
+		console.log("🚀 ~ projectRights:", projectRights);
+
+		// Save the updated project rights
+		await projectRights.save();
+
+		return {
+			status: "success",
+			message: "Project rights updated successfully.",
+		};
+	} catch (error) {
+		return {
+			status: "error",
+			message: "Error updating project rights: " + error.message,
+		};
+	}
+};
+
 module.exports = {
 	setProjectOwnerRights,
-	checkUserRights,
+	setProjectNewMemberRights,
+	validateUserRights,
 	retrieveProjectRights,
+	updateUserProjectRights,
 };

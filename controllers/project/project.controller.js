@@ -54,7 +54,7 @@ const createProject = async (req, res) => {
 		projectData.categoryMongo_Id = categoryVerified.category._id;
 
 		//Verify that title does not already exists in the database
-		const existingTitle = await projectService.checkTitleAvailability(projectData.title);
+		const existingTitle = await projectService.verifyTitleAvailability(projectData.title);
 		if (existingTitle.status !== "success") {
 			return apiResponse.clientErrorResponse(res, existingTitle.message);
 		}
@@ -121,7 +121,7 @@ const updateProject = async (req, res) => {
 		const filterProjectInputs = projectTools.filterFieldsToUpdate(updatedProjectInputs);
 
 		// Check user rights for updating the project
-		const userRights = await userRightsService.checkUserRights(
+		const userRights = await userRightsService.validateUserRights(
 			userId,
 			projectId,
 			filterProjectInputs

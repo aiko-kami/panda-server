@@ -14,7 +14,7 @@ const login = async (req, res) => {
 		}
 
 		// Check if the user exists in the database by email or username
-		const user = await loginService.getUserByUsernameOrEmail(identifier);
+		const user = await loginService.retrieveUserByUsernameOrEmail(identifier);
 		if (user.status !== "success") {
 			return apiResponse.clientErrorResponse(res, "Invalid login credentials.");
 		}
