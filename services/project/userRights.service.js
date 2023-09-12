@@ -110,6 +110,7 @@ const retrieveProjectRights = async (projectId, userId) => {
 					"An error occurred while retrieving user's project rights: Project rights not found for this user and project.",
 			};
 		}
+		logger.info(`Project rights found successfully. Project rights: ${projectRights}`);
 		return {
 			status: "success",
 			message: "Project rights found successfully.",
@@ -145,6 +146,9 @@ const updateUserProjectRights = async (
 		});
 
 		if (!projectRights) {
+			logger.error(
+				"An error occurred while retrieving user's project rights: Project rights not found for this user and project."
+			);
 			return {
 				status: "error",
 				message: "Project rights not found for this user and project.",
@@ -163,16 +167,16 @@ const updateUserProjectRights = async (
 		// Set the 'updatedBy' field to the ID of the user who is updating
 		projectRights.updatedBy = userIdUpdater;
 
-		console.log("🚀 ~ projectRights:", projectRights);
-
 		// Save the updated project rights
 		await projectRights.save();
 
+		logger.info(`Project rights updated successfully. Project rights: ${projectRights}`);
 		return {
 			status: "success",
 			message: "Project rights updated successfully.",
 		};
 	} catch (error) {
+		logger.error(`Error while retrieving user's project rights: ${error}`);
 		return {
 			status: "error",
 			message: "Error updating project rights: " + error.message,
