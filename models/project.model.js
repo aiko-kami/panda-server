@@ -7,7 +7,7 @@ const projectMembersRoles = process.env.PROJECT_MEMBERS_ROLES.split(", ");
 
 const memberSchema = new mongoose.Schema({
 	userId: {
-		type: mongoose.Schema.Types.ObjectId,
+		type: String,
 		ref: "User",
 	},
 	talent: String,

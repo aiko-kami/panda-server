@@ -1,11 +1,23 @@
 const { User } = require("../../models");
 
-const retrieveUserById = async (id, fields) => {
-	const user = await User.findOne({ userId: id }).select(`${fields}`);
-	if (!user) {
-		return { status: "error", message: "User not found." };
+const retrieveUserById = async (userId, fields) => {
+	try {
+		const user = await User.findOne({ userId }).select(`${fields}`);
+		if (!user) {
+			return { status: "error", message: "User not found." };
+		}
+		return {
+			status: "success",
+			message: "User retrieved successfully.",
+			user,
+		};
+	} catch (error) {
+		logger.error("Error while retrieving user from the database:", error);
+		return {
+			status: "error",
+			message: "An error occurred while retrieving the user from the database.",
+		};
 	}
-	return { status: "success", data: user };
 };
 
 const retrieveNewUsers = async (limit, fields) => {

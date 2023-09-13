@@ -37,8 +37,6 @@ const createProject = async (projectData) => {
 			attachments: projectData.attachments,
 		});
 
-		console.log("🚀 ~ createProject ~ newProject:", newProject);
-
 		// Save the project to the database
 		const createdProject = await newProject.save();
 
@@ -47,7 +45,7 @@ const createProject = async (projectData) => {
 		return {
 			status: "success",
 			message: "New project stored in the database.",
-			data: { createdProject },
+			createdProject,
 		};
 	} catch (error) {
 		logger.error("Error while storing the project in the database: ", error);
@@ -123,8 +121,40 @@ const updateProject = async (projectId, updatedData, userId) => {
 	}
 };
 
+/**
+ * Retrieve project data by project ID.
+ * @param {string} projectId - The ID of the project to retrieve.
+ * @returns {Object} - An object containing the retrieved project data or an error message.
+ */
+const retrieveProjectById = async (projectId, fields) => {
+	try {
+		// Use your Project model to find the project by ID
+		const project = await Project.findOne({ projectId }).select(fields);
+
+		if (!project) {
+			return {
+				status: "error",
+				message: "Project not found.",
+			};
+		}
+
+		return {
+			status: "success",
+			message: "Project retrieved successfully.",
+			project,
+		};
+	} catch (error) {
+		logger.error("Error while retrieving project from the database:", error);
+		return {
+			status: "error",
+			message: "An error occurred while retrieving the project from the database.",
+		};
+	}
+};
+
 module.exports = {
 	createProject,
 	verifyTitleAvailability,
 	updateProject,
+	retrieveProjectById,
 };

@@ -2,14 +2,50 @@ const { ProjectRights } = require("../../models");
 const { logger } = require("../../utils");
 
 /**
- * Check user's rights to update specific fields of a project.
+ * Set project owner's default rights during the creation of a project.
  * @param {string} userId - The user ID of the user requesting the update.
  * @param {string} projectId - The ID of the project being updated.
- * @param {string} updatedFields - An object containing the fields the user wants to update.
  * @returns {Promise} - An object indicating whether the user has the necessary rights or rejects with an error.
  */
-const setProjectOwnerRights = async (userId, projectId) => {
+const setProjectOwnerRights = async (projectId, userId) => {
 	try {
+		// Create owner's rights in the database
+		const ownerRights = new ProjectRights({
+			projectId,
+			userId,
+			permissions: {
+				canEditTitle: true,
+				canEditGoal: true,
+				canEditSummary: true,
+				canEditDescription: true,
+				canEditTags: true,
+				canEditLocation: true,
+				canEditTalentsNeeded: true,
+				canEditStartDate: true,
+				canEditStatus: true,
+				canEditPhase: true,
+				canEditObjectives: true,
+				canEditCreatorMotivation: true,
+				canEditVisibility: true,
+				canEditAttachments: true,
+				canSeeJoinProjectRequests: true,
+				canAnswerJoinProjectRequests: true,
+				canSendJoinProjectInvitations: true,
+				canRemoveMembers: true,
+				canEditRights: true,
+			},
+			updatedBy: "default",
+		});
+
+		// Save owner's rights to the database
+		const createdRights = await ownerRights.save();
+
+		logger.info(`Owner's rights stored in database. Rights: ${createdRights}`);
+		return {
+			status: "success",
+			message: "Owner's rights stored in the database.",
+			createdRights,
+		};
 	} catch (error) {
 		logger.error(`Error while setting project owner's rights: ${error}`);
 		return { status: "error", message: "An error occurred while setting project owner's rights." };

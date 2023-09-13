@@ -81,7 +81,8 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] Edit project
     - [x] Edit project data (title, goal, summary, description, tags, phase, location, talentsNeeded, startDate, objectives, creatorMotivation, visibility)
     - [x] Edit user's project rights
-    - [ ] Set project owner rights
+    - [x] Set project owner rights
+    - [x] Prevent project owner to change its own rights
     - [ ] Edit project members (add new member to a project and set default new member rights, remove members from a project)
     - [ ] Edit project status
     - [ ] Edit project attachments

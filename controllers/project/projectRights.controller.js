@@ -1,4 +1,4 @@
-const { userRightsService } = require("../../services");
+const { userRightsService, projectService } = require("../../services");
 const { apiResponse, ProjectRightsValidation } = require("../../utils");
 
 /**
@@ -20,17 +20,15 @@ const updateUserProjectRights = async (req, res) => {
 			projectId,
 			updatedPermissions
 		);
-
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		// Use the retrieveProjectRights function to check if theRights
+		// Retrieve Project Rights of the updater
 		const rightsCheckResult = await userRightsService.retrieveProjectRights(
 			projectId,
 			userIdUpdater
 		);
-
 		if (rightsCheckResult.status !== "success") {
 			return apiResponse.errorResponse(res, rightsCheckResult.message);
 		}
@@ -43,6 +41,26 @@ const updateUserProjectRights = async (req, res) => {
 			);
 		}
 
+		//Check if the user to be updated is owner of the project
+		const ProjectMembersResult = await projectService.retrieveProjectById(projectId, "members");
+
+		if (ProjectMembersResult.status !== "success") {
+			return apiResponse.errorResponse(res, ProjectMembersResult.message);
+		}
+
+		const projectMembers = ProjectMembersResult.project.members;
+
+		// Find the user to be updated in the project's members
+		const userToBeUpdated = projectMembers.find((member) => member.userId === userIdUpdated);
+
+		if (userToBeUpdated && userToBeUpdated.role === "owner") {
+			// If user to be updated is the owner of the project, its rights cannot be updated
+			return apiResponse.unauthorizedResponse(
+				res,
+				"The owner of the project cannot have its rights updated."
+			);
+		}
+
 		// Update the user's project rights
 		const updateResult = await userRightsService.updateUserProjectRights(
 			projectId,
@@ -50,13 +68,16 @@ const updateUserProjectRights = async (req, res) => {
 			updatedPermissions,
 			userIdUpdater
 		);
-
 		if (updateResult.status !== "success") {
 			return apiResponse.errorResponse(res, updateResult.message);
 		}
 		return apiResponse.successResponse(res, updateResult.message);
 	} catch (error) {
-		return apiResponse.serverErrorResponse(res, "An error occurred while updating project rights.");
+		return apiResponse.serverErrorResponse(
+			res,
+
+			error.message
+		);
 	}
 };
 

@@ -33,7 +33,7 @@ const projectRightsSchema = new mongoose.Schema(
 			canRemoveMembers: { type: Boolean, default: false },
 			canEditRights: { type: Boolean, default: false },
 		},
-		updatedBy: { type: String, required: true },
+		updatedBy: { type: String },
 	},
 	{
 		collection: "projectRights",

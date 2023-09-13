@@ -90,7 +90,7 @@ const resetPassword = async (req, res) => {
 
 		// Update user's password
 		const updatePasswordResult = await updateUserPasswordService.updateUserPassword(
-			existingUser.data.userId,
+			existingUser.userId,
 			newPassword
 		);
 
@@ -100,7 +100,7 @@ const resetPassword = async (req, res) => {
 
 		// Remove the used reset password token
 		const removeTokenResult = await removeTokenService.removeResetPasswordTokenFromDatabase(
-			existingUser.data.userId,
+			existingUser.userId,
 			resetToken
 		);
 		if (removeTokenResult.status !== "success") {
