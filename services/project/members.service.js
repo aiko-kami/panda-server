@@ -35,8 +35,14 @@ const updateMemberFromProject = async (projectId, memberId, action) => {
 		if (action === "remove") {
 			//If member is owner of the project, cannot be removed from the project
 			const isOwner = project.members[existingMemberIndex].role === "owner";
-			if (isOwner) {
-				return { status: "error", message: "Project owner cannot be removed from the project." };
+			// Count the number of owners in the project
+			const ownerCount = project.members.filter((member) => member.role === "owner").length;
+			if (isOwner && ownerCount === 1) {
+				return {
+					status: "error",
+					message:
+						"There is no other project owner. The sole project owner cannot be removed from the project.",
+				};
 			}
 
 			project.members.splice(existingMemberIndex, 1);
@@ -45,7 +51,7 @@ const updateMemberFromProject = async (projectId, memberId, action) => {
 			await project.save();
 
 			logger.info(
-				`Member removed from the project successfully. Project ID: ${projectId} - Member ID: ${memberId}`
+				`Member removed from the project successfully. Project ID: ${projectId} - Member user ID: ${memberId}`
 			);
 			return { status: "success", message: "Member removed from the project successfully." };
 		} else {
