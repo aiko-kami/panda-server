@@ -40,7 +40,9 @@ const setProjectOwnerRights = async (projectId, userId) => {
 		// Save owner's rights to the database
 		const createdRights = await ownerRights.save();
 
-		logger.info(`Owner's rights stored in database. Rights: ${createdRights}`);
+		logger.info(
+			`Owner's rights stored in database. Project ID: ${createdRights.projectId} - User ID: ${createdRights.userId}`
+		);
 		return {
 			status: "success",
 			message: "Owner's rights stored in the database.",
@@ -82,7 +84,7 @@ const validateUserRights = async (userId, projectId, updatedFields) => {
 		}
 
 		// Check if the user has permission to edit each field in updatedFields
-		for (const field in updatedFields) {
+		for (const field of updatedFields) {
 			if (
 				field === "locationOnlineOnly" ||
 				field === "locationCity" ||
@@ -95,16 +97,18 @@ const validateUserRights = async (userId, projectId, updatedFields) => {
 			if (!canEditField) {
 				return {
 					canEdit: false,
-					message: `User does not have permission to edit the field ${field.toUpperCase()}.`,
+					message: `User does not have permission to edit the field ${
+						field.charAt(0).toUpperCase() + field.slice(1)
+					}.`,
 				};
 			}
 		}
 
 		// Check user rights for locationOnlineOnly, locationCity, and locationCountry
 		if (
-			(updatedFields.locationOnlineOnly !== undefined && !userRights.permissions.canEditLocation) ||
-			(updatedFields.locationCity !== undefined && !userRights.permissions.canEditLocation) ||
-			(updatedFields.locationCountry !== undefined && !userRights.permissions.canEditLocation)
+			(updatedFields.includes("locationOnlineOnly") && !userRights.permissions.canEditLocation) ||
+			(updatedFields.includes("locationCity") && !userRights.permissions.canEditLocation) ||
+			(updatedFields.includes("locationCountry") && !userRights.permissions.canEditLocation)
 		) {
 			return {
 				canEdit: false,
@@ -113,13 +117,18 @@ const validateUserRights = async (userId, projectId, updatedFields) => {
 		}
 
 		// If the loop completes without returning an error, the user has all necessary permissions
+		logger.info("User has permission to edit the specified fields");
 		return {
 			canEdit: true,
 			message: "User has permission to edit the specified fields.",
 		};
 	} catch (error) {
 		logger.error(`Error while checking user rights: ${error}`);
-		return { status: "error", message: "An error occurred while checking user rights." };
+		return {
+			status: "error",
+			canEdit: false,
+			message: "An error occurred while checking user rights.",
+		};
 	}
 };
 
@@ -146,7 +155,9 @@ const retrieveProjectRights = async (projectId, userId) => {
 					"An error occurred while retrieving user's project rights: Project rights not found for this user and project.",
 			};
 		}
-		logger.info(`Project rights found successfully. Project rights: ${projectRights}`);
+		logger.info(
+			`Project rights found successfully. Project ID: ${projectRights.projectId} - User ID: ${projectRights.userId}`
+		);
 		return {
 			status: "success",
 			message: "Project rights found successfully.",
@@ -206,7 +217,9 @@ const updateUserProjectRights = async (
 		// Save the updated project rights
 		await projectRights.save();
 
-		logger.info(`Project rights updated successfully. Project rights: ${projectRights}`);
+		logger.info(
+			`Project rights updated successfully. Project ID: ${projectRights.projectId} - User ID: ${projectRights.userId}`
+		);
 		return {
 			status: "success",
 			message: "Project rights updated successfully.",

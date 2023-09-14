@@ -34,7 +34,7 @@ const projectSchema = new mongoose.Schema(
 		summary: { type: String, required: true, trim: true },
 		description: { type: String, required: true },
 		category: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: String,
 			required: true,
 			ref: "Category",
 		},

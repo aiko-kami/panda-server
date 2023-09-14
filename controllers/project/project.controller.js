@@ -3,6 +3,7 @@ const {
 	categoryService,
 	userService,
 	userRightsService,
+	membersService,
 } = require("../../services");
 const { apiResponse, projectValidation, projectTools } = require("../../utils");
 
@@ -49,8 +50,6 @@ const createProject = async (req, res) => {
 		if (categoryVerified.status !== "success") {
 			return apiResponse.clientErrorResponse(res, categoryVerified.message);
 		}
-
-		projectData.categoryMongo_Id = categoryVerified.category._id;
 
 		//Verify that title does not already exists in the database
 		const existingTitle = await projectService.verifyTitleAvailability(projectData.title);
@@ -127,17 +126,30 @@ const updateProject = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		// Check user's rights to update the fields of the project
+		// Filter on the fields that the user wants to update
 		const filterProjectInputs = projectTools.filterFieldsToUpdate(updatedProjectInputs);
+
+		const filterProjectInputsArray = Object.keys(filterProjectInputs);
 
 		// Check user rights for updating the project
 		const userRights = await userRightsService.validateUserRights(
 			userId,
 			projectId,
-			filterProjectInputs
+			filterProjectInputsArray
 		);
 		if (!userRights.canEdit) {
 			return apiResponse.unauthorizedResponse(res, userRights.message);
+		}
+
+		//Verify that the title (if modified) is available
+		if (filterProjectInputs.title) {
+			console.log("there is a title");
+			const TitleVerification = await projectService.verifyTitleAvailability(
+				filterProjectInputs.title
+			);
+			if (TitleVerification.status !== "success") {
+				return apiResponse.serverErrorResponse(res, TitleVerification.message);
+			}
 		}
 
 		// Update the project
@@ -157,13 +169,52 @@ const updateProject = async (req, res) => {
 };
 
 const updateProjectStatus = async (req, res) => {};
-const updateProjectMembers = async (req, res) => {};
+const addProjectMember = async (req, res) => {};
+const removeProjectMember = async (req, res) => {
+	try {
+		const userIdUpdater = req.userId;
+		const { projectId = "" } = req.params;
+		const { memberId = "" } = req.body;
+
+		// Retrieve Project Rights of the updater
+		const rightsCheckResult = await userRightsService.retrieveProjectRights(
+			projectId,
+			userIdUpdater
+		);
+		if (rightsCheckResult.status !== "success") {
+			return apiResponse.errorResponse(res, rightsCheckResult.message);
+		}
+
+		// Check if the user has canRemoveMembers permission
+		if (!rightsCheckResult.projectRights.permissions.canRemoveMembers) {
+			return apiResponse.unauthorizedResponse(
+				res,
+				"You do not have permission to remove members from this project."
+			);
+		}
+
+		// Remove the member from the project
+		const removeMemberResult = await membersService.updateMemberFromProject(
+			projectId,
+			memberId,
+			"remove"
+		);
+		if (removeMemberResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, removeMemberResult.message);
+		}
+
+		return apiResponse.successResponse(res, "Member removed from the project successfully.");
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
 const updateProjectAttachments = async (req, res) => {};
 
 module.exports = {
 	createProject,
 	updateProject,
 	updateProjectStatus,
-	updateProjectMembers,
+	addProjectMember,
+	removeProjectMember,
 	updateProjectAttachments,
 };

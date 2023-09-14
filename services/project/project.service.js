@@ -21,7 +21,7 @@ const createProject = async (projectData) => {
 			goal: projectData.goal,
 			summary: projectData.summary,
 			description: projectData.description,
-			category: projectData.categoryMongo_Id,
+			category: projectData.categoryId,
 			subCategory: projectData.subCategory,
 			status: projectData.status,
 			phase: projectData.phase,
@@ -77,43 +77,58 @@ const verifyTitleAvailability = async (title) => {
 const updateProject = async (projectId, updatedData, userId) => {
 	// Find the project by projectId
 	const project = await Project.findOne({ projectId });
+
 	// Check if the project exists
 	if (!project) {
 		return { status: "error", message: "Project not found." };
 	}
 
 	try {
-		const projectLocation = {
-			city: updatedData.locationCountry,
-			country: updatedData.locationCity,
-			onlineOnly: updatedData.locationOnlineOnly,
+		// Define an object to store the fields that need to be updated
+		const updateFields = {};
+
+		// Define a mapping of fields between the updatedData object and the project object
+		const fieldMapping = {
+			title: "title",
+			goal: "goal",
+			summary: "summary",
+			description: "description",
+			startDate: "startDate",
+			phase: "phase",
+			creatorMotivation: "creatorMotivation",
+			visibility: "visibility",
+			tags: "tags",
+			talentsNeeded: "talentsNeeded",
+			objectives: "objectives",
+			locationCity: "location.city",
+			locationCountry: "location.country",
+			locationOnlineOnly: "location.onlineOnly",
 		};
 
+		// Iterate through the fieldMapping and check if the field exists in updatedData
+		for (const key in fieldMapping) {
+			const projectField = fieldMapping[key];
+			if (updatedData.hasOwnProperty(key)) {
+				// If the field exists in updatedData, update the corresponding field in updateFields
+				updateFields[projectField] = updatedData[key];
+			}
+		}
+
 		// Update the project properties
-		project.title = updatedData.title;
-		project.titleCapitalized = updatedData.title.toUpperCase();
-		project.goal = updatedData.goal;
-		project.summary = updatedData.summary;
-		project.description = updatedData.description;
-		project.location = projectLocation;
-		(project.startDate = updatedData.startDate !== "" ? updatedData.startDate : undefined),
-			(project.phase = updatedData.phase);
-		project.creatorMotivation = updatedData.creatorMotivation;
-		project.visibility = updatedData.visibility;
+		project.set(updateFields);
 		project.updatedBy = userId;
-		project.tags = updatedData.tags;
-		project.talentsNeeded = updatedData.talentsNeeded;
-		project.objectives = updatedData.objectives;
 
 		// Save the updated project
 		const updatedProject = await project.save();
-
+		logger.info(`Project updated successfully. Project ID: ${projectId}`);
 		return {
 			status: "success",
 			message: "Project updated successfully.",
 			data: { updatedProject },
 		};
 	} catch (error) {
+		logger.error("Error while updating the project: ", error);
+
 		return {
 			status: "error",
 			message: "An error occurred while updating the project",

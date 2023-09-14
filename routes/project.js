@@ -15,12 +15,25 @@ projectRoute.post("/project", verifyAccess, projectController.createProject);
 projectRoute.post("/project/submit/:projectId", projectController.createProject);
 
 projectRoute.patch("/project/:projectId", verifyAccess, projectController.updateProject);
-projectRoute.patch("/project/status/:projectId", verifyAccess, projectController.updateProject);
-projectRoute.patch("/project/members/:projectId", verifyAccess, projectController.updateProject);
+projectRoute.patch(
+	"/project/status/:projectId",
+	verifyAccess,
+	projectController.updateProjectStatus
+);
+projectRoute.patch(
+	"/project/members/add/:projectId",
+	verifyAccess,
+	projectController.addProjectMember
+);
+projectRoute.patch(
+	"/project/members/remove/:projectId",
+	verifyAccess,
+	projectController.removeProjectMember
+);
 projectRoute.patch(
 	"/project/attachments/:projectId",
 	verifyAccess,
-	projectController.updateProject
+	projectController.updateProjectAttachments
 );
 projectRoute.patch(
 	"/project/UserRights/:projectId",
