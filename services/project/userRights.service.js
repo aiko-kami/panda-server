@@ -233,10 +233,45 @@ const updateUserProjectRights = async (
 	}
 };
 
+const removeUserProjectRights = async (projectId, userId) => {
+	try {
+		// Find the project rights document for the specified project and user
+		const projectRights = await ProjectRights.findOneAndRemove({
+			projectId,
+			userId,
+		});
+
+		if (!projectRights) {
+			logger.error(
+				"An error occurred while retrieving user's project rights: Project rights not found for this user and project."
+			);
+			return {
+				status: "error",
+				message: "Project rights not found for this user and project.",
+			};
+		}
+
+		logger.info(
+			`User's project rights removed successfully. Project ID: ${projectRights.projectId} - User ID: ${projectRights.userId}`
+		);
+		return {
+			status: "success",
+			message: "User's project rights removed successfully.",
+		};
+	} catch (error) {
+		logger.error(`Error while removing user's project rights: ${error}`);
+		return {
+			status: "error",
+			message: "Error removing project rights: " + error.message,
+		};
+	}
+};
+
 module.exports = {
 	setProjectOwnerRights,
 	setProjectNewMemberRights,
 	validateUserRights,
 	retrieveProjectRights,
 	updateUserProjectRights,
+	removeUserProjectRights,
 };

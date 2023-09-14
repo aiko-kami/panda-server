@@ -203,6 +203,15 @@ const removeProjectMember = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, removeMemberResult.message);
 		}
 
+		// Remove the user's rights for the project
+		const removeUserRightsResult = await userRightsService.removeUserProjectRights(
+			projectId,
+			memberId
+		);
+		if (removeUserRightsResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, removeUserRightsResult.message);
+		}
+
 		return apiResponse.successResponse(res, "Member removed from the project successfully.");
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
