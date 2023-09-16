@@ -16,10 +16,10 @@ const validateUpdatedUserInputs = (userData) => {
 		return { status: "error", message: "Invalid type of data." };
 	}
 	// Validate specific field constraints
-	if (!validator.isLength(email, { min: 1, max: 255 })) {
+	if (userData.email && !validator.isLength(userData.email, { min: 1, max: 255 })) {
 		return { status: "error", message: "Email can contain up to 255 characters." };
 	}
-	if (!validator.isEmail(email)) {
+	if (userData.email && !validator.isEmail(userData.email)) {
 		return { status: "error", message: "Email wrongly formatted." };
 	}
 	// If all validations passed

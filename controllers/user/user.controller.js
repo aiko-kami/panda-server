@@ -1,4 +1,4 @@
-const { apiResponse, userValidation } = require("../../utils");
+const { apiResponse, userValidation, userTools } = require("../../utils");
 const { userService } = require("../../services");
 
 const retrieveMyUserData = async (req, res) => {
@@ -48,7 +48,8 @@ const retrieveNewUsers = async (req, res) => {
  */
 const updateUser = async (req, res) => {
 	try {
-		const userId = req.params.userId;
+		const userId = req.userId;
+
 		//Retrieve and initialize user data
 		const updatedUserInputs = {
 			email: req.body.userNewData.email || "",
@@ -69,7 +70,9 @@ const updateUser = async (req, res) => {
 		}
 
 		// Filter on the fields that the user wants to update
-		const filterUserInputs = projectTools.filterFieldsToUpdate(updatedProjectInputs);
+		const filterUserInputs = userTools.filterFieldsToUpdate(updatedUserInputs);
+
+		console.log("🚀 ~ updateUser ~ filterUserInputs:", filterUserInputs);
 
 		const filterUserInputsArray = Object.keys(filterUserInputs);
 
@@ -80,7 +83,7 @@ const updateUser = async (req, res) => {
 		if (updateUserResult.status === "success") {
 			return apiResponse.successResponse(res, updateUserResult.message);
 		} else {
-			return apiResponse.errorResponse(res, updateUserResult.message);
+			return apiResponse.serverErrorResponse(res, updateUserResult.message);
 		}
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
