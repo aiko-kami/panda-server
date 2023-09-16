@@ -4,9 +4,7 @@ const { userService } = require("../../services");
 
 const retrieveMyUserData = async (req, res) => {
 	try {
-		const { userId = "" } = req.userId;
-
-		console.log("🚀 ~ retrieveMyUserData ~ userId:", userId);
+		const userId = req.userId;
 
 		userService
 			.retrieveUserById(
@@ -21,33 +19,6 @@ const retrieveMyUserData = async (req, res) => {
 		// Throw error in json response with status 500.
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
-};
-
-const retrieveUser = async (req, res) => {
-	const { email = "" } = req.body;
-
-	// Validate request
-	if (!email) {
-		return apiResponse.clientErrorResponse(res, "Content can not be empty.");
-	}
-
-	// Connect to database
-	const client = await MongoClient.connect(process.env.MONGODB_URI_PRIVATE, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	});
-	const db = client.db(process.env.DB_PRIVATE);
-
-	// Check if email already exists
-	const checkEmailExisting = await db.collection("users").findOne({ email });
-
-	return apiResponse.successResponseWithData(res, checkEmailExisting);
-};
-
-const updateUser = async (req, res) => {
-	res.json({
-		message: "My page (put)",
-	});
 };
 
 // Retrieve 4 new users
@@ -69,9 +40,16 @@ const retrieveNewUsers = async (req, res) => {
 	}
 };
 
+// Retrieve 4 new users
+const updateUser = async (req, res) => {
+	try {
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 module.exports = {
 	retrieveMyUserData,
-	retrieveUser,
 	updateUser,
 	retrieveNewUsers,
 };

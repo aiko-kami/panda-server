@@ -68,8 +68,6 @@ const createProject = async (req, res) => {
 		// Create the project
 		const createResult = await projectService.createProject(projectData);
 
-		console.log("🚀 ~ createProject ~ createResult:", createResult);
-
 		if (createResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, createResult.message);
 		}

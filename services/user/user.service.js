@@ -1,8 +1,6 @@
 const { User } = require("../../models");
 
 const retrieveUserById = async (userId, fields) => {
-	console.log("🚀 ~ retrieveUserById ~ userId:", userId);
-
 	try {
 		let query = User.findOne({ userId });
 		if (fields) {
@@ -10,8 +8,6 @@ const retrieveUserById = async (userId, fields) => {
 		}
 
 		const user = await query;
-
-		console.log("🚀 ~ retrieveUserById ~ user:", user);
 
 		if (!user) {
 			return { status: "error", message: "User not found." };
@@ -30,19 +26,28 @@ const retrieveUserById = async (userId, fields) => {
 };
 
 const retrieveNewUsers = async (limit, fields) => {
-	let query = User.find().sort({ createdAt: -1 }).limit(limit);
-	if (fields) {
-		query = query.select(`${fields}`);
-	}
+	try {
+		let query = User.find().sort({ createdAt: -1 }).limit(limit);
+		if (fields) {
+			query = query.select(`${fields}`);
+		}
 
-	const users = await query;
-	if (!users) {
-		return { status: "error", message: "No user found." };
+		const users = await query;
+
+		if (!users) {
+			return { status: "error", message: "No user found." };
+		}
+		return {
+			status: "success",
+			users,
+		};
+	} catch (error) {
+		logger.error("Error while retrieving users from the database:", error);
+		return {
+			status: "error",
+			message: "An error occurred while retrieving the users from the database.",
+		};
 	}
-	return {
-		status: "success",
-		users,
-	};
 };
 
 const retrieveUserByEmail = async (email, fields) => {
@@ -54,17 +59,20 @@ const retrieveUserByEmail = async (email, fields) => {
 		const user = await query;
 
 		if (!user) {
-			logger.error("An error occurred while fetching user by email: No user found.");
+			logger.error("An error occurred while retrieving the user from the database: No user found.");
 			return {
 				status: "error",
-				message: "An error occurred while fetching user by email: No user found.",
+				message: "No user found.",
 			};
 		}
 
 		return { status: "success", user };
 	} catch (error) {
-		logger.error("An error occurred while fetching user by email: ", error);
-		return { status: "error", message: "An error occurred while fetching user by email." };
+		logger.error("An error occurred while retrieving the user from the database: ", error);
+		return {
+			status: "error",
+			message: "An error occurred while retrieving the user from the database.",
+		};
 	}
 };
 
