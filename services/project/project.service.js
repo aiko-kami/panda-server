@@ -75,15 +75,15 @@ const verifyTitleAvailability = async (title) => {
 };
 
 const updateProject = async (projectId, updatedData, userId) => {
-	// Find the project by projectId
-	const project = await Project.findOne({ projectId });
-
-	// Check if the project exists
-	if (!project) {
-		return { status: "error", message: "Project not found." };
-	}
-
 	try {
+		// Find the project by projectId
+		const project = await Project.findOne({ projectId });
+
+		// Check if the project exists
+		if (!project) {
+			return { status: "error", message: "Project not found." };
+		}
+
 		// Define an object to store the fields that need to be updated
 		const updateFields = {};
 
@@ -131,7 +131,7 @@ const updateProject = async (projectId, updatedData, userId) => {
 
 		return {
 			status: "error",
-			message: "An error occurred while updating the project",
+			message: "An error occurred while updating the project.",
 		};
 	}
 };

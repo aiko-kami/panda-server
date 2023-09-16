@@ -9,7 +9,7 @@ const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Me
 usersRoute.get("/me", verifyAccess, userController.retrieveMyUserData);
-usersRoute.put("/me", verifyAccess, userController.updateUser);
+usersRoute.patch("/me", verifyAccess, userController.updateUser);
 
 // User overview
 usersRoute.get("/userOverview/:userId", (req, res) => {
