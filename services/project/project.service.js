@@ -38,14 +38,14 @@ const createProject = async (projectData) => {
 		});
 
 		// Save the project to the database
-		const createdProject = await newProject.save();
+		const project = await newProject.save();
 
-		logger.info(`New project stored in database. Project ID: ${createdProject.projectId}`);
+		logger.info(`New project stored in database. Project ID: ${project.projectId}`);
 
 		return {
 			status: "success",
 			message: "New project stored in the database.",
-			createdProject,
+			project,
 		};
 	} catch (error) {
 		logger.error("Error while storing the project in the database: ", error);
@@ -124,7 +124,7 @@ const updateProject = async (projectId, updatedData, userId) => {
 		return {
 			status: "success",
 			message: "Project updated successfully.",
-			data: { updatedProject },
+			updatedProject,
 		};
 	} catch (error) {
 		logger.error("Error while updating the project: ", error);

@@ -45,6 +45,8 @@ projectRoute.get("/project/:projectId", projectController.createProject);
 projectRoute.get("/projectOverview/:projectId", projectController.createProject);
 projectRoute.get("/projectPublic/:projectId", projectController.createProject);
 
+projectRoute.get("/category", categoryController.retrieveCategory);
+projectRoute.get("/categories", categoryController.retrieveCategories);
 projectRoute.post("/category", categoryController.createCategory);
 projectRoute.patch("/category", categoryController.updateCategory);
 projectRoute.delete("/category", categoryController.removeCategory);

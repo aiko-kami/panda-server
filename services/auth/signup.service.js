@@ -49,7 +49,7 @@ const signupUser = async (username, email, password) => {
 		return {
 			status: "success",
 			message: `New user successfully signed up. UserId: ${newUser.userId}`,
-			data: newUser,
+			newUser,
 		};
 	} catch (error) {
 		// Log the error and return a structured response with error details

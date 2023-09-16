@@ -2,18 +2,20 @@ const MongoClient = require("mongodb").MongoClient;
 const { apiResponse } = require("../../utils");
 const { userService } = require("../../services");
 
-const getMyUserData = async (req, res) => {
+const retrieveMyUserData = async (req, res) => {
 	try {
-		const { userId = "" } = req.body;
+		const { userId = "" } = req.userId;
+
+		console.log("🚀 ~ retrieveMyUserData ~ userId:", userId);
 
 		userService
 			.retrieveUserById(
 				userId,
-				"username email createdAt location company description bio languages website profilePicture"
+				"-_id username email createdAt location company description bio languages website profilePicture"
 			)
 			.then((user) => {
 				// Send response with my user data
-				return apiResponse.successResponseWithData(res, "Operation success.", user);
+				return apiResponse.successResponseWithData(res, "User data retrieved successfully.", user);
 			});
 	} catch (error) {
 		// Throw error in json response with status 500.
@@ -21,7 +23,7 @@ const getMyUserData = async (req, res) => {
 	}
 };
 
-const getUser = async (req, res) => {
+const retrieveUser = async (req, res) => {
 	const { email = "" } = req.body;
 
 	// Validate request
@@ -48,14 +50,19 @@ const updateUser = async (req, res) => {
 	});
 };
 
-// Get 4 new users
-const getNewUsers = async (req, res) => {
+// Retrieve 4 new users
+const retrieveNewUsers = async (req, res) => {
 	try {
 		const newUsers = await userService.retrieveNewUsers(4, "username profilePicture description");
-		if (newUsers !== null && newUsers.data.length > 0) {
-			return apiResponse.successResponseWithData(res, "Operation success.", newUsers.data);
+
+		if (newUsers.users !== null && newUsers.users.length > 0) {
+			return apiResponse.successResponseWithData(
+				res,
+				"New users retrieved successfully.",
+				newUsers.users
+			);
 		} else {
-			return apiResponse.successResponse(res, "No user found.");
+			return apiResponse.successResponse(res, newUsers.message);
 		}
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
@@ -63,8 +70,8 @@ const getNewUsers = async (req, res) => {
 };
 
 module.exports = {
-	getMyUserData,
-	getUser,
+	retrieveMyUserData,
+	retrieveUser,
 	updateUser,
-	getNewUsers,
+	retrieveNewUsers,
 };

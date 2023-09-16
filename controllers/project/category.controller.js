@@ -225,6 +225,56 @@ const removeSubCategory = async (req, res) => {
 	}
 };
 
+const retrieveCategory = async (req, res) => {
+	try {
+		const { categoryId = "" } = req.body;
+
+		// Validate input data for creating a category
+		const validationResult = categoryValidation.validateCategoryId(categoryId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Call the service to retrieve the category
+		const retrievedCategory = await categoryService.retrieveCategoryById(
+			categoryId,
+			"name subCategories categoryId createdAt updatedAt"
+		);
+		if (retrievedCategory.status !== "success") {
+			return apiResponse.serverErrorResponse(res, retrievedCategory.message);
+		}
+
+		return apiResponse.successResponseWithData(
+			res,
+			"Category retrieved successfully.",
+			retrievedCategory
+		);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, "An error occurred while retrieving the category.");
+	}
+};
+
+const retrieveCategories = async (req, res) => {
+	try {
+		// Call the service to retrieve the categories
+		const retrievedCategories = await categoryService.retrieveAllCategories();
+		if (retrievedCategories.status !== "success") {
+			return apiResponse.serverErrorResponse(res, retrievedCategories.message);
+		}
+
+		return apiResponse.successResponseWithData(
+			res,
+			"Categories retrieved successfully.",
+			retrievedCategories
+		);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(
+			res,
+			"An error occurred while retrieving the categories."
+		);
+	}
+};
+
 module.exports = {
 	createCategory,
 	updateCategory,
@@ -232,4 +282,6 @@ module.exports = {
 	addSubCategory,
 	updateSubCategory,
 	removeSubCategory,
+	retrieveCategory,
+	retrieveCategories,
 };

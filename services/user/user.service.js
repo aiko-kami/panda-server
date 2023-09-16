@@ -1,14 +1,23 @@
 const { User } = require("../../models");
 
 const retrieveUserById = async (userId, fields) => {
+	console.log("🚀 ~ retrieveUserById ~ userId:", userId);
+
 	try {
-		const user = await User.findOne({ userId }).select(`${fields}`);
+		let query = User.findOne({ userId });
+		if (fields) {
+			query = query.select(`${fields}`);
+		}
+
+		const user = await query;
+
+		console.log("🚀 ~ retrieveUserById ~ user:", user);
+
 		if (!user) {
 			return { status: "error", message: "User not found." };
 		}
 		return {
 			status: "success",
-			message: "User retrieved successfully.",
 			user,
 		};
 	} catch (error) {
@@ -21,16 +30,28 @@ const retrieveUserById = async (userId, fields) => {
 };
 
 const retrieveNewUsers = async (limit, fields) => {
-	const users = await User.find().sort({ createdAt: -1 }).limit(limit).select(`-_id ${fields}`);
+	let query = User.find().sort({ createdAt: -1 }).limit(limit);
+	if (fields) {
+		query = query.select(`${fields}`);
+	}
+
+	const users = await query;
 	if (!users) {
 		return { status: "error", message: "No user found." };
 	}
-	return { status: "success", data: users };
+	return {
+		status: "success",
+		users,
+	};
 };
 
-const retrieveUserByEmail = async (email) => {
+const retrieveUserByEmail = async (email, fields) => {
 	try {
-		const user = await User.findOne({ email });
+		let query = User.findOne({ email });
+		if (fields) {
+			query = query.select(`${fields}`);
+		}
+		const user = await query;
 
 		if (!user) {
 			logger.error("An error occurred while fetching user by email: No user found.");
@@ -40,7 +61,7 @@ const retrieveUserByEmail = async (email) => {
 			};
 		}
 
-		return { status: "success", data: user };
+		return { status: "success", user };
 	} catch (error) {
 		logger.error("An error occurred while fetching user by email: ", error);
 		return { status: "error", message: "An error occurred while fetching user by email." };

@@ -34,7 +34,7 @@ const signup = async (req, res) => {
 
 		//Send validation email to confirm email address
 		const validationEmailSent = await emailValidationService.sendVerificationEmail(
-			newUserCreated.data.userId
+			newUserCreated.userId
 		);
 		if (validationEmailSent.status !== "success") {
 			return apiResponse.serverErrorResponse(res, validationEmailSent.message);

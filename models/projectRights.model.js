@@ -32,6 +32,7 @@ const projectRightsSchema = new mongoose.Schema(
 			canSendJoinProjectInvitations: { type: Boolean, default: false },
 			canRemoveMembers: { type: Boolean, default: false },
 			canEditRights: { type: Boolean, default: false },
+			canEditMembers: { type: Boolean, default: false },
 		},
 		updatedBy: { type: String },
 	},

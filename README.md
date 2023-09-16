@@ -72,12 +72,15 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Create new project category
   - [x] Update project category
   - [x] Delete project category
+  - [x] Retrieve project category
+  - [x] Retrieve project categories
   - [x] Define project model
   - [x] Create new project
   - [x] Define sub-categories in categories
     - [x] Add sub-category
     - [x] Update sub-category
     - [x] Delete sub-category
+  - [ ] Retrieve project
   - [ ] Edit project
     - [x] Edit project data (title, goal, summary, description, tags, phase, location, talentsNeeded, startDate, objectives, creatorMotivation, visibility)
     - [x] Edit user's project rights
@@ -91,6 +94,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [ ] Edit project attachments
 - [ ] User profile
   - [ ] Edit user profile
+  - [ ] Change password
   - [ ] Talents
     - [ ] Define Talent model
     - [ ] Create new talent

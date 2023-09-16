@@ -27,7 +27,7 @@ const forgotPassword = async (req, res) => {
 		}
 
 		// Check if the user exists in the database using email
-		const existingUser = await userService.retrieveUserByEmail(email);
+		const existingUser = await userService.retrieveUserByEmail(email, "-_id email userId username");
 
 		//In case of error, return a generic message to avoid email enumeration attack
 		if (existingUser.status !== "success") {
@@ -35,12 +35,10 @@ const forgotPassword = async (req, res) => {
 		}
 
 		// Generate a reset token and store it in the database
-		const resetPasswordToken = generateTokenService.generateResetPasswordToken(
-			existingUser.data.userId
-		);
+		const resetPasswordToken = generateTokenService.generateResetPasswordToken(existingUser.userId);
 
 		const tokenStoredInDb = await storeTokenService.storeResetPasswordTokenInDatabase(
-			existingUser.data.userId,
+			existingUser.userId,
 			resetPasswordToken
 		);
 		if (tokenStoredInDb.status !== "success") {
@@ -49,8 +47,8 @@ const forgotPassword = async (req, res) => {
 
 		// Send reset password email to the user
 		const emailSent = await emailResetPasswordService.sendPasswordResetEmail(
-			existingUser.data.email,
-			existingUser.data.username,
+			existingUser.email,
+			existingUser.username,
 			resetPasswordToken
 		);
 		if (emailSent.status !== "success") {
@@ -82,7 +80,7 @@ const resetPassword = async (req, res) => {
 		// Find the user by userId
 		const existingUser = await userService.retrieveUserById(
 			tokenVerification.userId,
-			"email userId"
+			"-_id email userId"
 		);
 		if (existingUser.status !== "success") {
 			return apiResponse.clientErrorResponse(res, "User not found.");

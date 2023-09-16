@@ -5,10 +5,11 @@
 const usersRoute = require("express").Router();
 
 const { userController } = require("../controllers");
+const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Me
-usersRoute.get("/me", userController.getMyUserData);
-usersRoute.put("/me", userController.updateUser);
+usersRoute.get("/me", verifyAccess, userController.retrieveMyUserData);
+usersRoute.put("/me", verifyAccess, userController.updateUser);
 
 // User overview
 usersRoute.get("/userOverview/:userId", (req, res) => {
@@ -18,7 +19,7 @@ usersRoute.get("/userOverview/:userId", (req, res) => {
 });
 
 // New User Overview
-usersRoute.get("/lastUsersOverview", userController.getNewUsers);
+usersRoute.get("/lastUsersOverview", userController.retrieveNewUsers);
 
 // User public info
 usersRoute.get("/userPublic/:userId", (req, res) => {

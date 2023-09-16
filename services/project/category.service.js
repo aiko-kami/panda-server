@@ -248,6 +248,37 @@ const verifyCategoryAndSubCategoryExist = async (categoryId, subCategoryName) =>
 	}
 };
 
+const retrieveCategoryById = async (categoryId, fields) => {
+	try {
+		let query = Category.findOne({ categoryId });
+		if (fields) {
+			query = query.select(`-_id ${fields}`);
+		}
+
+		const categoryRetrieved = await query;
+
+		return { status: "success", categoryRetrieved };
+	} catch (error) {
+		logger.error(`Error while retrieving the category: ${error}`);
+		return { status: "error", message: "An error occurred while retrieving the category." };
+	}
+};
+
+const retrieveAllCategories = async (fields) => {
+	try {
+		const categories = await Category.find().sort({ name: 1 }).select("-_id");
+
+		if (!categories) {
+			return { status: "error", message: "No category found." };
+		}
+
+		return { status: "success", categories };
+	} catch (error) {
+		logger.error(`Error while retrieving the categories: ${error}`);
+		return { status: "error", message: "An error occurred while retrieving the categories." };
+	}
+};
+
 module.exports = {
 	createCategory,
 	updateCategory,
@@ -256,4 +287,6 @@ module.exports = {
 	updateSubCategory,
 	removeSubCategory,
 	verifyCategoryAndSubCategoryExist,
+	retrieveCategoryById,
+	retrieveAllCategories,
 };

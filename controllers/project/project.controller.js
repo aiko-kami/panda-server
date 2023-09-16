@@ -58,7 +58,7 @@ const createProject = async (req, res) => {
 		}
 
 		//Verify that user (project creator) exists in the database
-		const existingCreator = await userService.retrieveUserById(userId);
+		const existingCreator = await userService.retrieveUserById(userId, "-_id");
 		if (existingCreator.status !== "success") {
 			return apiResponse.clientErrorResponse(res, existingCreator.message);
 		}
@@ -68,13 +68,15 @@ const createProject = async (req, res) => {
 		// Create the project
 		const createResult = await projectService.createProject(projectData);
 
+		console.log("🚀 ~ createProject ~ createResult:", createResult);
+
 		if (createResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, createResult.message);
 		}
 
 		// Set project owner's default rights during the creation of a project
 		const setRightsResult = await userRightsService.setProjectOwnerRights(
-			createResult.createdProject.projectId,
+			createResult.project.projectId,
 			userId
 		);
 		if (setRightsResult.status !== "success") {
@@ -84,7 +86,7 @@ const createProject = async (req, res) => {
 		return apiResponse.successResponseWithData(
 			res,
 			"Project created successfully.",
-			createResult.data
+			createResult.project
 		);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
@@ -158,11 +160,7 @@ const updateProject = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, updateResult.message);
 		}
 
-		return apiResponse.successResponseWithData(
-			res,
-			"Project updated successfully.",
-			updateResult.data
-		);
+		return apiResponse.successResponseWithData(res, "Project updated successfully.", updateResult);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
