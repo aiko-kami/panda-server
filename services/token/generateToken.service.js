@@ -22,7 +22,7 @@ function generateRefreshToken(userId, expires = process.env.REFRESH_TOKEN_EXPIRA
 }
 
 function generateResetPasswordToken(userId) {
-	const tokenUuid = v4;
+	const tokenUuid = v4();
 	const dataToEncrypt = { tokenUuid, userId };
 
 	// Encrypt

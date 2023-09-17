@@ -15,7 +15,7 @@ const verifyAccessToken = (accessToken) => {
 		}
 	} catch (error) {
 		// Access token verification failed
-		return { status: "error", message: "Invalid access token." };
+		return { status: "error", message: error.message };
 	}
 };
 
@@ -33,7 +33,7 @@ const verifyRefreshToken = (refreshToken) => {
 		}
 	} catch (error) {
 		// Refresh token verification failed
-		return { status: "error", message: "Invalid refresh token." };
+		return { status: "error", message: error.message };
 	}
 };
 
@@ -82,7 +82,7 @@ const verifyResetPasswordToken = async (resetToken) => {
 	} catch (error) {
 		return {
 			status: "error",
-			message: "Invalid reset password token.",
+			message: error.message,
 		};
 	}
 };

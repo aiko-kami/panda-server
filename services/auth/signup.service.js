@@ -22,7 +22,7 @@ const verifyUsernameAndEmailAvailability = async (username, email) => {
 const signupUser = async (username, email, password) => {
 	try {
 		const hashedPassword = await bcrypt.hash(password, 10);
-		const newUser = new User({
+		const user = new User({
 			username: username,
 			usernameCapitalized: username.toUpperCase(),
 			email: email,
@@ -43,13 +43,13 @@ const signupUser = async (username, email, password) => {
 			languages: [],
 			website: "",
 		});
-		await newUser.save();
+		await user.save();
 
-		logger.info(`New user successfully signed up. UserId: ${newUser.userId}`);
+		logger.info(`New user successfully signed up. UserId: ${user.userId}`);
 		return {
 			status: "success",
-			message: `New user successfully signed up. UserId: ${newUser.userId}`,
-			newUser,
+			message: `New user successfully signed up. UserId: ${user.userId}`,
+			user,
 		};
 	} catch (error) {
 		// Log the error and return a structured response with error details

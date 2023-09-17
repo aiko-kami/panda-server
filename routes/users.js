@@ -11,6 +11,9 @@ const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 usersRoute.get("/me", verifyAccess, userController.retrieveMyUserData);
 usersRoute.patch("/me", verifyAccess, userController.updateUser);
 
+// Change password
+usersRoute.patch("/changePassword", verifyAccess, userController.updateUserPassword);
+
 // User overview
 usersRoute.get("/userOverview/:userId", (req, res) => {
 	res.json({

@@ -1,4 +1,4 @@
-const { apiResponse, userValidation, userTools } = require("../../utils");
+const { apiResponse, userValidation, authValidation, userTools } = require("../../utils");
 const { userService } = require("../../services");
 
 const retrieveMyUserData = async (req, res) => {
@@ -94,8 +94,42 @@ const updateUser = async (req, res) => {
 	}
 };
 
+/**
+ * Change User's password Controller
+ * This controller handles the update of user's password.
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ * @returns {Object} - The response containing the updated password status or an error message.
+ */
+const updateUserPassword = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		const { newPassword = "", confirmNewPassword = "" } = req.body;
+
+		// Validate input data
+		const validationResult = authValidation.validatePassword(newPassword, confirmNewPassword);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Update the user's password in the database
+		const updatePasswordResult = await userService.updateUserPassword(userId, newPassword);
+
+		// Check the result of the update operation
+		if (updatePasswordResult.status === "success") {
+			return apiResponse.successResponse(res, updatePasswordResult.message);
+		} else {
+			return apiResponse.serverErrorResponse(res, updatePasswordResult.message);
+		}
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 module.exports = {
 	retrieveMyUserData,
 	updateUser,
 	retrieveNewUsers,
+	updateUserPassword,
 };

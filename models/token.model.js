@@ -12,11 +12,6 @@ const refreshTokenSchema = new mongoose.Schema(
 	{
 		userId: { type: String, required: true },
 		token: { type: String, required: true },
-		createdAt: {
-			type: Date,
-			default: DateTime.now(),
-			required: true,
-		},
 		expiresAt: {
 			type: Date,
 			required: true,
@@ -37,11 +32,6 @@ const resetPasswordTokenSchema = new mongoose.Schema(
 	{
 		userId: { type: String, required: true },
 		token: { type: String, required: true },
-		createdAt: {
-			type: Date,
-			default: DateTime.now(),
-			required: true,
-		},
 		expiresAt: {
 			type: Date,
 			required: true,
@@ -52,6 +42,7 @@ const resetPasswordTokenSchema = new mongoose.Schema(
 	},
 	{
 		collection: "resetPasswordTokens",
+		timestamps: true, // Automatically add createdAt and updatedAt timestamps
 	}
 );
 

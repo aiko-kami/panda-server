@@ -64,8 +64,6 @@ const filterFieldsToUpdate = (userData) => {
 			filteredInputs.languages = userData.languages;
 		}
 	}
-	console.log("🚀 ~ filterFieldsToUpdate ~ filteredInputs:", filteredInputs);
-
 	return filteredInputs;
 };
 

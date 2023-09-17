@@ -80,7 +80,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] Add sub-category
     - [x] Update sub-category
     - [x] Delete sub-category
-  - [ ] Retrieve project
+  - [ ] Retrieve project public data (change project model for pubblic vs private?)
   - [ ] Edit project
     - [x] Edit project data (title, goal, summary, description, tags, phase, location, talentsNeeded, startDate, objectives, creatorMotivation, visibility)
     - [x] Edit user's project rights
@@ -88,13 +88,12 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] Prevent project owner to change its own rights
     - [ ] Edit project members
       - [x] Remove members from a project
-      - [ ] Add new member to a project and set new member project rights
       - [ ] Edit member (role, talents, startDate)
     - [ ] Edit project status
     - [ ] Edit project attachments
 - [ ] User profile
   - [x] Edit user profile
-  - [ ] Change password
+  - [x] Change password
   - [ ] Talents
     - [ ] Define Talent model
     - [ ] Create new talent
@@ -106,6 +105,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] Accept/decline join project request
   - [ ] Send project invitation
   - [ ] Accept/decline project invitation
+  - [ ] Add new member to a project and set new member project rights
 - [ ] Friends
   - [ ] Define friend model
   - [ ] Send friend request

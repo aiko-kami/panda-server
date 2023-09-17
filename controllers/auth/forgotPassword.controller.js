@@ -4,7 +4,6 @@ const {
 	generateTokenService,
 	storeTokenService,
 	verifyTokenService,
-	updateUserPasswordService,
 	removeTokenService,
 } = require("../../services");
 const { apiResponse, authValidation } = require("../../utils");
@@ -35,10 +34,12 @@ const forgotPassword = async (req, res) => {
 		}
 
 		// Generate a reset token and store it in the database
-		const resetPasswordToken = generateTokenService.generateResetPasswordToken(existingUser.userId);
+		const resetPasswordToken = generateTokenService.generateResetPasswordToken(
+			existingUser.user.userId
+		);
 
 		const tokenStoredInDb = await storeTokenService.storeResetPasswordTokenInDatabase(
-			existingUser.userId,
+			existingUser.user.userId,
 			resetPasswordToken
 		);
 		if (tokenStoredInDb.status !== "success") {
@@ -47,8 +48,8 @@ const forgotPassword = async (req, res) => {
 
 		// Send reset password email to the user
 		const emailSent = await emailResetPasswordService.sendPasswordResetEmail(
-			existingUser.email,
-			existingUser.username,
+			existingUser.user.email,
+			existingUser.user.username,
 			resetPasswordToken
 		);
 		if (emailSent.status !== "success") {
@@ -82,13 +83,14 @@ const resetPassword = async (req, res) => {
 			tokenVerification.userId,
 			"-_id email userId"
 		);
+
 		if (existingUser.status !== "success") {
 			return apiResponse.clientErrorResponse(res, "User not found.");
 		}
 
 		// Update user's password
-		const updatePasswordResult = await updateUserPasswordService.updateUserPassword(
-			existingUser.userId,
+		const updatePasswordResult = await userService.updateUserPassword(
+			existingUser.user.userId,
 			newPassword
 		);
 
@@ -98,7 +100,7 @@ const resetPassword = async (req, res) => {
 
 		// Remove the used reset password token
 		const removeTokenResult = await removeTokenService.removeResetPasswordTokenFromDatabase(
-			existingUser.userId,
+			existingUser.user.userId,
 			resetToken
 		);
 		if (removeTokenResult.status !== "success") {

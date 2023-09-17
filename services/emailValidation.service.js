@@ -6,7 +6,7 @@ const { logger, emailDelivery } = require("../utils");
 //Function to send verification email (to validate the user email address with a personalized link)
 const sendVerificationEmail = async (userId) => {
 	//Create email ID
-	const emailId = v4;
+	const emailId = v4();
 
 	try {
 		//Find user in the database
