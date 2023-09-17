@@ -1,4 +1,5 @@
 const { User } = require("../../models");
+const { logger } = require("../../utils");
 
 const retrieveUserById = async (userId, fields) => {
 	try {
@@ -68,7 +69,7 @@ const retrieveUserByEmail = async (email, fields) => {
 
 		return { status: "success", user };
 	} catch (error) {
-		logger.error("An error occurred while retrieving the user from the database: ", error);
+		logger.error("Error while retrieving user from the database: ", error);
 		return {
 			status: "error",
 			message: "An error occurred while retrieving the user from the database.",
@@ -123,11 +124,39 @@ const updateUser = async (userId, updatedData) => {
 			updatedUser,
 		};
 	} catch (error) {
-		logger.error("Error while updating the user: ", error);
+		logger.error("Error while updating the user in the database: ", error);
 
 		return {
 			status: "error",
-			message: "An error occurred while updating the user.",
+			message: "An error occurred while updating the user in the database.",
+		};
+	}
+};
+
+/**
+ * Verify Email Availability Service
+ *
+ * @param {string} email - The email to be verified for availability.
+ * @returns {Object} - The result of the email availability check (status and message).
+ */
+const verifyEmailAvailability = async (email) => {
+	try {
+		const existingUser = await User.findOne({ email });
+
+		if (existingUser) {
+			logger.warn("Email is already in use.");
+			return {
+				status: "error",
+				message: "Email is already in use.",
+			};
+		}
+
+		return { status: "success", message: "Email is available." };
+	} catch (error) {
+		logger.error("Error occurred while verifying email availability: ", error);
+		return {
+			status: "error",
+			message: "An error occurred while verifying email availability.",
 		};
 	}
 };
@@ -137,4 +166,5 @@ module.exports = {
 	retrieveNewUsers,
 	retrieveUserByEmail,
 	updateUser,
+	verifyEmailAvailability,
 };

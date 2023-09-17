@@ -144,11 +144,11 @@ const updateProject = async (req, res) => {
 		//Verify that the title (if modified) is available
 		if (filterProjectInputs.title) {
 			console.log("there is a title");
-			const TitleVerification = await projectService.verifyTitleAvailability(
+			const titleVerification = await projectService.verifyTitleAvailability(
 				filterProjectInputs.title
 			);
-			if (TitleVerification.status !== "success") {
-				return apiResponse.serverErrorResponse(res, TitleVerification.message);
+			if (titleVerification.status !== "success") {
+				return apiResponse.serverErrorResponse(res, titleVerification.message);
 			}
 		}
 

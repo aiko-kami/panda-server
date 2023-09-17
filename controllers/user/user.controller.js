@@ -72,12 +72,16 @@ const updateUser = async (req, res) => {
 		// Filter on the fields that the user wants to update
 		const filterUserInputs = userTools.filterFieldsToUpdate(updatedUserInputs);
 
-		console.log("🚀 ~ updateUser ~ filterUserInputs:", filterUserInputs);
-
-		const filterUserInputsArray = Object.keys(filterUserInputs);
+		//Verify that the email (if modified) is available
+		if (filterUserInputs.email) {
+			const emailVerification = await userService.verifyEmailAvailability(filterUserInputs.email);
+			if (emailVerification.status !== "success") {
+				return apiResponse.serverErrorResponse(res, emailVerification.message);
+			}
+		}
 
 		// Update the user in the database
-		const updateUserResult = await userService.updateUser(userId, filterUserInputsArray);
+		const updateUserResult = await userService.updateUser(userId, filterUserInputs);
 
 		// Check the result of the update operation
 		if (updateUserResult.status === "success") {

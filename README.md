@@ -93,7 +93,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [ ] Edit project status
     - [ ] Edit project attachments
 - [ ] User profile
-  - [ ] Edit user profile
+  - [x] Edit user profile
   - [ ] Change password
   - [ ] Talents
     - [ ] Define Talent model
