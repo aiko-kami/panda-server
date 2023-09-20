@@ -2,8 +2,6 @@ const { projectValidation } = require("../../../utils");
 
 const { validateNewProjectInputs } = projectValidation;
 
-//validateNewProjectInputs
-
 describe("validateNewProjectInputs", () => {
 	test("should return success when valid project data is provided", () => {
 		const projectData = {
@@ -13,17 +11,20 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
+			locationCountry: "City",
+			locationCity: "Country",
+			locationOnlineOnly: false,
 			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
 			},
 			talentsNeeded: ["Skill1", "Skill2"],
-			startDate: 1630000000,
-			objectives: "Project Objectives",
+			startDate: "1630000000",
+			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: "Attachment1, Attachment2",
+			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -44,17 +45,20 @@ describe("validateNewProjectInputs", () => {
 			// Invalid data type for categoryId (should be a string)
 			categoryId: 123,
 			subCategory: "Subcategory",
+			locationCountry: "City",
+			locationCity: "Country",
+			locationOnlineOnly: false,
 			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
 			},
 			talentsNeeded: ["Skill1", "Skill2"],
-			startDate: 1630000000,
-			objectives: "Project Objectives",
+			startDate: "1630000000",
+			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: "Attachment1, Attachment2",
+			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -74,17 +78,20 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
+			locationCountry: "City",
+			locationCity: "Country",
+			locationOnlineOnly: false,
 			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
 			},
 			talentsNeeded: ["Skill1", "Skill2"],
-			startDate: 1630000000,
-			objectives: "Project Objectives",
+			startDate: "1630000000",
+			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: "Attachment1, Attachment2",
+			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -103,17 +110,20 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
+			locationCountry: "City",
+			locationCity: "Country",
+			locationOnlineOnly: false,
 			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
 			},
 			talentsNeeded: ["Skill1", "Skill2"],
-			startDate: 1630000000,
-			objectives: "Project Objectives",
+			startDate: "1630000000",
+			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: "Attachment1, Attachment2",
+			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -132,17 +142,20 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
+			locationCountry: "City",
+			locationCity: "Country",
+			locationOnlineOnly: false,
 			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
 			},
 			talentsNeeded: ["Skill1", "Skill2"],
-			startDate: 1630000000,
-			objectives: "Project Objectives",
+			startDate: "1630000000",
+			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: "Attachment1, Attachment2",
+			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -161,17 +174,20 @@ describe("validateNewProjectInputs", () => {
 			description: "",
 			categoryId: "12345",
 			subCategory: "Subcategory",
+			locationCountry: "City",
+			locationCity: "Country",
+			locationOnlineOnly: false,
 			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
 			},
 			talentsNeeded: ["Skill1", "Skill2"],
-			startDate: 1630000000,
-			objectives: "Project Objectives",
+			startDate: "1630000000",
+			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: "Attachment1, Attachment2",
+			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -190,17 +206,20 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "",
 			subCategory: "Subcategory",
+			locationCountry: "City",
+			locationCity: "Country",
+			locationOnlineOnly: false,
 			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
 			},
 			talentsNeeded: ["Skill1", "Skill2"],
-			startDate: 1630000000,
-			objectives: "Project Objectives",
+			startDate: "1630000000",
+			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: "Attachment1, Attachment2",
+			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -219,17 +238,20 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
+			locationCountry: "City",
+			locationCity: "Country",
+			locationOnlineOnly: false,
 			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
 			},
 			talentsNeeded: [],
-			startDate: 1630000000,
-			objectives: "Project Objectives",
+			startDate: "1630000000",
+			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: "Attachment1, Attachment2",
+			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -248,17 +270,20 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
+			locationCountry: "City",
+			locationCity: "Country",
+			locationOnlineOnly: false,
 			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
 			},
 			talentsNeeded: ["Skill1", "Skill2"],
-			startDate: 1630000000,
-			objectives: "Project Objectives",
+			startDate: "1630000000",
+			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "",
-			attachments: "Attachment1, Attachment2",
+			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -271,24 +296,28 @@ describe("validateNewProjectInputs", () => {
 
 	test("should return error when title is too long", () => {
 		const projectData = {
+			// Title is too long (more than 100 characters)
 			title:
-				"This is a very long title that exceeds the maximum character limit of 100 characters.iuoewrfhawilefuahwelif", // Title is too long (more than 100 characters)
+				"This is a very long title that exceeds the maximum character limit of 100 characters.iuoewrfhawilefuahwelif",
 			goal: "Project Goal",
 			summary: "Project Summary",
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
+			locationCountry: "City",
+			locationCity: "Country",
+			locationOnlineOnly: false,
 			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
 			},
 			talentsNeeded: ["Skill1", "Skill2"],
-			startDate: 1630000000,
-			objectives: "Project Objectives",
+			startDate: "1630000000",
+			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: "Attachment1, Attachment2",
+			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -308,17 +337,20 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
+			locationCountry: "City",
+			locationCity: "Country",
+			locationOnlineOnly: false,
 			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
 			},
 			talentsNeeded: ["Skill1", "Skill2"],
-			startDate: 1630000000,
-			objectives: "Project Objectives",
+			startDate: "1630000000",
+			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: "Attachment1, Attachment2",
+			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -337,17 +369,20 @@ describe("validateNewProjectInputs", () => {
 			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
+			locationCountry: "City",
+			locationCity: "Country",
+			locationOnlineOnly: false,
 			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
 			},
 			talentsNeeded: ["Skill1", "Skill2"],
-			startDate: 1630000000,
-			objectives: "Project Objectives",
+			startDate: "1630000000",
+			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: "Attachment1, Attachment2",
+			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -363,20 +398,24 @@ describe("validateNewProjectInputs", () => {
 			title: "Project Title",
 			goal: "Project Goal",
 			summary: "Project Summary",
-			description: "Project Desc",
+			// Description is too short (less than 20 characters)
+			description: "Project D",
 			categoryId: "12345",
 			subCategory: "Subcategory",
+			locationCountry: "City",
+			locationCity: "Country",
+			locationOnlineOnly: false,
 			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
 			},
 			talentsNeeded: ["Skill1", "Skill2"],
-			startDate: 1630000000,
-			objectives: "Project Objectives",
+			startDate: "1630000000",
+			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: "Attachment1, Attachment2",
+			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -392,20 +431,24 @@ describe("validateNewProjectInputs", () => {
 			title: "Project Title",
 			goal: "Project Goal",
 			summary: "Project Summary",
-			description: "Project Desc",
+			description: "Project Description with correct length",
 			categoryId: "12345",
 			subCategory: "Subcategory",
+			locationCountry: "City",
+			locationCity: "Country",
+			locationOnlineOnly: false,
 			tags: ["tag1", "tag2"],
 			location: {
 				city: "City",
 				country: "Country",
 			},
 			talentsNeeded: ["Skill1", "Skill2"],
-			startDate: 1630000000,
-			objectives: "Project Objectives",
+			startDate: "1630000000",
+			objectives: [],
 			creatorMotivation: "Motivation",
+			//Visibility not from the correct list
 			visibility: "wrong",
-			attachments: "Attachment1, Attachment2",
+			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
