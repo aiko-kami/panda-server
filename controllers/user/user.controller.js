@@ -32,7 +32,7 @@ const retrieveNewUsers = async (req, res) => {
 				newUsers.users
 			);
 		} else {
-			return apiResponse.successResponse(res, newUsers.message);
+			return apiResponse.serverErrorResponse(res, newUsers.message);
 		}
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);

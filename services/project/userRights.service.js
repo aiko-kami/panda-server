@@ -18,6 +18,7 @@ const setProjectOwnerRights = async (projectId, userId) => {
 				canEditGoal: true,
 				canEditSummary: true,
 				canEditDescription: true,
+				canEditCover: true,
 				canEditTags: true,
 				canEditLocation: true,
 				canEditTalentsNeeded: true,

@@ -80,9 +80,10 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] Add sub-category
     - [x] Update sub-category
     - [x] Delete sub-category
-  - [ ] Retrieve project public data (change project model for pubblic vs private?)
+  - [x] Retrieve project public data (change project model for draft, public (parent level) vs private)
+  - [x] Retrieve project overview (when project is public)
   - [ ] Edit project
-    - [x] Edit project data (title, goal, summary, description, tags, phase, location, talentsNeeded, startDate, objectives, creatorMotivation, visibility)
+    - [x] Edit project data (title, goal, summary, description, cover, tags, phase, location, talentsNeeded, startDate, objectives, creatorMotivation, visibility)
     - [x] Edit user's project rights
     - [x] Set project owner rights
     - [x] Prevent project owner to change its own rights
@@ -141,6 +142,7 @@ Start the server in dev mode:
 
 ```
 src
+├───.jest                 # Jest imports
 ├───config                # Configuration related variables
 ├───controllers           # Route controllers
 │   ├───auth
@@ -150,19 +152,20 @@ src
 ├───middlewares           # Custom middlewares
 ├───models                # Mongoose models
 ├───routes                # Routes
-│   ├───atlas
-│   ├───auth
-│   ├───master
-│   ├───projects
-│   └───users
 ├───services              # Business logic
+│   ├───auth
 │   ├───project
 │   ├───token
 │   └───user
 ├───tests                 # Tests
 │   ├───front-end
+│   ├───services
+│   │   └───auth
 │   └───utils
+│       └───validation
 └───utils                 # Utility classes and functions
+    ├───tools
+    └───validation
 app.js                    # App entry point
 ```
 
@@ -182,34 +185,40 @@ List of available routes:
 
 - **Auth routes**:
 
-| Method | URI                                | Action                    |
-| ------ | ---------------------------------- | ------------------------- |
-| `POST` | `/auth/sign-up`                    | Sign-up                   |
-| `GET`  | `/auth/sign-up/:emailValidationId` | Verify the email address  |
-| `POST` | `/auth/login`                      | Login                     |
-| `GET`  | `/auth/logout`                     | Logout                    |
-| `POST` | `/auth/forgotPassword`             | Send reset password email |
-| `POST` | `/auth/resetPassword/:resetToken`  | Reset password            |
+| Method | URI                                           | Action                    |
+| ------ | --------------------------------------------- | ------------------------- |
+| `POST` | `/auth/sign-up`                               | Sign-up                   |
+| `GET`  | `/auth/sign-up/:emailValidationId`            | Verify the email address  |
+| `POST` | `/auth/login`                                 | Login                     |
+| `GET`  | `/auth/logout`                                | Logout                    |
+| `POST` | `/auth/forgotPassword`                        | Send reset password email |
+| `POST` | `/auth/forgotPassword`                        | Send reset password email |
+| `POST` | `/auth/forgotPassword/reset/:resetPasswordId` | Reset password            |
 
 - **User routes**:
 
-| Method | URI                        | Action                      |
-| ------ | -------------------------- | --------------------------- |
-| `GET`  | `/users/lastUsersOverview` | Retrieve new users          |
-| `GET`  | `/users/me`                | Retrieve user personal data |
+| Method  | URI                           | Action                      |
+| ------- | ----------------------------- | --------------------------- |
+| `GET`   | `/users/lastUsersOverview`    | Retrieve new users          |
+| `GET`   | `/users/userOverview/:userId` | Retrieve user's overview    |
+| `GET`   | `/users/me`                   | Retrieve user personal data |
+| `PATCH` | `/users/me`                   | Update user personal data   |
+| `PATCH` | `/users/changePassword`       | Change user's password      |
 
 - **Project routes**:
 
-| Method   | URI                            | Action                       |
-| -------- | ------------------------------ | ---------------------------- |
-| `POST`   | `/projects/project`            | Create new project           |
-| `PATCH`  | `/projects/project/:projectId` | Edie project                 |
-| `GET`    | `/projects/project/:projectId` | Retrieve project             |
-| `GET`    | `/projectOverview/:projectId`  | Retrieve project overview    |
-| `GET`    | `/projectPublic/:projectId`    | Retrieve project public data |
-| `POST`   | `/projects/category`           | Create new project category  |
-| `PATCH`  | `/projects/category`           | Update project category      |
-| `DELETE` | `/projects/category`           | Remove project category      |
+| Method   | URI                                   | Action                       |
+| -------- | ------------------------------------- | ---------------------------- |
+| `POST`   | `/projects/project`                   | Create new project           |
+| `POST`   | `/projects/project/submit/:projectId` | Create new project           |
+| `PATCH`  | `/projects/project/:projectId`        | Update project               |
+| `PATCH`  | `/projects/project/status/:projectId` | Update project status        |
+| `GET`    | `/projects/project/:projectId`        | Retrieve project             |
+| `GET`    | `/projectOverview/:projectId`         | Retrieve project overview    |
+| `GET`    | `/projectPublic/:projectId`           | Retrieve project public data |
+| `POST`   | `/projects/category`                  | Create new project category  |
+| `PATCH`  | `/projects/category`                  | Update project category      |
+| `DELETE` | `/projects/category`                  | Remove project category      |
 
 ## 🛠 Environment Variables
 

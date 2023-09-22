@@ -29,7 +29,7 @@ On the website:
 
 
 For a specific project:
-- Can EDIT project data: Title/Goal/Summary/Description/Category/subCategory/Tags/Location/TalentsNeeded/StartDate/Status/Phase/Objectives/CreatorMotivation/Visibility/Attachments
+- Can EDIT project data: Title/Goal/Summary/Description/Cover/Category/subCategory/Tags/Location/TalentsNeeded/StartDate/Status/Phase/Objectives/CreatorMotivation/Visibility/Attachments
 - Can SEE join project requests
 - Can ACCEPT/REJECT join project requests
 - Can send join project invitations

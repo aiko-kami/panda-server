@@ -22,6 +22,7 @@ const createProject = async (req, res) => {
 			goal: req.body.projectInputs.goal || "",
 			summary: req.body.projectInputs.summary || "",
 			description: req.body.projectInputs.description || "",
+			cover: req.body.projectInputs.cover || "",
 			categoryId: req.body.projectInputs.categoryId || "",
 			subCategory: req.body.projectInputs.subCategory || "",
 			locationCountry: req.body.projectInputs.locationCountry || "",
@@ -93,7 +94,7 @@ const createProject = async (req, res) => {
 
 /**
  * Update existing project controller.
- * Allows to update the following elements of a project: title, goal, summary, description, tags, location, talentsNeeded, startDate, phase, objectives, creatorMotivation, visibility
+ * Allows to update the following elements of a project: title, goal, summary, description, cover, tags, location, talentsNeeded, startDate, phase, objectives, creatorMotivation, visibility
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
  * @returns {Object} - The response containing the updated project or an error message.
@@ -108,6 +109,7 @@ const updateProject = async (req, res) => {
 			goal: req.body.projectNewData.goal || "",
 			summary: req.body.projectNewData.summary || "",
 			description: req.body.projectNewData.description || "",
+			cover: req.body.projectNewData.cover || "",
 			locationCountry: req.body.projectNewData.locationCountry || "",
 			locationCity: req.body.projectNewData.locationCity || "",
 			locationOnlineOnly: req.body.projectNewData.locationOnlineOnly || "no value passed",
@@ -166,6 +168,7 @@ const updateProject = async (req, res) => {
 
 const updateProjectStatus = async (req, res) => {};
 const addProjectMember = async (req, res) => {};
+
 const removeProjectMember = async (req, res) => {
 	try {
 		const userIdUpdater = req.userId;
@@ -215,11 +218,70 @@ const removeProjectMember = async (req, res) => {
 };
 const updateProjectAttachments = async (req, res) => {};
 
+const retrieveProjectPublicData = async (req, res) => {
+	try {
+		const { projectId = "" } = req.params;
+
+		const projectData = await projectService.retrieveProjectById(
+			projectId,
+			"-_id title	goal summary description cover category subCategory location startDate creatorMotivation tags talentsNeeded objectives visibility"
+		);
+
+		if (projectData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectData.message);
+		}
+
+		if (projectData.project.visibility !== "public") {
+			return apiResponse.serverErrorResponse(res, "Project not found.");
+		}
+
+		return apiResponse.successResponseWithData(
+			res,
+			"Project retrieved successfully.",
+			projectData.project
+		);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const retrieveProjectData = async (req, res) => {};
+
+const retrieveProjectOverview = async (req, res) => {
+	try {
+		const { projectId = "" } = req.params;
+
+		const projectData = await projectService.retrieveProjectById(
+			projectId,
+			"-_id title summary cover category subCategory tags attachments visibility"
+		);
+
+		if (projectData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectData.message);
+		}
+
+		if (projectData.project.visibility !== "public") {
+			return apiResponse.serverErrorResponse(res, "Project not found.");
+		}
+
+		return apiResponse.successResponseWithData(
+			res,
+			"Project overview retrieved successfully.",
+			projectData.project
+		);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 module.exports = {
 	createProject,
 	updateProject,
+	removeProjectMember,
+	retrieveProjectPublicData,
+	retrieveProjectOverview,
 	updateProjectStatus,
 	addProjectMember,
-	removeProjectMember,
 	updateProjectAttachments,
+	retrieveProjectData,
 };

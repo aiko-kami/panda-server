@@ -29,6 +29,13 @@ const filterFieldsToUpdate = (projectData) => {
 			filteredInputs.description = projectData.description;
 		}
 	}
+	if (projectData.cover) {
+		if (projectData.cover === "@--empty--string") {
+			filteredInputs.cover = "";
+		} else {
+			filteredInputs.cover = projectData.cover;
+		}
+	}
 	if (projectData.locationCountry) {
 		if (projectData.locationCountry === "@--empty--string") {
 			filteredInputs.locationCountry = "";

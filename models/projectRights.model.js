@@ -17,6 +17,7 @@ const projectRightsSchema = new mongoose.Schema(
 			canEditGoal: { type: Boolean, default: false },
 			canEditSummary: { type: Boolean, default: false },
 			canEditDescription: { type: Boolean, default: false },
+			canEditCover: { type: Boolean, default: false },
 			canEditTags: { type: Boolean, default: false },
 			canEditLocation: { type: Boolean, default: false },
 			canEditTalentsNeeded: { type: Boolean, default: false },

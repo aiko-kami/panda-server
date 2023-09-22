@@ -8,6 +8,7 @@ const validateNewProjectInputs = (projectData) => {
 		typeof projectData.goal !== "string" ||
 		typeof projectData.summary !== "string" ||
 		typeof projectData.description !== "string" ||
+		typeof projectData.cover !== "string" ||
 		typeof projectData.categoryId !== "string" ||
 		typeof projectData.subCategory !== "string" ||
 		typeof projectData.locationCountry !== "string" ||
@@ -74,6 +75,7 @@ const validateUpdatedProjectInputs = (projectData) => {
 		typeof projectData.goal !== "string" ||
 		typeof projectData.summary !== "string" ||
 		typeof projectData.description !== "string" ||
+		typeof projectData.cover !== "string" ||
 		typeof projectData.locationCountry !== "string" ||
 		typeof projectData.locationCity !== "string" ||
 		typeof projectData.locationOnlineOnly !== "string" ||

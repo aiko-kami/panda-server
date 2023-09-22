@@ -41,9 +41,9 @@ projectRoute.patch(
 	projectRightsController.updateUserProjectRights
 );
 
-projectRoute.get("/project/:projectId", projectController.createProject);
-projectRoute.get("/projectOverview/:projectId", projectController.createProject);
-projectRoute.get("/projectPublic/:projectId", projectController.createProject);
+projectRoute.get("/project/:projectId", projectController.retrieveProjectData);
+projectRoute.get("/projectOverview/:projectId", projectController.retrieveProjectOverview);
+projectRoute.get("/projectPublic/:projectId", projectController.retrieveProjectPublicData);
 
 projectRoute.get("/category", categoryController.retrieveCategory);
 projectRoute.get("/categories", categoryController.retrieveCategories);

@@ -27,18 +27,67 @@ const memberSchema = new mongoose.Schema({
 const projectSchema = new mongoose.Schema(
 	{
 		projectId: { type: String, default: v4, required: true, unique: true },
+		draft: {
+			title: { type: String, unique: true, trim: true },
+			titleCapitalized: { type: String, unique: true, trim: true },
+
+			goal: { type: String, trim: true },
+			summary: { type: String, trim: true },
+			description: { type: String },
+			cover: { type: String }, // Optional
+			phase: { type: String }, // Optional
+			location: {
+				city: { type: String },
+				country: { type: String },
+				onlineOnly: { type: Boolean, default: false },
+			}, // Optional
+			startDate: {
+				type: Date,
+			}, // Optional
+			creatorMotivation: String, // Optional
+			tags: { type: [String] }, // Optional
+			talentsNeeded: {
+				type: [String], // Array of talents needed
+			},
+			objectives: { type: [String] }, // Optional
+			updatedBy: { type: String, required: true },
+		},
 		title: { type: String, required: true, unique: true, trim: true },
 		titleCapitalized: { type: String, required: true, unique: true, trim: true },
-
 		goal: { type: String, required: true, trim: true },
 		summary: { type: String, required: true, trim: true },
 		description: { type: String, required: true },
+		cover: { type: String }, // Optional
 		category: {
 			type: String,
 			required: true,
 			ref: "Category",
 		},
 		subCategory: { type: String }, // Optional
+		location: {
+			city: { type: String },
+			country: { type: String },
+			onlineOnly: { type: Boolean, default: false },
+		}, // Optional
+		startDate: {
+			type: Date,
+		}, // Optional
+		creatorMotivation: String, // Optional
+		tags: { type: [String] }, // Optional
+		talentsNeeded: {
+			type: [String], // Array of talents needed
+			required: true,
+		},
+		objectives: { type: [String] }, // Optional
+		updatedBy: { type: String, required: true },
+		updatedBy: { type: String, required: true },
+		visibility: {
+			type: String,
+			required: true,
+			default: projectVisibility[0],
+			enum: projectVisibility,
+			message: "The value {VALUE} is not valid.",
+		},
 		status: {
 			type: String,
 			required: true,
@@ -46,38 +95,16 @@ const projectSchema = new mongoose.Schema(
 			enum: projectStatus,
 			message: "The value {VALUE} is not valid.",
 		},
-		phase: { type: String }, // Optional
-		location: {
-			city: { type: String },
-			country: { type: String },
-			onlineOnly: { type: Boolean, default: false },
-		}, // Optional
+		private: {
+			phase: { type: String }, // Optional
+			attachments: [String], // Array of file URLs - Optional
+		},
 		createdAt: {
 			type: Date,
 			required: true,
 			default: DateTime.now().toHTTP(),
 		},
-		startDate: {
-			type: Date,
-		}, // Optional
-		creatorMotivation: String, // Optional
-		visibility: {
-			// Optional
-			type: String,
-			required: true,
-			default: projectVisibility[0],
-			enum: projectVisibility,
-			message: "The value {VALUE} is not valid.",
-		},
-		updatedBy: { type: String, required: true },
-		tags: { type: [String] }, // Optional
 		members: [memberSchema], // Optional
-		talentsNeeded: {
-			type: [String], // Array of talents needed
-			required: true,
-		},
-		objectives: { type: [String] }, // Optional
-		attachments: [String], // Array of file URLs - Optional
 	},
 	{
 		collection: "projects",
