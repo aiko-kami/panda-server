@@ -19,4 +19,4 @@ module.exports.emailResetPasswordService = require("./emailResetPassword.service
 module.exports.categoryService = require("./project/category.service");
 module.exports.projectService = require("./project/project.service");
 module.exports.userRightsService = require("./project/userRights.service");
-module.exports.membersService = require("./project/members.service");
+module.exports.memberService = require("./project/member.service");

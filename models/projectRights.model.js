@@ -31,6 +31,7 @@ const projectRightsSchema = new mongoose.Schema(
 			canSeeJoinProjectRequests: { type: Boolean, default: false },
 			canAnswerJoinProjectRequests: { type: Boolean, default: false },
 			canSendJoinProjectInvitations: { type: Boolean, default: false },
+			canEditMembers: { type: Boolean, default: false },
 			canRemoveMembers: { type: Boolean, default: false },
 			canEditRights: { type: Boolean, default: false },
 			canEditMembers: { type: Boolean, default: false },

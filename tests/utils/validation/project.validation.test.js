@@ -25,7 +25,6 @@ describe("validateNewProjectInputs", () => {
 			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -60,7 +59,6 @@ describe("validateNewProjectInputs", () => {
 			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -94,7 +92,6 @@ describe("validateNewProjectInputs", () => {
 			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -127,7 +124,6 @@ describe("validateNewProjectInputs", () => {
 			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -160,7 +156,6 @@ describe("validateNewProjectInputs", () => {
 			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -193,7 +188,6 @@ describe("validateNewProjectInputs", () => {
 			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -226,7 +220,6 @@ describe("validateNewProjectInputs", () => {
 			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -259,7 +252,6 @@ describe("validateNewProjectInputs", () => {
 			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -292,7 +284,6 @@ describe("validateNewProjectInputs", () => {
 			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "",
-			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -327,7 +318,6 @@ describe("validateNewProjectInputs", () => {
 			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -361,7 +351,6 @@ describe("validateNewProjectInputs", () => {
 			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -394,7 +383,6 @@ describe("validateNewProjectInputs", () => {
 			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -428,7 +416,6 @@ describe("validateNewProjectInputs", () => {
 			objectives: [],
 			creatorMotivation: "Motivation",
 			visibility: "public",
-			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);
@@ -462,7 +449,6 @@ describe("validateNewProjectInputs", () => {
 			creatorMotivation: "Motivation",
 			//Visibility not from the correct list
 			visibility: "wrong",
-			attachments: [],
 		};
 
 		const result = validateNewProjectInputs(projectData);

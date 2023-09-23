@@ -20,7 +20,7 @@
 			<input type="text" id="description" /><br /><br />
 			<label for="cover">Cover image:</label>
 			<input type="text" id="cover" /><br /><br />
-			<label for="categoryId">Category*:</label>
+			<label for="categoryId">Category ID*:</label>
 			<input type="text" id="categoryId" /><br /><br />
 			<label for="subCategory">Sub-category*:</label>
 			<input type="text" id="subCategory" /><br /><br />
@@ -34,18 +34,24 @@
 			<input type="text" id="city" /><br /><br />
 			<label for="country">Country:</label>
 			<input type="text" id="country" /><br /><br />
-			<label for="talentsNeeded">Talents needed*:</label>
-			<input type="text" id="talentsNeeded" /><br /><br />
+			<label for="talentsNeeded1">Talents needed 1*:</label>
+			<input type="text" id="talentsNeeded1" /><br /><br />
+			<label for="talentsNeeded2">Talents needed 2*:</label>
+			<input type="text" id="talentsNeeded2" /><br /><br />
+			<label for="talentsNeeded3">Talents needed 3*:</label>
+			<input type="text" id="talentsNeeded3" /><br /><br />
 			<label for="startDate">Start date:</label>
 			<input type="text" id="startDate" /><br /><br />
-			<label for="objectives">Objectives:</label>
-			<input type="text" id="objectives" /><br /><br />
+			<label for="objectives1">Objective 1:</label>
+			<input type="text" id="objectives1" /><br /><br />
+			<label for="objectives2">Objective 2:</label>
+			<input type="text" id="objectives2" /><br /><br />
+			<label for="objectives3">Objective 3:</label>
+			<input type="text" id="objectives3" /><br /><br />
 			<label for="creatorMotivation">Motivation:</label>
 			<input type="text" id="creatorMotivation" /><br /><br />
 			<label for="visibility">Visibility*:</label>
 			<input type="text" id="visibility" /><br /><br />
-			<label for="attachments">Attachments:</label>
-			<input type="text" id="attachments" /><br /><br />
 			<button type="submit">Submit</button>
 		</form>
 		<script>
@@ -58,6 +64,12 @@
 				const tag1 = document.getElementById("tag1").value;
 				const tag2 = document.getElementById("tag2").value;
 				const tag3 = document.getElementById("tag3").value;
+				const talentsNeeded1 = document.getElementById("talentsNeeded1").value;
+				const talentsNeeded2 = document.getElementById("talentsNeeded2").value;
+				const talentsNeeded3 = document.getElementById("talentsNeeded3").value;
+				const objectives1 = document.getElementById("objectives1").value;
+				const objectives2 = document.getElementById("objectives2").value;
+				const objectives3 = document.getElementById("objectives3").value;
 
 				const projectInputs = {
 					title: document.getElementById("title").value,
@@ -72,12 +84,11 @@
 						city: document.getElementById("city").value,
 						country: document.getElementById("country").value,
 					},
-					talentsNeeded: [document.getElementById("talentsNeeded").value],
+					talentsNeeded: [talentsNeeded1, talentsNeeded2, talentsNeeded3],
 					startDate: document.getElementById("startDate").value,
-					objectives: [document.getElementById("objectives").value],
+					objectives: [objectives1, objectives2, objectives3],
 					creatorMotivation: document.getElementById("creatorMotivation").value,
 					visibility: document.getElementById("visibility").value,
-					attachments: [document.getElementById("attachments").value],
 				};
 
 				console.log("Form submitted");

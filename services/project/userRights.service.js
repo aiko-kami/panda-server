@@ -32,6 +32,7 @@ const setProjectOwnerRights = async (projectId, userId) => {
 				canSeeJoinProjectRequests: true,
 				canAnswerJoinProjectRequests: true,
 				canSendJoinProjectInvitations: true,
+				canEditMembers: true,
 				canRemoveMembers: true,
 				canEditRights: true,
 			},
@@ -41,9 +42,7 @@ const setProjectOwnerRights = async (projectId, userId) => {
 		// Save owner's rights to the database
 		const createdRights = await ownerRights.save();
 
-		logger.info(
-			`Owner's rights stored in database. Project ID: ${createdRights.projectId} - User ID: ${createdRights.userId}`
-		);
+		logger.info(`Owner's rights stored in database. Project ID: ${createdRights.projectId} - User ID: ${createdRights.userId}`);
 		return {
 			status: "success",
 			message: "Owner's rights stored in the database.",
@@ -86,21 +85,14 @@ const validateUserRights = async (userId, projectId, updatedFields) => {
 
 		// Check if the user has permission to edit each field in updatedFields
 		for (const field of updatedFields) {
-			if (
-				field === "locationOnlineOnly" ||
-				field === "locationCity" ||
-				field === "locationCountry"
-			) {
+			if (field === "locationOnlineOnly" || field === "locationCity" || field === "locationCountry") {
 				continue; // Skip these fields for now
 			}
-			let canEditField =
-				userRights.permissions[`canEdit${field.charAt(0).toUpperCase() + field.slice(1)}`];
+			let canEditField = userRights.permissions[`canEdit${field.charAt(0).toUpperCase() + field.slice(1)}`];
 			if (!canEditField) {
 				return {
 					canEdit: false,
-					message: `User does not have permission to edit the field ${
-						field.charAt(0).toUpperCase() + field.slice(1)
-					}.`,
+					message: `User does not have permission to edit the field ${field.charAt(0).toUpperCase() + field.slice(1)}.`,
 				};
 			}
 		}
@@ -147,18 +139,13 @@ const retrieveProjectRights = async (projectId, userId) => {
 		});
 
 		if (!projectRights) {
-			logger.error(
-				"An error occurred while retrieving user's project rights: Project rights not found for this user and project."
-			);
+			logger.error("An error occurred while retrieving user's project rights: Project rights not found for this user and project.");
 			return {
 				status: "error",
-				message:
-					"An error occurred while retrieving user's project rights: Project rights not found for this user and project.",
+				message: "An error occurred while retrieving user's project rights: Project rights not found for this user and project.",
 			};
 		}
-		logger.info(
-			`Project rights found successfully. Project ID: ${projectRights.projectId} - User ID: ${projectRights.userId}`
-		);
+		logger.info(`Project rights found successfully. Project ID: ${projectRights.projectId} - User ID: ${projectRights.userId}`);
 		return {
 			status: "success",
 			message: "Project rights found successfully.",
@@ -180,12 +167,7 @@ const retrieveProjectRights = async (projectId, userId) => {
  * @param {Object} updatedPermissions - An object containing the updated permissions.
  * @returns {Object} - An object containing a status and a message.
  */
-const updateUserProjectRights = async (
-	projectId,
-	userIdUpdated,
-	updatedPermissions,
-	userIdUpdater
-) => {
+const updateUserProjectRights = async (projectId, userIdUpdated, updatedPermissions, userIdUpdater) => {
 	try {
 		// Find the project rights document for the specified project and user
 		const projectRights = await ProjectRights.findOne({
@@ -194,9 +176,7 @@ const updateUserProjectRights = async (
 		});
 
 		if (!projectRights) {
-			logger.error(
-				"An error occurred while retrieving user's project rights: Project rights not found for this user and project."
-			);
+			logger.error("An error occurred while retrieving user's project rights: Project rights not found for this user and project.");
 			return {
 				status: "error",
 				message: "Project rights not found for this user and project.",
@@ -218,9 +198,7 @@ const updateUserProjectRights = async (
 		// Save the updated project rights
 		await projectRights.save();
 
-		logger.info(
-			`Project rights updated successfully. Project ID: ${projectRights.projectId} - User ID: ${projectRights.userId}`
-		);
+		logger.info(`Project rights updated successfully. Project ID: ${projectRights.projectId} - User ID: ${projectRights.userId}`);
 		return {
 			status: "success",
 			message: "Project rights updated successfully.",
@@ -243,18 +221,14 @@ const removeUserProjectRights = async (projectId, userId) => {
 		});
 
 		if (!projectRights) {
-			logger.error(
-				"An error occurred while retrieving user's project rights: Project rights not found for this user and project."
-			);
+			logger.error("An error occurred while retrieving user's project rights: Project rights not found for this user and project.");
 			return {
 				status: "error",
 				message: "Project rights not found for this user and project.",
 			};
 		}
 
-		logger.info(
-			`User's project rights removed successfully. Project ID: ${projectRights.projectId} - User ID: ${projectRights.userId}`
-		);
+		logger.info(`User's project rights removed successfully. Project ID: ${projectRights.projectId} - User ID: ${projectRights.userId}`);
 		return {
 			status: "success",
 			message: "User's project rights removed successfully.",

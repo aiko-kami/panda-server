@@ -50,7 +50,7 @@ const projectSchema = new mongoose.Schema(
 				type: [String], // Array of talents needed
 			},
 			objectives: { type: [String] }, // Optional
-			updatedBy: { type: String, required: true },
+			updatedBy: { type: String },
 		},
 		title: { type: String, required: true, unique: true, trim: true },
 		titleCapitalized: { type: String, required: true, unique: true, trim: true },

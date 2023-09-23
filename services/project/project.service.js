@@ -35,7 +35,6 @@ const createProject = async (projectData) => {
 			members: [{ userId: projectData.creatorId, role: "owner" }],
 			talentsNeeded: projectData.talentsNeeded,
 			objectives: projectData.objectives,
-			attachments: projectData.attachments,
 		});
 
 		// Save the project to the database

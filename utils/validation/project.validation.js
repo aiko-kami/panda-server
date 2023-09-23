@@ -19,8 +19,7 @@ const validateNewProjectInputs = (projectData) => {
 		typeof projectData.visibility !== "string" ||
 		!Array.isArray(projectData.tags) ||
 		!Array.isArray(projectData.talentsNeeded) ||
-		!Array.isArray(projectData.objectives) ||
-		!Array.isArray(projectData.attachments);
+		!Array.isArray(projectData.objectives);
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
 	}

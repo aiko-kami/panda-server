@@ -1,10 +1,4 @@
-const {
-	projectService,
-	categoryService,
-	userService,
-	userRightsService,
-	membersService,
-} = require("../../services");
+const { projectService, categoryService, userService, userRightsService } = require("../../services");
 const { apiResponse, projectValidation, projectTools } = require("../../utils");
 
 /**
@@ -34,7 +28,6 @@ const createProject = async (req, res) => {
 			tags: req.body.projectInputs.tags || [],
 			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
 			objectives: req.body.projectInputs.objectives || [],
-			attachments: req.body.projectInputs.attachments || [],
 		};
 
 		// Validate input data for creating a project
@@ -44,10 +37,7 @@ const createProject = async (req, res) => {
 		}
 
 		// Verify that category and sub-category exist in the database
-		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(
-			projectData.categoryId,
-			projectData.subCategory
-		);
+		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectData.categoryId, projectData.subCategory);
 		if (categoryVerified.status !== "success") {
 			return apiResponse.clientErrorResponse(res, categoryVerified.message);
 		}
@@ -74,19 +64,12 @@ const createProject = async (req, res) => {
 		}
 
 		// Set project owner's default rights during the creation of a project
-		const setRightsResult = await userRightsService.setProjectOwnerRights(
-			createResult.project.projectId,
-			userId
-		);
+		const setRightsResult = await userRightsService.setProjectOwnerRights(createResult.project.projectId, userId);
 		if (setRightsResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, setRightsResult.message);
 		}
 
-		return apiResponse.successResponseWithData(
-			res,
-			"Project created successfully.",
-			createResult.project
-		);
+		return apiResponse.successResponseWithData(res, "Project created successfully.", createResult.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -134,11 +117,7 @@ const updateProject = async (req, res) => {
 		const filterProjectInputsArray = Object.keys(filterProjectInputs);
 
 		// Check user rights for updating the project
-		const userRights = await userRightsService.validateUserRights(
-			userId,
-			projectId,
-			filterProjectInputsArray
-		);
+		const userRights = await userRightsService.validateUserRights(userId, projectId, filterProjectInputsArray);
 		if (!userRights.canEdit) {
 			return apiResponse.unauthorizedResponse(res, userRights.message);
 		}
@@ -146,9 +125,7 @@ const updateProject = async (req, res) => {
 		//Verify that the title (if modified) is available
 		if (filterProjectInputs.title) {
 			console.log("there is a title");
-			const titleVerification = await projectService.verifyTitleAvailability(
-				filterProjectInputs.title
-			);
+			const titleVerification = await projectService.verifyTitleAvailability(filterProjectInputs.title);
 			if (titleVerification.status !== "success") {
 				return apiResponse.serverErrorResponse(res, titleVerification.message);
 			}
@@ -165,58 +142,6 @@ const updateProject = async (req, res) => {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
-
-const updateProjectStatus = async (req, res) => {};
-const addProjectMember = async (req, res) => {};
-
-const removeProjectMember = async (req, res) => {
-	try {
-		const userIdUpdater = req.userId;
-		const { projectId = "" } = req.params;
-		const { memberId = "" } = req.body;
-
-		// Retrieve Project Rights of the updater
-		const rightsCheckResult = await userRightsService.retrieveProjectRights(
-			projectId,
-			userIdUpdater
-		);
-		if (rightsCheckResult.status !== "success") {
-			return apiResponse.errorResponse(res, rightsCheckResult.message);
-		}
-
-		// Check if the user has canRemoveMembers permission
-		if (!rightsCheckResult.projectRights.permissions.canRemoveMembers) {
-			return apiResponse.unauthorizedResponse(
-				res,
-				"You do not have permission to remove members from this project."
-			);
-		}
-
-		// Remove the member from the project
-		const removeMemberResult = await membersService.updateMemberFromProject(
-			projectId,
-			memberId,
-			"remove"
-		);
-		if (removeMemberResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, removeMemberResult.message);
-		}
-
-		// Remove the user's rights for the project
-		const removeUserRightsResult = await userRightsService.removeUserProjectRights(
-			projectId,
-			memberId
-		);
-		if (removeUserRightsResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, removeUserRightsResult.message);
-		}
-
-		return apiResponse.successResponse(res, "Member removed from the project successfully.");
-	} catch (error) {
-		return apiResponse.serverErrorResponse(res, error.message);
-	}
-};
-const updateProjectAttachments = async (req, res) => {};
 
 const retrieveProjectPublicData = async (req, res) => {
 	try {
@@ -235,26 +160,17 @@ const retrieveProjectPublicData = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, "Project not found.");
 		}
 
-		return apiResponse.successResponseWithData(
-			res,
-			"Project retrieved successfully.",
-			projectData.project
-		);
+		return apiResponse.successResponseWithData(res, "Project retrieved successfully.", projectData.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
-const retrieveProjectData = async (req, res) => {};
-
 const retrieveProjectOverview = async (req, res) => {
 	try {
 		const { projectId = "" } = req.params;
 
-		const projectData = await projectService.retrieveProjectById(
-			projectId,
-			"-_id title summary cover category subCategory tags attachments visibility"
-		);
+		const projectData = await projectService.retrieveProjectById(projectId, "-_id title summary cover category subCategory tags visibility");
 
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
@@ -264,24 +180,24 @@ const retrieveProjectOverview = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, "Project not found.");
 		}
 
-		return apiResponse.successResponseWithData(
-			res,
-			"Project overview retrieved successfully.",
-			projectData.project
-		);
+		return apiResponse.successResponseWithData(res, "Project overview retrieved successfully.", projectData.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
+const updateProjectStatus = async (req, res) => {};
+
+const updateProjectAttachments = async (req, res) => {};
+
+const retrieveProjectData = async (req, res) => {};
+
 module.exports = {
 	createProject,
 	updateProject,
-	removeProjectMember,
 	retrieveProjectPublicData,
 	retrieveProjectOverview,
 	updateProjectStatus,
-	addProjectMember,
 	updateProjectAttachments,
 	retrieveProjectData,
 };

@@ -190,7 +190,7 @@ List of available routes:
 | `POST` | `/auth/sign-up`                               | Sign-up                   |
 | `GET`  | `/auth/sign-up/:emailValidationId`            | Verify the email address  |
 | `POST` | `/auth/login`                                 | Login                     |
-| `GET`  | `/auth/logout`                                | Logout                    |
+| `POST` | `/auth/logout`                                | Logout                    |
 | `POST` | `/auth/forgotPassword`                        | Send reset password email |
 | `POST` | `/auth/forgotPassword`                        | Send reset password email |
 | `POST` | `/auth/forgotPassword/reset/:resetPasswordId` | Reset password            |

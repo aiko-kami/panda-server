@@ -4,13 +4,7 @@
 
 const authRoute = require("express").Router();
 
-const {
-	signupController,
-	loginController,
-	logoutController,
-	forgotPasswordController,
-	deleteAllTokensController,
-} = require("../controllers");
+const { signupController, loginController, logoutController, forgotPasswordController, deleteAllTokensController } = require("../controllers");
 
 // Sign-up
 authRoute.post("/sign-up", signupController.signup);
@@ -20,7 +14,7 @@ authRoute.get("/sign-up/:emailValidationId", signupController.verifyEmailLink);
 authRoute.post("/login", loginController.login);
 
 // Logout
-authRoute.get("/logout", logoutController.logout);
+authRoute.post("/logout", logoutController.logout);
 
 // Forgot password
 authRoute.post("/forgotPassword", forgotPasswordController.forgotPassword);
