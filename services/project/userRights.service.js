@@ -164,7 +164,7 @@ const retrieveProjectRights = async (projectId, userId) => {
  * Update user project rights service.
  * @param {string} projectId - The ID of the project.
  * @param {string} userId - The ID of the user.
- * @param {Object} updatedPermissions - An object containing the updated permissions.
+ * @param {Object} updatedPermissions - An object containing the updated permissions or a string with predefined profiles like owner or member.
  * @returns {Object} - An object containing a status and a message.
  */
 const updateUserProjectRights = async (projectId, userIdUpdated, updatedPermissions, userIdUpdater) => {
@@ -183,15 +183,32 @@ const updateUserProjectRights = async (projectId, userIdUpdated, updatedPermissi
 			};
 		}
 
-		// Update the permissions based on the request
-		for (const permission in updatedPermissions) {
-			if (Object.prototype.hasOwnProperty.call(updatedPermissions, permission)) {
-				// Check if the permission is a valid field in ProjectRights
-				if (projectRights.permissions.hasOwnProperty(permission)) {
-					projectRights.permissions[permission] = updatedPermissions[permission];
+		if (updatedPermissions === "owner") {
+			// Update all the permissions to true
+			for (const permission in projectRights.permissions) {
+				if (Object.prototype.hasOwnProperty.call(projectRights.permissions, permission)) {
+					projectRights.permissions[permission] = true;
+				}
+			}
+		} else if (updatedPermissions === "member") {
+			// Update all permissions to false
+			for (const permission in projectRights.permissions) {
+				if (Object.prototype.hasOwnProperty.call(projectRights.permissions, permission)) {
+					projectRights.permissions[permission] = false;
+				}
+			}
+		} else {
+			// Update the permissions based on the request
+			for (const permission in updatedPermissions) {
+				if (Object.prototype.hasOwnProperty.call(updatedPermissions, permission)) {
+					// Check if the permission is a valid field in ProjectRights
+					if (projectRights.permissions.hasOwnProperty(permission)) {
+						projectRights.permissions[permission] = updatedPermissions[permission];
+					}
 				}
 			}
 		}
+
 		// Set the 'updatedBy' field to the ID of the user who is updating
 		projectRights.updatedBy = userIdUpdater;
 

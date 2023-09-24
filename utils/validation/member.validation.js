@@ -24,9 +24,18 @@ const validateMemberInputs = (userIdUpdater, projectId, memberId, newRole, newSt
 	if (!memberId) {
 		return { status: "error", message: "Member ID is required." };
 	}
+
+	// Verify role is in the standard list
 	if (newRole) {
 		if (!validator.isIn(newRole, projectMembersRoles)) {
 			return { status: "error", message: "Invalid member role." };
+		}
+	}
+
+	// Verify date format is correct
+	if (newStartDate) {
+		if (!validator.isDate(newStartDate, { format: "YYYY/MM/DD", strictMode: true })) {
+			return { status: "error", message: "Invalid start date format." };
 		}
 	}
 

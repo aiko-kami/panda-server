@@ -14,38 +14,27 @@ const updateUserProjectRights = async (req, res) => {
 		const { projectId } = req.params;
 
 		// Validate input data for updating user's right
-		const validationResult = ProjectRightsValidation.validateUserProjectRightsInputs(
-			userIdUpdater,
-			userIdUpdated,
-			projectId,
-			updatedPermissions
-		);
+		const validationResult = ProjectRightsValidation.validateUserProjectRightsInputs(userIdUpdater, userIdUpdated, projectId, updatedPermissions);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
 		// Retrieve Project Rights of the updater
-		const rightsCheckResult = await userRightsService.retrieveProjectRights(
-			projectId,
-			userIdUpdater
-		);
+		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userIdUpdater);
 		if (rightsCheckResult.status !== "success") {
-			return apiResponse.errorResponse(res, rightsCheckResult.message);
+			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
 		}
 
 		// Check if the user has canEditRights permission
 		if (!rightsCheckResult.projectRights.permissions.canEditRights) {
-			return apiResponse.unauthorizedResponse(
-				res,
-				"You do not have permission to update project rights."
-			);
+			return apiResponse.unauthorizedResponse(res, "You do not have permission to update project rights.");
 		}
 
 		//Check if the user to be updated is owner of the project
 		const ProjectMembersResult = await projectService.retrieveProjectById(projectId, "members");
 
 		if (ProjectMembersResult.status !== "success") {
-			return apiResponse.errorResponse(res, ProjectMembersResult.message);
+			return apiResponse.serverErrorResponse(res, ProjectMembersResult.message);
 		}
 
 		const projectMembers = ProjectMembersResult.project.members;
@@ -53,23 +42,20 @@ const updateUserProjectRights = async (req, res) => {
 		// Find the user to be updated in the project's members
 		const userToBeUpdated = projectMembers.find((member) => member.userId === userIdUpdated);
 
-		if (userToBeUpdated && userToBeUpdated.role === "owner") {
+		if (!userToBeUpdated) {
+			// If user to be updated is not member of the project, return error
+			return apiResponse.unauthorizedResponse(res, "Member not found for this project.");
+		}
+
+		if (userToBeUpdated.role === "owner") {
 			// If user to be updated is the owner of the project, its rights cannot be updated
-			return apiResponse.unauthorizedResponse(
-				res,
-				"The owner of the project cannot have its rights updated."
-			);
+			return apiResponse.unauthorizedResponse(res, "The owner of the project cannot have its rights updated.");
 		}
 
 		// Update the user's project rights
-		const updateResult = await userRightsService.updateUserProjectRights(
-			projectId,
-			userIdUpdated,
-			updatedPermissions,
-			userIdUpdater
-		);
+		const updateResult = await userRightsService.updateUserProjectRights(projectId, userIdUpdated, updatedPermissions, userIdUpdater);
 		if (updateResult.status !== "success") {
-			return apiResponse.errorResponse(res, updateResult.message);
+			return apiResponse.serverErrorResponse(res, updateResult.message);
 		}
 		return apiResponse.successResponse(res, updateResult.message);
 	} catch (error) {

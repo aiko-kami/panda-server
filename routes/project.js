@@ -4,7 +4,7 @@
 
 const projectRoute = require("express").Router();
 
-const { projectController, memberController, categoryController, projectRightsController } = require("../controllers");
+const { projectController, memberController, categoryController, projectRightsController, projectAttachmentsController, projectStatusController } = require("../controllers");
 const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Project creation
@@ -13,11 +13,6 @@ projectRoute.post("/project/submit/:projectId", projectController.createProject)
 
 // Project update
 projectRoute.patch("/project/:projectId", verifyAccess, projectController.updateProject);
-projectRoute.patch("/project/status/:projectId", verifyAccess, projectController.updateProjectStatus);
-projectRoute.patch("/project/attachments/:projectId", verifyAccess, projectController.updateProjectAttachments);
-projectRoute.patch("/project/UserRights/:projectId", verifyAccess, projectRightsController.updateUserProjectRights);
-projectRoute.patch("/project/members/update/:projectId", verifyAccess, memberController.updateProjectMember);
-projectRoute.patch("/project/members/remove/:projectId", verifyAccess, memberController.removeProjectMember);
 
 // Retrieve project data
 projectRoute.get("/project/:projectId", projectController.retrieveProjectData);
@@ -35,5 +30,18 @@ projectRoute.delete("/category", categoryController.removeCategory);
 projectRoute.post("/subCategory", categoryController.addSubCategory);
 projectRoute.patch("/subCategory", categoryController.updateSubCategory);
 projectRoute.delete("/subCategory", categoryController.removeSubCategory);
+
+// User's rights
+projectRoute.patch("/project/UserRights/:projectId", verifyAccess, projectRightsController.updateUserProjectRights);
+
+// Project members
+projectRoute.patch("/project/members/update/:projectId", verifyAccess, memberController.updateProjectMember);
+projectRoute.patch("/project/members/remove/:projectId", verifyAccess, memberController.removeProjectMember);
+
+//Project attachments
+projectRoute.patch("/project/attachments/:projectId", verifyAccess, projectAttachmentsController.updateProjectAttachments);
+
+//Project status
+projectRoute.patch("/project/status/:projectId", verifyAccess, projectStatusController.updateProjectStatus);
 
 module.exports = projectRoute;

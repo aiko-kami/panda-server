@@ -186,10 +186,6 @@ const retrieveProjectOverview = async (req, res) => {
 	}
 };
 
-const updateProjectStatus = async (req, res) => {};
-
-const updateProjectAttachments = async (req, res) => {};
-
 const retrieveProjectData = async (req, res) => {};
 
 module.exports = {
@@ -197,7 +193,5 @@ module.exports = {
 	updateProject,
 	retrieveProjectPublicData,
 	retrieveProjectOverview,
-	updateProjectStatus,
-	updateProjectAttachments,
 	retrieveProjectData,
 };

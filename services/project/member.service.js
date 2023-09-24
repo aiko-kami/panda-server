@@ -101,8 +101,73 @@ const updateMemberRole = async (projectId, memberId, newRole) => {
 		return { status: "error", message: error.message };
 	}
 };
-const updateMemberstartDate = async (projectId, memberId, newStartDate) => {};
-const updateMemberTalent = async (projectId, memberId, newTalent) => {};
+const updateMemberstartDate = async (projectId, memberId, newStartDate) => {
+	try {
+		const project = await Project.findOne({ projectId });
+
+		if (!project) {
+			return { status: "error", message: "Project not found." };
+		}
+
+		const existingMemberIndex = project.members.findIndex((member) => member.userId === memberId);
+
+		if (existingMemberIndex === -1) {
+			return { status: "error", message: "Member not found in the project." };
+		}
+
+		const formerStartDate = project.members[existingMemberIndex].startDate || "No start date defined";
+
+		let dateObj = new Date(newStartDate);
+
+		if (formerStartDate.toString() === dateObj.toString()) {
+			return { status: "error", message: "New start date must be different from the former one." };
+		}
+
+		// Update the member's start date
+		project.members[existingMemberIndex].startDate = dateObj;
+
+		// Save the updated project
+		await project.save();
+
+		logger.info(`Member's start date updated successfully. Project ID: ${projectId} - Member user ID: ${memberId} - Former start date: ${formerStartDate} - New start date: ${dateObj}`);
+		return { status: "success", message: "Member's start date updated successfully." };
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
+
+const updateMemberTalent = async (projectId, memberId, newTalent) => {
+	try {
+		const project = await Project.findOne({ projectId });
+
+		if (!project) {
+			return { status: "error", message: "Project not found." };
+		}
+
+		const existingMemberIndex = project.members.findIndex((member) => member.userId === memberId);
+
+		if (existingMemberIndex === -1) {
+			return { status: "error", message: "Member not found in the project." };
+		}
+
+		const formerTalent = project.members[existingMemberIndex].talent || "No talent defined";
+
+		if (formerTalent === newTalent) {
+			return { status: "error", message: "New talent must be different from the former one." };
+		}
+
+		// Update the member's talent
+		project.members[existingMemberIndex].talent = newTalent;
+
+		// Save the updated project
+		await project.save();
+
+		logger.info(`Member's talent updated successfully. Project ID: ${projectId} - Member user ID: ${memberId} - Former talent: ${formerTalent} - New talent: ${newTalent}`);
+		return { status: "success", message: "Member's talent updated successfully." };
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
 
 module.exports = {
 	updateMemberFromProject,

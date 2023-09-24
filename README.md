@@ -89,7 +89,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] Prevent project owner to change its own rights
     - [ ] Edit project members
       - [x] Remove members from a project
-      - [ ] Edit member (role, talents, startDate)
+      - [x] Edit member (role, talents, startDate)
     - [ ] Edit project status
     - [ ] Edit project attachments
 - [ ] User profile

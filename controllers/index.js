@@ -9,6 +9,8 @@ module.exports.userController = require("./user/user.controller");
 // Project Controllers
 module.exports.projectController = require("./project/project.controller");
 module.exports.projectRightsController = require("./project/projectRights.controller");
+module.exports.projectStatusController = require("./project/projectStatus.controller");
+module.exports.projectAttachmentsController = require("./project/projectAttachments.controller");
 module.exports.categoryController = require("./project/category.controller");
 module.exports.memberController = require("./project/member.controller");
 

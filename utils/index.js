@@ -2,6 +2,7 @@ module.exports.authValidation = require("./validation/auth.validation");
 module.exports.categoryValidation = require("./validation/category.validation");
 module.exports.projectValidation = require("./validation/project.validation");
 module.exports.memberValidation = require("./validation/member.validation");
+module.exports.statusValidation = require("./validation/status.validation");
 module.exports.ProjectRightsValidation = require("./validation/ProjectRights.validation");
 module.exports.userValidation = require("./validation/user.validation");
 

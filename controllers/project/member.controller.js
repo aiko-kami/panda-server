@@ -21,7 +21,7 @@ const updateProjectMember = async (req, res) => {
 
 		// Check if the user has canEditMembers permission
 		if (!rightsCheckResult.projectRights.permissions.canEditMembers) {
-			return apiResponse.unauthorizedResponse(res, "You do not have permission to update members from this project.");
+			return apiResponse.unauthorizedResponse(res, "You do not have permission to update members for this project.");
 		}
 
 		// In case of update of member's role
@@ -30,8 +30,23 @@ const updateProjectMember = async (req, res) => {
 			if (updateRoleResult.status !== "success") {
 				return apiResponse.serverErrorResponse(res, updateRoleResult.message);
 			}
-			// if new role is owner ==> update project rights
-			// if new role is member ==> update project rights
+
+			// Update users's project rights
+			// If new role is "owner" ==> Set owner rights
+			if (newRole === "owner") {
+				const setRightsResult = await userRightsService.updateUserProjectRights(projectId, memberId, "owner", userIdUpdater);
+				if (setRightsResult.status !== "success") {
+					return apiResponse.serverErrorResponse(res, setRightsResult.message);
+				}
+			}
+
+			// If new role is "member" ==> Set member rights
+			else if (newRole === "member") {
+				const setRightsResult = await userRightsService.updateUserProjectRights(projectId, memberId, "member", userIdUpdater);
+				if (setRightsResult.status !== "success") {
+					return apiResponse.serverErrorResponse(res, setRightsResult.message);
+				}
+			}
 		}
 
 		// In case of update of member's start date
@@ -76,7 +91,7 @@ const removeProjectMember = async (req, res) => {
 
 		// Check if the user has canRemoveMembers permission
 		if (!rightsCheckResult.projectRights.permissions.canRemoveMembers) {
-			return apiResponse.unauthorizedResponse(res, "You do not have permission to remove members from this project.");
+			return apiResponse.unauthorizedResponse(res, "You do not have permission to remove members for this project.");
 		}
 
 		// Remove the member from the project
