@@ -36,12 +36,12 @@ projectRoute.patch("/project/UserRights/:projectId", verifyAccess, projectRights
 
 // Project members
 projectRoute.patch("/project/members/update/:projectId", verifyAccess, memberController.updateProjectMember);
-projectRoute.patch("/project/members/remove/:projectId", verifyAccess, memberController.removeProjectMember);
-
-//Project attachments
-projectRoute.patch("/project/attachments/:projectId", verifyAccess, projectAttachmentsController.updateProjectAttachments);
+projectRoute.delete("/project/members/remove/:projectId", verifyAccess, memberController.removeProjectMember);
 
 //Project status
 projectRoute.patch("/project/status/:projectId", verifyAccess, projectStatusController.updateProjectStatus);
+
+//Project attachments
+projectRoute.patch("/project/attachments/:projectId", verifyAccess, projectAttachmentsController.updateProjectAttachments);
 
 module.exports = projectRoute;
