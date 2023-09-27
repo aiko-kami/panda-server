@@ -90,17 +90,19 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] Edit project members
       - [x] Remove members from a project
       - [x] Edit member (role, talents, startDate)
-    - [ ] Edit project status
+    - [x] Edit project status
     - [ ] Edit project attachments
 - [ ] User profile
   - [x] Edit user profile
   - [x] Change password
-  - [ ] Talents
-    - [ ] Define Talent model
-    - [ ] Create new talent
+  - [ ] Talents & Portfolio
+    - [x] Define Talent model (name, description, skills, experience, portfolio, certifications)
+    - [ ] Create new talent?
+    - [ ] Add talents to user
     - [ ] Update talent
     - [ ] Delete talent
-    - [ ] Share talent
+    - [ ] Define portfolio (later?)
+    - [ ] Share talent?
 - [ ] Join project
   - [ ] Send join project request
   - [ ] Accept/decline join project request

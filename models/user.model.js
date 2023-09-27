@@ -23,12 +23,29 @@ const userSchema = new mongoose.Schema(
 		bio: { type: String },
 		languages: [{ type: String }],
 		website: { type: String },
+		talents: [
+			{
+				name: { type: String, required: true },
+				description: { type: String, required: true },
+				skills: { type: String, required: true },
+				experience: { type: String, required: true },
+				portfolio: { type: String, required: true },
+				certifications: { type: String, required: true },
+			},
+		],
 	},
 	{
 		collection: "users",
 		timestamps: true, // Automatically add createdAt and updatedAt timestamps
 	}
 );
+
+/*
+// Custom validator to ensure at least one talent is present
+userSchema.path("talents").validate(function (value) {
+	return value && value.length > 0;
+}, "At least one talent is required.");
+*/
 
 const User = mongoose.model("User", userSchema);
 
