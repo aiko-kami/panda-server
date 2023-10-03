@@ -5,6 +5,7 @@
 
 // User Controllers
 module.exports.userController = require("./user/user.controller");
+module.exports.talentController = require("./user/talent.controller");
 
 // Project Controllers
 module.exports.projectController = require("./project/project.controller");

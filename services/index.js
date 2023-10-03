@@ -4,6 +4,7 @@ module.exports.loginService = require("./auth/login.service");
 
 //User Services
 module.exports.userService = require("./user/user.service");
+module.exports.talentService = require("./user/talent.service");
 
 // Token Services
 module.exports.generateTokenService = require("./token/generateToken.service");

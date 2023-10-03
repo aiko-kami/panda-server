@@ -25,12 +25,12 @@ const userSchema = new mongoose.Schema(
 		website: { type: String },
 		talents: [
 			{
-				name: { type: String, required: true },
-				description: { type: String, required: true },
-				skills: { type: String, required: true },
-				experience: { type: String, required: true },
-				portfolio: { type: String, required: true },
-				certifications: { type: String, required: true },
+				name: { type: String, required: true, unique: true },
+				description: { type: String },
+				skills: { type: String },
+				experience: { type: String },
+				portfolio: { type: String },
+				certifications: { type: String },
 			},
 		],
 	},

@@ -18,6 +18,7 @@ projectRoute.patch("/project/:projectId", verifyAccess, projectController.update
 projectRoute.get("/project/:projectId", projectController.retrieveProjectData);
 projectRoute.get("/projectOverview/:projectId", projectController.retrieveProjectOverview);
 projectRoute.get("/projectPublic/:projectId", projectController.retrieveProjectPublicData);
+projectRoute.get("/lastProjectsOverview", projectController.retrieveProjectPublicData);
 
 // Categories
 projectRoute.get("/category", categoryController.retrieveCategory);

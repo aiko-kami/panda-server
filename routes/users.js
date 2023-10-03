@@ -4,12 +4,17 @@
 
 const usersRoute = require("express").Router();
 
-const { userController } = require("../controllers");
+const { userController, talentController } = require("../controllers");
 const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Me
 usersRoute.get("/me", verifyAccess, userController.retrieveMyUserData);
 usersRoute.patch("/me", verifyAccess, userController.updateUser);
+
+// Talents
+usersRoute.post("/talent/add/me", verifyAccess, talentController.createTalent);
+usersRoute.patch("/talent/update/me", verifyAccess, talentController.updateTalent);
+usersRoute.delete("/talent/remove/me", verifyAccess, talentController.removeTalent);
 
 // Change password
 usersRoute.patch("/changePassword", verifyAccess, userController.updateUserPassword);

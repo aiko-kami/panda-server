@@ -68,7 +68,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Login
   - [x] Logout
   - [x] Forgot password
-- [ ] Projects
+- [x] Projects
   - [x] Create new project category
   - [x] Update project category
   - [x] Delete project category
@@ -82,7 +82,8 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] Delete sub-category
   - [x] Retrieve project public data (change project model for draft, public (parent level) vs private)
   - [x] Retrieve project overview (when project is public)
-  - [ ] Edit project
+  - [ ] Retrieve last projects overview (when project is public)
+  - [x] Edit project
     - [x] Edit project data (title, goal, summary, description, cover, tags, phase, location, talentsNeeded, startDate, objectives, creatorMotivation, visibility)
     - [x] Edit user's project rights
     - [x] Set project owner rights
@@ -91,24 +92,27 @@ Don't let your ideas and talents go to waste – join Sheepy now!
       - [x] Remove members from a project
       - [x] Edit member (role, talents, startDate)
     - [x] Edit project status
-    - [ ] Edit project attachments
 - [ ] User profile
   - [x] Edit user profile
   - [x] Change password
-  - [ ] Talents & Portfolio
+  - [ ] Talents
     - [x] Define Talent model (name, description, skills, experience, portfolio, certifications)
-    - [ ] Create new talent?
-    - [ ] Add talents to user
-    - [ ] Update talent
+    - [x] Add talents to user
+    - [ ] Update talent (verify which info to update)
     - [ ] Delete talent
-    - [ ] Define portfolio (later?)
-    - [ ] Share talent?
 - [ ] Join project
   - [ ] Send join project request
   - [ ] Accept/decline join project request
   - [ ] Send project invitation
   - [ ] Accept/decline project invitation
   - [ ] Add new member to a project and set new member project rights
+- [ ] Improvements
+  - [ ] Project
+    - [ ] Edit project attachments
+    - [ ] New fields (coup de coeur, likes@)
+  - [ ] User
+    - [ ] Talents portfolio
+    - [ ] Share talent?
 - [ ] Friends
   - [ ] Define friend model
   - [ ] Send friend request
