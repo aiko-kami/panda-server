@@ -12,7 +12,7 @@ const validateTalentInputs = (talentData) => {
 	}
 
 	// Check if required fields are present
-	if (!talentData.name) {
+	if (!talentData.name || talentData.name === "@--empty--string") {
 		return { status: "error", message: "Talent name is required." };
 	}
 

@@ -1,4 +1,4 @@
-const { apiResponse, talentValidation } = require("../../utils");
+const { apiResponse, talentValidation, userTools } = require("../../utils");
 const { talentService } = require("../../services");
 
 const createTalent = async (req, res) => {
@@ -53,8 +53,11 @@ const updateTalent = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
+		// Filter on the fields that the user wants to update
+		const filterTalentInputs = userTools.filterFieldsToUpdate(talentData);
+
 		// Call the service to update the talent
-		const updatedTalent = await talentService.updateTalent(talentData, userId);
+		const updatedTalent = await talentService.updateTalent(filterTalentInputs, userId);
 
 		if (updatedTalent.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updatedTalent.message);

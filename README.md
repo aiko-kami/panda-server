@@ -82,7 +82,6 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] Delete sub-category
   - [x] Retrieve project public data (change project model for draft, public (parent level) vs private)
   - [x] Retrieve project overview (when project is public)
-  - [ ] Retrieve last projects overview (when project is public)
   - [x] Edit project
     - [x] Edit project data (title, goal, summary, description, cover, tags, phase, location, talentsNeeded, startDate, objectives, creatorMotivation, visibility)
     - [x] Edit user's project rights
@@ -92,27 +91,32 @@ Don't let your ideas and talents go to waste – join Sheepy now!
       - [x] Remove members from a project
       - [x] Edit member (role, talents, startDate)
     - [x] Edit project status
-- [ ] User profile
+- [x] User profile
   - [x] Edit user profile
   - [x] Change password
-  - [ ] Talents
+  - [x] Talents
     - [x] Define Talent model (name, description, skills, experience, portfolio, certifications)
     - [x] Add talents to user
-    - [ ] Update talent (verify which info to update)
-    - [ ] Delete talent
+    - [x] Update talent (verify which info to update and filter on what is not to be updated)
+    - [x] Delete talent
 - [ ] Join project
   - [ ] Send join project request
   - [ ] Accept/decline join project request
   - [ ] Send project invitation
   - [ ] Accept/decline project invitation
   - [ ] Add new member to a project and set new member project rights
-- [ ] Improvements
+- [ ] Improvements (Brainstorms/clarifications needed)
   - [ ] Project
     - [ ] Edit project attachments
+    - [ ] Upload images
     - [ ] New fields (coup de coeur, likes@)
   - [ ] User
     - [ ] Talents portfolio
     - [ ] Share talent?
+  - [ ] Retrieve specific data (GET requests)
+    - [ ] Retrieve last projects overview (when project is public)
+    - [ ] Count the number of projects on the plateform (public projects only)
+    - [ ] Count the number of projects per category (public projects only)
 - [ ] Friends
   - [ ] Define friend model
   - [ ] Send friend request

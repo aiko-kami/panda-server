@@ -114,6 +114,7 @@ const updateProject = async (req, res) => {
 		// Filter on the fields that the user wants to update
 		const filterProjectInputs = projectTools.filterFieldsToUpdate(updatedProjectInputs);
 
+		// Retrieve only the keys of filtered fileds to be updated
 		const filterProjectInputsArray = Object.keys(filterProjectInputs);
 
 		// Check user rights for updating the project
@@ -124,7 +125,6 @@ const updateProject = async (req, res) => {
 
 		//Verify that the title (if modified) is available
 		if (filterProjectInputs.title) {
-			console.log("there is a title");
 			const titleVerification = await projectService.verifyTitleAvailability(filterProjectInputs.title);
 			if (titleVerification.status !== "success") {
 				return apiResponse.serverErrorResponse(res, titleVerification.message);
