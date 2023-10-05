@@ -1,5 +1,6 @@
 const validator = require("validator");
-const projectVisibility = process.env.PROJECT_VISIBILITY.split(", ");
+const config = require("../../config");
+const projectVisibility = config.project_visibility.split(", ");
 
 const validateNewProjectInputs = (projectData) => {
 	//Types validation
@@ -98,10 +99,7 @@ const validateUpdatedProjectInputs = (projectData) => {
 	if (projectData.summary && !validator.isLength(projectData.summary, { min: 10, max: 300 })) {
 		return { status: "error", message: "Summary must be 10-300 characters." };
 	}
-	if (
-		projectData.description &&
-		!validator.isLength(projectData.description, { min: 20, max: 10000 })
-	) {
+	if (projectData.description && !validator.isLength(projectData.description, { min: 20, max: 10000 })) {
 		return { status: "error", message: "Description must be 20-2000 characters." };
 	}
 	if (projectData.visibility && !validator.isIn(projectData.visibility, projectVisibility)) {

@@ -1,5 +1,6 @@
 const validator = require("validator");
-const projectStatus = process.env.PROJECT_STATUS.split(", ");
+const config = require("../../config");
+const projectStatus = config.project_status.split(", ");
 
 const validateStatusInputs = (userIdUpdater, projectId, newStatus) => {
 	//Types validation

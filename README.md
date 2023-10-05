@@ -100,6 +100,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] Update talent (verify which info to update and filter on what is not to be updated)
     - [x] Delete talent
 - [ ] Join project
+  - [x] Define join project model
   - [ ] Send join project request
   - [ ] Accept/decline join project request
   - [ ] Send project invitation
@@ -107,9 +108,10 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] Add new member to a project and set new member project rights
 - [ ] Improvements (Brainstorms/clarifications needed)
   - [ ] Project
+    - [ ] project draft
     - [ ] Edit project attachments
     - [ ] Upload images
-    - [ ] New fields (coup de coeur, likes@)
+    - [ ] New fields (coup de coeur, likes)
   - [ ] User
     - [ ] Talents portfolio
     - [ ] Share talent?

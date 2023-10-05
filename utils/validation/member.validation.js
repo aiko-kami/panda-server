@@ -1,5 +1,6 @@
 const validator = require("validator");
-const projectMembersRoles = process.env.PROJECT_MEMBERS_ROLES.split(", ");
+const config = require("../../config");
+const projectMembersRoles = config.project_members_roles.split(", ");
 
 const validateMemberInputs = (userIdUpdater, projectId, memberId, newRole, newStartDate, newTalent) => {
 	//Types validation

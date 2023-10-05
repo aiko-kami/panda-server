@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 const { DateTime } = require("luxon");
 const v4 = require("uuid").v4;
-const projectStatus = process.env.PROJECT_STATUS.split(", ");
-const projectVisibility = process.env.PROJECT_VISIBILITY.split(", ");
-const projectMembersRoles = process.env.PROJECT_MEMBERS_ROLES.split(", ");
+const config = require("../config");
+const projectStatus = config.project_status.split(", ");
+const projectVisibility = config.project_visibility.split(", ");
+const projectMembersRoles = config.project_members_roles.split(", ");
 
 const memberSchema = new mongoose.Schema({
 	userId: {
@@ -79,7 +80,6 @@ const projectSchema = new mongoose.Schema(
 			required: true,
 		},
 		objectives: { type: [String] }, // Optional
-		updatedBy: { type: String, required: true },
 		updatedBy: { type: String, required: true },
 		visibility: {
 			type: String,
