@@ -20,6 +20,9 @@ projectRoute.get("/projectOverview/:projectId", projectController.retrieveProjec
 projectRoute.get("/projectPublic/:projectId", projectController.retrieveProjectPublicData);
 projectRoute.get("/lastProjectsOverview", projectController.retrieveProjectPublicData);
 
+// Count projects
+projectRoute.get("/nbProjects", projectController.countProjects);
+
 // Categories
 projectRoute.get("/category", categoryController.retrieveCategory);
 projectRoute.get("/categories", categoryController.retrieveCategories);

@@ -188,10 +188,25 @@ const retrieveProjectOverview = async (req, res) => {
 
 const retrieveProjectData = async (req, res) => {};
 
+const countProjects = async (req, res) => {
+	try {
+		const projectCount = await projectService.countNumberProjects();
+
+		if (projectCount.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectCount.message);
+		}
+
+		return apiResponse.successResponseWithData(res, "Number of projects retrieved successfully.", projectCount.count);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 module.exports = {
 	createProject,
 	updateProject,
 	retrieveProjectPublicData,
 	retrieveProjectOverview,
 	retrieveProjectData,
+	countProjects,
 };

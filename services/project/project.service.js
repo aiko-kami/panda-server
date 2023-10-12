@@ -168,9 +168,45 @@ const retrieveProjectById = async (projectId, fields) => {
 	}
 };
 
+const countNumberProjects = async () => {
+	try {
+		const nbPublicProject = await Project.countDocuments({ visibility: "public" }); // Count total number of projects
+		const nbPublicSubmittedProject = await Project.countDocuments({ visibility: "public", status: "submitted" }); // Count documents with visibility set to "public" and status set to "submitted"
+		const nbPublicOnHoldProject = await Project.countDocuments({ visibility: "public", status: "on hold" }); // Count documents with visibility set to "public" and status set to "on hold"
+		const nbPublicCompletedProject = await Project.countDocuments({ visibility: "public", status: "completed" }); // Count documents with visibility set to "public" and status set to "completed"
+		const nbPublicArchivedProject = await Project.countDocuments({ visibility: "public", status: "archived" }); // Count documents with visibility set to "public" and status set to "archived"
+		const nbPublicCancelledProject = await Project.countDocuments({ visibility: "public", status: "cancelled" }); // Count documents with visibility set to "public" and status set to "cancelled"
+		const nbPublicActiveProject = await Project.countDocuments({
+			visibility: "public",
+			status: "active",
+		}); // Count documents with visibility set to "public" and status set to "active"
+
+		return {
+			status: "success",
+			message: "Counted public active projects successfully.",
+			count: {
+				nbPublicProject,
+				nbPublicSubmittedProject,
+				nbPublicOnHoldProject,
+				nbPublicCompletedProject,
+				nbPublicArchivedProject,
+				nbPublicCancelledProject,
+				nbPublicActiveProject,
+			},
+		};
+	} catch (error) {
+		logger.error("Error while retrieving project from the database:", error);
+		return {
+			status: "error",
+			message: "An error occurred while retrieving the project from the database.",
+		};
+	}
+};
+
 module.exports = {
 	createProject,
 	verifyTitleAvailability,
 	updateProject,
 	retrieveProjectById,
+	countNumberProjects,
 };
