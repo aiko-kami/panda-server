@@ -1,6 +1,6 @@
 const validator = require("validator");
 const config = require("../../config");
-const projectVisibility = config.project_visibility.split(", ");
+const projectVisibility = config.project_visibility;
 
 const validateNewProjectInputs = (projectData) => {
 	//Types validation

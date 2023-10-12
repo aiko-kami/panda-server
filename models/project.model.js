@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const { DateTime } = require("luxon");
 const v4 = require("uuid").v4;
 const config = require("../config");
-const projectStatus = config.project_status.split(", ");
-const projectVisibility = config.project_visibility.split(", ");
-const projectMembersRoles = config.project_members_roles.split(", ");
+const projectStatus = config.project_status;
+const projectVisibility = config.project_visibility;
+const projectMembersRoles = config.project_members_roles;
 
 const memberSchema = new mongoose.Schema({
 	userId: {

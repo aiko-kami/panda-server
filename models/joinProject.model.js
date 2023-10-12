@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { DateTime } = require("luxon");
 const v4 = require("uuid").v4;
 const config = require("../config");
-const joinProjectStatus = config.join_project_status.split(", ");
+const joinProjectStatus = config.join_project_status;
 
 const joinProjectSchema = new mongoose.Schema(
 	{
