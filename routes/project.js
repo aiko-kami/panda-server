@@ -22,6 +22,7 @@ projectRoute.get("/lastProjectsOverview", projectController.retrieveProjectPubli
 
 // Count projects
 projectRoute.get("/nbProjects", projectController.countProjects);
+projectRoute.get("/nbProjectsPerCategory", projectController.countProjects);
 
 // Categories
 projectRoute.get("/category", categoryController.retrieveCategory);

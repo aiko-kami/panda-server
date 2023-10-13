@@ -202,6 +202,13 @@ const countProjects = async (req, res) => {
 	}
 };
 
+const countProjectsPerCategory = async (req, res) => {
+	try {
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 module.exports = {
 	createProject,
 	updateProject,
@@ -209,4 +216,5 @@ module.exports = {
 	retrieveProjectOverview,
 	retrieveProjectData,
 	countProjects,
+	countProjectsPerCategory,
 };
