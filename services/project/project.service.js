@@ -1,4 +1,4 @@
-const { Project } = require("../../models");
+const { Project, Category } = require("../../models");
 const { logger } = require("../../utils");
 
 /**
@@ -184,15 +184,59 @@ const countNumberProjects = async () => {
 		return {
 			status: "success",
 			message: "Counted public active projects successfully.",
-			count: {
-				nbPublicProject,
-				nbPublicSubmittedProject,
-				nbPublicOnHoldProject,
-				nbPublicCompletedProject,
-				nbPublicArchivedProject,
-				nbPublicCancelledProject,
-				nbPublicActiveProject,
-			},
+			count: [
+				{ description: "Public projects", count: nbPublicProject },
+				{ description: "Public projects with status Submitted", count: nbPublicSubmittedProject },
+				{ description: "Public projects with status On hold", count: nbPublicOnHoldProject },
+				{ description: "Public projects with status Completed", count: nbPublicCompletedProject },
+				{ description: "Public projects with status Archived", count: nbPublicArchivedProject },
+				{ description: "Public projects with status Cancelled", count: nbPublicCancelledProject },
+				{ description: "Public projects with status Active", count: nbPublicActiveProject },
+			],
+		};
+	} catch (error) {
+		logger.error("Error while retrieving project from the database:", error);
+		return {
+			status: "error",
+			message: "An error occurred while retrieving the project from the database.",
+		};
+	}
+};
+
+const countNumberProjectsPerCategory = async () => {
+	try {
+		const categories = await Category.find({}, "name subCategories categoryId");
+
+		const categoryCounts = [];
+
+		for (const category of categories) {
+			const categoryCount = {
+				category: category.name,
+				count: 0,
+				subCategoryCounts: [],
+			};
+
+			for (const subCategory of category.subCategories) {
+				const subCategoryCount = await Project.countDocuments({
+					category: category.categoryId,
+					subCategory: subCategory,
+					visibility: "public",
+				});
+
+				categoryCount.subCategoryCounts.push({
+					subCategory,
+					count: subCategoryCount,
+				});
+
+				categoryCount.count += subCategoryCount;
+			}
+			categoryCounts.push(categoryCount);
+		}
+
+		return {
+			status: "success",
+			message: "Counted public active projects successfully.",
+			count: categoryCounts,
 		};
 	} catch (error) {
 		logger.error("Error while retrieving project from the database:", error);
@@ -209,4 +253,5 @@ module.exports = {
 	updateProject,
 	retrieveProjectById,
 	countNumberProjects,
+	countNumberProjectsPerCategory,
 };

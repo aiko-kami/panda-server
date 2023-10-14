@@ -8,6 +8,8 @@ const { projectController, memberController, categoryController, projectRightsCo
 const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Project creation
+projectRoute.post("/project/createDraft", verifyAccess, projectController.createProject);
+projectRoute.post("/project/updateDraft/:projectId", verifyAccess, projectController.createProject);
 projectRoute.post("/project", verifyAccess, projectController.createProject);
 projectRoute.post("/project/submit/:projectId", projectController.createProject);
 
@@ -22,7 +24,7 @@ projectRoute.get("/lastProjectsOverview", projectController.retrieveProjectPubli
 
 // Count projects
 projectRoute.get("/nbProjects", projectController.countProjects);
-projectRoute.get("/nbProjectsPerCategory", projectController.countProjects);
+projectRoute.get("/nbProjectsPerCategory", projectController.countProjectsPerCategory);
 
 // Categories
 projectRoute.get("/category", categoryController.retrieveCategory);

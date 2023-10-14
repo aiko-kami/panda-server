@@ -118,7 +118,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] Retrieve specific data (GET requests)
     - [ ] Retrieve last projects overview (when project is public)
     - [x] Count the number of projects on the plateform (public projects only)
-    - [ ] Count the number of projects per category (public projects only)
+    - [x] Count the number of projects per category (public projects only)
 - [ ] Friends
   - [ ] Define friend model
   - [ ] Send friend request
