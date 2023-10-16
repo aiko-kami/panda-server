@@ -101,10 +101,20 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] Delete talent
 - [ ] Join project
   - [x] Define join project model
-  - [ ] Send join project request
+  - [x] Send join project request
+  - [x] Send join project invitation
+  - [x] Create draft join project request
+  - [x] Create draft join project invitation
+  - [ ] Update draft join project request
+  - [ ] Update draft join project invitation
+  - [ ] Retrieve drafts join project request
+  - [ ] Retrieve drafts join project invitation
+  - [ ] Retrieve one draft join project request
+  - [ ] Retrieve one draft join project invitation
+  - [ ] Send draft join project request
+  - [ ] Send draft join project invitation
   - [ ] Accept/decline join project request
-  - [ ] Send project invitation
-  - [ ] Accept/decline project invitation
+  - [ ] Accept/decline join project invitation
   - [ ] Add new member to a project and set new member project rights
 - [ ] Improvements (Brainstorms/clarifications needed)
   - [ ] Project
