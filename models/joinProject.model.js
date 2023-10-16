@@ -9,7 +9,7 @@ const joinProjectSchema = new mongoose.Schema(
 		joinProjectId: { type: String, default: v4, required: true, unique: true },
 		projectId: { type: String, required: true },
 		userIdSender: { type: String, required: true }, // Either a user or a project member depending on the requestType
-		userIdReceiver: { type: String, required: true }, // Either a user or a project member depending on the requestType
+		userIdReceiver: { type: String }, // In case of join project invitation, the ID of the user for whom is the invitation
 		requestType: {
 			type: String,
 			required: true,

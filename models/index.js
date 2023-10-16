@@ -12,6 +12,7 @@ db.User = require("./user.model");
 db.Project = require("./project.model");
 db.Category = require("./category.model");
 db.ProjectRights = require("./projectRights.model");
+db.JoinProject = require("./joinProject.model");
 
 //Import tokens models
 const tokenModels = require("./token.model");

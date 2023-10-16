@@ -45,10 +45,16 @@ projectRoute.patch("/project/UserRights/:projectId", verifyAccess, projectRights
 projectRoute.patch("/project/members/update/:projectId", verifyAccess, memberController.updateProjectMember);
 projectRoute.delete("/project/members/remove/:projectId", verifyAccess, memberController.removeProjectMember);
 
-//Project status
+// Join Project (request and invitation)
+projectRoute.post("/JoinProjectRequest/saveDraft", verifyAccess, memberController.saveDraftJoinProjectRequest);
+projectRoute.post("/JoinProjectRequest/submit", verifyAccess, memberController.sendJoinProjectRequest);
+projectRoute.post("/JoinProjectInvitation/saveDraft", verifyAccess, memberController.saveDraftJoinProjectInvitation);
+projectRoute.post("/JoinProjectInvitation/submit", verifyAccess, memberController.sendJoinProjectInvitation);
+
+// Project status
 projectRoute.patch("/project/status/:projectId", verifyAccess, projectStatusController.updateProjectStatus);
 
-//Project attachments
+// Project attachments
 projectRoute.patch("/project/attachments/:projectId", verifyAccess, projectAttachmentsController.updateProjectAttachments);
 
 module.exports = projectRoute;

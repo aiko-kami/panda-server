@@ -12,9 +12,7 @@ const createCategory = async (categoryName, subCategories) => {
 		const existingCategory = await Category.findOne({ name: categoryName });
 
 		if (existingCategory) {
-			logger.error(
-				"Error while storing category in database: Category already exists in the database."
-			);
+			logger.error("Error while storing category in database: Category already exists in the database.");
 			return { status: "error", message: "Category already exists in the database." };
 		}
 		// Filter out empty strings from the subCategories array
@@ -126,9 +124,7 @@ const addSubCategory = async (categoryId, subCategoryName) => {
 		}
 		// Check if sub-category does not already exists
 		if (category.subCategories.includes(subCategoryName)) {
-			logger.error(
-				"Error while storing sub-category in database: Sub-category already present in the category."
-			);
+			logger.error("Error while storing sub-category in database: Sub-category already present in the category.");
 			return { status: "error", message: "Sub-category already present in the category." };
 		}
 		category.subCategories.push(subCategoryName);
@@ -211,9 +207,7 @@ const removeSubCategory = async (categoryId, subCategoryName) => {
 		// Save the updated category
 		await category.save();
 
-		logger.info(
-			`Sub-category removed successfully. Sub-category: ${subCategoryName} - Category: ${category.name}`
-		);
+		logger.info(`Sub-category removed successfully. Sub-category: ${subCategoryName} - Category: ${category.name}`);
 
 		return {
 			status: "success",
@@ -256,6 +250,10 @@ const retrieveCategoryById = async (categoryId, fields) => {
 		}
 
 		const categoryRetrieved = await query;
+
+		if (!categoryRetrieved) {
+			return { status: "error", message: "Category not found." };
+		}
 
 		return { status: "success", categoryRetrieved };
 	} catch (error) {
