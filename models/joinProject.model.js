@@ -13,7 +13,7 @@ const joinProjectSchema = new mongoose.Schema(
 		requestType: {
 			type: String,
 			required: true,
-			enum: ["joinRequest", "joinInvitation"], // joinRequest = user sent request to join the project - joinInvitation = project member sent invitation to a user to join the project
+			enum: ["join project request", "join project invitation"], // request = user sent request to join the project - invitation = project member sent invitation to a user to join the project
 			message: "The value {VALUE} is not valid.",
 		},
 		role: { type: String }, // role of the future project member
