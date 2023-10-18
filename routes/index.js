@@ -12,7 +12,10 @@ MainRouter.use("/", require("./home"));
 MainRouter.use("/users", require("./users"));
 
 // Projects routes
-MainRouter.use("/projects", require("./project"));
+MainRouter.use("/projects", require("./projects"));
+
+// Join project routes
+MainRouter.use("/joinProject", require("./joinProject"));
 
 // Authentification routes
 MainRouter.use("/auth", require("./auth"));
