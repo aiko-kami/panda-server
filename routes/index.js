@@ -15,7 +15,8 @@ MainRouter.use("/users", require("./users"));
 MainRouter.use("/projects", require("./projects"));
 
 // Join project routes
-MainRouter.use("/joinProject", require("./joinProject"));
+MainRouter.use("/joinProject/request", require("./joinProjectRequest"));
+MainRouter.use("/joinProject/invitation", require("./joinProjectInvitation"));
 
 // Authentification routes
 MainRouter.use("/auth", require("./auth"));

@@ -14,7 +14,8 @@ module.exports.projectStatusController = require("./project/projectStatus.contro
 module.exports.projectAttachmentsController = require("./project/projectAttachments.controller");
 module.exports.categoryController = require("./project/category.controller");
 module.exports.memberController = require("./project/member.controller");
-module.exports.joinProjectrojectController = require("./project/joinProject.controller");
+module.exports.joinProjectRequestController = require("./project/joinProjectRequest.controller");
+module.exports.joinProjectInvitationController = require("./project/joinProjectInvitation.controller");
 
 // Auth Controllers
 module.exports.signupController = require("./auth/signup.controller");
