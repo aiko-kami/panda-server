@@ -17,7 +17,6 @@ joinProjectRoute.post("/accept", verifyAccess, joinProjectRequestController.acce
 joinProjectRoute.post("/refuse", verifyAccess, joinProjectRequestController.refuseRequest);
 
 joinProjectRoute.get("/drafts", verifyAccess, joinProjectRequestController.retrieveDraftsRequests);
-joinProjectRoute.get("/draft/:draftId", verifyAccess, joinProjectRequestController.retrieveDraftRequest);
 joinProjectRoute.get("/all", verifyAccess, joinProjectRequestController.retrieveAllRequests);
 joinProjectRoute.get("/:requestId", verifyAccess, joinProjectRequestController.retrieveRequest);
 

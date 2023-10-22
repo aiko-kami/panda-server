@@ -1,14 +1,6 @@
 const { Project, JoinProject } = require("../../models");
 const { logger } = require("../../utils");
 
-/**
- * Add or remove a member from a project.
- * @param {string} projectId - The ID of the project.
- * @param {string} userIdUpdated - The ID of the member to update or remove.
- * @param {string} action - The action to perform ("update" or "remove").
- * @returns {Object} - The result of the update operation.
- */
-
 const createJoinProject = async (joinProjectData) => {
 	try {
 		const project = await Project.findOne({ projectId: joinProjectData.projectId });
@@ -110,11 +102,21 @@ const createJoinProject = async (joinProjectData) => {
 
 const updateJoinProject = async (joinProjectData) => {
 	try {
-		//Check if request does not already exist for the user and this project
-		const existingRequest = await JoinProject.findOne({ joinProjectId: joinProjectData.joinProjectId });
+		//Check if request exists for the user and this project
+		const existingJoinProject = await JoinProject.findOne({ joinProjectId: joinProjectData.joinProjectId });
 
-		if (!existingRequest) {
-			return { status: "error", message: "Join project not found." };
+		const capitalizedRequestType = joinProjectData.requestType.charAt(0).toUpperCase() + requestType.slice(1);
+
+		if (!existingJoinProject) {
+			return { status: "error", message: `${capitalizedRequestType} not found.` };
+		}
+
+		if (existingJoinProject.userIdSender !== joinProjectData.userIdSender) {
+			return { status: "error", message: `Only the sender of the ${joinProjectData.requestType} can update it.` };
+		}
+
+		if (existingJoinProject.status !== "draft") {
+			return { status: "error", message: `You can only update draft ${joinProjectData.requestType}.` };
 		}
 
 		const project = await Project.findOne({ projectId: joinProjectData.projectId });
@@ -123,7 +125,7 @@ const updateJoinProject = async (joinProjectData) => {
 			return { status: "error", message: "Project not found." };
 		}
 
-		let updatedRequest;
+		let updatedJoinProject;
 
 		if (joinProjectData.requestType === "join project request") {
 			// Check if the sender is already a member of the project
@@ -133,16 +135,16 @@ const updateJoinProject = async (joinProjectData) => {
 			}
 
 			// Update join project request
-			existingRequest.projectId = joinProjectData.projectId;
-			existingRequest.userIdSender = joinProjectData.userIdSender;
-			existingRequest.requestType = joinProjectData.requestType;
-			existingRequest.role = joinProjectData.role;
-			existingRequest.message = joinProjectData.message;
-			existingRequest.updatedBy = joinProjectData.userIdSender;
-			existingRequest.status = joinProjectData.joinProjectStatus;
+			existingJoinProject.projectId = joinProjectData.projectId;
+			existingJoinProject.userIdSender = joinProjectData.userIdSender;
+			existingJoinProject.requestType = joinProjectData.requestType;
+			existingJoinProject.role = joinProjectData.role;
+			existingJoinProject.message = joinProjectData.message;
+			existingJoinProject.updatedBy = joinProjectData.userIdSender;
+			existingJoinProject.status = joinProjectData.joinProjectStatus;
 
 			// Save the updated join project request
-			const updatedRequest = await existingRequest.save();
+			updatedJoinProject = await existingJoinProject.save();
 		} else if (joinProjectData.requestType === "join project invitation") {
 			// Check if the sender is already a member of the project
 			const existingMemberIndex = project.members.findIndex((member) => member.userId === joinProjectData.userIdReceiver);
@@ -151,39 +153,39 @@ const updateJoinProject = async (joinProjectData) => {
 			}
 
 			// Update join project request
-			existingRequest.projectId = joinProjectData.projectId;
-			existingRequest.userIdSender = joinProjectData.userIdSender;
-			existingRequest.userIdReceiver = joinProjectData.userIdReceiver;
-			existingRequest.requestType = joinProjectData.requestType;
-			existingRequest.role = joinProjectData.role;
-			existingRequest.message = joinProjectData.message;
-			existingRequest.updatedBy = joinProjectData.userIdSender;
-			existingRequest.status = joinProjectData.joinProjectStatus;
+			existingJoinProject.projectId = joinProjectData.projectId;
+			existingJoinProject.userIdSender = joinProjectData.userIdSender;
+			existingJoinProject.userIdReceiver = joinProjectData.userIdReceiver;
+			existingJoinProject.requestType = joinProjectData.requestType;
+			existingJoinProject.role = joinProjectData.role;
+			existingJoinProject.message = joinProjectData.message;
+			existingJoinProject.updatedBy = joinProjectData.userIdSender;
+			existingJoinProject.status = joinProjectData.joinProjectStatus;
 
-			// Save the updated join project request
-			const updatedRequest = await existingRequest.save();
+			// Save the updated join project
+			updatedJoinProject = await existingJoinProject.save();
 		}
 
 		const joinProject = {
-			projectId: updatedRequest.projectId,
-			userIdSender: updatedRequest.userIdSender,
-			userIdReceiver: updatedRequest.userIdReceiver,
-			requestType: updatedRequest.requestType,
-			role: updatedRequest.role,
-			message: updatedRequest.message,
-			updatedBy: updatedRequest.updatedBy,
-			status: updatedRequest.status,
-			joinProjectId: updatedRequest.joinProjectId,
-			createdAt: updatedRequest.createdAt,
-			updatedAt: updatedRequest.updatedAt,
+			projectId: updatedJoinProject.projectId,
+			userIdSender: updatedJoinProject.userIdSender,
+			userIdReceiver: updatedJoinProject.userIdReceiver,
+			requestType: updatedJoinProject.requestType,
+			role: updatedJoinProject.role,
+			message: updatedJoinProject.message,
+			updatedBy: updatedJoinProject.updatedBy,
+			status: updatedJoinProject.status,
+			joinProjectId: updatedJoinProject.joinProjectId,
+			createdAt: updatedJoinProject.createdAt,
+			updatedAt: updatedJoinProject.updatedAt,
 		};
 
 		logger.info(
-			`${joinProjectData.requestType} updated successfully. Project ID: ${joinProjectData.projectId} - Sender User ID: ${joinProjectData.userIdSender} - Receiver User ID: ${
-				userIdReceiver || "N/A"
-			} - ${joinProjectData.requestType} status: ${joinProjectData.joinProjectStatus}`
+			`${capitalizedRequestType} updated successfully. Project ID: ${joinProject.projectId} - Sender User ID: ${joinProject.userIdSender} - Receiver User ID: ${
+				joinProject.userIdSender || "N/A"
+			} - ${capitalizedRequestType} status: ${joinProject.status}`
 		);
-		return { status: "success", message: `${joinProjectData.requestType} updated successfully.`, joinProject };
+		return { status: "success", message: `${capitalizedRequestType} updated successfully.`, joinProject };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}
@@ -192,191 +194,78 @@ const updateJoinProject = async (joinProjectData) => {
 const removeJoinProject = async (userIdSender, joinProjectId, requestType) => {
 	try {
 		//Check if request exists for the user and this project
-		const existingRequest = await JoinProject.findOne({ joinProjectId, requestType });
+		const existingJoinProject = await JoinProject.findOne({ joinProjectId, requestType });
 
-		if (!existingRequest) {
-			return { status: "error", message: "Join project not found." };
+		const capitalizedRequestType = requestType.charAt(0).toUpperCase() + requestType.slice(1);
+
+		if (!existingJoinProject) {
+			return { status: "error", message: `${capitalizedRequestType} not found.` };
 		}
 
-		if (existingRequest.userIdSender !== userIdSender) {
-			return { status: "error", message: "Only the sender of the join project can remove it." };
+		if (existingJoinProject.userIdSender !== userIdSender) {
+			return { status: "error", message: `Only the sender of the ${requestType} can remove it.` };
 		}
 
-		if (existingRequest.status !== "draft") {
-			return { status: "error", message: "You can only remove draft join project." };
+		if (existingJoinProject.status !== "draft") {
+			return { status: "error", message: `You can only remove draft ${requestType}.` };
 		}
 
 		// Remove the join project request from the database
-		await existingRequest.deleteOne();
+		await existingJoinProject.deleteOne();
+
+		const joinProjectRemoved = { ...existingJoinProject.toObject() };
+		delete joinProjectRemoved._id;
 
 		logger.info(
-			`${existingRequest.requestType} removed successfully. Project ID: ${existingRequest.projectId} - Sender User ID: ${existingRequest.userIdSender} - Receiver User ID: ${
-				existingRequest.userIdReceiver || "N/A"
+			`${joinProjectRemoved.requestType} removed successfully. Project ID: ${joinProjectRemoved.projectId} - Sender User ID: ${joinProjectRemoved.userIdSender} - Receiver User ID: ${
+				joinProjectRemoved.userIdReceiver || "N/A"
 			}`
 		);
-		return { status: "success", message: `${existingRequest.requestType} removed successfully.`, existingRequest };
+		return { status: "success", message: `${joinProjectRemoved.requestType} removed successfully.`, joinProjectRemoved };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}
 };
 
-const retrieveJoinProjects = async (joinProjectData) => {
+const retrieveJoinProjects = async (userIdSender, requestType, statusType) => {
 	try {
-		//Check if request does not already exist for the user and this project
-		const existingRequest = await JoinProject.findOne({ joinProjectId: joinProjectData.joinProjectId });
-
-		if (!existingRequest) {
-			return { status: "error", message: "Join project not found." };
+		let query;
+		if (statusType === "all") {
+			query = { userIdSender, requestType };
+		} else {
+			query = { userIdSender, requestType, status: statusType };
 		}
 
-		const project = await Project.findOne({ projectId: joinProjectData.projectId });
+		const joinProject = await JoinProject.find(query).select("-_id -__v");
+		const nbJoinProject = await JoinProject.countDocuments(query);
 
-		if (!project) {
-			return { status: "error", message: "Project not found." };
+		if (!joinProject) {
+			return { status: "error", message: `No ${requestType} found.` };
 		}
 
-		let updatedRequest;
-
-		if (joinProjectData.requestType === "join project request") {
-			// Check if the sender is already a member of the project
-			const existingMemberIndex = project.members.findIndex((member) => member.userId === joinProjectData.userIdSender);
-			if (existingMemberIndex !== -1) {
-				return { status: "error", message: "User is already a member of the project." };
-			}
-
-			// Update join project request
-			existingRequest.projectId = joinProjectData.projectId;
-			existingRequest.userIdSender = joinProjectData.userIdSender;
-			existingRequest.requestType = joinProjectData.requestType;
-			existingRequest.role = joinProjectData.role;
-			existingRequest.message = joinProjectData.message;
-			existingRequest.updatedBy = joinProjectData.userIdSender;
-			existingRequest.status = joinProjectData.joinProjectStatus;
-
-			// Save the updated join project request
-			const updatedRequest = await existingRequest.save();
-		} else if (joinProjectData.requestType === "join project invitation") {
-			// Check if the sender is already a member of the project
-			const existingMemberIndex = project.members.findIndex((member) => member.userId === joinProjectData.userIdReceiver);
-			if (existingMemberIndex !== -1) {
-				return { status: "error", message: "User is already a member of the project." };
-			}
-
-			// Update join project request
-			existingRequest.projectId = joinProjectData.projectId;
-			existingRequest.userIdSender = joinProjectData.userIdSender;
-			existingRequest.userIdReceiver = joinProjectData.userIdReceiver;
-			existingRequest.requestType = joinProjectData.requestType;
-			existingRequest.role = joinProjectData.role;
-			existingRequest.message = joinProjectData.message;
-			existingRequest.updatedBy = joinProjectData.userIdSender;
-			existingRequest.status = joinProjectData.joinProjectStatus;
-
-			// Save the updated join project request
-			const updatedRequest = await existingRequest.save();
-		}
-
-		const joinProject = {
-			projectId: updatedRequest.projectId,
-			userIdSender: updatedRequest.userIdSender,
-			userIdReceiver: updatedRequest.userIdReceiver,
-			requestType: updatedRequest.requestType,
-			role: updatedRequest.role,
-			message: updatedRequest.message,
-			updatedBy: updatedRequest.updatedBy,
-			status: updatedRequest.status,
-			joinProjectId: updatedRequest.joinProjectId,
-			createdAt: updatedRequest.createdAt,
-			updatedAt: updatedRequest.updatedAt,
-		};
-
-		logger.info(
-			`${joinProjectData.requestType} updated successfully. Project ID: ${joinProjectData.projectId} - Sender User ID: ${joinProjectData.userIdSender} - Receiver User ID: ${
-				userIdReceiver || "N/A"
-			} - ${joinProjectData.requestType} status: ${joinProjectData.joinProjectStatus}`
-		);
-		return { status: "success", message: `${joinProjectData.requestType} updated successfully.`, joinProject };
+		logger.info(`${nbJoinProject} ${requestType} retrieved successfully.`);
+		return { status: "success", message: `${nbJoinProject} ${requestType}(s) retrieved successfully.`, joinProject };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}
 };
 
-const retrieveJoinProject = async (joinProjectData) => {
+const retrieveJoinProject = async (userIdSender, requestType, joinProjectId) => {
 	try {
-		//Check if request does not already exist for the user and this project
-		const existingRequest = await JoinProject.findOne({ joinProjectId: joinProjectData.joinProjectId });
+		const joinProject = await JoinProject.findOne({ joinProjectId, userIdSender, requestType }).select("-_id -__v");
 
-		if (!existingRequest) {
-			return { status: "error", message: "Join project not found." };
+		const capitalizedRequestType = requestType.charAt(0).toUpperCase() + requestType.slice(1);
+
+		if (!joinProject) {
+			return { status: "error", message: `${capitalizedRequestType} not found.` };
 		}
-
-		const project = await Project.findOne({ projectId: joinProjectData.projectId });
-
-		if (!project) {
-			return { status: "error", message: "Project not found." };
-		}
-
-		let updatedRequest;
-
-		if (joinProjectData.requestType === "join project request") {
-			// Check if the sender is already a member of the project
-			const existingMemberIndex = project.members.findIndex((member) => member.userId === joinProjectData.userIdSender);
-			if (existingMemberIndex !== -1) {
-				return { status: "error", message: "User is already a member of the project." };
-			}
-
-			// Update join project request
-			existingRequest.projectId = joinProjectData.projectId;
-			existingRequest.userIdSender = joinProjectData.userIdSender;
-			existingRequest.requestType = joinProjectData.requestType;
-			existingRequest.role = joinProjectData.role;
-			existingRequest.message = joinProjectData.message;
-			existingRequest.updatedBy = joinProjectData.userIdSender;
-			existingRequest.status = joinProjectData.joinProjectStatus;
-
-			// Save the updated join project request
-			const updatedRequest = await existingRequest.save();
-		} else if (joinProjectData.requestType === "join project invitation") {
-			// Check if the sender is already a member of the project
-			const existingMemberIndex = project.members.findIndex((member) => member.userId === joinProjectData.userIdReceiver);
-			if (existingMemberIndex !== -1) {
-				return { status: "error", message: "User is already a member of the project." };
-			}
-
-			// Update join project request
-			existingRequest.projectId = joinProjectData.projectId;
-			existingRequest.userIdSender = joinProjectData.userIdSender;
-			existingRequest.userIdReceiver = joinProjectData.userIdReceiver;
-			existingRequest.requestType = joinProjectData.requestType;
-			existingRequest.role = joinProjectData.role;
-			existingRequest.message = joinProjectData.message;
-			existingRequest.updatedBy = joinProjectData.userIdSender;
-			existingRequest.status = joinProjectData.joinProjectStatus;
-
-			// Save the updated join project request
-			const updatedRequest = await existingRequest.save();
-		}
-
-		const joinProject = {
-			projectId: updatedRequest.projectId,
-			userIdSender: updatedRequest.userIdSender,
-			userIdReceiver: updatedRequest.userIdReceiver,
-			requestType: updatedRequest.requestType,
-			role: updatedRequest.role,
-			message: updatedRequest.message,
-			updatedBy: updatedRequest.updatedBy,
-			status: updatedRequest.status,
-			joinProjectId: updatedRequest.joinProjectId,
-			createdAt: updatedRequest.createdAt,
-			updatedAt: updatedRequest.updatedAt,
-		};
 
 		logger.info(
-			`${joinProjectData.requestType} updated successfully. Project ID: ${joinProjectData.projectId} - Sender User ID: ${joinProjectData.userIdSender} - Receiver User ID: ${
-				userIdReceiver || "N/A"
-			} - ${joinProjectData.requestType} status: ${joinProjectData.joinProjectStatus}`
+			`${capitalizedRequestType} retrieved successfully. Project ID: ${joinProject.projectId} - Sender User ID: ${joinProject.userIdSender} - Receiver User ID: ${
+				joinProject.userIdReceiver || "N/A"
+			} - ${capitalizedRequestType} status: ${joinProject.status}`
 		);
-		return { status: "success", message: `${joinProjectData.requestType} updated successfully.`, joinProject };
+		return { status: "success", message: `${capitalizedRequestType} retrieved successfully.`, joinProject };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}

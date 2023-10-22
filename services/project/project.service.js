@@ -145,7 +145,7 @@ const updateProject = async (projectId, updatedData, userId) => {
 const retrieveProjectById = async (projectId, fields) => {
 	try {
 		// Use your Project model to find the project by ID
-		const project = await Project.findOne({ projectId }).select(fields);
+		const project = await Project.findOne({ projectId }).select(`-_id -__v ${fields}`);
 
 		if (!project) {
 			return {

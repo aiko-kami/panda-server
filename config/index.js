@@ -11,7 +11,7 @@ const config = {
 	// Join Project possible values
 	// Note: the first value is used for defaulvalue
 
-	join_project_status: ["draft", "sent", "read", "answered", "cancelled"],
+	join_project_status: ["draft", "sent", "read", "accepted", "refused", "cancelled"],
 };
 
 module.exports = config;

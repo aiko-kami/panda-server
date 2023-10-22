@@ -136,7 +136,7 @@ const retrieveProjectRights = async (projectId, userId) => {
 		const projectRights = await ProjectRights.findOne({
 			projectId: projectId,
 			userId: userId,
-		});
+		}).select("-_id -__v");
 
 		if (!projectRights) {
 			logger.error("An error occurred while retrieving user's project rights: Project rights not found for this user and project.");

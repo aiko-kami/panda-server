@@ -225,7 +225,7 @@ const removeSubCategory = async (categoryId, subCategoryName) => {
 
 const verifyCategoryAndSubCategoryExist = async (categoryId, subCategoryName) => {
 	try {
-		const existingCategory = await Category.findOne({ categoryId });
+		const existingCategory = await Category.findOne({ categoryId }).select("-_id -__v");
 
 		if (!existingCategory) {
 			return { status: "error", message: "Category not found." };
@@ -246,7 +246,7 @@ const retrieveCategoryById = async (categoryId, fields) => {
 	try {
 		let query = Category.findOne({ categoryId });
 		if (fields) {
-			query = query.select(`-_id ${fields}`);
+			query = query.select(`-_id -__v ${fields}`);
 		}
 
 		const categoryRetrieved = await query;
@@ -264,7 +264,7 @@ const retrieveCategoryById = async (categoryId, fields) => {
 
 const retrieveAllCategories = async (fields) => {
 	try {
-		const categories = await Category.find().sort({ name: 1 }).select("-_id");
+		const categories = await Category.find().sort({ name: 1 }).select("-_id -__v");
 
 		if (!categories) {
 			return { status: "error", message: "No category found." };

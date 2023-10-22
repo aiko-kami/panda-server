@@ -6,7 +6,7 @@ const { DateTime } = require("luxon");
 // Function to get user by username or email
 const retrieveUserByUsernameOrEmail = async (identifier) => {
 	try {
-		const user = await User.findOne({ $or: [{ username: identifier }, { email: identifier }] });
+		const user = await User.findOne({ $or: [{ username: identifier }, { email: identifier }] }).select("-_id -talents._id -__v");
 		if (!user) {
 			return { status: "error", message: "User not found." };
 		}
@@ -39,7 +39,7 @@ const updateLastConnection = async (userId) => {
 			{ userId },
 			{ lastConnection: DateTime.now().toHTTP() }, // Set the lastConnection field to the current date
 			{ new: true } // Return the updated user document
-		);
+		).select("-_id -talents._id -__v");
 
 		if (!updatedUser) {
 			return { status: "error", message: "User not found." };

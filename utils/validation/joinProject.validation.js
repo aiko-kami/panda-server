@@ -29,6 +29,28 @@ const validateJoinProjectInputs = (joinProjectData) => {
 	return { status: "success", message: "All join project inputs are valid." };
 };
 
+const validateJoinProjectIdAndSender = (joinProjectId, userIdSender) => {
+	//Types validation
+	const invalidType = typeof userIdSender !== "string" || typeof joinProjectId !== "string";
+	if (invalidType) {
+		return { status: "error", message: "Invalid type of data." };
+	}
+
+	// Check if required fields are present
+	if (!userIdSender) {
+		return { status: "error", message: "Sender user ID is required." };
+	}
+
+	// Check if required fields are present
+	if (!joinProjectId) {
+		return { status: "error", message: "Join project ID is required." };
+	}
+
+	// If all validations passed
+	return { status: "success", message: "Join project ID and sender user ID are valid." };
+};
+
 module.exports = {
 	validateJoinProjectInputs,
+	validateJoinProjectIdAndSender,
 };
