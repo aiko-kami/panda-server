@@ -105,13 +105,15 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Send join project invitation
   - [x] Create draft join project request
   - [x] Create draft join project invitation
-  - [ ] Update draft join project request
+  - [x] Update draft join project request
+  - [x] Retrieve drafts join project requests
+  - [x] Retrieve all join project requests
+  - [x] Retrieve one join project request
+  - [x] Send draft join project request
   - [ ] Update draft join project invitation
-  - [ ] Retrieve drafts join project request
-  - [ ] Retrieve drafts join project invitation
-  - [ ] Retrieve one draft join project request
-  - [ ] Retrieve one draft join project invitation
-  - [ ] Send draft join project request
+  - [ ] Retrieve drafts join project invitations
+  - [ ] Retrieve all join project invitations
+  - [ ] Retrieve one join project invitation
   - [ ] Send draft join project invitation
   - [ ] Accept/decline join project request
   - [ ] Accept/decline join project invitation

@@ -12,6 +12,7 @@ joinProjectRoute.post("/saveDraft", verifyAccess, joinProjectRequestController.s
 joinProjectRoute.patch("/updateDraft", verifyAccess, joinProjectRequestController.updateDraftRequest);
 joinProjectRoute.delete("/removeDraft", verifyAccess, joinProjectRequestController.removeDraftRequest);
 joinProjectRoute.post("/send", verifyAccess, joinProjectRequestController.sendRequest);
+
 joinProjectRoute.patch("/cancel", verifyAccess, joinProjectRequestController.cancelRequest);
 joinProjectRoute.post("/accept", verifyAccess, joinProjectRequestController.acceptRequest);
 joinProjectRoute.post("/refuse", verifyAccess, joinProjectRequestController.refuseRequest);

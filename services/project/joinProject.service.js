@@ -105,7 +105,7 @@ const updateJoinProject = async (joinProjectData) => {
 		//Check if request exists for the user and this project
 		const existingJoinProject = await JoinProject.findOne({ joinProjectId: joinProjectData.joinProjectId });
 
-		const capitalizedRequestType = joinProjectData.requestType.charAt(0).toUpperCase() + requestType.slice(1);
+		const capitalizedRequestType = joinProjectData.requestType.charAt(0).toUpperCase() + joinProjectData.requestType.slice(1);
 
 		if (!existingJoinProject) {
 			return { status: "error", message: `${capitalizedRequestType} not found.` };
@@ -186,6 +186,79 @@ const updateJoinProject = async (joinProjectData) => {
 			} - ${capitalizedRequestType} status: ${joinProject.status}`
 		);
 		return { status: "success", message: `${capitalizedRequestType} updated successfully.`, joinProject };
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
+
+const updateStatusJoinProject = async (userIdUpdater, joinProjectId, newJoinProjectStatus, requestType) => {
+	try {
+		//Check if request exists for the user and this project
+		const existingJoinProject = await JoinProject.findOne({ joinProjectId });
+
+		const capitalizedRequestType = requestType.charAt(0).toUpperCase() + requestType.slice(1);
+
+		if (!existingJoinProject) {
+			return { status: "error", message: `${capitalizedRequestType} not found.` };
+		}
+
+		let updatedJoinProject;
+
+		if (newJoinProjectStatus === "cancelled") {
+			if (existingJoinProject.userIdSender !== userIdUpdater) {
+				return { status: "error", message: `Only the sender of the ${requestType} can cancel it.` };
+			}
+
+			if (existingJoinProject.status !== ("sent" && "read")) {
+				return { status: "error", message: `You can only update sent ${requestType}.` };
+			}
+
+			existingJoinProject.status = newJoinProjectStatus;
+			updatedJoinProject = await existingJoinProject.save();
+		} else if (newJoinProjectStatus === "accepted") {
+			if (existingJoinProject.userIdReceiver !== userIdUpdater) {
+				return { status: "error", message: `Only the receiver of the ${requestType} can accept or refuse it.` };
+			}
+
+			if (existingJoinProject.status !== ("sent" && "read")) {
+				return { status: "error", message: `You can only update sent ${requestType}.` };
+			}
+
+			existingJoinProject.status = newJoinProjectStatus;
+			updatedJoinProject = await existingJoinProject.save();
+		} else if (newJoinProjectStatus === "refused") {
+			if (existingJoinProject.userIdReceiver !== userIdUpdater) {
+				return { status: "error", message: `Only the receiver of the ${requestType} can accept or refuse it.` };
+			}
+
+			if (existingJoinProject.status !== ("sent" && "read")) {
+				return { status: "error", message: `You can only update sent ${requestType}.` };
+			}
+
+			existingJoinProject.status = newJoinProjectStatus;
+			updatedJoinProject = await existingJoinProject.save();
+		}
+
+		const joinProject = {
+			projectId: updatedJoinProject.projectId,
+			userIdSender: updatedJoinProject.userIdSender,
+			userIdReceiver: updatedJoinProject.userIdReceiver,
+			requestType: updatedJoinProject.requestType,
+			role: updatedJoinProject.role,
+			message: updatedJoinProject.message,
+			updatedBy: updatedJoinProject.updatedBy,
+			status: updatedJoinProject.status,
+			joinProjectId: updatedJoinProject.joinProjectId,
+			createdAt: updatedJoinProject.createdAt,
+			updatedAt: updatedJoinProject.updatedAt,
+		};
+
+		logger.info(
+			`Status of ${capitalizedRequestType} updated successfully. Project ID: ${joinProject.projectId} - Sender User ID: ${joinProject.userIdSender} - Receiver User ID: ${
+				joinProject.userIdSender || "N/A"
+			} - ${capitalizedRequestType} new status: ${joinProject.status}`
+		);
+		return { status: "success", message: `Status of ${capitalizedRequestType} updated successfully.`, joinProject };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}
@@ -274,6 +347,7 @@ const retrieveJoinProject = async (userIdSender, requestType, joinProjectId) => 
 module.exports = {
 	createJoinProject,
 	updateJoinProject,
+	updateStatusJoinProject,
 	removeJoinProject,
 	retrieveJoinProjects,
 	retrieveJoinProject,

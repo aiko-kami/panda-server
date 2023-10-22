@@ -173,7 +173,7 @@ const sendRequest = async (req, res) => {
 const cancelRequest = async (req, res) => {
 	try {
 		const userIdSender = req.userId;
-		const { projectId = "", role = "", message = "", joinProjectId = "" } = req.body;
+		const { joinProjectId = "" } = req.body;
 
 		// Validate join project ID and sender ID
 		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdSender);
@@ -181,77 +181,64 @@ const cancelRequest = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, IdValidationResult.message);
 		}
 
-		// Validate input data
-		const validationResult = joinProjectValidation.validateJoinProjectInputs(joinProjectData);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
-		}
-
-		// Send join project request
-		const joinProjectResult = await joinProjectService.createJoinProject(userIdSender, projectId, role, message, "draft");
+		// Cancel join project request
+		const joinProjectResult = await joinProjectService.updateStatusJoinProject(userIdSender, joinProjectId, "cancelled", "join project request");
 		if (joinProjectResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
 		}
 
-		return apiResponse.successResponse(res, "Join project request draft created successfully.");
+		return apiResponse.successResponseWithData(res, "Join project request cancelled successfully.", joinProjectResult.joinProject);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
+//To be refactor because there is no specific receiver with a join project request. We need to check the user ID who is trying to accept the request and check if he/she has the rights to accept the requests from the project rights
 const acceptRequest = async (req, res) => {
 	try {
-		const userIdSender = req.userId;
-		const { projectId = "", role = "", message = "", joinProjectId = "" } = req.body;
+		const userIdReceiver = req.userId;
+		const { joinProjectId = "" } = req.body;
 
 		// Validate join project ID and sender ID
-		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdSender);
+		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdReceiver);
 		if (IdValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, IdValidationResult.message);
 		}
 
-		// Validate input data
-		const validationResult = joinProjectValidation.validateJoinProjectInputs(joinProjectData);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
-		}
-
-		// Send join project request
-		const joinProjectResult = await joinProjectService.createJoinProject(userIdSender, projectId, role, message, "draft");
+		// Accept join project request
+		const joinProjectResult = await joinProjectService.updateStatusJoinProject(userIdReceiver, joinProjectId, "accepted", "join project request");
 		if (joinProjectResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
 		}
 
-		return apiResponse.successResponse(res, "Join project request draft created successfully.");
+		//Add new member to the proeject
+
+		return apiResponse.successResponseWithData(res, "Join project request accepted successfully.", joinProjectResult.joinProject);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
+
+//To be refactor because there is no specific receiver with a join project request. We need to check the user ID who is trying to refuse the request and check if he/she has the rights to refuse the requests from the project rights
 
 const refuseRequest = async (req, res) => {
 	try {
-		const userIdSender = req.userId;
-		const { projectId = "", role = "", message = "", joinProjectId = "" } = req.body;
+		const userIdReceiver = req.userId;
+		const { joinProjectId = "" } = req.body;
 
 		// Validate join project ID and sender ID
-		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdSender);
+		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdReceiver);
 		if (IdValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, IdValidationResult.message);
 		}
 
-		// Validate input data
-		const validationResult = joinProjectValidation.validateJoinProjectInputs(joinProjectData);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
-		}
-
-		// Send join project request
-		const joinProjectResult = await joinProjectService.createJoinProject(userIdSender, projectId, role, message, "draft");
+		// Cancel join project request
+		const joinProjectResult = await joinProjectService.updateStatusJoinProject(userIdReceiver, joinProjectId, "cancelled", "join project request");
 		if (joinProjectResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
 		}
 
-		return apiResponse.successResponse(res, "Join project request draft created successfully.");
+		return apiResponse.successResponseWithData(res, "Join project request cancelled successfully.", joinProjectResult.joinProject);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
