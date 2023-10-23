@@ -45,7 +45,7 @@ const updateLastConnection = async (userId) => {
 			return { status: "error", message: "User not found." };
 		}
 
-		logger.info(`User last connection updated. userId: ${userId}`);
+		logger.info(`User last connection updated. userId: ${updatedUser.userId} - New last connection: ${updatedUser.lastConnection}`);
 
 		return {
 			status: "success",
