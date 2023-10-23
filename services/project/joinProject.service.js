@@ -202,6 +202,18 @@ const updateStatusJoinProject = async (userIdUpdater, joinProjectId, newJoinProj
 			return { status: "error", message: `${capitalizedRequestType} not found.` };
 		}
 
+		const project = await Project.findOne({ projectId: existingJoinProject.projectId });
+
+		if (!project) {
+			return { status: "error", message: "Project not found." };
+		}
+
+		// Check if the sender is already a member of the project
+		const existingMemberIndex = project.members.findIndex((member) => member.userId === existingJoinProject.userIdSender);
+		if (existingMemberIndex !== -1) {
+			return { status: "error", message: "User is already a member of the project." };
+		}
+
 		let updatedJoinProject;
 
 		if (newJoinProjectStatus === "cancelled") {
@@ -209,29 +221,41 @@ const updateStatusJoinProject = async (userIdUpdater, joinProjectId, newJoinProj
 				return { status: "error", message: `Only the sender of the ${requestType} can cancel it.` };
 			}
 
-			if (existingJoinProject.status !== ("sent" && "read")) {
+			if (existingJoinProject.status !== "sent" && existingJoinProject.status !== "read") {
 				return { status: "error", message: `You can only update sent ${requestType}.` };
 			}
 
 			existingJoinProject.status = newJoinProjectStatus;
+			existingJoinProject.updatedBy = userIdUpdater;
 			updatedJoinProject = await existingJoinProject.save();
 		} else if (newJoinProjectStatus === "accepted") {
-			if (existingJoinProject.userIdReceiver !== userIdUpdater) {
-				return { status: "error", message: `Only the receiver of the ${requestType} can accept or refuse it.` };
-			}
+			if (requestType === "join project request") {
+				if (existingJoinProject.status !== "sent" && existingJoinProject.status !== "read") {
+					return { status: "error", message: `You can only update sent ${requestType}.` };
+				}
 
-			if (existingJoinProject.status !== ("sent" && "read")) {
-				return { status: "error", message: `You can only update sent ${requestType}.` };
-			}
+				existingJoinProject.status = newJoinProjectStatus;
+				existingJoinProject.updatedBy = userIdUpdater;
+				updatedJoinProject = await existingJoinProject.save();
+			} else if (requestType === "join project invitation") {
+				if (existingJoinProject.userIdReceiver !== userIdUpdater) {
+					return { status: "error", message: `Only the receiver of the ${requestType} can accept or refuse it.` };
+				}
 
-			existingJoinProject.status = newJoinProjectStatus;
-			updatedJoinProject = await existingJoinProject.save();
+				if (existingJoinProject.status !== "sent" && existingJoinProject.status !== "read") {
+					return { status: "error", message: `You can only update sent ${requestType}.` };
+				}
+
+				existingJoinProject.status = newJoinProjectStatus;
+				existingJoinProject.updatedBy = userIdUpdater;
+				updatedJoinProject = await existingJoinProject.save();
+			}
 		} else if (newJoinProjectStatus === "refused") {
 			if (existingJoinProject.userIdReceiver !== userIdUpdater) {
 				return { status: "error", message: `Only the receiver of the ${requestType} can accept or refuse it.` };
 			}
 
-			if (existingJoinProject.status !== ("sent" && "read")) {
+			if (existingJoinProject.status !== "sent" && existingJoinProject.status !== "read") {
 				return { status: "error", message: `You can only update sent ${requestType}.` };
 			}
 
@@ -256,7 +280,7 @@ const updateStatusJoinProject = async (userIdUpdater, joinProjectId, newJoinProj
 
 		logger.info(
 			`Status of ${capitalizedRequestType} updated successfully. Project ID: ${joinProject.projectId} - Sender User ID: ${joinProject.userIdSender} - Receiver User ID: ${
-				joinProject.userIdSender || "N/A"
+				joinProject.userIdReceiver || "N/A"
 			} - ${capitalizedRequestType} new status: ${joinProject.status}`
 		);
 		return { status: "success", message: `Status of ${capitalizedRequestType} updated successfully.`, joinProject };

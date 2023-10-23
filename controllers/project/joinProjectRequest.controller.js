@@ -212,6 +212,8 @@ const acceptRequest = async (req, res) => {
 
 		const projectId = joinProjectRetrieved.joinProject.projectId;
 		const newMemeberId = joinProjectRetrieved.joinProject.userIdSender;
+		const talent = joinProjectRetrieved.joinProject.talent;
+
 		// Retrieve Project Rights of the sender
 		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userIdUpdater);
 		if (rightsCheckResult.status !== "success") {
@@ -230,7 +232,7 @@ const acceptRequest = async (req, res) => {
 		}
 
 		//Add new member to the project
-		const addedMember = await memberService.updateMemberFromProject(projectId, newMemeberId, "add");
+		const addedMember = await memberService.updateMemberFromProject(projectId, newMemeberId, "add", talent);
 		if (addedMember.status !== "success") {
 			return apiResponse.serverErrorResponse(res, addedMember.message);
 		}
