@@ -54,11 +54,50 @@ const setProjectOwnerRights = async (projectId, userId) => {
 	}
 };
 
-const setProjectNewMemberRights = async (userId, projectId) => {
+const setProjectNewMemberRights = async (userId, projectId, userIdUpdater) => {
 	try {
+		// Create new member's rights in the database
+		const newMemberRights = new ProjectRights({
+			projectId,
+			userId,
+			permissions: {
+				canEditTitle: false,
+				canEditGoal: false,
+				canEditSummary: false,
+				canEditDescription: false,
+				canEditCover: false,
+				canEditTags: false,
+				canEditLocation: false,
+				canEditTalentsNeeded: false,
+				canEditStartDate: false,
+				canEditStatus: false,
+				canEditPhase: false,
+				canEditObjectives: false,
+				canEditCreatorMotivation: false,
+				canEditVisibility: false,
+				canEditAttachments: false,
+				canSeeJoinProjectRequests: false,
+				canAnswerJoinProjectRequests: false,
+				canSendJoinProjectInvitations: false,
+				canEditMembers: false,
+				canRemoveMembers: false,
+				canEditRights: false,
+			},
+			updatedBy: userIdUpdater,
+		});
+
+		// Save new member's rights to the database
+		const createdRights = await newMemberRights.save();
+
+		logger.info(`New member's rights stored in database. Project ID: ${createdRights.projectId} - User ID: ${createdRights.userId}`);
+		return {
+			status: "success",
+			message: "New member's rights stored in the database.",
+			createdRights,
+		};
 	} catch (error) {
-		logger.error(`Error while setting project owner's rights: ${error}`);
-		return { status: "error", message: "An error occurred while setting project owner's rights." };
+		logger.error(`Error while setting project new member's rights: ${error}`);
+		return { status: "error", message: "An error occurred while setting project new member's rights." };
 	}
 };
 

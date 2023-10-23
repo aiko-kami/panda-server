@@ -1,12 +1,12 @@
-const { joinProjectService } = require("../../services");
+const { joinProjectService, memberService, userRightsService } = require("../../services");
 const { apiResponse, joinProjectValidation } = require("../../utils");
 
 const saveDraftRequest = async (req, res) => {
 	try {
 		const userIdSender = req.userId;
-		const { projectId = "", role = "", message = "" } = req.body;
+		const { projectId = "", talent = "", message = "" } = req.body;
 
-		const joinProjectData = { userIdSender, projectId, role, message, requestType: "join project request", joinProjectStatus: "draft" };
+		const joinProjectData = { userIdSender, projectId, talent, message, requestType: "join project request", joinProjectStatus: "draft" };
 
 		// Validate input data
 		const validationResult = joinProjectValidation.validateJoinProjectInputs(joinProjectData);
@@ -30,9 +30,9 @@ const saveDraftRequest = async (req, res) => {
 const updateDraftRequest = async (req, res) => {
 	try {
 		const userIdSender = req.userId;
-		const { projectId = "", role = "", message = "", joinProjectId = "" } = req.body;
+		const { projectId = "", talent = "", message = "", joinProjectId = "" } = req.body;
 
-		const joinProjectData = { userIdSender, projectId, role, message, requestType: "join project request", joinProjectStatus: "draft", joinProjectId };
+		const joinProjectData = { userIdSender, projectId, talent, message, requestType: "join project request", joinProjectStatus: "draft", joinProjectId };
 
 		// Validate join project ID and sender ID
 		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdSender);
@@ -81,12 +81,12 @@ const removeDraftRequest = async (req, res) => {
 	}
 };
 
-const retrieveDraftsRequests = async (req, res) => {
+const retrieveMyDraftsRequests = async (req, res) => {
 	try {
 		const userIdSender = req.userId;
 
-		// Retrieve join project request drafts
-		const joinProjectResult = await joinProjectService.retrieveJoinProjects(userIdSender, "join project request", "draft");
+		// Retrieve user's join project request drafts
+		const joinProjectResult = await joinProjectService.retrieveMyJoinProjects(userIdSender, "join project request", "draft");
 		if (joinProjectResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
 		}
@@ -97,12 +97,12 @@ const retrieveDraftsRequests = async (req, res) => {
 	}
 };
 
-const retrieveAllRequests = async (req, res) => {
+const retrieveAllMyRequests = async (req, res) => {
 	try {
 		const userIdSender = req.userId;
 
-		// Retrieve join project requests
-		const joinProjectResult = await joinProjectService.retrieveJoinProjects(userIdSender, "join project request", "all");
+		// Retrieve user's join project requests
+		const joinProjectResult = await joinProjectService.retrieveMyJoinProjects(userIdSender, "join project request", "all");
 		if (joinProjectResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
 		}
@@ -113,7 +113,7 @@ const retrieveAllRequests = async (req, res) => {
 	}
 };
 
-const retrieveRequest = async (req, res) => {
+const retrieveMyRequest = async (req, res) => {
 	try {
 		const userIdSender = req.userId;
 		const joinProjectId = req.params.requestId;
@@ -124,8 +124,8 @@ const retrieveRequest = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, IdValidationResult.message);
 		}
 
-		// Retrieve join project request
-		const joinProjectResult = await joinProjectService.retrieveJoinProject(userIdSender, "join project request", joinProjectId);
+		// Retrieve user's join project request
+		const joinProjectResult = await joinProjectService.retrieveMyJoinProject(userIdSender, "join project request", joinProjectId);
 		if (joinProjectResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
 		}
@@ -139,9 +139,9 @@ const retrieveRequest = async (req, res) => {
 const sendRequest = async (req, res) => {
 	try {
 		const userIdSender = req.userId;
-		const { projectId = "", role = "", message = "", joinProjectId = "" } = req.body;
+		const { projectId = "", talent = "", message = "", joinProjectId = "" } = req.body;
 
-		const joinProjectData = { userIdSender, projectId, role, message, requestType: "join project request", joinProjectStatus: "sent", joinProjectId };
+		const joinProjectData = { userIdSender, projectId, talent, message, requestType: "join project request", joinProjectStatus: "sent", joinProjectId };
 
 		// Validate input data
 		const validationResult = joinProjectValidation.validateJoinProjectInputs(joinProjectData);
@@ -193,47 +193,91 @@ const cancelRequest = async (req, res) => {
 	}
 };
 
-//To be refactor because there is no specific receiver with a join project request. We need to check the user ID who is trying to accept the request and check if he/she has the rights to accept the requests from the project rights
 const acceptRequest = async (req, res) => {
 	try {
-		const userIdReceiver = req.userId;
+		const userIdUpdater = req.userId;
 		const { joinProjectId = "" } = req.body;
 
 		// Validate join project ID and sender ID
-		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdReceiver);
+		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdUpdater);
 		if (IdValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, IdValidationResult.message);
 		}
 
+		// Retrieve join project request
+		const joinProjectRetrieved = await joinProjectService.retrieveJoinProject("join project request", joinProjectId);
+		if (joinProjectRetrieved.status !== "success") {
+			return apiResponse.serverErrorResponse(res, joinProjectRetrieved.message);
+		}
+
+		const projectId = joinProjectRetrieved.joinProject.projectId;
+		const newMemeberId = joinProjectRetrieved.joinProject.userIdSender;
+		// Retrieve Project Rights of the sender
+		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userIdUpdater);
+		if (rightsCheckResult.status !== "success") {
+			return apiResponse.errorResponse(res, rightsCheckResult.message);
+		}
+
+		// Check if the user has canAnswerJoinProjectRequests permission
+		if (!rightsCheckResult.projectRights.permissions.canAnswerJoinProjectRequests) {
+			return apiResponse.unauthorizedResponse(res, "You do not have permission to answer join project requests for this project.");
+		}
+
 		// Accept join project request
-		const joinProjectResult = await joinProjectService.updateStatusJoinProject(userIdReceiver, joinProjectId, "accepted", "join project request");
+		const joinProjectResult = await joinProjectService.updateStatusJoinProject(userIdUpdater, joinProjectId, "accepted", "join project request");
 		if (joinProjectResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
 		}
 
-		//Add new member to the proeject
+		//Add new member to the project
+		const addedMember = await memberService.updateMemberFromProject(projectId, newMemeberId, "add");
+		if (addedMember.status !== "success") {
+			return apiResponse.serverErrorResponse(res, addedMember.message);
+		}
 
-		return apiResponse.successResponseWithData(res, "Join project request accepted successfully.", joinProjectResult.joinProject);
+		//Set new member's project rights
+		const rightsSet = await userRightsService.setProjectNewMemberRights(newMemeberId, projectId, userIdUpdater);
+		if (rightsSet.status !== "success") {
+			return apiResponse.serverErrorResponse(res, rightsSet.message);
+		}
+
+		return apiResponse.successResponseWithData(res, "Join project request accepted successfully. Member added to the project successfully", joinProjectResult.joinProject);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
-//To be refactor because there is no specific receiver with a join project request. We need to check the user ID who is trying to refuse the request and check if he/she has the rights to refuse the requests from the project rights
-
 const refuseRequest = async (req, res) => {
 	try {
-		const userIdReceiver = req.userId;
+		const userIdUpdater = req.userId;
 		const { joinProjectId = "" } = req.body;
 
 		// Validate join project ID and sender ID
-		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdReceiver);
+		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdUpdater);
 		if (IdValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, IdValidationResult.message);
 		}
 
-		// Cancel join project request
-		const joinProjectResult = await joinProjectService.updateStatusJoinProject(userIdReceiver, joinProjectId, "cancelled", "join project request");
+		// Retrieve join project request
+		const joinProjectRetrieved = await joinProjectService.retrieveJoinProject("join project request", joinProjectId);
+		if (joinProjectRetrieved.status !== "success") {
+			return apiResponse.serverErrorResponse(res, joinProjectRetrieved.message);
+		}
+
+		const projectId = joinProjectRetrieved.joinProject.projectId;
+		// Retrieve Project Rights of the sender
+		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userIdUpdater);
+		if (rightsCheckResult.status !== "success") {
+			return apiResponse.errorResponse(res, rightsCheckResult.message);
+		}
+
+		// Check if the user has canAnswerJoinProjectRequests permission
+		if (!rightsCheckResult.projectRights.permissions.canAnswerJoinProjectRequests) {
+			return apiResponse.unauthorizedResponse(res, "You do not have permission to answer join project requests for this project.");
+		}
+
+		// Accept join project request
+		const joinProjectResult = await joinProjectService.updateStatusJoinProject(userIdUpdater, joinProjectId, "cancelled", "join project request");
 		if (joinProjectResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
 		}
@@ -250,9 +294,9 @@ module.exports = {
 	removeDraftRequest,
 	sendRequest,
 
-	retrieveDraftsRequests,
-	retrieveAllRequests,
-	retrieveRequest,
+	retrieveMyDraftsRequests,
+	retrieveAllMyRequests,
+	retrieveMyRequest,
 
 	cancelRequest,
 	acceptRequest,

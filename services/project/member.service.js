@@ -8,7 +8,7 @@ const { logger } = require("../../utils");
  * @param {string} action - The action to perform ("update" or "remove").
  * @returns {Object} - The result of the update operation.
  */
-const updateMemberFromProject = async (projectId, userIdUpdated, action) => {
+const updateMemberFromProject = async (projectId, userIdUpdated, action, talent) => {
 	try {
 		const project = await Project.findOne({ projectId });
 
@@ -23,9 +23,15 @@ const updateMemberFromProject = async (projectId, userIdUpdated, action) => {
 				return { status: "error", message: "Member already present in the project." };
 			}
 
-			// Complete actions to add a new member to the project
-			//....
-			// Set rights to the new user for the project. Maybe to do it in the controller?
+			// Add a new member to the project
+			const newMember = {
+				userId: userIdUpdated,
+				talent: talent,
+				role: "member",
+			};
+
+			project.members.push(newMember);
+			await project.save();
 
 			logger.info(`Member added to the project successfully. Project ID: ${projectId} - Member ID: ${userIdUpdated}`);
 			return { status: "success", message: "Member added to the project successfully." };

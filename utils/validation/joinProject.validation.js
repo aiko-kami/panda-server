@@ -1,7 +1,7 @@
 const validateJoinProjectInputs = (joinProjectData) => {
 	//Types validation
 	const invalidType =
-		typeof joinProjectData.userIdSender !== "string" || typeof joinProjectData.projectId !== "string" || typeof joinProjectData.role !== "string" || typeof joinProjectData.message !== "string";
+		typeof joinProjectData.userIdSender !== "string" || typeof joinProjectData.projectId !== "string" || typeof joinProjectData.talent !== "string" || typeof joinProjectData.message !== "string";
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
 	}
@@ -14,7 +14,6 @@ const validateJoinProjectInputs = (joinProjectData) => {
 		return { status: "error", message: "Project ID is required." };
 	}
 
-	// Verify role is in the standard list
 	if (joinProjectData.joinProjectType === "join project invitation") {
 		if (typeof joinProjectData.userIdReceiver !== "string") {
 			return { status: "error", message: "Invalid type of data." };

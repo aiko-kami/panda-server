@@ -17,8 +17,8 @@ joinProjectRoute.patch("/cancel", verifyAccess, joinProjectRequestController.can
 joinProjectRoute.post("/accept", verifyAccess, joinProjectRequestController.acceptRequest);
 joinProjectRoute.post("/refuse", verifyAccess, joinProjectRequestController.refuseRequest);
 
-joinProjectRoute.get("/drafts", verifyAccess, joinProjectRequestController.retrieveDraftsRequests);
-joinProjectRoute.get("/all", verifyAccess, joinProjectRequestController.retrieveAllRequests);
-joinProjectRoute.get("/:requestId", verifyAccess, joinProjectRequestController.retrieveRequest);
+joinProjectRoute.get("/myDrafts", verifyAccess, joinProjectRequestController.retrieveMyDraftsRequests);
+joinProjectRoute.get("/myRequests", verifyAccess, joinProjectRequestController.retrieveAllMyRequests);
+joinProjectRoute.get("/myRequest/:requestId", verifyAccess, joinProjectRequestController.retrieveMyRequest);
 
 module.exports = joinProjectRoute;

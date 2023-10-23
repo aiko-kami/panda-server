@@ -110,14 +110,14 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Retrieve all join project requests
   - [x] Retrieve one join project request
   - [x] Send draft join project request
+  - [x] Accept/decline join project request
+  - [x] Add new member to a project and set new member project rights
   - [ ] Update draft join project invitation
   - [ ] Retrieve drafts join project invitations
   - [ ] Retrieve all join project invitations
   - [ ] Retrieve one join project invitation
   - [ ] Send draft join project invitation
-  - [ ] Accept/decline join project request
   - [ ] Accept/decline join project invitation
-  - [ ] Add new member to a project and set new member project rights
 - [ ] Improvements (Brainstorms/clarifications needed)
   - [ ] Project
     - [ ] project draft

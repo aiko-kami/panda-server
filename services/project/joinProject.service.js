@@ -34,7 +34,7 @@ const createJoinProject = async (joinProjectData) => {
 				projectId: joinProjectData.projectId,
 				userIdSender: joinProjectData.userIdSender,
 				requestType: joinProjectData.requestType,
-				role: joinProjectData.role,
+				talent: joinProjectData.talent,
 				message: joinProjectData.message,
 				updatedBy: joinProjectData.userIdSender,
 				status: joinProjectData.joinProjectStatus,
@@ -66,7 +66,7 @@ const createJoinProject = async (joinProjectData) => {
 				userIdSender: joinProjectData.userIdSender,
 				userIdReceiver: joinProjectData.userIdReceiver,
 				requestType: joinProjectData.requestType,
-				role: joinProjectData.role,
+				talent: joinProjectData.talent,
 				message: joinProjectData.message,
 				updatedBy: joinProjectData.userIdSender,
 				status: joinProjectData.joinProjectStatus,
@@ -80,7 +80,7 @@ const createJoinProject = async (joinProjectData) => {
 			userIdSender: createdRequest.userIdSender,
 			userIdReceiver: createdRequest.userIdReceiver,
 			requestType: createdRequest.requestType,
-			role: createdRequest.role,
+			talent: createdRequest.talent,
 			message: createdRequest.message,
 			updatedBy: createdRequest.updatedBy,
 			status: createdRequest.status,
@@ -138,7 +138,7 @@ const updateJoinProject = async (joinProjectData) => {
 			existingJoinProject.projectId = joinProjectData.projectId;
 			existingJoinProject.userIdSender = joinProjectData.userIdSender;
 			existingJoinProject.requestType = joinProjectData.requestType;
-			existingJoinProject.role = joinProjectData.role;
+			existingJoinProject.talent = joinProjectData.talent;
 			existingJoinProject.message = joinProjectData.message;
 			existingJoinProject.updatedBy = joinProjectData.userIdSender;
 			existingJoinProject.status = joinProjectData.joinProjectStatus;
@@ -157,7 +157,7 @@ const updateJoinProject = async (joinProjectData) => {
 			existingJoinProject.userIdSender = joinProjectData.userIdSender;
 			existingJoinProject.userIdReceiver = joinProjectData.userIdReceiver;
 			existingJoinProject.requestType = joinProjectData.requestType;
-			existingJoinProject.role = joinProjectData.role;
+			existingJoinProject.talent = joinProjectData.talent;
 			existingJoinProject.message = joinProjectData.message;
 			existingJoinProject.updatedBy = joinProjectData.userIdSender;
 			existingJoinProject.status = joinProjectData.joinProjectStatus;
@@ -171,7 +171,7 @@ const updateJoinProject = async (joinProjectData) => {
 			userIdSender: updatedJoinProject.userIdSender,
 			userIdReceiver: updatedJoinProject.userIdReceiver,
 			requestType: updatedJoinProject.requestType,
-			role: updatedJoinProject.role,
+			talent: updatedJoinProject.talent,
 			message: updatedJoinProject.message,
 			updatedBy: updatedJoinProject.updatedBy,
 			status: updatedJoinProject.status,
@@ -236,6 +236,7 @@ const updateStatusJoinProject = async (userIdUpdater, joinProjectId, newJoinProj
 			}
 
 			existingJoinProject.status = newJoinProjectStatus;
+			existingJoinProject.updatedBy = userIdUpdater;
 			updatedJoinProject = await existingJoinProject.save();
 		}
 
@@ -244,7 +245,7 @@ const updateStatusJoinProject = async (userIdUpdater, joinProjectId, newJoinProj
 			userIdSender: updatedJoinProject.userIdSender,
 			userIdReceiver: updatedJoinProject.userIdReceiver,
 			requestType: updatedJoinProject.requestType,
-			role: updatedJoinProject.role,
+			talent: updatedJoinProject.talent,
 			message: updatedJoinProject.message,
 			updatedBy: updatedJoinProject.updatedBy,
 			status: updatedJoinProject.status,
@@ -300,7 +301,7 @@ const removeJoinProject = async (userIdSender, joinProjectId, requestType) => {
 	}
 };
 
-const retrieveJoinProjects = async (userIdSender, requestType, statusType) => {
+const retrieveMyJoinProjects = async (userIdSender, requestType, statusType) => {
 	try {
 		let query;
 		if (statusType === "all") {
@@ -323,9 +324,30 @@ const retrieveJoinProjects = async (userIdSender, requestType, statusType) => {
 	}
 };
 
-const retrieveJoinProject = async (userIdSender, requestType, joinProjectId) => {
+const retrieveMyJoinProject = async (userIdSender, requestType, joinProjectId) => {
 	try {
 		const joinProject = await JoinProject.findOne({ joinProjectId, userIdSender, requestType }).select("-_id -__v");
+
+		const capitalizedRequestType = requestType.charAt(0).toUpperCase() + requestType.slice(1);
+
+		if (!joinProject) {
+			return { status: "error", message: `${capitalizedRequestType} not found.` };
+		}
+
+		logger.info(
+			`${capitalizedRequestType} retrieved successfully. Project ID: ${joinProject.projectId} - Sender User ID: ${joinProject.userIdSender} - Receiver User ID: ${
+				joinProject.userIdReceiver || "N/A"
+			} - ${capitalizedRequestType} status: ${joinProject.status}`
+		);
+		return { status: "success", message: `${capitalizedRequestType} retrieved successfully.`, joinProject };
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
+
+const retrieveJoinProject = async (requestType, joinProjectId) => {
+	try {
+		const joinProject = await JoinProject.findOne({ joinProjectId, requestType }).select("-_id -__v");
 
 		const capitalizedRequestType = requestType.charAt(0).toUpperCase() + requestType.slice(1);
 
@@ -349,6 +371,7 @@ module.exports = {
 	updateJoinProject,
 	updateStatusJoinProject,
 	removeJoinProject,
-	retrieveJoinProjects,
+	retrieveMyJoinProjects,
+	retrieveMyJoinProject,
 	retrieveJoinProject,
 };
