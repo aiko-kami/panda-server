@@ -142,10 +142,11 @@ const updateProject = async (projectId, updatedData, userId) => {
  * @param {string} projectId - The ID of the project to retrieve.
  * @returns {Object} - An object containing the retrieved project data or an error message.
  */
-const retrieveProjectById = async (projectId, fields) => {
+const retrieveProjectById = async (projectId, fields, conditions) => {
 	try {
+		const search = { projectId, ...conditions };
 		// Use your Project model to find the project by ID
-		const project = await Project.findOne({ projectId }).select(`-_id -__v ${fields}`);
+		const project = await Project.findOne(search).select(fields);
 
 		if (!project) {
 			return {
@@ -164,6 +165,31 @@ const retrieveProjectById = async (projectId, fields) => {
 		return {
 			status: "error",
 			message: "An error occurred while retrieving the project from the database.",
+		};
+	}
+};
+
+const retrieveLatestProjects = async (limit, fields, conditions) => {
+	try {
+		let query = Project.find(conditions).sort({ createdAt: -1 }).limit(limit);
+		if (fields) {
+			query = query.select(fields);
+		}
+		// select(`-_id -__v ${fields}`)
+		const projects = await query;
+
+		if (!projects) {
+			return { status: "error", message: "No project found." };
+		}
+		return {
+			status: "success",
+			projects,
+		};
+	} catch (error) {
+		logger.error("Error while retrieving projects from the database:", error);
+		return {
+			status: "error",
+			message: "An error occurred while retrieving the projects from the database.",
 		};
 	}
 };
@@ -252,6 +278,7 @@ module.exports = {
 	verifyTitleAvailability,
 	updateProject,
 	retrieveProjectById,
+	retrieveLatestProjects,
 	countNumberProjects,
 	countNumberProjectsPerCategory,
 };

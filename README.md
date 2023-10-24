@@ -128,16 +128,19 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [ ] Talents portfolio
     - [ ] Share talent?
   - [ ] Retrieve specific data (GET requests)
-    - [ ] Retrieve last projects overview (when project is public)
+    - [ ] Retrieve project all data
+    - [x] Retrieve last projects overview (when project is public)
     - [x] Count the number of projects on the plateform (public projects only)
     - [x] Count the number of projects per category (public projects only)
 - [ ] Friends
   - [ ] Define friend model
   - [ ] Send friend request
+  - [ ] Cancel friend request
   - [ ] Retrieve friend requests
   - [ ] Accept/decline friend request
 - [ ] O-Auth
 - [ ] Messenger
+  - [ ] Define messenger model
 - [ ] Q&A, comments
 - [ ] Search
   - [ ] Filter by categories/sub-categories

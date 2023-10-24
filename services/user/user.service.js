@@ -4,12 +4,7 @@ const bcrypt = require("bcryptjs");
 
 const retrieveUserById = async (userId, fields) => {
 	try {
-		let query = User.findOne({ userId });
-		if (fields) {
-			query = query.select(`${fields}`);
-		}
-
-		const user = await query;
+		const user = await User.findOne({ userId }).select(fields);
 
 		if (!user) {
 			return { status: "error", message: "User not found." };
@@ -27,14 +22,9 @@ const retrieveUserById = async (userId, fields) => {
 	}
 };
 
-const retrieveNewUsers = async (limit, fields) => {
+const retrieveLatestUsers = async (limit, fields) => {
 	try {
-		let query = User.find().sort({ createdAt: -1 }).limit(limit);
-		if (fields) {
-			query = query.select(`${fields}`);
-		}
-
-		const users = await query;
+		const users = await User.find().sort({ createdAt: -1 }).limit(limit).select(fields);
 
 		if (!users) {
 			return { status: "error", message: "No user found." };
@@ -54,11 +44,7 @@ const retrieveNewUsers = async (limit, fields) => {
 
 const retrieveUserByEmail = async (email, fields) => {
 	try {
-		let query = User.findOne({ email });
-		if (fields) {
-			query = query.select(`${fields}`);
-		}
-		const user = await query;
+		const user = await User.findOne({ email }).select(fields);
 
 		if (!user) {
 			logger.error("An error occurred while retrieving the user from the database: No user found.");
@@ -194,7 +180,7 @@ const verifyEmailAvailability = async (email) => {
 
 module.exports = {
 	retrieveUserById,
-	retrieveNewUsers,
+	retrieveLatestUsers,
 	retrieveUserByEmail,
 	updateUser,
 	updateUserPassword,

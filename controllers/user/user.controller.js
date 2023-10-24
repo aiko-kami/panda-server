@@ -18,7 +18,7 @@ const retrieveMyUserData = async (req, res) => {
 // Retrieve 4 new users
 const retrieveNewUsers = async (req, res) => {
 	try {
-		const newUsers = await userService.retrieveNewUsers(4, "username profilePicture description");
+		const newUsers = await userService.retrieveLatestUsers(4, "-_id username profilePicture description");
 
 		if (newUsers.users !== null && newUsers.users.length > 0) {
 			return apiResponse.successResponseWithData(res, "New users retrieved successfully.", newUsers.users);

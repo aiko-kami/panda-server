@@ -246,7 +246,7 @@ const retrieveCategoryById = async (categoryId, fields) => {
 	try {
 		let query = Category.findOne({ categoryId });
 		if (fields) {
-			query = query.select(`-_id -__v ${fields}`);
+			query = query.select(fields);
 		}
 
 		const categoryRetrieved = await query;

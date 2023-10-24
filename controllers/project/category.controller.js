@@ -12,10 +12,7 @@ const createCategory = async (req, res) => {
 		const { categoryName = "", subCategories = [] } = req.body;
 
 		// Validate input data for creating a category
-		const validationResult = categoryValidation.validateCategoryNameAndSubCategories(
-			categoryName,
-			subCategories
-		);
+		const validationResult = categoryValidation.validateCategoryNameAndSubCategories(categoryName, subCategories);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
@@ -27,11 +24,7 @@ const createCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, createdCategory.message);
 		}
 
-		return apiResponse.successResponseWithData(
-			res,
-			"Category created successfully.",
-			createdCategory
-		);
+		return apiResponse.successResponseWithData(res, "Category created successfully.", createdCategory);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, "An error occurred while creating the category.");
 	}
@@ -48,10 +41,7 @@ const updateCategory = async (req, res) => {
 		const { categoryId = "", categoryNewName = "" } = req.body;
 
 		// Validate input data for creating a category
-		const validationResult = categoryValidation.validateCategoryIdAndCategoryName(
-			categoryId,
-			categoryNewName
-		);
+		const validationResult = categoryValidation.validateCategoryIdAndCategoryName(categoryId, categoryNewName);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
@@ -63,11 +53,7 @@ const updateCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, updatedCategory.message);
 		}
 
-		return apiResponse.successResponseWithData(
-			res,
-			"Category updated successfully.",
-			updatedCategory
-		);
+		return apiResponse.successResponseWithData(res, "Category updated successfully.", updatedCategory);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, "An error occurred while updating the category.");
 	}
@@ -96,11 +82,7 @@ const removeCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, removedCategory.message);
 		}
 
-		return apiResponse.successResponseWithData(
-			res,
-			"Category removed successfully.",
-			removedCategory
-		);
+		return apiResponse.successResponseWithData(res, "Category removed successfully.", removedCategory);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, "An error occurred while removing the category.");
 	}
@@ -117,10 +99,7 @@ const addSubCategory = async (req, res) => {
 		const { categoryId = "", subCategoryName = "" } = req.body;
 
 		// Validate input data for creating a category
-		const validationResult = categoryValidation.validateCategoryIdAndSubCategoryName(
-			categoryId,
-			subCategoryName
-		);
+		const validationResult = categoryValidation.validateCategoryIdAndSubCategoryName(categoryId, subCategoryName);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
@@ -132,11 +111,7 @@ const addSubCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, addedSubCategory.message);
 		}
 
-		return apiResponse.successResponseWithData(
-			res,
-			"Sub-category added successfully.",
-			addedSubCategory
-		);
+		return apiResponse.successResponseWithData(res, "Sub-category added successfully.", addedSubCategory);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, "An error occurred while adding the sub-category.");
 	}
@@ -153,36 +128,21 @@ const updateSubCategory = async (req, res) => {
 		const { categoryId = "", subCategoryOldName = "", subCategoryNewName = "" } = req.body;
 
 		// Validate input data for creating a category
-		const validationResult = categoryValidation.validateCategoryIdAndSubCategoryOldAndNewNames(
-			categoryId,
-			subCategoryOldName,
-			subCategoryNewName
-		);
+		const validationResult = categoryValidation.validateCategoryIdAndSubCategoryOldAndNewNames(categoryId, subCategoryOldName, subCategoryNewName);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
 		// Call the service to update the sub-category
-		const updatedSubCategory = await categoryService.updateSubCategory(
-			categoryId,
-			subCategoryOldName,
-			subCategoryNewName
-		);
+		const updatedSubCategory = await categoryService.updateSubCategory(categoryId, subCategoryOldName, subCategoryNewName);
 
 		if (updatedSubCategory.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updatedSubCategory.message);
 		}
 
-		return apiResponse.successResponseWithData(
-			res,
-			"Sub-category updated successfully.",
-			updatedSubCategory
-		);
+		return apiResponse.successResponseWithData(res, "Sub-category updated successfully.", updatedSubCategory);
 	} catch (error) {
-		return apiResponse.serverErrorResponse(
-			res,
-			"An error occurred while updating the sub-category."
-		);
+		return apiResponse.serverErrorResponse(res, "An error occurred while updating the sub-category.");
 	}
 };
 
@@ -197,10 +157,7 @@ const removeSubCategory = async (req, res) => {
 		const { categoryId = "", subCategoryName = "" } = req.body;
 
 		// Validate input data for creating a category
-		const validationResult = categoryValidation.validateCategoryIdAndSubCategoryName(
-			categoryId,
-			subCategoryName
-		);
+		const validationResult = categoryValidation.validateCategoryIdAndSubCategoryName(categoryId, subCategoryName);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
@@ -212,16 +169,9 @@ const removeSubCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, removedSubCategory.message);
 		}
 
-		return apiResponse.successResponseWithData(
-			res,
-			"Sub-category removed successfully.",
-			removedSubCategory
-		);
+		return apiResponse.successResponseWithData(res, "Sub-category removed successfully.", removedSubCategory);
 	} catch (error) {
-		return apiResponse.serverErrorResponse(
-			res,
-			"An error occurred while removing the sub-category."
-		);
+		return apiResponse.serverErrorResponse(res, "An error occurred while removing the sub-category.");
 	}
 };
 
@@ -236,19 +186,12 @@ const retrieveCategory = async (req, res) => {
 		}
 
 		// Call the service to retrieve the category
-		const retrievedCategory = await categoryService.retrieveCategoryById(
-			categoryId,
-			"name subCategories categoryId createdAt updatedAt"
-		);
+		const retrievedCategory = await categoryService.retrieveCategoryById(categoryId, "-_id -__v name subCategories categoryId createdAt updatedAt");
 		if (retrievedCategory.status !== "success") {
 			return apiResponse.serverErrorResponse(res, retrievedCategory.message);
 		}
 
-		return apiResponse.successResponseWithData(
-			res,
-			"Category retrieved successfully.",
-			retrievedCategory
-		);
+		return apiResponse.successResponseWithData(res, "Category retrieved successfully.", retrievedCategory);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, "An error occurred while retrieving the category.");
 	}
@@ -262,16 +205,9 @@ const retrieveCategories = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, retrievedCategories.message);
 		}
 
-		return apiResponse.successResponseWithData(
-			res,
-			"Categories retrieved successfully.",
-			retrievedCategories
-		);
+		return apiResponse.successResponseWithData(res, "Categories retrieved successfully.", retrievedCategories);
 	} catch (error) {
-		return apiResponse.serverErrorResponse(
-			res,
-			"An error occurred while retrieving the categories."
-		);
+		return apiResponse.serverErrorResponse(res, "An error occurred while retrieving the categories.");
 	}
 };
 

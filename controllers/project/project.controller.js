@@ -147,20 +147,33 @@ const retrieveProjectPublicData = async (req, res) => {
 	try {
 		const { projectId = "" } = req.params;
 
+		console.log("🚀 ~ retrieveProjectPublicData ~ projectId:", projectId);
+
 		const projectData = await projectService.retrieveProjectById(
 			projectId,
-			"-_id title	goal summary description cover category subCategory location startDate creatorMotivation tags talentsNeeded objectives visibility"
+			"-_id title	goal summary description cover category subCategory location startDate creatorMotivation tags talentsNeeded objectives visibility",
+			{ visibility: "public" }
 		);
 
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
 		}
 
-		if (projectData.project.visibility !== "public") {
-			return apiResponse.serverErrorResponse(res, "Project not found.");
-		}
-
 		return apiResponse.successResponseWithData(res, "Project retrieved successfully.", projectData.project);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const retrieveNewProjects = async (req, res) => {
+	try {
+		const newProjects = await projectService.retrieveLatestProjects(4, "-_id title summary cover category subCategory tags visibility", { visibility: "public" });
+
+		if (newProjects.projects !== null && newProjects.projects.length > 0) {
+			return apiResponse.successResponseWithData(res, "New projects retrieved successfully.", newProjects.projects);
+		} else {
+			return apiResponse.serverErrorResponse(res, newProjects.message);
+		}
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -170,7 +183,7 @@ const retrieveProjectOverview = async (req, res) => {
 	try {
 		const { projectId = "" } = req.params;
 
-		const projectData = await projectService.retrieveProjectById(projectId, "-_id title summary cover category subCategory tags visibility");
+		const projectData = await projectService.retrieveProjectById(projectId, "-_id title summary cover category subCategory tags visibility", { visibility: "public" });
 
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
@@ -220,6 +233,7 @@ module.exports = {
 	createProject,
 	updateProject,
 	retrieveProjectPublicData,
+	retrieveNewProjects,
 	retrieveProjectOverview,
 	retrieveProjectData,
 	countProjects,
