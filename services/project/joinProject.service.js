@@ -335,14 +335,17 @@ const retrieveMyJoinProjects = async (userIdSender, requestType, statusType) => 
 		}
 
 		const joinProject = await JoinProject.find(query).select("-_id -__v");
+
 		const nbJoinProject = await JoinProject.countDocuments(query);
 
-		if (!joinProject) {
-			return { status: "error", message: `No ${requestType} found.` };
-		}
-
-		logger.info(`${nbJoinProject} ${requestType} retrieved successfully.`);
-		return { status: "success", message: `${nbJoinProject} ${requestType}(s) retrieved successfully.`, joinProject };
+		if (joinProject.length === 0) {
+			logger.info(`No ${requestType} found.`);
+			return { status: "success", message: `No ${requestType} found.`, joinProject };
+		} else if (joinProject.length === 1) {
+			logger.info(`${nbJoinProject} ${requestType} retrieved successfully.`);
+			return { status: "success", message: `${nbJoinProject} ${requestType} retrieved successfully.`, joinProject };
+		} else logger.info(`${nbJoinProject} ${requestType}s retrieved successfully.`);
+		return { status: "success", message: `${nbJoinProject} ${requestType}s retrieved successfully.`, joinProject };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}

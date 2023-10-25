@@ -12,13 +12,13 @@ joinProjectRoute.post("/saveDraft", verifyAccess, joinProjectInvitationControlle
 joinProjectRoute.patch("/updateDraft", verifyAccess, joinProjectInvitationController.updateDraftInvitation);
 joinProjectRoute.delete("/removeDraft", verifyAccess, joinProjectInvitationController.removeDraftInvitation);
 joinProjectRoute.post("/send", verifyAccess, joinProjectInvitationController.sendInvitation);
+
 joinProjectRoute.patch("/cancel", verifyAccess, joinProjectInvitationController.cancelInvitation);
 joinProjectRoute.post("/accept", verifyAccess, joinProjectInvitationController.acceptInvitation);
 joinProjectRoute.post("/refuse", verifyAccess, joinProjectInvitationController.refuseInvitation);
 
-joinProjectRoute.get("/drafts", verifyAccess, joinProjectInvitationController.retrieveDraftsInvitations);
-joinProjectRoute.get("/draft/:draftId", verifyAccess, joinProjectInvitationController.retrieveDraftInvitation);
-joinProjectRoute.get("/all", verifyAccess, joinProjectInvitationController.retrieveAllInvitations);
-joinProjectRoute.get("/:requestId", verifyAccess, joinProjectInvitationController.retrieveInvitation);
+joinProjectRoute.get("/myDrafts", verifyAccess, joinProjectInvitationController.retrieveMyDraftsInvitations);
+joinProjectRoute.get("/myInvitations", verifyAccess, joinProjectInvitationController.retrieveAllMyInvitations);
+joinProjectRoute.get("/myInvitation/:invitationId", verifyAccess, joinProjectInvitationController.retrieveMyInvitation);
 
 module.exports = joinProjectRoute;

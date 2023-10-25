@@ -118,6 +118,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] Retrieve one join project invitation
   - [ ] Send draft join project invitation
   - [ ] Accept/decline join project invitation
+  - [ ] Forward when possible the message from the service to the controller and the final output
 - [ ] Improvements (Brainstorms/clarifications needed)
   - [ ] Project
     - [ ] project draft
@@ -138,15 +139,20 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] Cancel friend request
   - [ ] Retrieve friend requests
   - [ ] Accept/decline friend request
-- [ ] O-Auth
 - [ ] Messenger
   - [ ] Define messenger model
-- [ ] Q&A, comments
+- [ ] Q&A
+  - [ ] Add Q&A to the project model
+- [ ] Comments
+  - [ ] Define Comments model (independant from project model?)
+- [ ] Steps
+  - [ ] Add Steps to the project model
 - [ ] Search
   - [ ] Filter by categories/sub-categories
   - [ ] Filter by locations
   - [ ] Filter by talents needed
   - [ ] Filter by tags
+- [ ] O-Auth
 
 ## 📦 Installation
 

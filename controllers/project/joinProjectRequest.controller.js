@@ -16,7 +16,6 @@ const saveDraftRequest = async (req, res) => {
 
 		// Save join project request draft
 		const joinProjectResult = await joinProjectService.createJoinProject(joinProjectData);
-
 		if (joinProjectResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
 		}
@@ -81,67 +80,20 @@ const removeDraftRequest = async (req, res) => {
 	}
 };
 
-const retrieveMyDraftsRequests = async (req, res) => {
-	try {
-		const userIdSender = req.userId;
-
-		// Retrieve user's join project request drafts
-		const joinProjectResult = await joinProjectService.retrieveMyJoinProjects(userIdSender, "join project request", "draft");
-		if (joinProjectResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
-		}
-
-		return apiResponse.successResponseWithData(res, "Join project request drafts retrieved successfully.", joinProjectResult.joinProject);
-	} catch (error) {
-		return apiResponse.serverErrorResponse(res, error.message);
-	}
-};
-
-const retrieveAllMyRequests = async (req, res) => {
-	try {
-		const userIdSender = req.userId;
-
-		// Retrieve user's join project requests
-		const joinProjectResult = await joinProjectService.retrieveMyJoinProjects(userIdSender, "join project request", "all");
-		if (joinProjectResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
-		}
-
-		return apiResponse.successResponseWithData(res, "Join project requests retrieved successfully.", joinProjectResult.joinProject);
-	} catch (error) {
-		return apiResponse.serverErrorResponse(res, error.message);
-	}
-};
-
-const retrieveMyRequest = async (req, res) => {
-	try {
-		const userIdSender = req.userId;
-		const joinProjectId = req.params.requestId;
-
-		// Validate join project ID and sender ID
-		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdSender);
-		if (IdValidationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, IdValidationResult.message);
-		}
-
-		// Retrieve user's join project request
-		const joinProjectResult = await joinProjectService.retrieveMyJoinProject(userIdSender, "join project request", joinProjectId);
-		if (joinProjectResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
-		}
-
-		return apiResponse.successResponseWithData(res, "Join project request retrieved successfully.", joinProjectResult.joinProject);
-	} catch (error) {
-		return apiResponse.serverErrorResponse(res, error.message);
-	}
-};
-
 const sendRequest = async (req, res) => {
 	try {
 		const userIdSender = req.userId;
 		const { projectId = "", talent = "", message = "", joinProjectId = "" } = req.body;
 
 		const joinProjectData = { userIdSender, projectId, talent, message, requestType: "join project request", joinProjectStatus: "sent", joinProjectId };
+
+		// If join project ID is present, validate join project ID and sender ID
+		if (joinProjectId) {
+			const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdSender);
+			if (IdValidationResult.status !== "success") {
+				return apiResponse.clientErrorResponse(res, IdValidationResult.message);
+			}
+		}
 
 		// Validate input data
 		const validationResult = joinProjectValidation.validateJoinProjectInputs(joinProjectData);
@@ -168,7 +120,60 @@ const sendRequest = async (req, res) => {
 	}
 };
 
-// ---------------------------------------TO BE COMPLETED STARTING FROM HERE---------------------------------------
+const retrieveMyDraftsRequests = async (req, res) => {
+	try {
+		const userIdSender = req.userId;
+
+		// Retrieve user's join project request drafts
+		const joinProjectResult = await joinProjectService.retrieveMyJoinProjects(userIdSender, "join project request", "draft");
+		if (joinProjectResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
+		}
+
+		return apiResponse.successResponseWithData(res, joinProjectResult.message, joinProjectResult.joinProject);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const retrieveAllMyRequests = async (req, res) => {
+	try {
+		const userIdSender = req.userId;
+
+		// Retrieve user's join project requests
+		const joinProjectResult = await joinProjectService.retrieveMyJoinProjects(userIdSender, "join project request", "all");
+		if (joinProjectResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
+		}
+
+		return apiResponse.successResponseWithData(res, joinProjectResult.message, joinProjectResult.joinProject);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const retrieveMyRequest = async (req, res) => {
+	try {
+		const userIdSender = req.userId;
+		const joinProjectId = req.params.requestId;
+
+		// Validate join project ID and sender ID
+		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdSender);
+		if (IdValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, IdValidationResult.message);
+		}
+
+		// Retrieve user's join project request
+		const joinProjectResult = await joinProjectService.retrieveMyJoinProject(userIdSender, "join project request", joinProjectId);
+		if (joinProjectResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
+		}
+
+		return apiResponse.successResponseWithData(res, joinProjectResult.message, joinProjectResult.joinProject);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
 
 const cancelRequest = async (req, res) => {
 	try {
