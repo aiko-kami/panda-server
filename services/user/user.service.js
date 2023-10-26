@@ -14,10 +14,10 @@ const retrieveUserById = async (userId, fields) => {
 			user,
 		};
 	} catch (error) {
-		logger.error("Error while retrieving user from the database:", error);
+		logger.error("Error while retrieving user:", error);
 		return {
 			status: "error",
-			message: "An error occurred while retrieving the user from the database.",
+			message: "An error occurred while retrieving the user.",
 		};
 	}
 };
@@ -34,10 +34,10 @@ const retrieveLatestUsers = async (limit, fields) => {
 			users,
 		};
 	} catch (error) {
-		logger.error("Error while retrieving users from the database:", error);
+		logger.error("Error while retrieving users:", error);
 		return {
 			status: "error",
-			message: "An error occurred while retrieving the users from the database.",
+			message: "An error occurred while retrieving the users.",
 		};
 	}
 };
@@ -47,7 +47,7 @@ const retrieveUserByEmail = async (email, fields) => {
 		const user = await User.findOne({ email }).select(fields);
 
 		if (!user) {
-			logger.error("An error occurred while retrieving the user from the database: No user found.");
+			logger.error("An error occurred while retrieving the user: No user found.");
 			return {
 				status: "error",
 				message: "No user found.",
@@ -56,10 +56,10 @@ const retrieveUserByEmail = async (email, fields) => {
 
 		return { status: "success", user };
 	} catch (error) {
-		logger.error("Error while retrieving user from the database: ", error);
+		logger.error("Error while retrieving user: ", error);
 		return {
 			status: "error",
-			message: "An error occurred while retrieving the user from the database.",
+			message: "An error occurred while retrieving the user.",
 		};
 	}
 };
@@ -111,11 +111,11 @@ const updateUser = async (userId, updatedData) => {
 			updatedUser,
 		};
 	} catch (error) {
-		logger.error("Error while updating the user in the database: ", error);
+		logger.error("Error while updating the user: ", error);
 
 		return {
 			status: "error",
-			message: "An error occurred while updating the user in the database.",
+			message: "An error occurred while updating the user.",
 		};
 	}
 };

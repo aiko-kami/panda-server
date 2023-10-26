@@ -106,7 +106,7 @@ const removeProjectMember = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, removeUserRightsResult.message);
 		}
 
-		return apiResponse.successResponse(res, "Member removed from the project successfully.");
+		return apiResponse.successResponse(res, removeMemberResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}

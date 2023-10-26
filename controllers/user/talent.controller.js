@@ -27,7 +27,7 @@ const createTalent = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, createdTalent.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Talent created successfully.", createdTalent.talentData);
+		return apiResponse.successResponseWithData(res, createdTalent.message, createdTalent.talentData);
 	} catch (error) {
 		// Throw error in json response with status 500.
 		return apiResponse.serverErrorResponse(res, error.message);
@@ -63,7 +63,7 @@ const updateTalent = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, updatedTalent.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Talent updated successfully.", updatedTalent.talentData);
+		return apiResponse.successResponseWithData(res, updatedTalent.message, updatedTalent.talentData);
 	} catch (error) {
 		// Throw error in json response with status 500.
 		return apiResponse.serverErrorResponse(res, error.message);
@@ -89,7 +89,7 @@ const removeTalent = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, removedTalent.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Talent removed successfully.", removedTalent.talentData);
+		return apiResponse.successResponseWithData(res, removedTalent.message, removedTalent.talentData);
 	} catch (error) {
 		// Throw error in json response with status 500.
 		return apiResponse.serverErrorResponse(res, error.message);

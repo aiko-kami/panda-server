@@ -35,7 +35,7 @@ const updateProjectStatus = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, updateStatusResult.message);
 		}
 
-		return apiResponse.successResponse(res, "Status updated successfully.");
+		return apiResponse.successResponse(res, updateStatusResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
