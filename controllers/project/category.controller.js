@@ -24,9 +24,9 @@ const createCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, createdCategory.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Category created successfully.", createdCategory);
+		return apiResponse.successResponseWithData(res, createdCategory.message, createdCategory);
 	} catch (error) {
-		return apiResponse.serverErrorResponse(res, "An error occurred while creating the category.");
+		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
@@ -53,9 +53,9 @@ const updateCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, updatedCategory.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Category updated successfully.", updatedCategory);
+		return apiResponse.successResponseWithData(res, updatedCategory.message, updatedCategory);
 	} catch (error) {
-		return apiResponse.serverErrorResponse(res, "An error occurred while updating the category.");
+		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
@@ -82,9 +82,9 @@ const removeCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, removedCategory.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Category removed successfully.", removedCategory);
+		return apiResponse.successResponseWithData(res, removedCategory.message, removedCategory);
 	} catch (error) {
-		return apiResponse.serverErrorResponse(res, "An error occurred while removing the category.");
+		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
@@ -111,9 +111,9 @@ const addSubCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, addedSubCategory.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Sub-category added successfully.", addedSubCategory);
+		return apiResponse.successResponseWithData(res, addedSubCategory.message, addedSubCategory);
 	} catch (error) {
-		return apiResponse.serverErrorResponse(res, "An error occurred while adding the sub-category.");
+		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
@@ -140,9 +140,9 @@ const updateSubCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, updatedSubCategory.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Sub-category updated successfully.", updatedSubCategory);
+		return apiResponse.successResponseWithData(res, updatedSubCategory.message, updatedSubCategory);
 	} catch (error) {
-		return apiResponse.serverErrorResponse(res, "An error occurred while updating the sub-category.");
+		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
@@ -169,9 +169,9 @@ const removeSubCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, removedSubCategory.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Sub-category removed successfully.", removedSubCategory);
+		return apiResponse.successResponseWithData(res, removedSubCategory.message, removedSubCategory);
 	} catch (error) {
-		return apiResponse.serverErrorResponse(res, "An error occurred while removing the sub-category.");
+		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
@@ -191,9 +191,9 @@ const retrieveCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, retrievedCategory.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Category retrieved successfully.", retrievedCategory);
+		return apiResponse.successResponseWithData(res, retrievedCategory.message, retrievedCategory);
 	} catch (error) {
-		return apiResponse.serverErrorResponse(res, "An error occurred while retrieving the category.");
+		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
@@ -205,9 +205,9 @@ const retrieveCategories = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, retrievedCategories.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Categories retrieved successfully.", retrievedCategories);
+		return apiResponse.successResponseWithData(res, retrievedCategories.message, retrievedCategories);
 	} catch (error) {
-		return apiResponse.serverErrorResponse(res, "An error occurred while retrieving the categories.");
+		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 

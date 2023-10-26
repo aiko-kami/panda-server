@@ -12,8 +12,8 @@ const createCategory = async (categoryName, subCategories) => {
 		const existingCategory = await Category.findOne({ name: categoryName });
 
 		if (existingCategory) {
-			logger.error("Error while storing category in database: Category already exists in the database.");
-			return { status: "error", message: "Category already exists in the database." };
+			logger.error("Error while creating the category: Category already exists.");
+			return { status: "error", message: "Category already exists." };
 		}
 		// Filter out empty strings from the subCategories array
 		const filteredSubCategories = subCategories.filter((subCategory) => subCategory.trim() !== "");
@@ -27,17 +27,17 @@ const createCategory = async (categoryName, subCategories) => {
 		// Save the category to the database
 		const createdCategory = await newCategory.save();
 
-		logger.info(`New category stored in database. Category: ${createdCategory}`);
+		logger.info(`Category created successfully. Category: ${createdCategory}`);
 		return {
 			status: "success",
-			message: "New category stored in database.",
+			message: "Category created successfully.",
 			data: { createdCategory },
 		};
 	} catch (error) {
-		logger.error("Error while storing category in database: ", error);
+		logger.error("Error while creating the category: ", error);
 		return {
 			status: "error",
-			message: "An error occurred while storing category in database.",
+			message: "An error occurred while creating the category.",
 		};
 	}
 };
@@ -47,20 +47,20 @@ const updateCategory = async (categoryId, newName) => {
 		// Check if a category with the given categoryId exists
 		const existingCategory = await Category.findOne({ categoryId });
 		if (!existingCategory) {
-			logger.error("Error while storing category in database: Category not found.");
+			logger.error("Error while updating the category: Category not found.");
 			return { status: "error", message: "Category not found." };
 		}
 
 		// Check if the new name is the same as the existing name (no change needed)
 		if (newName === existingCategory.name) {
-			logger.error("Error while storing category in database: Category name is unchanged.");
+			logger.error("Error while updating the category: Category name is unchanged.");
 			return { status: "error", message: "Category name is unchanged." };
 		}
 
 		// Check if the new name already exists in the collection (must be unique)
 		const nameExists = await Category.findOne({ name: newName });
 		if (nameExists) {
-			logger.error("Error while storing category in database: Category name already exists.");
+			logger.error("Error while updating the category: Category name already exists.");
 			return { status: "error", message: "Category name already exists." };
 		}
 
@@ -91,7 +91,7 @@ const removeCategory = async (categoryId) => {
 		const existingCategory = await Category.findOne({ categoryId });
 
 		if (!existingCategory) {
-			logger.error("Error while storing category in database: Category not found.");
+			logger.error("Error while removing the category: Category not found.");
 			return { status: "error", message: "Category not found." };
 		}
 
@@ -106,7 +106,7 @@ const removeCategory = async (categoryId) => {
 			data: { removedCategory: existingCategory },
 		};
 	} catch (error) {
-		logger.error(`Error while removing category: ${error}`);
+		logger.error(`Error while removing the category: ${error}`);
 		return {
 			status: "error",
 			message: "An error occurred while removing the category.",
@@ -124,7 +124,7 @@ const addSubCategory = async (categoryId, subCategoryName) => {
 		}
 		// Check if sub-category does not already exists
 		if (category.subCategories.includes(subCategoryName)) {
-			logger.error("Error while storing sub-category in database: Sub-category already present in the category.");
+			logger.error("Error while creating the sub-category: Sub-category already present in the category.");
 			return { status: "error", message: "Sub-category already present in the category." };
 		}
 		category.subCategories.push(subCategoryName);
@@ -132,17 +132,17 @@ const addSubCategory = async (categoryId, subCategoryName) => {
 		// Save the sub-category to the database
 		await category.save();
 
-		logger.info(`New sub-category stored in database. Category: ${category}`);
+		logger.info(`New sub-category created successfully. Category: ${category}`);
 		return {
 			status: "success",
-			message: "New sub-category stored in database.",
+			message: "New sub-category created successfully.",
 			data: { category },
 		};
 	} catch (error) {
-		logger.error("Error while storing sub-category in database: ", error);
+		logger.error("Error while creating the sub-category: ", error);
 		return {
 			status: "error",
-			message: "An error occurred while storing sub-category in database.",
+			message: "An error occurred while creating the sub-category.",
 		};
 	}
 };
@@ -159,11 +159,11 @@ const updateSubCategory = async (categoryId, subCategoryOldName, subCategoryNewN
 		const subCategoryIndex = category.subCategories.indexOf(subCategoryOldName);
 
 		if (subCategoryIndex === -1) {
-			return { status: "error", message: "Sub-category not found in the category" };
+			return { status: "error", message: "Sub-category not found in the category." };
 		}
 
 		if (category.subCategories.includes(subCategoryNewName)) {
-			return { status: "error", message: "Sub-category new name already present in the category" };
+			return { status: "error", message: "Sub-category new name already present in the category." };
 		}
 
 		// Update the sub-category name
@@ -171,17 +171,17 @@ const updateSubCategory = async (categoryId, subCategoryOldName, subCategoryNewN
 		// Save the sub-category to the database
 		await category.save();
 
-		logger.info(`Sub-category updated in database. Category: ${category}`);
+		logger.info(`Sub-category updated successfully. Category: ${category}`);
 		return {
 			status: "success",
-			message: "Sub-category updated in database.",
+			message: "Sub-category updated successfully.",
 			data: { category },
 		};
 	} catch (error) {
-		logger.error("Error while updating sub-category in database: ", error);
+		logger.error("Error while updating the sub-category: ", error);
 		return {
 			status: "error",
-			message: "An error occurred while updating sub-category.",
+			message: "An error occurred while updating the sub-category.",
 		};
 	}
 };
@@ -215,10 +215,10 @@ const removeSubCategory = async (categoryId, subCategoryName) => {
 			data: { removedSubCategory: subCategoryName },
 		};
 	} catch (error) {
-		logger.error(`Error while removing category: ${error}`);
+		logger.error(`Error while removing the sub-category: ${error}`);
 		return {
 			status: "error",
-			message: "An error occurred while removing the category.",
+			message: "An error occurred while removing the sub-category.",
 		};
 	}
 };

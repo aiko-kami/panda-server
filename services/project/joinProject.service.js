@@ -4,6 +4,7 @@ const { logger } = require("../../utils");
 const createJoinProject = async (joinProjectData) => {
 	try {
 		const project = await Project.findOne({ projectId: joinProjectData.projectId });
+		const capitalizedRequestType = joinProjectData.requestType.charAt(0).toUpperCase() + joinProjectData.requestType.slice(1);
 
 		if (!project) {
 			return { status: "error", message: "Project not found." };
@@ -90,11 +91,11 @@ const createJoinProject = async (joinProjectData) => {
 		};
 
 		logger.info(
-			`${joinProjectData.requestType} created successfully. Project ID: ${joinProjectData.projectId} - Sender User ID: ${joinProjectData.userIdSender} - Receiver User ID: ${
+			`${capitalizedRequestType} created successfully. Project ID: ${joinProjectData.projectId} - Sender User ID: ${joinProjectData.userIdSender} - Receiver User ID: ${
 				joinProjectData.userIdReceiver || "N/A"
-			} - ${joinProjectData.requestType} status: ${joinProjectData.joinProjectStatus}`
+			} - ${capitalizedRequestType} status: ${joinProjectData.joinProjectStatus}`
 		);
-		return { status: "success", message: `${joinProjectData.requestType} created successfully.`, joinProject };
+		return { status: "success", message: `${capitalizedRequestType} created successfully.`, joinProject };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}
@@ -325,11 +326,11 @@ const removeJoinProject = async (userIdSender, joinProjectId, requestType) => {
 		delete joinProjectRemoved._id;
 
 		logger.info(
-			`${joinProjectRemoved.requestType} removed successfully. Project ID: ${joinProjectRemoved.projectId} - Sender User ID: ${joinProjectRemoved.userIdSender} - Receiver User ID: ${
+			`${capitalizedRequestType} removed successfully. Project ID: ${joinProjectRemoved.projectId} - Sender User ID: ${joinProjectRemoved.userIdSender} - Receiver User ID: ${
 				joinProjectRemoved.userIdReceiver || "N/A"
 			}`
 		);
-		return { status: "success", message: `${joinProjectRemoved.requestType} removed successfully.`, joinProjectRemoved };
+		return { status: "success", message: `${capitalizedRequestType} removed successfully.`, joinProjectRemoved };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}
