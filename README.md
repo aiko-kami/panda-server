@@ -99,7 +99,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] Add talents to user
     - [x] Update talent (verify which info to update and filter on what is not to be updated)
     - [x] Delete talent
-- [ ] Join project
+- ❤ [ ] Join project
   - [x] Define join project model
   - [x] Send join project request
   - [x] Send join project invitation
@@ -112,47 +112,47 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Send draft join project request
   - [x] Accept/decline join project request
   - [x] Add new member to a project and set new member project rights
-  - [ ] Update draft join project invitation
-  - [ ] Retrieve drafts join project invitations
-  - [ ] Retrieve all join project invitations
-  - [ ] Retrieve one join project invitation
-  - [ ] Send draft join project invitation
-  - [ ] Accept/decline join project invitation
-  - [ ] Forward when possible the message from the service to the controller and the final output
-- [ ] Improvements (Brainstorms/clarifications needed)
-  - [ ] Project
-    - [ ] project draft
-    - [ ] Edit project attachments
-    - [ ] Upload images
-    - [ ] New fields (coup de coeur, likes)
-  - [ ] User
-    - [ ] Talents portfolio
-    - [ ] Share talent?
-  - [ ] Retrieve specific data (GET requests)
-    - [ ] Retrieve project all data
+  - [ ] Update draft join project invitation ❤
+  - [ ] Retrieve drafts join project invitations ❤
+  - [ ] Retrieve all join project invitations ❤
+  - [ ] Retrieve one join project invitation ❤
+  - [ ] Send draft join project invitation ❤
+  - [ ] Accept/decline join project invitation ❤
+  - [ ] Forward when possible the message from the service to the controller and the final output ❤
+- [ ] Improvements (Brainstorms/clarifications needed) ❤💚
+  - [ ] Project 💚
+    - [ ] project draft 💚
+    - [ ] Edit project attachments 💚
+    - [ ] Upload images ❤
+    - [ ] New fields (coup de coeur, likes) ❤
+  - [ ] User 💚
+    - [ ] Talents portfolio 💚
+    - [ ] Share talent? 💚
+  - [ ] Retrieve specific data (GET requests) ❤
+    - [ ] Retrieve project all data ❤
     - [x] Retrieve last projects overview (when project is public)
     - [x] Count the number of projects on the plateform (public projects only)
     - [x] Count the number of projects per category (public projects only)
-- [ ] Friends
-  - [ ] Define friend model
-  - [ ] Send friend request
-  - [ ] Cancel friend request
-  - [ ] Retrieve friend requests
-  - [ ] Accept/decline friend request
-- [ ] Messenger
-  - [ ] Define messenger model
-- [ ] Q&A
-  - [ ] Add Q&A to the project model
-- [ ] Comments
-  - [ ] Define Comments model (independant from project model?)
-- [ ] Steps
-  - [ ] Add Steps to the project model
-- [ ] Search
-  - [ ] Filter by categories/sub-categories
-  - [ ] Filter by locations
-  - [ ] Filter by talents needed
-  - [ ] Filter by tags
-- [ ] O-Auth
+- [ ] Friends 💛
+  - [ ] Define friend model 💛
+  - [ ] Send friend request 💛
+  - [ ] Cancel friend request 💛
+  - [ ] Retrieve friend requests 💛
+  - [ ] Accept/decline friend request 💛
+- [ ] Messenger 💛
+  - [ ] Define messenger model 💛
+- [ ] Q&A ❤
+  - [ ] Add Q&A to the project model ❤
+- [ ] Comments ❤
+  - [ ] Define Comments model (independant from project model?) ❤
+- [ ] Steps ❤
+  - [ ] Add Steps to the project model ❤
+- [ ] Search 💛
+  - [ ] Filter by categories/sub-categories 💛
+  - [ ] Filter by locations 💛
+  - [ ] Filter by talents needed 💛
+  - [ ] Filter by tags 💛
+- [ ] O-Auth 💚
 
 ## 📦 Installation
 
