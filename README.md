@@ -99,7 +99,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] Add talents to user
     - [x] Update talent (verify which info to update and filter on what is not to be updated)
     - [x] Delete talent
-- ❤ [ ] Join project
+- [x] Join project
   - [x] Define join project model
   - [x] Send join project request
   - [x] Send join project invitation
@@ -112,19 +112,19 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Send draft join project request
   - [x] Accept/decline join project request
   - [x] Add new member to a project and set new member project rights
-  - [ ] Update draft join project invitation ❤
-  - [ ] Retrieve drafts join project invitations ❤
-  - [ ] Retrieve all join project invitations ❤
-  - [ ] Retrieve one join project invitation ❤
-  - [ ] Send draft join project invitation ❤
-  - [ ] Accept/decline join project invitation ❤
-  - [ ] Forward when possible the message from the service to the controller and the final output ❤
+  - [x] Update draft join project invitation
+  - [x] Retrieve drafts join project invitations
+  - [x] Retrieve all join project invitations
+  - [x] Retrieve one join project invitation
+  - [x] Send draft join project invitation
+  - [x] Accept/decline join project invitation
 - [ ] Improvements (Brainstorms/clarifications needed) ❤💚
+  - [ ] Forward when possible the message from the service to the controller and the final output ❤
   - [ ] Project 💚
-    - [ ] project draft 💚
-    - [ ] Edit project attachments 💚
     - [ ] Upload images ❤
     - [ ] New fields (coup de coeur, likes) ❤
+    - [ ] project draft 💚
+    - [ ] Edit project attachments 💚
   - [ ] User 💚
     - [ ] Talents portfolio 💚
     - [ ] Share talent? 💚

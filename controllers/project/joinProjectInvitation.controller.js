@@ -154,29 +154,6 @@ const sendInvitation = async (req, res) => {
 	}
 };
 
-const cancelInvitation = async (req, res) => {
-	try {
-		const userIdSender = req.userId;
-		const { joinProjectId = "" } = req.body;
-
-		// Validate join project ID and sender ID
-		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdSender);
-		if (IdValidationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, IdValidationResult.message);
-		}
-
-		// Cancel join project invitation
-		const joinProjectResult = await joinProjectService.updateStatusJoinProject(userIdSender, joinProjectId, "cancelled", "join project invitation");
-		if (joinProjectResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
-		}
-
-		return apiResponse.successResponseWithData(res, "Join project invitation cancelled successfully.", joinProjectResult.joinProject);
-	} catch (error) {
-		return apiResponse.serverErrorResponse(res, error.message);
-	}
-};
-
 const retrieveMyDraftsInvitations = async (req, res) => {
 	try {
 		const userIdSender = req.userId;
@@ -232,26 +209,64 @@ const retrieveMyInvitation = async (req, res) => {
 	}
 };
 
-// ---------------------------------------TO BE COMPLETED STARTING FROM HERE---------------------------------------
-
-const acceptInvitation = async (req, res) => {
+const cancelInvitation = async (req, res) => {
 	try {
 		const userIdSender = req.userId;
-		const { projectId = "", role = "", message = "" } = req.body;
+		const { joinProjectId = "" } = req.body;
 
-		// Validate input data
-		const validationResult = joinProjectValidation.validateJoinProjectInputs(joinProjectData);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
+		// Validate join project ID and sender ID
+		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdSender);
+		if (IdValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, IdValidationResult.message);
 		}
 
-		// Send join project request
-		const joinProjectResult = await joinProjectService.createJoinProjectRequest(userIdSender, projectId, role, message, "draft");
+		// Cancel join project invitation
+		const joinProjectResult = await joinProjectService.updateStatusJoinProject(userIdSender, joinProjectId, "cancelled", "join project invitation");
 		if (joinProjectResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
 		}
 
-		return apiResponse.successResponse(res, "Join project request draft created successfully.");
+		return apiResponse.successResponseWithData(res, "Join project invitation cancelled successfully.", joinProjectResult.joinProject);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const acceptInvitation = async (req, res) => {
+	try {
+		const userIdUpdater = req.userId;
+		const { joinProjectId = "" } = req.body;
+
+		// Validate join project ID and sender ID
+		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdUpdater);
+		if (IdValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, IdValidationResult.message);
+		}
+
+		// Accept join project invitation
+		const joinProjectResult = await joinProjectService.updateStatusJoinProject(userIdUpdater, joinProjectId, "accepted", "join project invitation");
+		if (joinProjectResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
+		}
+
+		const projectId = joinProjectResult.joinProject.projectId;
+		const newMemeberId = joinProjectResult.joinProject.userIdReceiver;
+		const talent = joinProjectResult.joinProject.talent;
+		const userIdSender = joinProjectResult.joinProject.userIdSender;
+
+		//Add new member to the project
+		const addedMember = await memberService.updateMemberFromProject(projectId, newMemeberId, "add", talent);
+		if (addedMember.status !== "success") {
+			return apiResponse.serverErrorResponse(res, addedMember.message);
+		}
+
+		//Set new member's project rights
+		const rightsSet = await userRightsService.setProjectNewMemberRights(newMemeberId, projectId, userIdSender);
+		if (rightsSet.status !== "success") {
+			return apiResponse.serverErrorResponse(res, rightsSet.message);
+		}
+
+		return apiResponse.successResponseWithData(res, "Join project invitation accepted successfully. Member added to the project successfully", joinProjectResult.joinProject);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -259,22 +274,22 @@ const acceptInvitation = async (req, res) => {
 
 const refuseInvitation = async (req, res) => {
 	try {
-		const userIdSender = req.userId;
-		const { projectId = "", role = "", message = "" } = req.body;
+		const userIdUpdater = req.userId;
+		const { joinProjectId = "" } = req.body;
 
-		// Validate input data
-		const validationResult = joinProjectValidation.validateJoinProjectInputs(joinProjectData);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
+		// Validate join project ID and sender ID
+		const IdValidationResult = joinProjectValidation.validateJoinProjectIdAndSender(joinProjectId, userIdUpdater);
+		if (IdValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, IdValidationResult.message);
 		}
 
-		// Send join project request
-		const joinProjectResult = await joinProjectService.createJoinProjectRequest(userIdSender, projectId, role, message, "draft");
+		// Refuse join project invitation
+		const joinProjectResult = await joinProjectService.updateStatusJoinProject(userIdUpdater, joinProjectId, "refused", "join project invitation");
 		if (joinProjectResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
 		}
 
-		return apiResponse.successResponse(res, "Join project request draft created successfully.");
+		return apiResponse.successResponseWithData(res, "Join project invitation refused successfully.", joinProjectResult.joinProject);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}

@@ -193,7 +193,7 @@ const updateJoinProject = async (joinProjectData) => {
 
 const updateStatusJoinProject = async (userIdUpdater, joinProjectId, newJoinProjectStatus, requestType) => {
 	try {
-		//Check if request exists for the user and this project
+		//Check if join project exists for the user and the project
 		const existingJoinProject = await JoinProject.findOne({ joinProjectId });
 
 		const capitalizedRequestType = requestType.charAt(0).toUpperCase() + requestType.slice(1);
@@ -208,10 +208,20 @@ const updateStatusJoinProject = async (userIdUpdater, joinProjectId, newJoinProj
 			return { status: "error", message: "Project not found." };
 		}
 
-		// Check if the sender is already a member of the project
-		const existingMemberIndex = project.members.findIndex((member) => member.userId === existingJoinProject.userIdSender);
-		if (existingMemberIndex !== -1) {
-			return { status: "error", message: "User is already a member of the project." };
+		// In case of join project request, check if the sender is already a member of the project
+		if (requestType === "join project request") {
+			const existingMemberIndex = project.members.findIndex((member) => member.userId === existingJoinProject.userIdSender);
+			if (existingMemberIndex !== -1) {
+				return { status: "error", message: "User is already a member of the project." };
+			}
+		}
+
+		// In case of join project invitation, check if the receiver is already a member of the project
+		if (requestType === "join project invitation") {
+			const existingMemberIndex = project.members.findIndex((member) => member.userId === existingJoinProject.userIdReceiver);
+			if (existingMemberIndex !== -1) {
+				return { status: "error", message: "User is already a member of the project." };
+			}
 		}
 
 		let updatedJoinProject;

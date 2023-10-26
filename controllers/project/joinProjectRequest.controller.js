@@ -283,13 +283,13 @@ const refuseRequest = async (req, res) => {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to answer join project requests for this project.");
 		}
 
-		// Accept join project request
-		const joinProjectResult = await joinProjectService.updateStatusJoinProject(userIdUpdater, joinProjectId, "cancelled", "join project request");
+		// Decline join project request
+		const joinProjectResult = await joinProjectService.updateStatusJoinProject(userIdUpdater, joinProjectId, "refused", "join project request");
 		if (joinProjectResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Join project request cancelled successfully.", joinProjectResult.joinProject);
+		return apiResponse.successResponseWithData(res, "Join project request refused successfully.", joinProjectResult.joinProject);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
