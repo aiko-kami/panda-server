@@ -11,13 +11,12 @@ const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 projectRoute.post("/project/createDraft", verifyAccess, projectController.createProject);
 projectRoute.post("/project/updateDraft/:projectId", verifyAccess, projectController.createProject);
 projectRoute.post("/project", verifyAccess, projectController.createProject);
-projectRoute.post("/project/submit/:projectId", projectController.createProject);
 
 // Project update
 projectRoute.patch("/project/:projectId", verifyAccess, projectController.updateProject);
 
 // Retrieve project data
-projectRoute.get("/project/:projectId", projectController.retrieveProjectData);
+projectRoute.get("/project/:projectId", verifyAccess, projectController.retrieveProjectData);
 projectRoute.get("/projectOverview/:projectId", projectController.retrieveProjectOverview);
 projectRoute.get("/projectPublic/:projectId", projectController.retrieveProjectPublicData);
 projectRoute.get("/lastProjectsOverview", projectController.retrieveNewProjects);

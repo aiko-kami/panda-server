@@ -110,7 +110,28 @@ const validateUpdatedProjectInputs = (projectData) => {
 	return { status: "success", message: "All project inputs are valid." };
 };
 
+const validateProjectIdAndUserId = (projectId, userId) => {
+	//Types validation
+	const invalidType = typeof projectId !== "string" || typeof userId !== "string";
+	if (invalidType) {
+		return { status: "error", message: "Invalid type of data." };
+	}
+
+	// Check if required fields are present
+	if (!projectId) {
+		return { status: "error", message: "Project ID is required." };
+	}
+
+	if (!userId) {
+		return { status: "error", message: "User ID is required." };
+	}
+
+	// If all validations passed
+	return { status: "success", message: "Project ID and user ID are valid." };
+};
+
 module.exports = {
 	validateNewProjectInputs,
 	validateUpdatedProjectInputs,
+	validateProjectIdAndUserId,
 };

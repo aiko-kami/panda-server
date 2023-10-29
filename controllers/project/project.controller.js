@@ -193,7 +193,39 @@ const retrieveProjectOverview = async (req, res) => {
 	}
 };
 
-const retrieveProjectData = async (req, res) => {};
+const retrieveProjectData = async (req, res) => {
+	try {
+		const { projectId = "" } = req.params;
+		const userId = req.userId;
+
+		// Validate input data for creating a project
+		const validationResult = projectValidation.validateProjectIdAndUserId(projectId, userId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		//Retrieve proeject data
+		const projectData = await projectService.retrieveProjectById(projectId, "-_id");
+		if (projectData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectData.message);
+		}
+
+		//Verify user is member of the project
+		const projectMembers = projectData.project.members;
+
+		// Find the user to be updated in the project's members
+		const isUserProjectMember = projectMembers.find((member) => member.userId === userId);
+
+		if (!isUserProjectMember) {
+			// If user to be updated is not member of the project, return error
+			return apiResponse.unauthorizedResponse(res, "Data only available for the members of the proejct.");
+		}
+
+		return apiResponse.successResponseWithData(res, projectData.message, projectData.project);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
 
 const countProjects = async (req, res) => {
 	try {

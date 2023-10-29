@@ -119,7 +119,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Send draft join project invitation
   - [x] Accept/decline join project invitation
 - [ ] Improvements (Brainstorms/clarifications needed) ❤💚
-  - [ ] Forward when possible the message from the service to the controller and the final output ❤
+  - [x] Forward when possible the message from the service to the controller and the final output
   - [ ] Project 💚
     - [ ] Upload images ❤
     - [ ] New fields (coup de coeur, likes) ❤
@@ -128,8 +128,8 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] User 💚
     - [ ] Talents portfolio 💚
     - [ ] Share talent? 💚
-  - [ ] Retrieve specific data (GET requests) ❤
-    - [ ] Retrieve project all data ❤
+  - [x] Retrieve specific data (GET requests)
+    - [x] Retrieve project all data
     - [x] Retrieve last projects overview (when project is public)
     - [x] Count the number of projects on the plateform (public projects only)
     - [x] Count the number of projects per category (public projects only)
@@ -143,10 +143,27 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] Define messenger model 💛
 - [ ] Q&A ❤
   - [ ] Add Q&A to the project model ❤
+  - [ ] Add Q&A ❤
+  - [ ] Update Q&A ❤
+  - [ ] remove Q&A ❤
+  - [ ] Publish/Hide Q&A ❤
+  - [ ] Retrieve Q&As ❤
 - [ ] Comments ❤
   - [ ] Define Comments model (independant from project model?) ❤
+  - [ ] Add Comment ❤
+  - [ ] Answer to a Comment ❤
+  - [ ] Update Comment ❤
+  - [ ] remove Comment ❤
+  - [ ] Retrieve Comments ❤
 - [ ] Steps ❤
+
   - [ ] Add Steps to the project model ❤
+  - [ ] Add Step ❤
+  - [ ] Update Step ❤
+  - [ ] remove Step ❤
+  - [ ] Publish/Hide Step ❤
+  - [ ] Retrieve Steps ❤
+
 - [ ] Search 💛
   - [ ] Filter by categories/sub-categories 💛
   - [ ] Filter by locations 💛
