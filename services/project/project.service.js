@@ -40,19 +40,19 @@ const createProject = async (projectData) => {
 		// Save the project to the database
 		const project = await newProject.save();
 
-		logger.info(`New project stored in database. Project ID: ${project.projectId}`);
+		logger.info(`New project created successfully. Project ID: ${project.projectId}`);
 
 		return {
 			status: "success",
-			message: "New project stored in the database.",
+			message: "New project created successfully.",
 			project,
 		};
 	} catch (error) {
-		logger.error("Error while storing the project in the database: ", error);
+		logger.error("Error while while creating the project: ", error);
 
 		return {
 			status: "error",
-			message: "An error occurred while storing the project in the database.",
+			message: "An error occurred while creating the project.",
 		};
 	}
 };
@@ -164,7 +164,7 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 		logger.error("Error while retrieving project from the database:", error);
 		return {
 			status: "error",
-			message: "An error occurred while retrieving the project from the database.",
+			message: "An error occurred while retrieving the project.",
 		};
 	}
 };
@@ -183,13 +183,14 @@ const retrieveLatestProjects = async (limit, fields, conditions) => {
 		}
 		return {
 			status: "success",
+			message: "New projects retrieved successfully.",
 			projects,
 		};
 	} catch (error) {
-		logger.error("Error while retrieving projects from the database:", error);
+		logger.error("Error while retrieving projects:", error);
 		return {
 			status: "error",
-			message: "An error occurred while retrieving the projects from the database.",
+			message: "An error occurred while retrieving the projects.",
 		};
 	}
 };
@@ -209,7 +210,7 @@ const countNumberProjects = async () => {
 
 		return {
 			status: "success",
-			message: "Counted public active projects successfully.",
+			message: "Number of projects retrieved successfully.",
 			count: [
 				{ description: "Public projects", count: nbPublicProject },
 				{ description: "Public projects with status Submitted", count: nbPublicSubmittedProject },
@@ -221,10 +222,10 @@ const countNumberProjects = async () => {
 			],
 		};
 	} catch (error) {
-		logger.error("Error while retrieving project from the database:", error);
+		logger.error("Error while retrieving project:", error);
 		return {
 			status: "error",
-			message: "An error occurred while retrieving the project from the database.",
+			message: "An error occurred while retrieving the project.",
 		};
 	}
 };
@@ -261,14 +262,14 @@ const countNumberProjectsPerCategory = async () => {
 
 		return {
 			status: "success",
-			message: "Counted public active projects successfully.",
+			message: "Number of projects retrieved successfully.",
 			count: categoryCounts,
 		};
 	} catch (error) {
-		logger.error("Error while retrieving project from the database:", error);
+		logger.error("Error while retrieving project:", error);
 		return {
 			status: "error",
-			message: "An error occurred while retrieving the project from the database.",
+			message: "An error occurred while retrieving the project.",
 		};
 	}
 };

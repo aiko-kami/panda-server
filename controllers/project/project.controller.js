@@ -69,7 +69,7 @@ const createProject = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, setRightsResult.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Project created successfully.", createResult.project);
+		return apiResponse.successResponseWithData(res, createResult.message, createResult.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -137,7 +137,7 @@ const updateProject = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, updateResult.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Project updated successfully.", updateResult);
+		return apiResponse.successResponseWithData(res, updateResult.message, updateResult);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -146,8 +146,6 @@ const updateProject = async (req, res) => {
 const retrieveProjectPublicData = async (req, res) => {
 	try {
 		const { projectId = "" } = req.params;
-
-		console.log("🚀 ~ retrieveProjectPublicData ~ projectId:", projectId);
 
 		const projectData = await projectService.retrieveProjectById(
 			projectId,
@@ -159,7 +157,7 @@ const retrieveProjectPublicData = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, projectData.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Project retrieved successfully.", projectData.project);
+		return apiResponse.successResponseWithData(res, projectData.message, projectData.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -170,7 +168,7 @@ const retrieveNewProjects = async (req, res) => {
 		const newProjects = await projectService.retrieveLatestProjects(4, "-_id title summary cover category subCategory tags visibility", { visibility: "public" });
 
 		if (newProjects.projects !== null && newProjects.projects.length > 0) {
-			return apiResponse.successResponseWithData(res, "New projects retrieved successfully.", newProjects.projects);
+			return apiResponse.successResponseWithData(res, newProjects.message, newProjects.projects);
 		} else {
 			return apiResponse.serverErrorResponse(res, newProjects.message);
 		}
@@ -189,11 +187,7 @@ const retrieveProjectOverview = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, projectData.message);
 		}
 
-		if (projectData.project.visibility !== "public") {
-			return apiResponse.serverErrorResponse(res, "Project not found.");
-		}
-
-		return apiResponse.successResponseWithData(res, "Project overview retrieved successfully.", projectData.project);
+		return apiResponse.successResponseWithData(res, projectData.message, projectData.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -209,7 +203,7 @@ const countProjects = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, projectCount.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Number of projects retrieved successfully.", projectCount.count);
+		return apiResponse.successResponseWithData(res, projectCount.message, projectCount.count);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -223,7 +217,7 @@ const countProjectsPerCategory = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, projectCount.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Number of projects retrieved successfully.", projectCount.count);
+		return apiResponse.successResponseWithData(res, projectCount.message, projectCount.count);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}

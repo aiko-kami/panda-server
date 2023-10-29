@@ -11,6 +11,7 @@ const retrieveUserById = async (userId, fields) => {
 		}
 		return {
 			status: "success",
+			message: "User retrieved successfully",
 			user,
 		};
 	} catch (error) {
@@ -31,6 +32,7 @@ const retrieveLatestUsers = async (limit, fields) => {
 		}
 		return {
 			status: "success",
+			message: "New users retrieved successfully",
 			users,
 		};
 	} catch (error) {
@@ -54,7 +56,7 @@ const retrieveUserByEmail = async (email, fields) => {
 			};
 		}
 
-		return { status: "success", user };
+		return { status: "success", message: "User retrieved successfully", user };
 	} catch (error) {
 		logger.error("Error while retrieving user: ", error);
 		return {
@@ -138,7 +140,7 @@ const updateUserPassword = async (userId, newPassword) => {
 
 		return {
 			status: "success",
-			message: "User password updated successfully.",
+			message: "Password updated successfully.",
 		};
 	} catch (error) {
 		logger.error(`Error while updating user password: ${error}`);

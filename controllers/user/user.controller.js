@@ -5,10 +5,13 @@ const retrieveMyUserData = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		userService.retrieveUserById(userId, "-_id username email createdAt location company description bio languages website profilePicture").then((user) => {
-			// Send response with my user data
-			return apiResponse.successResponseWithData(res, "User data retrieved successfully.", user);
-		});
+		const userData = await userService.retrieveUserById(userId, "-_id username email createdAt location company description bio languages website profilePicture");
+
+		if (userData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userData.message);
+		}
+
+		return apiResponse.successResponseWithData(res, userData.message, userData.user);
 	} catch (error) {
 		// Throw error in json response with status 500.
 		return apiResponse.serverErrorResponse(res, error.message);
@@ -21,7 +24,7 @@ const retrieveNewUsers = async (req, res) => {
 		const newUsers = await userService.retrieveLatestUsers(4, "-_id username profilePicture description");
 
 		if (newUsers.users !== null && newUsers.users.length > 0) {
-			return apiResponse.successResponseWithData(res, "New users retrieved successfully.", newUsers.users);
+			return apiResponse.successResponseWithData(res, newUsers.message, newUsers.users);
 		} else {
 			return apiResponse.serverErrorResponse(res, newUsers.message);
 		}
@@ -75,11 +78,11 @@ const updateUser = async (req, res) => {
 		const updateUserResult = await userService.updateUser(userId, filterUserInputs);
 
 		// Check the result of the update operation
-		if (updateUserResult.status === "success") {
-			return apiResponse.successResponse(res, updateUserResult.message);
-		} else {
+		if (updateUserResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updateUserResult.message);
 		}
+
+		return apiResponse.successResponse(res, updateUserResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -108,11 +111,11 @@ const updateUserPassword = async (req, res) => {
 		const updatePasswordResult = await userService.updateUserPassword(userId, newPassword);
 
 		// Check the result of the update operation
-		if (updatePasswordResult.status === "success") {
-			return apiResponse.successResponse(res, updatePasswordResult.message);
-		} else {
+		if (updatePasswordResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updatePasswordResult.message);
 		}
+
+		return apiResponse.successResponse(res, updatePasswordResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}

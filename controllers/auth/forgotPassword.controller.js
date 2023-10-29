@@ -1,11 +1,4 @@
-const {
-	userService,
-	emailResetPasswordService,
-	generateTokenService,
-	storeTokenService,
-	verifyTokenService,
-	removeTokenService,
-} = require("../../services");
+const { userService, emailResetPasswordService, generateTokenService, storeTokenService, verifyTokenService, removeTokenService } = require("../../services");
 const { apiResponse, authValidation } = require("../../utils");
 
 /**
@@ -34,29 +27,20 @@ const forgotPassword = async (req, res) => {
 		}
 
 		// Generate a reset token and store it in the database
-		const resetPasswordToken = generateTokenService.generateResetPasswordToken(
-			existingUser.user.userId
-		);
+		const resetPasswordToken = generateTokenService.generateResetPasswordToken(existingUser.user.userId);
 
-		const tokenStoredInDb = await storeTokenService.storeResetPasswordTokenInDatabase(
-			existingUser.user.userId,
-			resetPasswordToken
-		);
+		const tokenStoredInDb = await storeTokenService.storeResetPasswordTokenInDatabase(existingUser.user.userId, resetPasswordToken);
 		if (tokenStoredInDb.status !== "success") {
 			return apiResponse.serverErrorResponse(res, tokenStoredInDb.message);
 		}
 
 		// Send reset password email to the user
-		const emailSent = await emailResetPasswordService.sendPasswordResetEmail(
-			existingUser.user.email,
-			existingUser.user.username,
-			resetPasswordToken
-		);
+		const emailSent = await emailResetPasswordService.sendPasswordResetEmail(existingUser.user.email, existingUser.user.username, resetPasswordToken);
 		if (emailSent.status !== "success") {
 			return apiResponse.serverErrorResponse(res, emailSent.message);
 		}
 
-		return apiResponse.successResponse(res, "Password reset email sent.");
+		return apiResponse.successResponse(res, emailSent.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -79,35 +63,26 @@ const resetPassword = async (req, res) => {
 		}
 
 		// Find the user by userId
-		const existingUser = await userService.retrieveUserById(
-			tokenVerification.userId,
-			"-_id email userId"
-		);
+		const existingUser = await userService.retrieveUserById(tokenVerification.userId, "-_id email userId");
 
 		if (existingUser.status !== "success") {
-			return apiResponse.clientErrorResponse(res, "User not found.");
+			return apiResponse.clientErrorResponse(res, existingUser.message);
 		}
 
 		// Update user's password
-		const updatePasswordResult = await userService.updateUserPassword(
-			existingUser.user.userId,
-			newPassword
-		);
+		const updatePasswordResult = await userService.updateUserPassword(existingUser.user.userId, newPassword);
 
 		if (updatePasswordResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updatePasswordResult.message);
 		}
 
 		// Remove the used reset password token
-		const removeTokenResult = await removeTokenService.removeResetPasswordTokenFromDatabase(
-			existingUser.user.userId,
-			resetToken
-		);
+		const removeTokenResult = await removeTokenService.removeResetPasswordTokenFromDatabase(existingUser.user.userId, resetToken);
 		if (removeTokenResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, removeTokenResult.message);
 		}
 
-		return apiResponse.successResponse(res, "Password updated successfully.");
+		return apiResponse.successResponse(res, updatePasswordResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
