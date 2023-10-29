@@ -120,6 +120,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Accept/decline join project invitation
 - [ ] Improvements (Brainstorms/clarifications needed) ❤💚
   - [x] Forward when possible the message from the service to the controller and the final output
+  - [x] Allow multiple database connections
   - [ ] Project 💚
     - [ ] Upload images ❤
     - [ ] New fields (coup de coeur, likes) ❤

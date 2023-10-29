@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { dbConnectionPrivate } = require("../config/db.config");
 const v4 = require("uuid").v4;
 const { DateTime } = require("luxon");
 
@@ -47,6 +48,6 @@ userSchema.path("talents").validate(function (value) {
 }, "At least one talent is required.");
 */
 
-const User = mongoose.model("User", userSchema);
+const User = dbConnectionPrivate.model("User", userSchema);
 
 module.exports = User;

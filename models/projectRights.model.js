@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { dbConnectionPrivate } = require("../config/db.config");
 
 const projectRightsSchema = new mongoose.Schema(
 	{
@@ -44,6 +45,6 @@ const projectRightsSchema = new mongoose.Schema(
 	}
 );
 
-const ProjectRights = mongoose.model("ProjectRights", projectRightsSchema);
+const ProjectRights = dbConnectionPrivate.model("ProjectRights", projectRightsSchema);
 
 module.exports = ProjectRights;

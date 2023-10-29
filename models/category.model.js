@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { dbConnectionPrivate } = require("../config/db.config");
 const v4 = require("uuid").v4;
 
 const categorySchema = new mongoose.Schema(
@@ -22,6 +23,6 @@ const categorySchema = new mongoose.Schema(
 	}
 );
 
-const Category = mongoose.model("Category", categorySchema);
+const Category = dbConnectionPrivate.model("Category", categorySchema);
 
 module.exports = Category;

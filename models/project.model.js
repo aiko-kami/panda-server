@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { dbConnectionPrivate } = require("../config/db.config");
 const { DateTime } = require("luxon");
 const v4 = require("uuid").v4;
 const config = require("../config");
@@ -112,6 +113,6 @@ const projectSchema = new mongoose.Schema(
 	}
 );
 
-const Project = mongoose.model("Project", projectSchema);
+const Project = dbConnectionPrivate.model("Project", projectSchema);
 
 module.exports = Project;

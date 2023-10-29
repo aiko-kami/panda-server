@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
+const { dbConnectionPrivate } = require("../config/db.config");
 const { DateTime } = require("luxon");
 
-const refreshTokenExpirationSeconds =
-	parseInt(process.env.REFRESH_TOKEN_EXPIRATION_SECONDS) || 604800;
+const refreshTokenExpirationSeconds = parseInt(process.env.REFRESH_TOKEN_EXPIRATION_SECONDS) || 604800;
 
-const resetPasswordTokenExpirationSeconds =
-	parseInt(process.env.RESET_PASSWORD_TOKEN_EXPIRATION_SECONDS) || 86400;
+const resetPasswordTokenExpirationSeconds = parseInt(process.env.RESET_PASSWORD_TOKEN_EXPIRATION_SECONDS) || 86400;
 
 // Schema for refresh tokens
 const refreshTokenSchema = new mongoose.Schema(
@@ -35,8 +34,7 @@ const resetPasswordTokenSchema = new mongoose.Schema(
 		expiresAt: {
 			type: Date,
 			required: true,
-			default: () =>
-				DateTime.now().plus({ seconds: resetPasswordTokenExpirationSeconds }).toJSDate(),
+			default: () => DateTime.now().plus({ seconds: resetPasswordTokenExpirationSeconds }).toJSDate(),
 			expires: 0,
 		},
 	},
@@ -46,7 +44,7 @@ const resetPasswordTokenSchema = new mongoose.Schema(
 	}
 );
 
-const ResetPasswordToken = mongoose.model("ResetPasswordToken", resetPasswordTokenSchema);
+const ResetPasswordToken = dbConnectionPrivate.model("ResetPasswordToken", resetPasswordTokenSchema);
 
 module.exports = {
 	RefreshToken,

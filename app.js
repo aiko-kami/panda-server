@@ -4,7 +4,6 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
 const colors = require("colors");
-const mongoose = require("mongoose");
 const morganMiddleware = require("./middlewares/morgan.middleware");
 
 const app = express();
@@ -46,22 +45,10 @@ app.use(
 // All routes
 app.use(require("./routes"));
 
-// database connection
-mongoose.set("strictQuery", false);
-mongoose
-	.connect(process.env.MONGODB_URI_PRIVATE)
-	.then((result) => {
-		logger.info(`Connected to ${process.env.DB_PRIVATE} database`);
-		app.listen(PORT, () => {
-			logger.info("Panda-Server ".rainbow + `is running on port ${PORT}`.magenta);
-			console.log(
-				"Open ".magenta +
-					`http://localhost:${PORT}`.underline.italic.brightBlue +
-					" to access the server".magenta
-			);
-		});
-	})
-	.catch((err) => logger.log(err));
+app.listen(PORT, () => {
+	logger.info("Panda-Server ".rainbow + `is running on port ${PORT}`.magenta);
+	console.log("Open ".magenta + `http://localhost:${PORT}`.underline.italic.brightBlue + " to access the server".magenta);
+});
 
 module.exports = {
 	app,
