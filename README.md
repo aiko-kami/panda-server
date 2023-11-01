@@ -119,29 +119,23 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Send draft join project invitation
   - [x] Accept/decline join project invitation
 - [ ] Improvements (Brainstorms/clarifications needed) ❤💚
-  - [x] Forward when possible the message from the service to the controller and the final output
-  - [x] Allow multiple database connections
-  - [ ] Project 💚
-    - [ ] Upload images ❤
-    - [ ] New fields (coup de coeur, likes) ❤
-    - [ ] project draft 💚
-    - [ ] Edit project attachments 💚
-  - [ ] User 💚
-    - [ ] Talents portfolio 💚
-    - [ ] Share talent? 💚
   - [x] Retrieve specific data (GET requests)
     - [x] Retrieve project all data
     - [x] Retrieve last projects overview (when project is public)
     - [x] Count the number of projects on the plateform (public projects only)
     - [x] Count the number of projects per category (public projects only)
-- [ ] Friends 💛
-  - [ ] Define friend model 💛
-  - [ ] Send friend request 💛
-  - [ ] Cancel friend request 💛
-  - [ ] Retrieve friend requests 💛
-  - [ ] Accept/decline friend request 💛
-- [ ] Messenger 💛
-  - [ ] Define messenger model 💛
+  - [x] Forward when possible the message from the service to the controller and the final output
+  - [x] Allow multiple database connections
+  - [ ] Admin Login ❤
+  - [ ] Project 💚❤
+    - [x] New fields (coup de coeur)
+    - [ ] Upload images ❤
+    - [ ] New fields (likes) ❤
+    - [ ] project draft 💚
+    - [ ] Edit project attachments 💚
+  - [ ] User 💚
+    - [ ] Talents portfolio 💚
+    - [ ] Share talent? 💚
 - [ ] Q&A ❤
   - [ ] Add Q&A to the project model ❤
   - [ ] Add Q&A ❤
@@ -157,14 +151,20 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] remove Comment ❤
   - [ ] Retrieve Comments ❤
 - [ ] Steps ❤
-
   - [ ] Add Steps to the project model ❤
   - [ ] Add Step ❤
   - [ ] Update Step ❤
   - [ ] remove Step ❤
   - [ ] Publish/Hide Step ❤
   - [ ] Retrieve Steps ❤
-
+- [ ] Friends 💛
+  - [ ] Define friend model 💛
+  - [ ] Send friend request 💛
+  - [ ] Cancel friend request 💛
+  - [ ] Retrieve friend requests 💛
+  - [ ] Accept/decline friend request 💛
+- [ ] Messenger 💛
+  - [ ] Define messenger model 💛
 - [ ] Search 💛
   - [ ] Filter by categories/sub-categories 💛
   - [ ] Filter by locations 💛
