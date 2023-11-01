@@ -32,6 +32,6 @@ userSchema.path("talents").validate(function (value) {
 }, "At least one talent is required.");
 */
 
-const AdminUser = dbConnectionAdmin.model("AdminUser", userSchema);
+const AdminUser = dbConnectionAdmin.model("AdminUser", adminUserSchema);
 
 module.exports = AdminUser;

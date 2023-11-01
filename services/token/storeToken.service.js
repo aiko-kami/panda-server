@@ -64,9 +64,7 @@ const storeResetPasswordTokenInDatabase = async (userId, ResetPasswordTokenToSto
 			const deleteResult = await ResetPasswordToken.deleteMany({ userId });
 
 			if (deleteResult.deletedCount > 0) {
-				logger.info(
-					`Removed ${deleteResult.deletedCount} reset password token(s) from the database. userId: ${userId}`
-				);
+				logger.info(`Removed ${deleteResult.deletedCount} reset password token(s) from the database. userId: ${userId}`);
 			}
 		}
 		const resetPasswordToken = new ResetPasswordToken({
@@ -76,9 +74,7 @@ const storeResetPasswordTokenInDatabase = async (userId, ResetPasswordTokenToSto
 
 		await resetPasswordToken.save();
 
-		logger.info(
-			`Reset password token stored in database. ResetPasswordToken: ${resetPasswordToken}`
-		);
+		logger.info(`Reset password token stored in database. ResetPasswordToken: ${resetPasswordToken}`);
 		return {
 			status: "success",
 			message: "Reset password token stored in database.",

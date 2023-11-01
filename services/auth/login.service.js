@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const { User } = require("../../models");
+const { User, AdminUser } = require("../../models");
 const { logger } = require("../../utils");
 const { DateTime } = require("luxon");
 
@@ -62,8 +62,56 @@ const updateLastConnection = async (userId) => {
 	}
 };
 
+// Function to get user by username or email
+const retrieveAdminUserByUsernameOrEmail = async (identifier) => {
+	try {
+		const user = await AdminUser.findOne({ $or: [{ username: identifier }, { email: identifier }] }).select("-_id -__v");
+		if (!user) {
+			return { status: "error", message: "User not found." };
+		}
+
+		user.status = "success";
+		return user;
+	} catch (error) {
+		logger.error("Error while searching for the user by username or email:", error);
+		return { status: "error", message: "An error occurred while searching for the user." };
+	}
+};
+
+const updateAdminLastConnection = async (userId) => {
+	try {
+		// Find the user by userId and update the lastConnection field
+		const updatedUser = await AdminUser.findOneAndUpdate(
+			{ userId },
+			{ lastConnection: DateTime.now().toHTTP() }, // Set the lastConnection field to the current date
+			{ new: true } // Return the updated user document
+		).select("-_id -__v");
+
+		if (!updatedUser) {
+			return { status: "error", message: "User not found." };
+		}
+
+		logger.info(`User last connection updated. userId: ${updatedUser.userId} - New last connection: ${updatedUser.lastConnection}`);
+
+		return {
+			status: "success",
+			message: "User last connection updated successfully.",
+			data: { user: updatedUser },
+		};
+	} catch (error) {
+		logger.error(`Error while updating user last connection: ${error}`);
+
+		return {
+			status: "error",
+			message: "An error occurred while updating the user last connection.",
+		};
+	}
+};
+
 module.exports = {
 	retrieveUserByUsernameOrEmail,
 	comparePasswords,
 	updateLastConnection,
+	retrieveAdminUserByUsernameOrEmail,
+	updateAdminLastConnection,
 };

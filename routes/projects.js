@@ -4,16 +4,20 @@
 
 const projectRoute = require("express").Router();
 
-const { projectController, memberController, categoryController, projectRightsController, projectAttachmentsController, projectStatusController } = require("../controllers");
-const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
+const { projectController, memberController, categoryController, projectRightsController, projectAttachmentsController, projectStatusController, projectCrushController } = require("../controllers");
+const { verifyAccess, verifyAdminAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Project creation
 projectRoute.post("/project/createDraft", verifyAccess, projectController.createProject);
 projectRoute.post("/project/updateDraft/:projectId", verifyAccess, projectController.createProject);
-projectRoute.post("/project", verifyAccess, projectController.createProject);
+projectRoute.post("/project/create", verifyAccess, projectController.createProject);
 
 // Project update
-projectRoute.patch("/project/:projectId", verifyAccess, projectController.updateProject);
+projectRoute.patch("/project/update/:projectId", verifyAccess, projectController.updateProject);
+
+// Project crush
+projectRoute.patch("/project/addCrush", verifyAdminAccess, projectCrushController.addCrush);
+projectRoute.patch("/project/removeCrush", verifyAdminAccess, projectCrushController.removeCrush);
 
 // Retrieve project data
 projectRoute.get("/project/:projectId", verifyAccess, projectController.retrieveProjectData);
@@ -26,16 +30,16 @@ projectRoute.get("/nbProjects", projectController.countProjects);
 projectRoute.get("/nbProjectsPerCategory", projectController.countProjectsPerCategory);
 
 // Categories
-projectRoute.get("/category", categoryController.retrieveCategory);
-projectRoute.get("/categories", categoryController.retrieveCategories);
-projectRoute.post("/category", categoryController.createCategory);
-projectRoute.patch("/category", categoryController.updateCategory);
-projectRoute.delete("/category", categoryController.removeCategory);
+projectRoute.get("/category", verifyAdminAccess, categoryController.retrieveCategory);
+projectRoute.get("/categories", verifyAdminAccess, categoryController.retrieveCategories);
+projectRoute.post("/category", verifyAdminAccess, categoryController.createCategory);
+projectRoute.patch("/category", verifyAdminAccess, categoryController.updateCategory);
+projectRoute.delete("/category", verifyAdminAccess, categoryController.removeCategory);
 
 // Sub-categories
-projectRoute.post("/subCategory", categoryController.addSubCategory);
-projectRoute.patch("/subCategory", categoryController.updateSubCategory);
-projectRoute.delete("/subCategory", categoryController.removeSubCategory);
+projectRoute.post("/subCategory", verifyAdminAccess, categoryController.addSubCategory);
+projectRoute.patch("/subCategory", verifyAdminAccess, categoryController.updateSubCategory);
+projectRoute.delete("/subCategory", verifyAdminAccess, categoryController.removeSubCategory);
 
 // User's rights
 projectRoute.patch("/project/UserRights/:projectId", verifyAccess, projectRightsController.updateUserProjectRights);

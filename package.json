@@ -12,7 +12,8 @@
 		"dev": "nodemon app",
 		"start": "node app",
 		"test": "jest",
-		"test-coverage": "jest --coverage --coverageDirectory=tests/coverage"
+		"test-coverage": "jest --coverage --coverageDirectory=tests/coverage",
+		"gen": "node utils/scripts/script"
 	},
 	"author": "",
 	"license": "ISC",

@@ -12,6 +12,15 @@ function generateAccessToken(userId, expires = process.env.ACCESS_TOKEN_EXPIRATI
 	return token;
 }
 
+function generateAdminAccessToken(userId, expires = process.env.ACCESS_TOKEN_EXPIRATION) {
+	const payload = {
+		sub: userId,
+	};
+	const token = jwt.sign(payload, process.env.ACCESS_TOKEN_ADMIN_SECRET, { expiresIn: expires });
+	logger.info(`Admin access token generated: ${token}`);
+	return token;
+}
+
 function generateRefreshToken(userId, expires = process.env.REFRESH_TOKEN_EXPIRATION) {
 	const payload = {
 		sub: userId,
@@ -26,10 +35,7 @@ function generateResetPasswordToken(userId) {
 	const dataToEncrypt = { tokenUuid, userId };
 
 	// Encrypt
-	const encryptedData = CryptoJS.AES.encrypt(
-		JSON.stringify(dataToEncrypt),
-		process.env.RESET_PASSWORD_TOKEN_SECRET
-	).toString();
+	const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(dataToEncrypt), process.env.RESET_PASSWORD_TOKEN_SECRET).toString();
 
 	//Transform encrypted data into a valid token for URL
 	const resetPasswordToken = encodeURIComponent(encryptedData);
@@ -39,6 +45,7 @@ function generateResetPasswordToken(userId) {
 
 module.exports = {
 	generateAccessToken,
+	generateAdminAccessToken,
 	generateRefreshToken,
 	generateResetPasswordToken,
 };

@@ -24,7 +24,7 @@ const refreshTokenSchema = new mongoose.Schema(
 	}
 );
 
-const RefreshToken = mongoose.model("RefreshToken", refreshTokenSchema);
+const RefreshToken = dbConnectionPrivate.model("RefreshToken", refreshTokenSchema);
 
 // Schema for reset password tokens
 const resetPasswordTokenSchema = new mongoose.Schema(

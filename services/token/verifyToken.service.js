@@ -19,6 +19,23 @@ const verifyAccessToken = (accessToken) => {
 	}
 };
 
+const verifyAdminAccessToken = (accessToken) => {
+	try {
+		const tokenDecoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_ADMIN_SECRET);
+		// Check if the token is still valid (not expired)
+		if (tokenDecoded.exp > Date.now() / 1000) {
+			// Access token is valid
+			return { status: "success", payload: tokenDecoded };
+		} else {
+			// Access token has expired
+			return { status: "error", message: "Access token has expired." };
+		}
+	} catch (error) {
+		// Access token verification failed
+		return { status: "error", message: error.message };
+	}
+};
+
 const verifyRefreshToken = (refreshToken) => {
 	try {
 		const tokenDecoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
@@ -40,10 +57,7 @@ const verifyRefreshToken = (refreshToken) => {
 const verifyResetPasswordToken = async (resetToken) => {
 	try {
 		// Decrypt link
-		const bytes = CryptoJS.AES.decrypt(
-			decodeURIComponent(resetToken),
-			process.env.RESET_PASSWORD_TOKEN_SECRET
-		);
+		const bytes = CryptoJS.AES.decrypt(decodeURIComponent(resetToken), process.env.RESET_PASSWORD_TOKEN_SECRET);
 		const toDecrypt = bytes.toString(CryptoJS.enc.Utf8);
 
 		if (!toDecrypt) {
@@ -89,6 +103,7 @@ const verifyResetPasswordToken = async (resetToken) => {
 
 module.exports = {
 	verifyAccessToken,
+	verifyAdminAccessToken,
 	verifyRefreshToken,
 	verifyResetPasswordToken,
 };
