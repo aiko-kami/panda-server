@@ -14,8 +14,6 @@ const updateCrush = async (projectId, userIdUpdater, updateType) => {
 	try {
 		const project = await Project.findOne({ projectId });
 
-		console.log("🚀 ~ updateCrush ~ project:", project);
-
 		if (!project) {
 			return { status: "error", message: "Project not found." };
 		}
@@ -83,6 +81,35 @@ const updateCrush = async (projectId, userIdUpdater, updateType) => {
 	}
 };
 
+const retrieveCrushProjects = async (limit, fields, conditions) => {
+	try {
+		let query = Project.find(conditions).sort({ createdAt: -1 }).limit(limit);
+		if (fields) {
+			query = query.select(fields);
+		}
+		// select(`-_id -__v ${fields}`)
+		const crushProject = await query;
+
+		const nbCrushProject = await Project.countDocuments(conditions);
+
+		if (!crushProject || crushProject.length === 0) {
+			logger.info(`No crush project found.`);
+			return { status: "success", message: `No crush project found.`, crushProject };
+		} else if (crushProject.length === 1) {
+			logger.info(`${nbCrushProject} crush project retrieved successfully.`);
+			return { status: "success", message: `${nbCrushProject} crush project retrieved successfully.`, crushProject };
+		} else logger.info(`${nbCrushProject} crush projects retrieved successfully.`);
+		return { status: "success", message: `${nbCrushProject} crush projects retrieved successfully.`, crushProject };
+	} catch (error) {
+		logger.error("Error while retrieving projects:", error);
+		return {
+			status: "error",
+			message: "An error occurred while retrieving the projects.",
+		};
+	}
+};
+
 module.exports = {
 	updateCrush,
+	retrieveCrushProjects,
 };

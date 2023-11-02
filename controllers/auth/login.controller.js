@@ -82,19 +82,19 @@ const adminLogin = async (req, res) => {
 		}
 
 		// Generate the access and refresh tokens
-		const accessToken = generateTokenService.generateAdminAccessToken(user.userId);
-		const refreshToken = generateTokenService.generateRefreshToken(user.userId);
+		const accessToken = generateTokenService.generateAdminAccessToken(user.adminUserId);
+		const refreshToken = generateTokenService.generateRefreshToken(user.adminUserId);
 
 		storeTokenService.setTokensInCookies(res, accessToken, refreshToken);
 
-		const tokenStoredInDb = await storeTokenService.storeRefreshTokenInDatabase(user.userId, refreshToken);
+		const tokenStoredInDb = await storeTokenService.storeRefreshTokenInDatabase(user.adminUserId, refreshToken);
 
 		if (tokenStoredInDb.status !== "success") {
 			return apiResponse.serverErrorResponse(res, tokenStoredInDb.message);
 		}
 
 		// Update User last connection to now
-		const lastConnectionUpdated = await loginService.updateAdminLastConnection(user.userId);
+		const lastConnectionUpdated = await loginService.updateAdminLastConnection(user.adminUserId);
 		if (!lastConnectionUpdated) {
 			return apiResponse.serverErrorResponse(res, lastConnectionUpdated.message);
 		}

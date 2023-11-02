@@ -33,7 +33,7 @@ const verifyAdminAccess = (req, res, next) => {
 		return apiResponse.unauthorizedResponse(res, "Access denied.");
 	} else {
 		try {
-			const verifyResult = verifyTokenService.verifyAccessToken(accessToken);
+			const verifyResult = verifyTokenService.verifyAdminAccessToken(accessToken);
 
 			// Check if the token is valid and not expired
 			if (verifyResult.status === "success") {

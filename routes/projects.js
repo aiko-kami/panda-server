@@ -18,6 +18,7 @@ projectRoute.patch("/project/update/:projectId", verifyAccess, projectController
 // Project crush
 projectRoute.patch("/project/addCrush", verifyAdminAccess, projectCrushController.addCrush);
 projectRoute.patch("/project/removeCrush", verifyAdminAccess, projectCrushController.removeCrush);
+projectRoute.get("/crushProjects", projectCrushController.retrieveCrushProjects);
 
 // Retrieve project data
 projectRoute.get("/project/:projectId", verifyAccess, projectController.retrieveProjectData);

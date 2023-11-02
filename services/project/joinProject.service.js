@@ -349,7 +349,7 @@ const retrieveMyJoinProjects = async (userIdSender, requestType, statusType) => 
 
 		const nbJoinProject = await JoinProject.countDocuments(query);
 
-		if (joinProject.length === 0) {
+		if (!joinProject || joinProject.length === 0) {
 			logger.info(`No ${requestType} found.`);
 			return { status: "success", message: `No ${requestType} found.`, joinProject };
 		} else if (joinProject.length === 1) {

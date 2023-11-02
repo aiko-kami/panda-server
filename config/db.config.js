@@ -15,7 +15,7 @@ logger.info(`Connected to ${process.env.DB_PUBLIC} database`);
 const dbConnectionPublic = mongoose.createConnection(process.env.MONGODB_URI_PUBLIC, dbOptions);
 logger.info(`Connected to ${process.env.DB_PRIVATE} database`);
 
-const dbConnectionAdmin = mongoose.createConnection(process.env.MONGODB_URI_ADMIN, dbOptions);
-logger.info(`Connected to ${process.env.DB_ADMIN} database`);
+const dbConnectionSecure = mongoose.createConnection(process.env.MONGODB_URI_SECURE, dbOptions);
+logger.info(`Connected to ${process.env.DB_SECURE} database`);
 
-module.exports = { dbConnectionPrivate, dbConnectionPublic, dbConnectionAdmin };
+module.exports = { dbConnectionPrivate, dbConnectionPublic, dbConnectionSecure };

@@ -18,8 +18,6 @@ const addCrush = async (req, res) => {
 			projectId,
 		};
 
-		console.log("🚀 ~ addCrush ~ ids:", ids);
-
 		// Validate input data for updating project crush
 		const validationResult = idsValidation.validateIdsInputs(ids);
 		if (validationResult.status !== "success") {
@@ -64,7 +62,24 @@ const removeCrush = async (req, res) => {
 	}
 };
 
+const retrieveCrushProjects = async (req, res) => {
+	try {
+		const crushProjects = await crushService.retrieveCrushProjects(99, "-_id title summary cover category subCategory tags visibility", { crush: true });
+
+		console.log("🚀 ~ retrieveCrushProjects ~ crushProjects:", crushProjects);
+
+		if (crushProjects.crushProject !== null && crushProjects.crushProject.length > 0) {
+			return apiResponse.successResponseWithData(res, crushProjects.message, crushProjects.crushProject);
+		} else {
+			return apiResponse.serverErrorResponse(res, crushProjects.message);
+		}
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 module.exports = {
 	addCrush,
 	removeCrush,
+	retrieveCrushProjects,
 };
