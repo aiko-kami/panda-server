@@ -99,10 +99,10 @@ const updateUserPassword = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		const { newPassword = "", confirmNewPassword = "" } = req.body;
+		const { oldPassword = "", newPassword = "", confirmNewPassword = "" } = req.body;
 
 		// Validate input data
-		const validationResult = authValidation.validatePassword(newPassword, confirmNewPassword);
+		const validationResult = authValidation.validatePasswordChange(oldPassword, newPassword, confirmNewPassword);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}

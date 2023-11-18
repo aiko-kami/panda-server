@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 const { dbConnectionPrivate } = require("../config/db.config");
 const { DateTime } = require("luxon");
-const v4 = require("uuid").v4;
 
-const crushProjectSchema = new mongoose.Schema(
+const crushProjectSchema = new Schema(
 	{
-		projectId: { type: String, required: true, unique: true },
-		updatedBy: { type: String, required: true },
+		crushProjectId: { type: String, unique: true },
+		project: { type: Schema.Types.ObjectId, ref: "Project", unique: true },
+		updatedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
 		createdAt: {
 			type: Date,
 			required: true,

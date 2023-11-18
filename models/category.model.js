@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 const { dbConnectionPrivate } = require("../config/db.config");
-const v4 = require("uuid").v4;
 
-const categorySchema = new mongoose.Schema(
+const categorySchema = new Schema(
 	{
-		categoryId: { type: String, default: v4, required: true, unique: true },
+		categoryId: { type: String, unique: true },
 		name: {
 			type: String,
 			required: true,

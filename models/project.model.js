@@ -1,16 +1,18 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 const { dbConnectionPrivate } = require("../config/db.config");
 const { DateTime } = require("luxon");
-const v4 = require("uuid").v4;
 const config = require("../config");
+
 const projectStatus = config.project_status;
 const projectVisibility = config.project_visibility;
 const projectMembersRoles = config.project_members_roles;
 
-const memberSchema = new mongoose.Schema({
-	userId: {
-		type: String,
+const memberSchema = new Schema({
+	user: {
+		type: Schema.Types.ObjectId,
 		ref: "User",
+		required: true,
 	},
 	talent: String,
 	role: {
@@ -26,13 +28,10 @@ const memberSchema = new mongoose.Schema({
 	},
 });
 
-const projectSchema = new mongoose.Schema(
+const projectSchema = new Schema(
 	{
-		projectId: { type: String, default: v4, required: true, unique: true },
+		projectId: { type: String, unique: true },
 		draft: {
-			title: { type: String, unique: true, trim: true },
-			titleCapitalized: { type: String, unique: true, trim: true },
-
 			goal: { type: String, trim: true },
 			summary: { type: String, trim: true },
 			description: { type: String },
@@ -52,7 +51,7 @@ const projectSchema = new mongoose.Schema(
 				type: [String], // Array of talents needed
 			},
 			objectives: { type: [String] }, // Optional
-			updatedBy: { type: String },
+			updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
 		},
 		title: { type: String, required: true, unique: true, trim: true },
 		titleCapitalized: { type: String, required: true, unique: true, trim: true },
@@ -62,9 +61,9 @@ const projectSchema = new mongoose.Schema(
 		cover: { type: String }, // Optional
 		crush: { type: Boolean, default: false }, // Optional
 		category: {
-			type: String,
-			required: true,
+			type: Schema.Types.ObjectId,
 			ref: "Category",
+			required: true,
 		},
 		subCategory: { type: String }, // Optional
 		location: {
@@ -82,7 +81,7 @@ const projectSchema = new mongoose.Schema(
 			required: true,
 		},
 		objectives: { type: [String] }, // Optional
-		updatedBy: { type: String, required: true },
+		updatedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
 		visibility: {
 			type: String,
 			required: true,

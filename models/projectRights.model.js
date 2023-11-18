@@ -1,15 +1,16 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 const { dbConnectionPrivate } = require("../config/db.config");
 
-const projectRightsSchema = new mongoose.Schema(
+const projectRightsSchema = new Schema(
 	{
 		projectId: {
-			type: String,
+			type: Schema.Types.ObjectId,
 			ref: "Project", // Reference to the Project model
 			required: true,
 		},
 		userId: {
-			type: String,
+			type: Schema.Types.ObjectId,
 			ref: "User", // Reference to the User model
 			required: true,
 		},
@@ -37,7 +38,10 @@ const projectRightsSchema = new mongoose.Schema(
 			canEditRights: { type: Boolean, default: false },
 			canEditMembers: { type: Boolean, default: false },
 		},
-		updatedBy: { type: String },
+		updatedBy: {
+			type: Schema.Types.ObjectId,
+			ref: "User", // Reference to the User model
+		},
 	},
 	{
 		collection: "projectRights",

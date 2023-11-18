@@ -1,5 +1,5 @@
 const { Project, CrushProject } = require("../../models");
-const { logger } = require("../../utils");
+const { logger, encryptTools } = require("../../utils");
 
 /**
  * Update status of a project.
@@ -22,7 +22,7 @@ const updateCrush = async (projectId, userIdUpdater, updateType) => {
 
 		if (updateType === "add") {
 			if (isCrushSet) {
-				return { status: "error", message: `Project is already a crush.` };
+				return { status: "error", message: "Project is already a crush." };
 			}
 
 			// Update the project status
@@ -33,19 +33,28 @@ const updateCrush = async (projectId, userIdUpdater, updateType) => {
 
 			logger.info(`Project crush set successfully. Project ID: ${projectId} - Updater user ID: ${userIdUpdater} - Former project crush: ${isCrushSet} - New project crush: ${project.crush}`);
 
-			const crushProject = await CrushProject.findOne({ projectId });
+			const ObjectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+
+			const crushProject = await CrushProject.findOne({ project: ObjectIdProjectId });
 			if (crushProject) {
 				return { status: "error", message: "Project is already a crush in crushProjects." };
 			}
 
+			const ObjectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+
 			// Create a new crush project
 			const newCrushProject = new CrushProject({
-				projectId,
-				updatedBy: userIdUpdater,
+				project: ObjectIdProjectId,
+				updatedBy: ObjectIdUserIdUpdater,
 			});
 
 			// Save the new crush project
-			createdCrush = await newCrushProject.save();
+			created = await newCrushProject.save();
+
+			//Add encrypted ID
+			const encryptedId = encryptTools.convertObjectIdToId(created._id.toString());
+			const createdCrush = await CrushProject.findOneAndUpdate({ _id: created._id }, { crushProjectId: encryptedId }, { new: true }).select("-_id -__v");
+
 			logger.info(`Project crush created successfully. Crush project: ${createdCrush}`);
 
 			return { status: "success", message: "Project crush set successfully." };
@@ -64,7 +73,9 @@ const updateCrush = async (projectId, userIdUpdater, updateType) => {
 
 			logger.info(`Project crush removed successfully. Project ID: ${projectId} - Updater user ID: ${userIdUpdater} - Former project crush: ${isCrushSet} - New project crush: ${project.crush}`);
 
-			const existingCrushProject = await CrushProject.findOne({ projectId });
+			const ObjectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+
+			const existingCrushProject = await CrushProject.findOne({ project: ObjectIdProjectId });
 			if (!existingCrushProject) {
 				return { status: "error", message: "Project is already not a crush." };
 			}
@@ -81,9 +92,15 @@ const updateCrush = async (projectId, userIdUpdater, updateType) => {
 	}
 };
 
-const retrieveCrushProjects = async (limit, fields, conditions) => {
+const retrieveCrushProjects = async (fields, conditions, limit) => {
 	try {
-		let query = Project.find(conditions).sort({ createdAt: -1 }).limit(limit);
+		let query = Project.find(conditions)
+			.sort({ createdAt: -1 })
+			.limit(limit)
+			.populate([
+				{ path: "category", select: "-_id name" },
+				{ path: "members.user", select: "-_id username profilePicture" },
+			]); // Populate the 'category' and 'members.user' fields
 		if (fields) {
 			query = query.select(fields);
 		}

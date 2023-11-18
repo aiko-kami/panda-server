@@ -82,7 +82,7 @@ const updateAdminLastConnection = async (userId) => {
 	try {
 		// Find the user by userId and update the lastConnection field
 		const updatedUser = await AdminUser.findOneAndUpdate(
-			{ userId },
+			{ adminUserId: userId },
 			{ lastConnection: DateTime.now().toHTTP() }, // Set the lastConnection field to the current date
 			{ new: true } // Return the updated user document
 		).select("-_id -__v");
@@ -91,7 +91,7 @@ const updateAdminLastConnection = async (userId) => {
 			return { status: "error", message: "User not found." };
 		}
 
-		logger.info(`User last connection updated. userId: ${updatedUser.userId} - New last connection: ${updatedUser.lastConnection}`);
+		logger.info(`User last connection updated. adminUserId: ${updatedUser.adminUserId} - New last connection: ${updatedUser.lastConnection}`);
 
 		return {
 			status: "success",

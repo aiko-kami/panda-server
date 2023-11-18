@@ -171,6 +171,11 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] Filter by talents needed 💛
   - [ ] Filter by tags 💛
 - [ ] O-Auth 💚
+- [ ] Add properties to projects: 💚
+  - [ ] Applications authorized 💚
+  - [ ] Language(s) of the project 💚
+
+Order of priorities: ❤ > 💛 > 💚
 
 ## 📦 Installation
 

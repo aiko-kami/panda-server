@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 const { dbConnectionPrivate } = require("../config/db.config");
-const v4 = require("uuid").v4;
 const { DateTime } = require("luxon");
 
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
 	{
-		userId: { type: String, default: v4, required: true, unique: true },
+		userId: { type: String, unique: true },
 		username: { type: String, required: true, unique: true, trim: true },
 		usernameCapitalized: { type: String, required: true, unique: true, trim: true },
 		email: { type: String, required: true, unique: true, trim: true, lowercase: true },

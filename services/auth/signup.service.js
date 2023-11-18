@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const { User } = require("../../models");
-const { logger } = require("../../utils");
+const { logger, encryptTools } = require("../../utils");
 
 const verifyUsernameAndEmailAvailability = async (username, email) => {
 	const usernameCapitalized = username.toUpperCase();
@@ -9,10 +9,7 @@ const verifyUsernameAndEmailAvailability = async (username, email) => {
 	if (existingUser) {
 		return {
 			status: "error",
-			message:
-				existingUser.usernameCapitalized === usernameCapitalized
-					? "Username is already in use."
-					: "Email is already in use.",
+			message: existingUser.usernameCapitalized === usernameCapitalized ? "Username is already in use." : "Email is already in use.",
 		};
 	}
 	// If username and email are available, return null
@@ -43,13 +40,19 @@ const signupUser = async (username, email, password) => {
 			languages: [],
 			website: "",
 		});
-		await user.save();
 
-		logger.info(`New user successfully signed up. UserId: ${user.userId}`);
+		// Save the user to the database
+		const created = await user.save();
+
+		//Add encrypted ID
+		const encryptedId = encryptTools.convertObjectIdToId(created._id.toString());
+		const createdUser = await User.findOneAndUpdate({ _id: created._id }, { userId: encryptedId }, { new: true }).select("-_id -__v");
+
+		logger.info(`New user successfully signed up. UserId: ${createdUser.userId}`);
 		return {
 			status: "success",
-			message: `New user successfully signed up. UserId: ${user.userId}`,
-			user,
+			message: `New user successfully signed up. UserId: ${createdUser.userId}`,
+			user: createdUser,
 		};
 	} catch (error) {
 		// Log the error and return a structured response with error details

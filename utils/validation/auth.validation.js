@@ -1,5 +1,41 @@
 const validator = require("validator");
 
+const validatePasswordChange = (oldPassword, newPassword, confirmNewPassword) => {
+	// Validate password
+	if (!oldPassword) {
+		return { status: "error", message: "Old password required." };
+	}
+	if (!newPassword) {
+		return { status: "error", message: "New password required." };
+	}
+	if (!confirmNewPassword) {
+		return { status: "error", message: "Password confirmation required." };
+	}
+	if (!validator.isLength(newPassword, { min: 1, max: 125 })) {
+		return { status: "error", message: "Password can contain up to 125 characters." };
+	}
+	if (newPassword === oldPassword) {
+		return { status: "error", message: "Old password and new password must be different." };
+	}
+	if (newPassword !== confirmNewPassword) {
+		return { status: "error", message: "Password and confirmation don't match." };
+	}
+	const strongPassword = validator.isStrongPassword(newPassword, {
+		minLength: 8,
+		minLowercase: 1,
+		minUppercase: 1,
+		minNumbers: 1,
+		minSymbols: 1,
+	});
+	if (!strongPassword) {
+		return {
+			status: "error",
+			message: "Password must contain at least 8 characters, a lowercase letter, an uppercase letter, a number, and a special character.",
+		};
+	}
+	return { status: "success" };
+};
+
 const validatePassword = (password, confirmPassword) => {
 	// Validate password
 	if (!password) {
@@ -24,8 +60,7 @@ const validatePassword = (password, confirmPassword) => {
 	if (!strongPassword) {
 		return {
 			status: "error",
-			message:
-				"Password must contain at least 8 characters, a lowercase letter, an uppercase letter, a number, and a special character.",
+			message: "Password must contain at least 8 characters, a lowercase letter, an uppercase letter, a number, and a special character.",
 		};
 	}
 	return { status: "success" };
@@ -33,11 +68,7 @@ const validatePassword = (password, confirmPassword) => {
 
 const validateRegistrationInputs = (username, email, password, confirmPassword) => {
 	//String type validation
-	const invalidType =
-		typeof username !== "string" ||
-		typeof email !== "string" ||
-		typeof password !== "string" ||
-		typeof confirmPassword !== "string";
+	const invalidType = typeof username !== "string" || typeof email !== "string" || typeof password !== "string" || typeof confirmPassword !== "string";
 
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
@@ -104,6 +135,7 @@ const validateEmail = (email) => {
 };
 
 module.exports = {
+	validatePasswordChange,
 	validatePassword,
 	validateRegistrationInputs,
 	validateLoginInputs,

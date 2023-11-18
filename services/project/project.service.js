@@ -22,7 +22,7 @@ const createProject = async (projectData) => {
 			summary: projectData.summary,
 			description: projectData.description,
 			cover: projectData.cover,
-			category: projectData.categoryId,
+			categoryId: projectData.categoryId,
 			subCategory: projectData.subCategory,
 			status: projectData.status,
 			phase: projectData.phase,
@@ -245,7 +245,7 @@ const countNumberProjectsPerCategory = async () => {
 
 			for (const subCategory of category.subCategories) {
 				const subCategoryCount = await Project.countDocuments({
-					category: category.categoryId,
+					categoryId: category.categoryId,
 					subCategory: subCategory,
 					visibility: "public",
 				});

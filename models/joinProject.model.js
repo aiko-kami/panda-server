@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 const { dbConnectionPrivate } = require("../config/db.config");
 const { DateTime } = require("luxon");
-const v4 = require("uuid").v4;
 const config = require("../config");
 const joinProjectStatus = config.join_project_status;
 
-const joinProjectSchema = new mongoose.Schema(
+const joinProjectSchema = new Schema(
 	{
-		joinProjectId: { type: String, default: v4, required: true, unique: true },
-		projectId: { type: String, required: true },
-		userIdSender: { type: String, required: true }, // Either a user or a project member depending on the requestType
-		userIdReceiver: { type: String }, // In case of join project invitation, the ID of the user for whom is the invitation
+		joinProjectId: { type: String, unique: true },
+		project: { type: Schema.Types.ObjectId, ref: "Project", required: true },
+		sender: { type: Schema.Types.ObjectId, ref: "User", required: true }, // Either a user or a project member depending on the requestType
+		receiver: { type: Schema.Types.ObjectId, ref: "User" }, // In case of join project invitation, the ID of the user for whom is the invitation
 		requestType: {
 			type: String,
 			required: true,
@@ -19,7 +19,7 @@ const joinProjectSchema = new mongoose.Schema(
 		},
 		talent: { type: String }, // talent of the future project member
 		message: { type: String },
-		updatedBy: { type: String, required: true },
+		updatedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
 		status: {
 			type: String,
 			required: true,

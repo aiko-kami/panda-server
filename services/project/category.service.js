@@ -1,5 +1,5 @@
 const { Category } = require("../../models");
-const { logger } = require("../../utils");
+const { logger, encryptTools } = require("../../utils");
 
 /**
  * Create a new category if it does not already exist.
@@ -10,7 +10,6 @@ const createCategory = async (categoryName, subCategories) => {
 	try {
 		// Check if a category with the same name already exists
 		const existingCategory = await Category.findOne({ name: categoryName });
-
 		if (existingCategory) {
 			logger.error("Error while creating the category: Category already exists.");
 			return { status: "error", message: "Category already exists." };
@@ -25,7 +24,10 @@ const createCategory = async (categoryName, subCategories) => {
 		});
 
 		// Save the category to the database
-		const createdCategory = await newCategory.save();
+		const created = await newCategory.save();
+		//Add encrypted ID
+		const encryptedId = encryptTools.convertObjectIdToId(created._id.toString());
+		const createdCategory = await Category.findOneAndUpdate({ _id: created._id }, { categoryId: encryptedId }, { new: true }).select("-_id -__v");
 
 		logger.info(`Category created successfully. Category: ${createdCategory}`);
 		return {
@@ -57,7 +59,7 @@ const updateCategory = async (categoryId, newName) => {
 			return { status: "error", message: "Category name is unchanged." };
 		}
 
-		// Check if the new name already exists in the collection (must be unique)
+		// Check if the new name already exists for another category in the collection (must be unique)
 		const nameExists = await Category.findOne({ name: newName });
 		if (nameExists) {
 			logger.error("Error while updating the category: Category name already exists.");
@@ -89,7 +91,6 @@ const removeCategory = async (categoryId) => {
 	try {
 		// Check if a category with the given categoryId exists
 		const existingCategory = await Category.findOne({ categoryId });
-
 		if (!existingCategory) {
 			logger.error("Error while removing the category: Category not found.");
 			return { status: "error", message: "Category not found." };
@@ -117,26 +118,25 @@ const removeCategory = async (categoryId) => {
 const addSubCategory = async (categoryId, subCategoryName) => {
 	try {
 		// Check if category exists
-		const category = await Category.findOne({ categoryId });
-
-		if (!category) {
+		const existingCategory = await Category.findOne({ categoryId });
+		if (!existingCategory) {
 			return { status: "error", message: "Category not found." };
 		}
 		// Check if sub-category does not already exists
-		if (category.subCategories.includes(subCategoryName)) {
+		if (existingCategory.subCategories.includes(subCategoryName)) {
 			logger.error("Error while creating the sub-category: Sub-category already present in the category.");
 			return { status: "error", message: "Sub-category already present in the category." };
 		}
-		category.subCategories.push(subCategoryName);
+		existingCategory.subCategories.push(subCategoryName);
 
 		// Save the sub-category to the database
-		await category.save();
+		await existingCategory.save();
 
-		logger.info(`New sub-category created successfully. Category: ${category}`);
+		logger.info(`New sub-category created successfully. Category: ${existingCategory}`);
 		return {
 			status: "success",
 			message: "New sub-category created successfully.",
-			data: { category },
+			data: { existingCategory },
 		};
 	} catch (error) {
 		logger.error("Error while creating the sub-category: ", error);
@@ -150,32 +150,33 @@ const addSubCategory = async (categoryId, subCategoryName) => {
 const updateSubCategory = async (categoryId, subCategoryOldName, subCategoryNewName) => {
 	try {
 		// Check if category exists
-		const category = await Category.findOne({ categoryId });
-
-		if (!category) {
+		const existingCategory = await Category.findOne({ categoryId });
+		if (!existingCategory) {
 			return { status: "error", message: "Category not found." };
 		}
 		// Check if the sub-category to update exists in the category's subCategories array
-		const subCategoryIndex = category.subCategories.indexOf(subCategoryOldName);
+		const subCategoryIndex = existingCategory.subCategories.indexOf(subCategoryOldName);
 
 		if (subCategoryIndex === -1) {
+			logger.error("Error while updating the sub-category: Sub-category not found in the category.");
 			return { status: "error", message: "Sub-category not found in the category." };
 		}
 
-		if (category.subCategories.includes(subCategoryNewName)) {
+		if (existingCategory.subCategories.includes(subCategoryNewName)) {
+			logger.error("Error while updating the sub-category: Sub-category new name already present in the category.");
 			return { status: "error", message: "Sub-category new name already present in the category." };
 		}
 
 		// Update the sub-category name
-		category.subCategories[subCategoryIndex] = subCategoryNewName;
+		existingCategory.subCategories[subCategoryIndex] = subCategoryNewName;
 		// Save the sub-category to the database
-		await category.save();
+		await existingCategory.save();
 
-		logger.info(`Sub-category updated successfully. Category: ${category}`);
+		logger.info(`Sub-category updated successfully. Category: ${existingCategory}`);
 		return {
 			status: "success",
 			message: "Sub-category updated successfully.",
-			data: { category },
+			data: { existingCategory },
 		};
 	} catch (error) {
 		logger.error("Error while updating the sub-category: ", error);
@@ -190,28 +191,27 @@ const removeSubCategory = async (categoryId, subCategoryName) => {
 	try {
 		// Check if the category and sub-category exist
 		// Check if category exists
-		const category = await Category.findOne({ categoryId });
-
-		if (!category) {
+		const existingCategory = await Category.findOne({ categoryId });
+		if (!existingCategory) {
 			return { status: "error", message: "Category not found." };
 		}
 		// Check if the sub-category to remove exists in the category's subCategories array
-		const subCategoryIndex = category.subCategories.indexOf(subCategoryName);
+		const subCategoryIndex = existingCategory.subCategories.indexOf(subCategoryName);
 
 		if (subCategoryIndex === -1) {
 			return { status: "error", message: "Sub-category not found in the category" };
 		}
 
-		category.subCategories.splice(subCategoryIndex, 1);
+		existingCategory.subCategories.splice(subCategoryIndex, 1);
 
 		// Save the updated category
-		await category.save();
+		await existingCategory.save();
 
-		logger.info(`Sub-category removed successfully. Sub-category: ${subCategoryName} - Category: ${category.name}`);
+		logger.info(`Sub-category removed successfully. Category: ${existingCategory.name} - Sub-category: ${subCategoryName}`);
 
 		return {
 			status: "success",
-			message: "Category removed successfully.",
+			message: "Sub-category removed successfully.",
 			data: { removedSubCategory: subCategoryName },
 		};
 	} catch (error) {
@@ -225,8 +225,7 @@ const removeSubCategory = async (categoryId, subCategoryName) => {
 
 const verifyCategoryAndSubCategoryExist = async (categoryId, subCategoryName) => {
 	try {
-		const existingCategory = await Category.findOne({ categoryId }).select("-_id -__v");
-
+		const existingCategory = await Category.findOne({ categoryId }).select("-__v");
 		if (!existingCategory) {
 			return { status: "error", message: "Category not found." };
 		}
@@ -249,20 +248,20 @@ const retrieveCategoryById = async (categoryId, fields) => {
 			query = query.select(fields);
 		}
 
-		const categoryRetrieved = await query;
+		const existingCategory = await query;
 
-		if (!categoryRetrieved) {
+		if (!existingCategory) {
 			return { status: "error", message: "Category not found." };
 		}
 
-		return { status: "success", categoryRetrieved };
+		return { status: "success", existingCategory };
 	} catch (error) {
 		logger.error(`Error while retrieving the category: ${error}`);
 		return { status: "error", message: "An error occurred while retrieving the category." };
 	}
 };
 
-const retrieveAllCategories = async (fields) => {
+const retrieveAllCategories = async () => {
 	try {
 		const categories = await Category.find().sort({ name: 1 }).select("-_id -__v");
 

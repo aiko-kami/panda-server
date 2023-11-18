@@ -54,16 +54,9 @@ const validateCategoryIdAndSubCategoryName = (categoryId, subCategoryName) => {
 	return { status: "success" };
 };
 
-const validateCategoryIdAndSubCategoryOldAndNewNames = (
-	categoryId,
-	subCategoryOldName,
-	subCategoryNewName
-) => {
+const validateCategoryIdAndSubCategoryOldAndNewNames = (categoryId, subCategoryOldName, subCategoryNewName) => {
 	//String type validation
-	const invalidType =
-		typeof categoryId !== "string" ||
-		typeof subCategoryOldName !== "string" ||
-		typeof subCategoryNewName !== "string";
+	const invalidType = typeof categoryId !== "string" || typeof subCategoryOldName !== "string" || typeof subCategoryNewName !== "string";
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
 	}

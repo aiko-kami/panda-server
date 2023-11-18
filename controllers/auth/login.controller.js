@@ -14,7 +14,7 @@ const login = async (req, res) => {
 		}
 
 		// Check if the user exists in the database by email or username
-		const user = await loginService.retrieveUserByUsernameOrEmail(identifier);
+		let user = await loginService.retrieveUserByUsernameOrEmail(identifier);
 		if (user.status !== "success") {
 			return apiResponse.clientErrorResponse(res, "Invalid login credentials.");
 		}
@@ -48,6 +48,13 @@ const login = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, lastConnectionUpdated.message);
 		}
 
+		//Filter fields from User before returning it
+		user = user.toObject();
+		const propertiesToRemve = ["password", "emailVerified", "usernameCapitalized", "lastConnection", "updatedAt"];
+		for (const prop of propertiesToRemve) {
+			delete user[prop];
+		}
+
 		// Return the user data in the response
 		return apiResponse.successResponseWithData(res, "User successfully logged in.", { user });
 
@@ -70,7 +77,7 @@ const adminLogin = async (req, res) => {
 		}
 
 		// Check if the user exists in the database by email or username
-		const user = await loginService.retrieveAdminUserByUsernameOrEmail(identifier);
+		let user = await loginService.retrieveAdminUserByUsernameOrEmail(identifier);
 		if (user.status !== "success") {
 			return apiResponse.clientErrorResponse(res, "Invalid login credentials.");
 		}
@@ -97,6 +104,13 @@ const adminLogin = async (req, res) => {
 		const lastConnectionUpdated = await loginService.updateAdminLastConnection(user.adminUserId);
 		if (!lastConnectionUpdated) {
 			return apiResponse.serverErrorResponse(res, lastConnectionUpdated.message);
+		}
+
+		//Filter fields from User before returning it
+		user = user.toObject();
+		const propertiesToRemve = ["password", "usernameCapitalized", "lastConnection", "updatedAt"];
+		for (const prop of propertiesToRemve) {
+			delete user[prop];
 		}
 
 		// Return the user data in the response
