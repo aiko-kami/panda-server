@@ -1,4 +1,4 @@
-const { signupService, emailValidationService } = require("../../services");
+const { signupService, emailService } = require("../../services");
 const { apiResponse, authValidation } = require("../../utils");
 
 // Signup user
@@ -7,21 +7,13 @@ const signup = async (req, res) => {
 		const { username = "", email = "", password = "", confirmPassword = "" } = req.body;
 
 		// Validate input data
-		const validateInputs = authValidation.validateRegistrationInputs(
-			username,
-			email,
-			password,
-			confirmPassword
-		);
+		const validateInputs = authValidation.validateRegistrationInputs(username, email, password, confirmPassword);
 		if (validateInputs.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validateInputs.message);
 		}
 
 		// Check if the username or the email already exist in the database
-		const existingUsernameOrEmail = await signupService.verifyUsernameAndEmailAvailability(
-			username,
-			email
-		);
+		const existingUsernameOrEmail = await signupService.verifyUsernameAndEmailAvailability(username, email);
 		if (existingUsernameOrEmail) {
 			return apiResponse.serverErrorResponse(res, existingUsernameOrEmail.message);
 		}
@@ -33,17 +25,12 @@ const signup = async (req, res) => {
 		}
 
 		//Send validation email to confirm email address
-		const validationEmailSent = await emailValidationService.sendVerificationEmail(
-			newUserCreated.user.userId
-		);
+		const validationEmailSent = await emailService.sendVerificationEmail(newUserCreated.user.userId);
 		if (validationEmailSent.status !== "success") {
 			return apiResponse.serverErrorResponse(res, validationEmailSent.message);
 		}
 
-		return apiResponse.successResponse(
-			res,
-			"New user successfully signed up and validation email sent."
-		);
+		return apiResponse.successResponse(res, "New user successfully signed up and validation email sent.");
 
 		//catch error if occurred during signup
 	} catch (error) {
@@ -56,7 +43,7 @@ const verifyEmailLink = async (req, res) => {
 	try {
 		const emailValidationId = req.params.emailValidationId;
 
-		const emailVerified = await emailValidationService.verifyEmailValidationId(emailValidationId);
+		const emailVerified = await emailService.verifyEmailValidationId(emailValidationId);
 		if (emailVerified.status !== "success") {
 			return apiResponse.serverErrorResponse(res, emailVerified.message);
 		}

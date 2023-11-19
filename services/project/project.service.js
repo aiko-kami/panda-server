@@ -1,5 +1,5 @@
 const { Project, Category } = require("../../models");
-const { logger } = require("../../utils");
+const { logger, encryptTools } = require("../../utils");
 
 /**
  * Create a new project.
@@ -8,6 +8,16 @@ const { logger } = require("../../utils");
  */
 const createProject = async (projectData) => {
 	try {
+		const objectIdCategoryId = encryptTools.convertIdToObjectId(projectData.categoryId);
+		if (objectIdCategoryId.status == "error") {
+			return apiResponse.serverErrorResponse(res, objectIdCategoryId.message);
+		}
+
+		const objectIdCreatorId = encryptTools.convertIdToObjectId(projectData.creatorId);
+		if (objectIdCreatorId.status == "error") {
+			return apiResponse.serverErrorResponse(res, objectIdCreatorId.message);
+		}
+
 		const projectLocation = {
 			city: projectData.locationCountry,
 			country: projectData.locationCity,
@@ -22,7 +32,7 @@ const createProject = async (projectData) => {
 			summary: projectData.summary,
 			description: projectData.description,
 			cover: projectData.cover,
-			categoryId: projectData.categoryId,
+			category: objectIdCategoryId,
 			subCategory: projectData.subCategory,
 			status: projectData.status,
 			phase: projectData.phase,
@@ -30,15 +40,19 @@ const createProject = async (projectData) => {
 			startDate: projectData.startDate !== "" ? projectData.startDate : undefined,
 			creatorMotivation: projectData.creatorMotivation,
 			visibility: projectData.visibility,
-			updatedBy: projectData.creatorId,
+			updatedBy: objectIdCreatorId,
 			tags: projectData.tags,
-			members: [{ userId: projectData.creatorId, role: "owner" }],
+			members: [{ user: objectIdCreatorId, role: "owner" }],
 			talentsNeeded: projectData.talentsNeeded,
 			objectives: projectData.objectives,
 		});
 
 		// Save the project to the database
-		const project = await newProject.save();
+		const created = await newProject.save();
+
+		//Add encrypted ID
+		const encryptedId = encryptTools.convertObjectIdToId(created._id.toString());
+		const project = await Project.findOneAndUpdate({ _id: created._id }, { projectId: encryptedId }, { new: true }).select("-_id -__v");
 
 		logger.info(`New project created successfully. Project ID: ${project.projectId}`);
 
@@ -74,10 +88,20 @@ const verifyTitleAvailability = async (title) => {
 	}
 };
 
-const updateProject = async (projectId, updatedData, userId) => {
+const updateProject = async (projectId, updatedData, userIdUpdater) => {
 	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return apiResponse.serverErrorResponse(res, objectIdProjectId.message);
+		}
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+		if (objectIdUserIdUpdater.status == "error") {
+			return apiResponse.serverErrorResponse(res, objectIdUserIdUpdater.message);
+		}
+
 		// Find the project by projectId
-		const project = await Project.findOne({ projectId });
+		const project = await Project.findOne({ _id: objectIdProjectId });
 
 		// Check if the project exists
 		if (!project) {
@@ -117,7 +141,7 @@ const updateProject = async (projectId, updatedData, userId) => {
 
 		// Update the project properties
 		project.set(updateFields);
-		project.updatedBy = userId;
+		project.updatedBy = objectIdUserIdUpdater;
 
 		// Save the updated project
 		const updatedProject = await project.save();
@@ -144,9 +168,21 @@ const updateProject = async (projectId, updatedData, userId) => {
  */
 const retrieveProjectById = async (projectId, fields, conditions) => {
 	try {
-		const search = { projectId, ...conditions };
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const search = { _id: objectIdProjectId, ...conditions };
 		// Use your Project model to find the project by ID
-		const project = await Project.findOne(search).select(fields);
+		const project = await Project.findOne(search)
+			.select(fields)
+			.populate([
+				{ path: "category", select: "-_id name" },
+				{ path: "updatedBy", select: "-_id username profilePicture" },
+				{ path: "members.user", select: "username profilePicture" },
+			]); // Populate the 'category' and 'members.user' fields
 
 		if (!project) {
 			return {
@@ -173,7 +209,7 @@ const retrieveLatestProjects = async (limit, fields, conditions) => {
 	try {
 		let query = Project.find(conditions).sort({ createdAt: -1 }).limit(limit);
 		if (fields) {
-			query = query.select(fields);
+			query = query.select(fields).populate([{ path: "category", select: "-_id name" }]); // Populate the 'category' and 'members.user' fields
 		}
 		// select(`-_id -__v ${fields}`)
 		const projects = await query;
@@ -244,8 +280,14 @@ const countNumberProjectsPerCategory = async () => {
 			};
 
 			for (const subCategory of category.subCategories) {
+				// Convert id to ObjectId
+				const objectIdCategoryId = encryptTools.convertIdToObjectId(category.categoryId);
+				if (objectIdCategoryId.status == "error") {
+					return { status: "error", message: objectIdCategoryId.message };
+				}
+
 				const subCategoryCount = await Project.countDocuments({
-					categoryId: category.categoryId,
+					category: objectIdCategoryId,
 					subCategory: subCategory,
 					visibility: "public",
 				});

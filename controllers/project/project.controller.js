@@ -1,5 +1,5 @@
 const { projectService, categoryService, userService, userRightsService } = require("../../services");
-const { apiResponse, projectValidation, projectTools } = require("../../utils");
+const { apiResponse, projectValidation, projectTools, encryptTools } = require("../../utils");
 
 /**
  * Create new project controller.
@@ -59,6 +59,8 @@ const createProject = async (req, res) => {
 		// Create the project
 		const createResult = await projectService.createProject(projectData);
 
+		console.log("🚀 ~ createProject ~ createResult:", createResult);
+
 		if (createResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, createResult.message);
 		}
@@ -69,7 +71,25 @@ const createProject = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, setRightsResult.message);
 		}
 
-		return apiResponse.successResponseWithData(res, createResult.message, createResult.project);
+		//Retrieve project data
+		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, "-_id -members._id");
+		if (projectOutput.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectOutput.message);
+		}
+
+		//Convert database object to JS object
+		projectOutput.project = projectOutput.project.toObject();
+
+		//remove _id for the output data
+		const finalProjectOutput = {
+			...projectOutput.project,
+			members: projectOutput.project.members.map((member) => ({
+				...member,
+				user: { ...member.user, _id: undefined },
+			})),
+		};
+
+		return apiResponse.successResponseWithData(res, createResult.message, finalProjectOutput);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -205,7 +225,7 @@ const retrieveProjectData = async (req, res) => {
 		}
 
 		//Retrieve proeject data
-		const projectData = await projectService.retrieveProjectById(projectId, "-_id");
+		const projectData = await projectService.retrieveProjectById(projectId, "-_id -members._id");
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
 		}
@@ -213,15 +233,33 @@ const retrieveProjectData = async (req, res) => {
 		//Verify user is member of the project
 		const projectMembers = projectData.project.members;
 
-		// Find the user to be updated in the project's members
-		const isUserProjectMember = projectMembers.find((member) => member.userId === userId);
-
-		if (!isUserProjectMember) {
-			// If user to be updated is not member of the project, return error
-			return apiResponse.unauthorizedResponse(res, "Data only available for the members of the proejct.");
+		// Convert id to ObjectId
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserId.status == "error") {
+			return apiResponse.serverErrorResponse(res, objectIdUserId.message);
 		}
 
-		return apiResponse.successResponseWithData(res, projectData.message, projectData.project);
+		// Find the user in the project's members
+		const isUserProjectMember = projectMembers.find((member) => member.user._id.toString() === objectIdUserId.toString());
+
+		// If user is not member of the project, return error
+		if (!isUserProjectMember) {
+			return apiResponse.unauthorizedResponse(res, "Data only available for the members of the project.");
+		}
+
+		//Convert database object to JS object
+		projectData.project = projectData.project.toObject();
+
+		//remove _id for the output data
+		const updatedObject = {
+			...projectData.project,
+			members: projectData.project.members.map((member) => ({
+				...member,
+				user: { ...member.user, _id: undefined },
+			})),
+		};
+
+		return apiResponse.successResponseWithData(res, projectData.message, updatedObject);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}

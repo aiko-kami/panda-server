@@ -1,10 +1,16 @@
 const { User } = require("../../models");
-const { logger } = require("../../utils");
+const { logger, encryptTools } = require("../../utils");
 
 const createTalent = async (talentData, userId) => {
 	try {
+		// Convert id to ObjectId
+		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (ObjectIdUserId.status == "error") {
+			return { status: "error", message: ObjectIdUserId.message };
+		}
+
 		// Find the user by userId
-		const user = await User.findOne({ userId });
+		const user = await User.findOne({ _id: ObjectIdUserId });
 
 		// Check if the user exists
 		if (!user) {
@@ -42,8 +48,14 @@ const createTalent = async (talentData, userId) => {
 
 const updateTalent = async (updatedTalentData, userId) => {
 	try {
+		// Convert id to ObjectId
+		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (ObjectIdUserId.status == "error") {
+			return { status: "error", message: ObjectIdUserId.message };
+		}
+
 		// Find the user by userId
-		const user = await User.findOne({ userId });
+		const user = await User.findOne({ _id: ObjectIdUserId });
 
 		// Check if the user exists
 		if (!user) {
@@ -92,7 +104,6 @@ const updateTalent = async (updatedTalentData, userId) => {
 		};
 	} catch (error) {
 		logger.error("Error while updating the talent in the database: ", error);
-
 		return {
 			status: "error",
 			message: "An error occurred while updating the talent in the database.",
@@ -102,8 +113,14 @@ const updateTalent = async (updatedTalentData, userId) => {
 
 const removeTalent = async (talentName, userId) => {
 	try {
+		// Convert id to ObjectId
+		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (ObjectIdUserId.status == "error") {
+			return { status: "error", message: ObjectIdUserId.message };
+		}
+
 		// Find the user by userId
-		const user = await User.findOne({ userId });
+		const user = await User.findOne({ _id: ObjectIdUserId });
 
 		// Check if the user exists
 		if (!user) {

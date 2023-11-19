@@ -1,4 +1,4 @@
-const { userService, emailResetPasswordService, generateTokenService, storeTokenService, verifyTokenService, removeTokenService } = require("../../services");
+const { userService, emailService, generateTokenService, storeTokenService, verifyTokenService, removeTokenService } = require("../../services");
 const { apiResponse, authValidation } = require("../../utils");
 
 /**
@@ -35,7 +35,7 @@ const forgotPassword = async (req, res) => {
 		}
 
 		// Send reset password email to the user
-		const emailSent = await emailResetPasswordService.sendPasswordResetEmail(existingUser.user.email, existingUser.user.username, resetPasswordToken);
+		const emailSent = await emailService.sendPasswordResetEmail(existingUser.user.email, existingUser.user.username, resetPasswordToken);
 		if (emailSent.status !== "success") {
 			return apiResponse.serverErrorResponse(res, emailSent.message);
 		}

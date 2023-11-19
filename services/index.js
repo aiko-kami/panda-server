@@ -13,8 +13,7 @@ module.exports.verifyTokenService = require("./token/verifyToken.service");
 module.exports.removeTokenService = require("./token/removeToken.service");
 
 // Email services
-module.exports.emailValidationService = require("./emailValidation.service");
-module.exports.emailResetPasswordService = require("./emailResetPassword.service");
+module.exports.emailService = require("./email.service");
 
 // Project related services
 module.exports.categoryService = require("./project/category.service");

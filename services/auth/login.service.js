@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const { User, AdminUser } = require("../../models");
-const { logger } = require("../../utils");
+const { logger, encryptTools } = require("../../utils");
 const { DateTime } = require("luxon");
 
 // Function to get user by username or email
@@ -34,9 +34,14 @@ const comparePasswords = async (password, hashedPassword) => {
 
 const updateLastConnection = async (userId) => {
 	try {
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserId.status == "error") {
+			return { status: "error", message: objectIdUserId.message };
+		}
+
 		// Find the user by userId and update the lastConnection field
 		const updatedUser = await User.findOneAndUpdate(
-			{ userId },
+			{ _id: objectIdUserId },
 			{ lastConnection: DateTime.now().toHTTP() }, // Set the lastConnection field to the current date
 			{ new: true } // Return the updated user document
 		).select("-_id -talents._id -__v");
@@ -45,7 +50,7 @@ const updateLastConnection = async (userId) => {
 			return { status: "error", message: "User not found." };
 		}
 
-		logger.info(`User last connection updated. userId: ${updatedUser.userId} - New last connection: ${updatedUser.lastConnection}`);
+		logger.info(`User last connection updated. userId: ${userId} - New last connection: ${updatedUser.lastConnection}`);
 
 		return {
 			status: "success",
@@ -80,9 +85,14 @@ const retrieveAdminUserByUsernameOrEmail = async (identifier) => {
 
 const updateAdminLastConnection = async (userId) => {
 	try {
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserId.status == "error") {
+			return { status: "error", message: objectIdUserId.message };
+		}
+
 		// Find the user by userId and update the lastConnection field
 		const updatedUser = await AdminUser.findOneAndUpdate(
-			{ adminUserId: userId },
+			{ _id: objectIdUserId },
 			{ lastConnection: DateTime.now().toHTTP() }, // Set the lastConnection field to the current date
 			{ new: true } // Return the updated user document
 		).select("-_id -__v");
@@ -91,7 +101,7 @@ const updateAdminLastConnection = async (userId) => {
 			return { status: "error", message: "User not found." };
 		}
 
-		logger.info(`User last connection updated. adminUserId: ${updatedUser.adminUserId} - New last connection: ${updatedUser.lastConnection}`);
+		logger.info(`User last connection updated. adminUserId: ${userId} - New last connection: ${updatedUser.lastConnection}`);
 
 		return {
 			status: "success",

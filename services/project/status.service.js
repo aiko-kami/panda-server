@@ -1,5 +1,5 @@
 const { Project } = require("../../models");
-const { logger } = require("../../utils");
+const { logger, encryptTools } = require("../../utils");
 
 /**
  * Update status of a project.
@@ -12,7 +12,18 @@ const { logger } = require("../../utils");
 
 const updateStatus = async (projectId, userIdUpdater, newStatus) => {
 	try {
-		const project = await Project.findOne({ projectId });
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+		if (objectIdUserIdUpdater.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdater.message };
+		}
+
+		const project = await Project.findOne({ _id: objectIdProjectId });
 
 		if (!project) {
 			return { status: "error", message: "Project not found." };
@@ -41,8 +52,9 @@ const updateStatus = async (projectId, userIdUpdater, newStatus) => {
 			return { status: "error", message: `Status cannot be updated anymore because project has been ${formerStatus}.` };
 		}
 
-		// Update the project status
+		// Update the project status and updater
 		project.status = newStatus;
+		project.updatedBy = objectIdUserIdUpdater;
 
 		// Save the updated project
 		await project.save();

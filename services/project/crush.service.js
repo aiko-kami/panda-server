@@ -12,7 +12,18 @@ const { logger, encryptTools } = require("../../utils");
 
 const updateCrush = async (projectId, userIdUpdater, updateType) => {
 	try {
-		const project = await Project.findOne({ projectId });
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+		// Convert id to ObjectId
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+		if (objectIdUpdaterId.status == "error") {
+			return { status: "error", message: objectIdUpdaterId.message };
+		}
+
+		const project = await Project.findOne({ _id: objectIdProjectId });
 
 		if (!project) {
 			return { status: "error", message: "Project not found." };
@@ -33,19 +44,15 @@ const updateCrush = async (projectId, userIdUpdater, updateType) => {
 
 			logger.info(`Project crush set successfully. Project ID: ${projectId} - Updater user ID: ${userIdUpdater} - Former project crush: ${isCrushSet} - New project crush: ${project.crush}`);
 
-			const ObjectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-
-			const crushProject = await CrushProject.findOne({ project: ObjectIdProjectId });
+			const crushProject = await CrushProject.findOne({ project: objectIdProjectId });
 			if (crushProject) {
 				return { status: "error", message: "Project is already a crush in crushProjects." };
 			}
 
-			const ObjectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-
 			// Create a new crush project
 			const newCrushProject = new CrushProject({
-				project: ObjectIdProjectId,
-				updatedBy: ObjectIdUserIdUpdater,
+				project: objectIdProjectId,
+				updatedBy: objectIdUserIdUpdater,
 			});
 
 			// Save the new crush project
@@ -73,9 +80,7 @@ const updateCrush = async (projectId, userIdUpdater, updateType) => {
 
 			logger.info(`Project crush removed successfully. Project ID: ${projectId} - Updater user ID: ${userIdUpdater} - Former project crush: ${isCrushSet} - New project crush: ${project.crush}`);
 
-			const ObjectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-
-			const existingCrushProject = await CrushProject.findOne({ project: ObjectIdProjectId });
+			const existingCrushProject = await CrushProject.findOne({ project: objectIdProjectId });
 			if (!existingCrushProject) {
 				return { status: "error", message: "Project is already not a crush." };
 			}

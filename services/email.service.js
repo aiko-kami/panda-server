@@ -9,8 +9,14 @@ const sendVerificationEmail = async (userId) => {
 	const emailId = v4();
 
 	try {
+		// Convert id to ObjectId
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserId.status == "error") {
+			return { status: "error", message: objectIdUserId.message };
+		}
+
 		//Find user in the database
-		const user = await User.findOne({ userId });
+		const user = await User.findOne({ _id: objectIdUserId });
 
 		//Return error if userId is not found
 		if (!user) {
@@ -56,7 +62,7 @@ const sendVerificationEmail = async (userId) => {
 
 		//Insert emailID
 		await User.findOneAndUpdate(
-			{ userId },
+			{ _id: objectIdUserId },
 			{
 				"emailVerified.emailId": emailId,
 				"emailVerified.expirationTimestamp": Date.now() + 172800000, //email verification valid 48h
@@ -101,8 +107,14 @@ const verifyEmailValidationId = async (validationId) => {
 		const emailIdDecrypted = decrypted.emailId;
 		const userIdDecrypted = decrypted.userId;
 
+		// Convert id to ObjectId
+		const objectIdUserId = encryptTools.convertIdToObjectId(userIdDecrypted);
+		if (objectIdUserId.status == "error") {
+			return { status: "error", message: objectIdUserId.message };
+		}
+
 		//Find user in the database
-		const user = await User.findOne({ userId: userIdDecrypted });
+		const user = await User.findOne({ _id: objectIdUserId });
 		//Return error if userId is not found
 		if (!user) {
 			//No user found in DB
@@ -119,7 +131,7 @@ const verifyEmailValidationId = async (validationId) => {
 		} else if (user.emailVerified.emailId === emailIdDecrypted) {
 			//Matching OK email validated, update emailVerified field in DB
 			await User.findOneAndUpdate(
-				{ userId: user.userId },
+				{ _id: objectIdUserId },
 				{
 					"emailVerified.verified": true,
 					"emailVerified.expirationTimestamp": 0,
@@ -137,7 +149,48 @@ const verifyEmailValidationId = async (validationId) => {
 	}
 };
 
+//Function to send password reset email (when user forgot his/her password)
+const sendPasswordResetEmail = async (email, username, resetPasswordToken) => {
+	const usernameCapitalized = username.charAt(0).toUpperCase() + username.slice(1);
+	try {
+		// Construct the reset password link
+		const resetLink = `${process.env.WEBSITE_URL}/forgotPassword/${resetPasswordToken}`;
+
+		// Send password reset email containing the link
+		const data = {
+			service_id: process.env.EMAILJS_SERVICE_ID,
+			template_id: process.env.EMAILJS_TEMPLATE_RESET_PASSWORD,
+			user_id: process.env.EMAILJS_USER_ID,
+			accessToken: process.env.EMAILJS_ACCESS_TOKEN,
+			template_params: {
+				to_name: usernameCapitalized,
+				email_to: email,
+				reset_link: resetLink,
+			},
+		};
+
+		const sentMail = await emailDelivery.sendEmail(data);
+		if (sentMail.status !== "success") {
+			logger.error("Error while sending password reset email: ", sentMail);
+			return {
+				status: "error",
+				message: "An error occurred while sending the password reset email.",
+			};
+		}
+
+		logger.info("Password reset email sent successfully.");
+		return { status: "success", message: "Password reset email sent successfully." };
+	} catch (error) {
+		logger.error("Error sending password reset email:", error);
+		return {
+			status: "error",
+			message: "An error occurred while sending the password reset email.",
+		};
+	}
+};
+
 module.exports = {
 	sendVerificationEmail,
 	verifyEmailValidationId,
+	sendPasswordResetEmail,
 };

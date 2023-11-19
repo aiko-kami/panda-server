@@ -9,7 +9,7 @@ const resetPasswordTokenExpirationSeconds = parseInt(process.env.RESET_PASSWORD_
 // Schema for refresh tokens
 const refreshTokenSchema = new Schema(
 	{
-		userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+		user: { type: Schema.Types.ObjectId, ref: "User", required: true },
 		token: { type: String, required: true },
 		expiresAt: {
 			type: Date,
@@ -29,7 +29,7 @@ const RefreshToken = dbConnectionPrivate.model("RefreshToken", refreshTokenSchem
 // Schema for reset password tokens
 const resetPasswordTokenSchema = new Schema(
 	{
-		userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+		user: { type: Schema.Types.ObjectId, ref: "User", required: true },
 		token: { type: String, required: true },
 		expiresAt: {
 			type: Date,

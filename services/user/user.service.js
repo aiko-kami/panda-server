@@ -1,10 +1,16 @@
 const { User } = require("../../models");
-const { logger } = require("../../utils");
 const bcrypt = require("bcryptjs");
+const { logger, encryptTools } = require("../../utils");
 
 const retrieveUserById = async (userId, fields) => {
 	try {
-		const user = await User.findOne({ userId }).select(fields);
+		// Convert id to ObjectId
+		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (ObjectIdUserId.status == "error") {
+			return { status: "error", message: ObjectIdUserId.message };
+		}
+
+		const user = await User.findOne({ _id: ObjectIdUserId }).select(fields);
 
 		if (!user) {
 			return { status: "error", message: "User not found." };
@@ -68,8 +74,14 @@ const retrieveUserByEmail = async (email, fields) => {
 
 const updateUser = async (userId, updatedData) => {
 	try {
+		// Convert id to ObjectId
+		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (ObjectIdUserId.status == "error") {
+			return { status: "error", message: ObjectIdUserId.message };
+		}
+
 		// Find the user by userId
-		const user = await User.findOne({ userId });
+		const user = await User.findOne({ _id: ObjectIdUserId });
 
 		// Check if the user exists
 		if (!user) {
@@ -130,11 +142,17 @@ const updateUser = async (userId, updatedData) => {
  */
 const updateUserPassword = async (userId, newPassword) => {
 	try {
+		// Convert id to ObjectId
+		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (ObjectIdUserId.status == "error") {
+			return { status: "error", message: ObjectIdUserId.message };
+		}
+
 		// Hash the new password
 		const hashedPassword = await bcrypt.hash(newPassword, 10);
 
 		// Update the password in the database for the user with userId
-		await User.findOneAndUpdate({ userId }, { password: hashedPassword });
+		await User.findOneAndUpdate({ _id: ObjectIdUserId }, { password: hashedPassword });
 
 		logger.info(`User password updated successfully. userId: ${userId}`);
 

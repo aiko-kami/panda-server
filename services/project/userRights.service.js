@@ -1,5 +1,5 @@
 const { ProjectRights } = require("../../models");
-const { logger } = require("../../utils");
+const { logger, encryptTools } = require("../../utils");
 
 /**
  * Set project owner's default rights during the creation of a project.
@@ -9,10 +9,21 @@ const { logger } = require("../../utils");
  */
 const setProjectOwnerRights = async (projectId, userId) => {
 	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserId.status == "error") {
+			return { status: "error", message: objectIdUserId.message };
+		}
+
 		// Create owner's rights in the database
 		const ownerRights = new ProjectRights({
-			projectId,
-			userId,
+			project: objectIdProjectId,
+			user: objectIdUserId,
 			permissions: {
 				canEditTitle: true,
 				canEditGoal: true,
@@ -36,17 +47,23 @@ const setProjectOwnerRights = async (projectId, userId) => {
 				canRemoveMembers: true,
 				canEditRights: true,
 			},
-			updatedBy: "default",
+			updatedBy: objectIdUserId,
 		});
 
 		// Save owner's rights to the database
 		const createdRights = await ownerRights.save();
 
-		logger.info(`Owner's rights stored in database. Project ID: ${createdRights.projectId} - User ID: ${createdRights.userId}`);
+		const projectRights = {
+			projectId,
+			userId,
+			permissions: createdRights.permissions,
+		};
+
+		logger.info(`Owner's rights stored in database. Project ID: ${projectId} - User ID: ${userId}`);
 		return {
 			status: "success",
 			message: "Owner's rights stored in the database.",
-			createdRights,
+			projectRights,
 		};
 	} catch (error) {
 		logger.error(`Error while setting project owner's rights: ${error}`);
@@ -56,10 +73,26 @@ const setProjectOwnerRights = async (projectId, userId) => {
 
 const setProjectNewMemberRights = async (userId, projectId, userIdUpdater) => {
 	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserId.status == "error") {
+			return { status: "error", message: objectIdUserId.message };
+		}
+
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+		if (objectIdUserIdUpdater.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdater.message };
+		}
+
 		// Create new member's rights in the database
 		const newMemberRights = new ProjectRights({
-			projectId,
-			userId,
+			project: objectIdProjectId,
+			user: objectIdUserId,
 			permissions: {
 				canEditTitle: false,
 				canEditGoal: false,
@@ -83,17 +116,24 @@ const setProjectNewMemberRights = async (userId, projectId, userIdUpdater) => {
 				canRemoveMembers: false,
 				canEditRights: false,
 			},
-			updatedBy: userIdUpdater,
+			updatedBy: objectIdUserIdUpdater,
 		});
 
 		// Save new member's rights to the database
 		const createdRights = await newMemberRights.save();
 
-		logger.info(`New member's rights stored in database. Project ID: ${createdRights.projectId} - User ID: ${createdRights.userId}`);
+		const projectRights = {
+			projectId,
+			userId,
+			updatedBy: userIdUpdater,
+			permissions: createdRights.permissions,
+		};
+
+		logger.info(`New member's rights stored in database. Project ID: ${projectId} - User ID: ${userId} - User ID updater: ${userIdUpdater}`);
 		return {
 			status: "success",
 			message: "New member's rights stored in the database.",
-			createdRights,
+			projectRights,
 		};
 	} catch (error) {
 		logger.error(`Error while setting project new member's rights: ${error}`);
@@ -110,10 +150,21 @@ const setProjectNewMemberRights = async (userId, projectId, userIdUpdater) => {
  */
 const validateUserRights = async (userId, projectId, updatedFields) => {
 	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserId.status == "error") {
+			return { status: "error", message: objectIdUserId.message };
+		}
+
 		// Find the user's rights for the specified project
 		const userRights = await ProjectRights.findOne({
-			userId: userId,
-			projectId: projectId,
+			user: objectIdUserId,
+			project: objectIdProjectId,
 		});
 		if (!userRights) {
 			return {
@@ -172,9 +223,20 @@ const validateUserRights = async (userId, projectId, updatedFields) => {
  */
 const retrieveProjectRights = async (projectId, userId) => {
 	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserId.status == "error") {
+			return { status: "error", message: objectIdUserId.message };
+		}
+
 		const projectRights = await ProjectRights.findOne({
-			projectId: projectId,
-			userId: userId,
+			project: objectIdProjectId,
+			user: objectIdUserId,
 		}).select("-_id -__v");
 
 		if (!projectRights) {
@@ -184,7 +246,7 @@ const retrieveProjectRights = async (projectId, userId) => {
 				message: "An error occurred while retrieving user's project rights: Project rights not found for this user and project.",
 			};
 		}
-		logger.info(`Project rights found successfully. Project ID: ${projectRights.projectId} - User ID: ${projectRights.userId}`);
+		logger.info(`Project rights found successfully. Project ID: ${projectId} - User ID: ${userId}`);
 		return {
 			status: "success",
 			message: "Project rights found successfully.",
@@ -208,10 +270,26 @@ const retrieveProjectRights = async (projectId, userId) => {
  */
 const updateUserProjectRights = async (projectId, userIdUpdated, updatedPermissions, userIdUpdater) => {
 	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const objectIdUserIdUpdated = encryptTools.convertIdToObjectId(userIdUpdated);
+		if (objectIdUserIdUpdated.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdated.message };
+		}
+
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+		if (objectIdUserIdUpdater.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdater.message };
+		}
+
 		// Find the project rights document for the specified project and user
 		const projectRights = await ProjectRights.findOne({
-			projectId: projectId,
-			userId: userIdUpdated,
+			project: objectIdProjectId,
+			user: objectIdUserIdUpdated,
 		});
 
 		if (!projectRights) {
@@ -249,12 +327,12 @@ const updateUserProjectRights = async (projectId, userIdUpdated, updatedPermissi
 		}
 
 		// Set the 'updatedBy' field to the ID of the user who is updating
-		projectRights.updatedBy = userIdUpdater;
+		projectRights.updatedBy = objectIdUserIdUpdater;
 
 		// Save the updated project rights
 		await projectRights.save();
 
-		logger.info(`Project rights updated successfully. Project ID: ${projectRights.projectId} - User ID: ${projectRights.userId}`);
+		logger.info(`Project rights updated successfully. Project ID: ${projectId} - User ID: ${userIdUpdated}`);
 		return {
 			status: "success",
 			message: "Project rights updated successfully.",
@@ -270,10 +348,21 @@ const updateUserProjectRights = async (projectId, userIdUpdated, updatedPermissi
 
 const removeUserProjectRights = async (projectId, userId) => {
 	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserId.status == "error") {
+			return { status: "error", message: objectIdUserId.message };
+		}
+
 		// Find the project rights document for the specified project and user
 		const projectRights = await ProjectRights.findOneAndRemove({
-			projectId,
-			userId,
+			project: objectIdProjectId,
+			user: objectIdUserId,
 		});
 
 		if (!projectRights) {
@@ -284,7 +373,7 @@ const removeUserProjectRights = async (projectId, userId) => {
 			};
 		}
 
-		logger.info(`User's project rights removed successfully. Project ID: ${projectRights.projectId} - User ID: ${projectRights.userId}`);
+		logger.info(`User's project rights removed successfully. Project ID: ${projectId} - User ID: ${userId}`);
 		return {
 			status: "success",
 			message: "User's project rights removed successfully.",

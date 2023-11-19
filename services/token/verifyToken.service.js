@@ -1,6 +1,6 @@
+const { ResetPasswordToken } = require("../../models");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
-const { ResetPasswordToken } = require("../../models");
 
 const verifyAccessToken = (accessToken) => {
 	try {
@@ -74,8 +74,14 @@ const verifyResetPasswordToken = async (resetToken) => {
 
 		const userIdDecrypted = tokenData.userId;
 
+		// Convert id to ObjectId
+		const ObjectIdUserId = encryptTools.convertIdToObjectId(userIdDecrypted);
+		if (ObjectIdUserId.status == "error") {
+			return { status: "error", message: ObjectIdUserId.message };
+		}
+
 		const existingToken = await ResetPasswordToken.findOne({
-			userId: userIdDecrypted,
+			user: ObjectIdUserId,
 			token: resetToken,
 		});
 
@@ -84,7 +90,7 @@ const verifyResetPasswordToken = async (resetToken) => {
 			return {
 				status: "success",
 				message: "Reset password token is valid.",
-				userId: existingToken.userId,
+				userId: userIdDecrypted,
 			};
 		} else {
 			// The token was not find in the database

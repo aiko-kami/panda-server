@@ -10,13 +10,22 @@ const { logger } = require("../../utils");
  */
 const updateMemberFromProject = async (projectId, userIdUpdated, action, talent) => {
 	try {
-		const project = await Project.findOne({ projectId });
+		const objectIdUserIdUpdated = encryptTools.convertIdToObjectId(joinProjectData.userIdUpdated);
+		if (objectIdUserIdUpdated.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdated.message };
+		}
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const project = await Project.findOne({ _id: objectIdProjectId });
 
 		if (!project) {
 			return { status: "error", message: "Project not found." };
 		}
 
-		const existingMemberIndex = project.members.findIndex((member) => member.userId === userIdUpdated);
+		const existingMemberIndex = project.members.findIndex((member) => member.user.toString() === objectIdUserIdUpdated.toString());
 
 		if (action === "add") {
 			if (existingMemberIndex !== -1) {
@@ -25,7 +34,7 @@ const updateMemberFromProject = async (projectId, userIdUpdated, action, talent)
 
 			// Add a new member to the project
 			const newMember = {
-				userId: userIdUpdated,
+				user: objectIdUserIdUpdated,
 				talent: talent,
 				role: "member",
 			};
@@ -71,13 +80,24 @@ const updateMemberFromProject = async (projectId, userIdUpdated, action, talent)
 
 const updateMemberRole = async (projectId, memberId, newRole) => {
 	try {
-		const project = await Project.findOne({ projectId });
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const objectIdMemberId = encryptTools.convertIdToObjectId(memberId);
+		if (objectIdMemberId.status == "error") {
+			return { status: "error", message: objectIdMemberId.message };
+		}
+
+		const project = await Project.findOne({ _id: objectIdProjectId });
 
 		if (!project) {
 			return { status: "error", message: "Project not found." };
 		}
 
-		const existingMemberIndex = project.members.findIndex((member) => member.userId === memberId);
+		const existingMemberIndex = project.members.findIndex((member) => member.user.toString() === objectIdMemberId.toString());
 
 		if (existingMemberIndex === -1) {
 			return { status: "error", message: "Member not found in the project." };
@@ -115,13 +135,24 @@ const updateMemberRole = async (projectId, memberId, newRole) => {
 
 const updateMemberstartDate = async (projectId, memberId, newStartDate) => {
 	try {
-		const project = await Project.findOne({ projectId });
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const objectIdMemberId = encryptTools.convertIdToObjectId(memberId);
+		if (objectIdMemberId.status == "error") {
+			return { status: "error", message: objectIdMemberId.message };
+		}
+
+		const project = await Project.findOne({ _id: objectIdProjectId });
 
 		if (!project) {
 			return { status: "error", message: "Project not found." };
 		}
 
-		const existingMemberIndex = project.members.findIndex((member) => member.userId === memberId);
+		const existingMemberIndex = project.members.findIndex((member) => member.user.toString() === objectIdMemberId.toString());
 
 		if (existingMemberIndex === -1) {
 			return { status: "error", message: "Member not found in the project." };
@@ -150,13 +181,24 @@ const updateMemberstartDate = async (projectId, memberId, newStartDate) => {
 
 const updateMemberTalent = async (projectId, memberId, newTalent) => {
 	try {
-		const project = await Project.findOne({ projectId });
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const objectIdMemberId = encryptTools.convertIdToObjectId(memberId);
+		if (objectIdMemberId.status == "error") {
+			return { status: "error", message: objectIdMemberId.message };
+		}
+
+		const project = await Project.findOne({ _id: objectIdProjectId });
 
 		if (!project) {
 			return { status: "error", message: "Project not found." };
 		}
 
-		const existingMemberIndex = project.members.findIndex((member) => member.userId === memberId);
+		const existingMemberIndex = project.members.findIndex((member) => member.user.toString() === objectIdMemberId.toString());
 
 		if (existingMemberIndex === -1) {
 			return { status: "error", message: "Member not found in the project." };

@@ -7,17 +7,17 @@ Services:
 DONE:
 ✅ - login
 ✅ - signup
-✅ - emailValidation
 ✅ - category
 ✅ - crush
-✅ - createJoin project request (not for invitation)
-✅ - updateJoin project request (not for invitation)
-
-NOT DONE:
-joinProject - member - project - status - userRights
-generateToken - removeToken - storeToken - verifyToken
-talent - user
-emailResetPassword
+✅ - joinProject
+✅ - member
+✅ - userRights
+✅ - status
+✅ - project
+✅ - Token
+✅ - email
+✅ - talent
+✅ - user
 
 ---
 

@@ -22,10 +22,14 @@ const setTokensInCookies = (res, accessToken, refreshToken) => {
 
 const storeRefreshTokenInDatabase = async (userId, refreshTokenToStore) => {
 	try {
+		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (ObjectIdUserId.status == "error") {
+			return { status: "error", message: ObjectIdUserId.message };
+		}
 
 		// Check if a refresh token already exists for the user
-		const existingToken = await RefreshToken.findOne({ userId: ObjectIdUserId });
+		const existingToken = await RefreshToken.findOne({ user: ObjectIdUserId });
 
 		// If an existing token is found, remove former token from the database
 		if (existingToken) {
@@ -34,7 +38,7 @@ const storeRefreshTokenInDatabase = async (userId, refreshTokenToStore) => {
 		}
 
 		const refreshToken = new RefreshToken({
-			userId: ObjectIdUserId,
+			user: ObjectIdUserId,
 			createdAt: DateTime.now(),
 			token: refreshTokenToStore,
 		});
@@ -58,21 +62,25 @@ const storeRefreshTokenInDatabase = async (userId, refreshTokenToStore) => {
 
 const storeResetPasswordTokenInDatabase = async (userId, ResetPasswordTokenToStore) => {
 	try {
+		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (ObjectIdUserId.status == "error") {
+			return { status: "error", message: ObjectIdUserId.message };
+		}
 
 		// Check if a reset password token already exists for the user
-		const existingToken = await ResetPasswordToken.find({ userId: ObjectIdUserId });
+		const existingToken = await ResetPasswordToken.find({ user: ObjectIdUserId });
 
 		// If existing token(s) is(are) found, remove former token(s) from the database
 		if (existingToken) {
-			const deleteResult = await ResetPasswordToken.deleteMany({ userId: ObjectIdUserId });
+			const deleteResult = await ResetPasswordToken.deleteMany({ user: ObjectIdUserId });
 
 			if (deleteResult.deletedCount > 0) {
 				logger.info(`Removed ${deleteResult.deletedCount} reset password token(s) from the database. userId: ${userId}`);
 			}
 		}
 		const resetPasswordToken = new ResetPasswordToken({
-			userId: ObjectIdUserId,
+			user: ObjectIdUserId,
 			token: ResetPasswordTokenToStore,
 		});
 

@@ -4,12 +4,12 @@ const { dbConnectionPrivate } = require("../config/db.config");
 
 const projectRightsSchema = new Schema(
 	{
-		projectId: {
+		project: {
 			type: Schema.Types.ObjectId,
 			ref: "Project", // Reference to the Project model
 			required: true,
 		},
-		userId: {
+		user: {
 			type: Schema.Types.ObjectId,
 			ref: "User", // Reference to the User model
 			required: true,

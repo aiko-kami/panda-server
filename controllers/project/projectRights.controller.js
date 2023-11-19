@@ -1,5 +1,5 @@
 const { userRightsService, projectService } = require("../../services");
-const { apiResponse, ProjectRightsValidation } = require("../../utils");
+const { apiResponse, ProjectRightsValidation, encryptTools } = require("../../utils");
 
 /**
  * Edit user's right to update a project controller.
@@ -39,8 +39,14 @@ const updateUserProjectRights = async (req, res) => {
 
 		const projectMembers = ProjectMembersResult.project.members;
 
+		// Convert id to ObjectId
+		const objectIdUserIdUpdated = encryptTools.convertIdToObjectId(userIdUpdated);
+		if (objectIdUserIdUpdated.status == "error") {
+			return apiResponse.serverErrorResponse(res, objectIdUserIdUpdated.message);
+		}
+
 		// Find the user to be updated in the project's members
-		const userToBeUpdated = projectMembers.find((member) => member.userId === userIdUpdated);
+		const userToBeUpdated = projectMembers.find((member) => member.user.toString() === objectIdUserIdUpdated.toString());
 
 		if (!userToBeUpdated) {
 			// If user to be updated is not member of the project, return error

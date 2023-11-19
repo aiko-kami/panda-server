@@ -1,5 +1,5 @@
 const { RefreshToken, ResetPasswordToken } = require("../../models");
-const { logger } = require("../../utils");
+const { logger, encryptTools } = require("../../utils");
 
 const deleteAllTokens = async () => {
 	try {
@@ -41,8 +41,14 @@ const removeRefreshTokenFromDatabase = async (refreshToken) => {
 
 const removeResetPasswordTokenFromDatabase = async (userId, resetToken) => {
 	try {
+		// Convert id to ObjectId
+		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (ObjectIdUserId.status == "error") {
+			return { status: "error", message: ObjectIdUserId.message };
+		}
+
 		// Find and remove the reset password token associated with the given user ID
-		const removeResult = await ResetPasswordToken.findOneAndRemove({ userId, token: resetToken });
+		const removeResult = await ResetPasswordToken.findOneAndRemove({ user: ObjectIdUserId, token: resetToken });
 
 		if (!removeResult) {
 			return { status: "error", message: "Reset password token not found." };
