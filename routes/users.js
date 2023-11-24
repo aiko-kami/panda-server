@@ -19,21 +19,13 @@ usersRoute.delete("/talent/remove/me", verifyAccess, talentController.removeTale
 // Change password
 usersRoute.patch("/changePassword", verifyAccess, userController.updateUserPassword);
 
-// User overview
-usersRoute.get("/userOverview/:userId", (req, res) => {
-	res.json({
-		message: `User ${req.params.userId} overview page`,
-	});
-});
-
 // New User Overview
 usersRoute.get("/lastUsersOverview", userController.retrieveNewUsers);
 
+// User overview
+usersRoute.get("/userOverview/:userId", userController.retrieveUserOverview);
+
 // User public info
-usersRoute.get("/userPublic/:userId", (req, res) => {
-	res.json({
-		message: `User ${req.params.userId} public page`,
-	});
-});
+usersRoute.get("/userPublic/:userId", userController.retrieveUserPublicData);
 
 module.exports = usersRoute;

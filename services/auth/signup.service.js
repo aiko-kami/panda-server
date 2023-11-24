@@ -29,16 +29,16 @@ const signupUser = async (username, email, password) => {
 				verified: false,
 				emailId: "",
 			},
-			profilePicture: "",
+			profilePicture: { data: "" },
 			location: {
-				city: "",
-				country: "",
+				city: { data: "" },
+				country: { data: "" },
 			},
-			company: "",
+			company: { data: "" },
 			description: "",
-			bio: "",
-			languages: [],
-			website: "",
+			bio: { data: "" },
+			languages: { data: [] },
+			website: { data: "" },
 		});
 
 		// Save the user to the database

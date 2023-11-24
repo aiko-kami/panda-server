@@ -26,6 +26,16 @@ const validateUpdatedUserInputs = (userData) => {
 	return { status: "success", message: "All user inputs are valid." };
 };
 
+const validateUserId = (userId) => {
+	//String type validation
+	if (typeof userId !== "string") {
+		return { status: "error", message: "Invalid type of data." };
+	}
+	// If all validations passed
+	return { status: "success", message: "All user inputs are valid." };
+};
+
 module.exports = {
 	validateUpdatedUserInputs,
+	validateUserId,
 };

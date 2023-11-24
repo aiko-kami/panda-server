@@ -5,8 +5,13 @@ const retrieveMyUserData = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		const userData = await userService.retrieveUserById(userId, "-_id username email createdAt location company description bio languages website profilePicture");
+		// Validate user ID
+		const validationResult = userValidation.validateUserId(userId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
 
+		const userData = await userService.retrieveUserById(userId, "-_id username email createdAt updatedAt location company description bio languages website profilePicture");
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);
 		}
@@ -22,8 +27,12 @@ const retrieveMyUserData = async (req, res) => {
 const retrieveNewUsers = async (req, res) => {
 	try {
 		const newUsers = await userService.retrieveLatestUsers(4, "-_id username profilePicture description");
-
 		if (newUsers.users !== null && newUsers.users.length > 0) {
+			for (let user of newUsers.users) {
+				// Filter on the public fields only
+				user = userTools.filterOutputFields(user);
+			}
+
 			return apiResponse.successResponseWithData(res, newUsers.message, newUsers.users);
 		} else {
 			return apiResponse.serverErrorResponse(res, newUsers.message);
@@ -76,7 +85,6 @@ const updateUser = async (req, res) => {
 
 		// Update the user in the database
 		const updateUserResult = await userService.updateUser(userId, filterUserInputs);
-
 		// Check the result of the update operation
 		if (updateUserResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updateUserResult.message);
@@ -109,7 +117,6 @@ const updateUserPassword = async (req, res) => {
 
 		// Update the user's password in the database
 		const updatePasswordResult = await userService.updateUserPassword(userId, newPassword);
-
 		// Check the result of the update operation
 		if (updatePasswordResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updatePasswordResult.message);
@@ -121,9 +128,62 @@ const updateUserPassword = async (req, res) => {
 	}
 };
 
+const retrieveUserOverview = async (req, res) => {
+	try {
+		const { userId = "" } = req.params;
+
+		// Validate user ID
+		const validationResult = userValidation.validateUserId(userId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		const userData = await userService.retrieveUserById(userId, "-_id username location description talents profilePicture");
+		if (userData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userData.message);
+		}
+
+		// Filter on the public fields only
+		const userDataFiltered = userTools.filterOutputFields(userData.user);
+
+		return apiResponse.successResponseWithData(res, userData.message, userDataFiltered);
+	} catch (error) {
+		// Throw error in json response with status 500.
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const retrieveUserPublicData = async (req, res) => {
+	try {
+		const { userId = "" } = req.params;
+
+		// Validate user ID
+		const validationResult = userValidation.validateUserId(userId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		const userData = await userService.retrieveUserById(userId, "-_id username createdAt location company description bio languages website profilePicture");
+
+		if (userData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userData.message);
+		}
+
+		// Filter on the public fields only
+		const userDataFiltered = userTools.filterOutputFields(userData.user);
+
+		return apiResponse.successResponseWithData(res, userData.message, userDataFiltered);
+	} catch (error) {
+		// Throw error in json response with status 500.
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 module.exports = {
 	retrieveMyUserData,
 	updateUser,
 	retrieveNewUsers,
 	updateUserPassword,
+	retrieveUserOverview,
+	retrieveUserPublicData,
 };

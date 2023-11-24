@@ -95,7 +95,6 @@ const adminLogin = async (req, res) => {
 		storeTokenService.setTokensInCookies(res, accessToken, refreshToken);
 
 		const tokenStoredInDb = await storeTokenService.storeRefreshTokenInDatabase(user.adminUserId, refreshToken);
-
 		if (tokenStoredInDb.status !== "success") {
 			return apiResponse.serverErrorResponse(res, tokenStoredInDb.message);
 		}

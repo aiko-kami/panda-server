@@ -1,7 +1,7 @@
 const { User } = require("../models");
 const CryptoJS = require("crypto-js");
 const v4 = require("uuid").v4;
-const { logger, emailDelivery } = require("../utils");
+const { logger, encryptTools, emailDelivery } = require("../utils");
 
 //Function to send verification email (to validate the user email address with a personalized link)
 const sendVerificationEmail = async (userId) => {

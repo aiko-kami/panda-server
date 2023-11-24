@@ -126,7 +126,9 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] Count the number of projects per category (public projects only)
   - [x] Forward when possible the message from the service to the controller and the final output
   - [x] Allow multiple database connections
-  - [ ] Admin Login ❤
+  - [x] Admin Login
+  - [x] User routes (overview and public)
+  - [ ] Project routes (creation, draft, submission) ❤
   - [ ] Project 💚❤
     - [x] New fields (coup de coeur)
     - [ ] Upload images ❤
@@ -220,6 +222,7 @@ src
 │   └───utils
 │       └───validation
 └───utils                 # Utility classes and functions
+    ├───scripts
     ├───tools
     └───validation
 app.js                    # App entry point
@@ -248,33 +251,38 @@ List of available routes:
 | `POST` | `/auth/login`                                 | Login                     |
 | `POST` | `/auth/logout`                                | Logout                    |
 | `POST` | `/auth/forgotPassword`                        | Send reset password email |
-| `POST` | `/auth/forgotPassword`                        | Send reset password email |
 | `POST` | `/auth/forgotPassword/reset/:resetPasswordId` | Reset password            |
 
 - **User routes**:
 
-| Method  | URI                           | Action                      |
-| ------- | ----------------------------- | --------------------------- |
-| `GET`   | `/users/lastUsersOverview`    | Retrieve new users          |
-| `GET`   | `/users/userOverview/:userId` | Retrieve user's overview    |
-| `GET`   | `/users/me`                   | Retrieve user personal data |
-| `PATCH` | `/users/me`                   | Update user personal data   |
-| `PATCH` | `/users/changePassword`       | Change user's password      |
+| Method   | URI                           | Action                      |
+| -------- | ----------------------------- | --------------------------- |
+| `GET`    | `/users/lastUsersOverview`    | Retrieve new users          |
+| `GET`    | `/users/userOverview/:userId` | Retrieve user's overview    |
+| `GET`    | `/users/userPublic/:userId`   | Retrieve user public data   |
+| `GET`    | `/users/me`                   | Retrieve user personal data |
+| `PATCH`  | `/users/me`                   | Update user personal data   |
+| `PATCH`  | `/users/changePassword`       | Change user's password      |
+| `POST`   | `/users/talent/add/me`        | Add talent                  |
+| `PATCH`  | `/users/talent/update/me`     | Update talent               |
+| `DELETE` | `/users/talent/remove/me`     | Remove talent               |
 
 - **Project routes**:
 
-| Method   | URI                                   | Action                       |
-| -------- | ------------------------------------- | ---------------------------- |
-| `POST`   | `/projects/project`                   | Create new project           |
-| `POST`   | `/projects/project/submit/:projectId` | Create new project           |
-| `PATCH`  | `/projects/project/:projectId`        | Update project               |
-| `PATCH`  | `/projects/project/status/:projectId` | Update project status        |
-| `GET`    | `/projects/project/:projectId`        | Retrieve project             |
-| `GET`    | `/projectOverview/:projectId`         | Retrieve project overview    |
-| `GET`    | `/projectPublic/:projectId`           | Retrieve project public data |
-| `POST`   | `/projects/category`                  | Create new project category  |
-| `PATCH`  | `/projects/category`                  | Update project category      |
-| `DELETE` | `/projects/category`                  | Remove project category      |
+| Method   | URI                                        | Action                       |
+| -------- | ------------------------------------------ | ---------------------------- |
+| `POST`   | `/projects/project/createDraft`            | Create new project draft     |
+| `POST`   | `/projects/project/updateDraft/:projectId` | Update project draft         |
+| `POST`   | `/projects/project/create`                 | Create new project           |
+| `POST`   | `/projects/project/submit/:projectId`      | Create new project           |
+| `PATCH`  | `/projects/project/:projectId`             | Update project               |
+| `PATCH`  | `/projects/project/status/:projectId`      | Update project status        |
+| `GET`    | `/projects/project/:projectId`             | Retrieve project             |
+| `GET`    | `/projectOverview/:projectId`              | Retrieve project overview    |
+| `GET`    | `/projectPublic/:projectId`                | Retrieve project public data |
+| `POST`   | `/projects/category`                       | Create new project category  |
+| `PATCH`  | `/projects/category`                       | Update project category      |
+| `DELETE` | `/projects/category`                       | Remove project category      |
 
 ## 🛠 Environment Variables
 

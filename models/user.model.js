@@ -2,6 +2,23 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const { dbConnectionPrivate } = require("../config/db.config");
 const { DateTime } = require("luxon");
+const config = require("../config");
+
+const userVisibility = config.user_visibility;
+const public = config.user_visibility[0];
+const private = config.user_visibility[1];
+
+const privacyString = new Schema({
+	_id: false,
+	data: { type: String },
+	privacy: {
+		type: String,
+		required: true,
+		default: public,
+		enum: userVisibility,
+		message: "The value {VALUE} is not valid.",
+	},
+});
 
 const userSchema = new Schema(
 	{
@@ -10,20 +27,36 @@ const userSchema = new Schema(
 		usernameCapitalized: { type: String, required: true, unique: true, trim: true },
 		email: { type: String, required: true, unique: true, trim: true, lowercase: true },
 		password: { type: String, required: true, trim: true },
-		createdAt: { type: Date, default: DateTime.now().toHTTP(), required: true },
+		createdAt: {
+			type: Date,
+			default: DateTime.now().toHTTP(),
+			required: true,
+		},
 		lastConnection: { type: Date },
 		emailVerified: {
 			verified: { type: Boolean, required: true },
 			emailId: { type: String },
 			expirationTimestamp: { type: Number },
 		},
-		profilePicture: { type: String },
-		location: { city: { type: String }, country: { type: String } },
-		company: { type: String },
 		description: { type: String },
-		bio: { type: String },
-		languages: [{ type: String }],
-		website: { type: String },
+		profilePicture: privacyString,
+		location: {
+			city: privacyString,
+			country: privacyString,
+		},
+		company: privacyString,
+		bio: privacyString,
+		languages: {
+			data: [{ type: String }],
+			privacy: {
+				type: String,
+				required: true,
+				default: public,
+				enum: userVisibility,
+				message: "The value {VALUE} is not valid.",
+			},
+		},
+		website: privacyString,
 		talents: [
 			{
 				name: { type: String, required: true, unique: true },

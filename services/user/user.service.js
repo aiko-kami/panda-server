@@ -36,6 +36,7 @@ const retrieveLatestUsers = async (limit, fields) => {
 		if (!users) {
 			return { status: "error", message: "No user found." };
 		}
+
 		return {
 			status: "success",
 			message: "New users retrieved successfully",
@@ -94,14 +95,14 @@ const updateUser = async (userId, updatedData) => {
 		// Define a mapping of fields between the updatedData object and the project object
 		const fieldMapping = {
 			email: "email",
-			profilePicture: "profilePicture",
-			locationCountry: "location.city",
-			locationCity: "location.country",
-			company: "company",
+			profilePicture: "profilePicture.data",
+			locationCity: "location.city.data",
+			locationCountry: "location.country.data",
+			company: "company.data",
 			description: "description",
-			bio: "bio",
-			languages: "languages",
-			website: "website",
+			bio: "bio.data",
+			languages: "languages.data",
+			website: "website.data",
 		};
 
 		// Iterate through the fieldMapping and check if the field exists in updatedData
