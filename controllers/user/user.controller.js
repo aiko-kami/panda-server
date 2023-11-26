@@ -11,7 +11,7 @@ const retrieveMyUserData = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const userData = await userService.retrieveUserById(userId, "-_id username email createdAt updatedAt location company description bio languages website profilePicture");
+		const userData = await userService.retrieveUserById(userId, "-_id username email createdAt updatedAt location company description bio languages website profilePicture talents");
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);
 		}
@@ -66,6 +66,12 @@ const updateUser = async (req, res) => {
 			website: req.body.userNewData.website || "",
 		};
 
+		// Validate user ID
+		const idValidationResult = userValidation.validateUserId(userId);
+		if (idValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, idValidationResult.message);
+		}
+
 		// Validate input data for updating a user
 		const validationResult = userValidation.validateUpdatedUserInputs(updatedUserInputs);
 		if (validationResult.status !== "success") {
@@ -109,6 +115,12 @@ const updateUserPassword = async (req, res) => {
 
 		const { oldPassword = "", newPassword = "", confirmNewPassword = "" } = req.body;
 
+		// Validate user ID
+		const idValidationResult = userValidation.validateUserId(userId);
+		if (idValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, idValidationResult.message);
+		}
+
 		// Validate input data
 		const validationResult = authValidation.validatePasswordChange(oldPassword, newPassword, confirmNewPassword);
 		if (validationResult.status !== "success") {
@@ -116,7 +128,7 @@ const updateUserPassword = async (req, res) => {
 		}
 
 		// Update the user's password in the database
-		const updatePasswordResult = await userService.updateUserPassword(userId, newPassword);
+		const updatePasswordResult = await userService.updateUserPassword(userId, oldPassword, newPassword);
 		// Check the result of the update operation
 		if (updatePasswordResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updatePasswordResult.message);

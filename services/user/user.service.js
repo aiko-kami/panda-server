@@ -141,12 +141,23 @@ const updateUser = async (userId, updatedData) => {
  * @param {string} newPassword - The new password to set for the user.
  * @returns {Object} - An object with a status and message indicating the result.
  */
-const updateUserPassword = async (userId, newPassword) => {
+const updateUserPassword = async (userId, oldPassword, newPassword) => {
 	try {
 		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
 		if (ObjectIdUserId.status == "error") {
 			return { status: "error", message: ObjectIdUserId.message };
+		}
+
+		// Retrieve the user from the database
+		const user = await User.findById(ObjectIdUserId);
+
+		// Check if the old password matches the stored hashed password
+		const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+
+		if (!isPasswordValid) {
+			logger.error("Error while updating user password: Old password is incorrect");
+			return { status: "error", message: "Old password is incorrect." };
 		}
 
 		// Hash the new password

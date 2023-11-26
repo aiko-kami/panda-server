@@ -12,12 +12,12 @@ usersRoute.get("/me", verifyAccess, userController.retrieveMyUserData);
 usersRoute.patch("/me", verifyAccess, userController.updateUser);
 
 // Talents
-usersRoute.post("/talent/add/me", verifyAccess, talentController.createTalent);
-usersRoute.patch("/talent/update/me", verifyAccess, talentController.updateTalent);
-usersRoute.delete("/talent/remove/me", verifyAccess, talentController.removeTalent);
+usersRoute.post("/me/talent/add", verifyAccess, talentController.createTalent);
+usersRoute.patch("/me/talent/update", verifyAccess, talentController.updateTalent);
+usersRoute.delete("/me/talent/remove", verifyAccess, talentController.removeTalent);
 
 // Change password
-usersRoute.patch("/changePassword", verifyAccess, userController.updateUserPassword);
+usersRoute.patch("/me/changePassword", verifyAccess, userController.updateUserPassword);
 
 // New User Overview
 usersRoute.get("/lastUsersOverview", userController.retrieveNewUsers);

@@ -59,6 +59,7 @@ const userSchema = new Schema(
 		website: privacyString,
 		talents: [
 			{
+				_id: false,
 				name: { type: String, required: true, unique: true },
 				description: { type: String },
 				skills: { type: String },

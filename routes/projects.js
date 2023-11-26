@@ -4,7 +4,7 @@
 
 const projectRoute = require("express").Router();
 
-const { projectController, memberController, categoryController, projectRightsController, projectAttachmentsController, projectStatusController, projectCrushController } = require("../controllers");
+const { projectController, memberController, projectRightsController, projectAttachmentsController, projectStatusController, projectCrushController } = require("../controllers");
 const { verifyAccess, verifyAdminAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Project creation
@@ -14,11 +14,6 @@ projectRoute.post("/project/create", verifyAccess, projectController.createProje
 
 // Project update
 projectRoute.patch("/project/update/:projectId", verifyAccess, projectController.updateProject);
-
-// Project crush
-projectRoute.patch("/project/addCrush", verifyAdminAccess, projectCrushController.addCrush);
-projectRoute.patch("/project/removeCrush", verifyAdminAccess, projectCrushController.removeCrush);
-projectRoute.get("/crushProjects", projectCrushController.retrieveCrushProjects);
 
 // Retrieve project data
 projectRoute.get("/project/:projectId", verifyAccess, projectController.retrieveProjectData);
@@ -30,17 +25,16 @@ projectRoute.get("/lastProjectsOverview", projectController.retrieveNewProjects)
 projectRoute.get("/nbProjects", projectController.countProjects);
 projectRoute.get("/nbProjectsPerCategory", projectController.countProjectsPerCategory);
 
-// Categories
-projectRoute.get("/category", verifyAdminAccess, categoryController.retrieveCategory);
-projectRoute.get("/categories", verifyAdminAccess, categoryController.retrieveCategories);
-projectRoute.post("/category", verifyAdminAccess, categoryController.createCategory);
-projectRoute.patch("/category", verifyAdminAccess, categoryController.updateCategory);
-projectRoute.delete("/category", verifyAdminAccess, categoryController.removeCategory);
+// Project crush
+projectRoute.patch("/project/addCrush", verifyAdminAccess, projectCrushController.addCrush);
+projectRoute.patch("/project/removeCrush", verifyAdminAccess, projectCrushController.removeCrush);
+projectRoute.get("/crushProjects", projectCrushController.retrieveCrushProjects);
 
-// Sub-categories
-projectRoute.post("/subCategory", verifyAdminAccess, categoryController.addSubCategory);
-projectRoute.patch("/subCategory", verifyAdminAccess, categoryController.updateSubCategory);
-projectRoute.delete("/subCategory", verifyAdminAccess, categoryController.removeSubCategory);
+// Project like
+projectRoute.patch("/project/like", verifyAccess, projectLikeController.likeProject);
+projectRoute.patch("/project/unlike", verifyAccess, projectLikeController.unlikeProject);
+projectRoute.get("/projectsUserLikes", verifyAccess, projectLikeController.retrieveUserLikes);
+projectRoute.get("/projectLikes", projectLikeController.retrieveProjectLikes);
 
 // User's rights
 projectRoute.patch("/project/UserRights/:projectId", verifyAccess, projectRightsController.updateUserProjectRights);

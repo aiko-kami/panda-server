@@ -128,16 +128,20 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Allow multiple database connections
   - [x] Admin Login
   - [x] User routes (overview and public)
-  - [ ] Project routes (creation, draft, submission) ❤
   - [ ] Project 💚❤
     - [x] New fields (coup de coeur)
+    - [ ] Project routes (creation, draft, submission) ❤
     - [ ] Upload images ❤
-    - [ ] New fields (likes) ❤
     - [ ] project draft 💚
     - [ ] Edit project attachments 💚
   - [ ] User 💚
     - [ ] Talents portfolio 💚
     - [ ] Share talent? 💚
+- [ ] likes ❤
+  - [ ] Add likes to the project model ❤
+  - [ ] Add like ❤
+  - [ ] remove like ❤
+  - [ ] Retrieve likes ❤
 - [ ] Q&A ❤
   - [ ] Add Q&A to the project model ❤
   - [ ] Add Q&A ❤
@@ -145,13 +149,6 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] remove Q&A ❤
   - [ ] Publish/Hide Q&A ❤
   - [ ] Retrieve Q&As ❤
-- [ ] Comments ❤
-  - [ ] Define Comments model (independant from project model?) ❤
-  - [ ] Add Comment ❤
-  - [ ] Answer to a Comment ❤
-  - [ ] Update Comment ❤
-  - [ ] remove Comment ❤
-  - [ ] Retrieve Comments ❤
 - [ ] Steps ❤
   - [ ] Add Steps to the project model ❤
   - [ ] Add Step ❤
@@ -159,6 +156,13 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] remove Step ❤
   - [ ] Publish/Hide Step ❤
   - [ ] Retrieve Steps ❤
+- [ ] Comments ❤
+  - [ ] Define Comments model (independant from project model?) ❤
+  - [ ] Add Comment ❤
+  - [ ] Answer to a Comment ❤
+  - [ ] Update Comment ❤
+  - [ ] remove Comment ❤
+  - [ ] Retrieve Comments ❤
 - [ ] Friends 💛
   - [ ] Define friend model 💛
   - [ ] Send friend request 💛
