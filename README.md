@@ -137,11 +137,11 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] User 💚
     - [ ] Talents portfolio 💚
     - [ ] Share talent? 💚
-- [ ] likes ❤
-  - [ ] Add likes to the project model ❤
-  - [ ] Add like ❤
-  - [ ] remove like ❤
-  - [ ] Retrieve likes ❤
+- [x] likes
+  - [x] Add likes to the project model
+  - [x] Add like
+  - [x] remove like
+  - [x] Retrieve likes
 - [ ] Q&A ❤
   - [ ] Add Q&A to the project model ❤
   - [ ] Add Q&A ❤

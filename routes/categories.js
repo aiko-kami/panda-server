@@ -1,22 +1,22 @@
 /**
- * Project routes
+ * Categories routes
  */
 
-const projectRoute = require("express").Router();
+const categoriesRoute = require("express").Router();
 
 const { categoryController } = require("../controllers");
 const { verifyAdminAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Categories
-projectRoute.get("/category", verifyAdminAccess, categoryController.retrieveCategory);
-projectRoute.get("/categories", verifyAdminAccess, categoryController.retrieveCategories);
-projectRoute.post("/category", verifyAdminAccess, categoryController.createCategory);
-projectRoute.patch("/category", verifyAdminAccess, categoryController.updateCategory);
-projectRoute.delete("/category", verifyAdminAccess, categoryController.removeCategory);
+categoriesRoute.get("/category", verifyAdminAccess, categoryController.retrieveCategory);
+categoriesRoute.get("/categories", verifyAdminAccess, categoryController.retrieveCategories);
+categoriesRoute.post("/category", verifyAdminAccess, categoryController.createCategory);
+categoriesRoute.patch("/category", verifyAdminAccess, categoryController.updateCategory);
+categoriesRoute.delete("/category", verifyAdminAccess, categoryController.removeCategory);
 
 // Sub-categories
-projectRoute.post("/subCategory", verifyAdminAccess, categoryController.addSubCategory);
-projectRoute.patch("/subCategory", verifyAdminAccess, categoryController.updateSubCategory);
-projectRoute.delete("/subCategory", verifyAdminAccess, categoryController.removeSubCategory);
+categoriesRoute.post("/subCategory", verifyAdminAccess, categoryController.addSubCategory);
+categoriesRoute.patch("/subCategory", verifyAdminAccess, categoryController.updateSubCategory);
+categoriesRoute.delete("/subCategory", verifyAdminAccess, categoryController.removeSubCategory);
 
 module.exports = categoriesRoute;

@@ -1,8 +1,8 @@
-const { crushService } = require("../../services");
+const { likeProjectService } = require("../../services");
 const { apiResponse, idsValidation } = require("../../utils");
 
 /**
- * Update project crush controller.
+ * Update project Like controller.
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
  * @returns {Object} - The response containing the updated project or an error message.
@@ -18,18 +18,18 @@ const likeProject = async (req, res) => {
 			projectId,
 		};
 
-		// Validate input data for updating project crush
+		// Validate input data for updating project like
 		const validationResult = idsValidation.validateIdsInputs(ids);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const updateCrushResult = await crushService.updateCrush(projectId, userId, "add");
-		if (updateCrushResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, updateCrushResult.message);
+		const likeResult = await likeProjectService.updateLike(projectId, userId, "like");
+		if (likeResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, likeResult.message);
 		}
 
-		return apiResponse.successResponse(res, updateCrushResult.message);
+		return apiResponse.successResponse(res, likeResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -45,47 +45,62 @@ const unlikeProject = async (req, res) => {
 			projectId,
 		};
 
-		// Validate input data for updating project crush
+		// Validate input data for updating project like
 		const validationResult = idsValidation.validateIdsInputs(ids);
-
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const updateCrushResult = await crushService.updateCrush(projectId, userId, "remove");
-		if (updateCrushResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, updateCrushResult.message);
+		const likeResult = await likeProjectService.updateLike(projectId, userId, "unlike");
+		if (likeResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, likeResult.message);
 		}
 
-		return apiResponse.successResponse(res, updateCrushResult.message);
+		return apiResponse.successResponse(res, likeResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
+// Retrive all the project that a user likes
 const retrieveUserLikes = async (req, res) => {
 	try {
-		const crushProjects = await crushService.retrieveCrushProjects("-_id title summary cover category subCategory tags members.role members.startDate", { crush: true, visibility: "public" }, 99);
+		const userId = req.userId;
 
-		if (crushProjects.crushProject !== null && crushProjects.crushProject.length > 0) {
-			return apiResponse.successResponseWithData(res, crushProjects.message, crushProjects.crushProject);
-		} else {
-			return apiResponse.serverErrorResponse(res, crushProjects.message);
+		// Validate input data for updating project like
+		const validationResult = idsValidation.validateIdInput(userId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
+
+		const likeResult = await likeProjectService.retrieveUserLikes(userId);
+
+		if (likeResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, likeResult.message);
+		}
+		return apiResponse.successResponseWithData(res, likeResult.message, likeResult.userLikes);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
+// Retrive for one project the list of users that like this project and count them
 const retrieveProjectLikes = async (req, res) => {
 	try {
-		const crushProjects = await crushService.retrieveCrushProjects("-_id title summary cover category subCategory tags members.role members.startDate", { crush: true, visibility: "public" }, 99);
+		const { projectId = "" } = req.body;
 
-		if (crushProjects.crushProject !== null && crushProjects.crushProject.length > 0) {
-			return apiResponse.successResponseWithData(res, crushProjects.message, crushProjects.crushProject);
-		} else {
-			return apiResponse.serverErrorResponse(res, crushProjects.message);
+		// Validate input data for updating project like
+		const validationResult = idsValidation.validateIdInput(projectId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
+
+		const likeResult = await likeProjectService.retrieveProjectLikes(projectId);
+
+		if (likeResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, likeResult.message);
+		}
+		return apiResponse.successResponseWithData(res, likeResult.message, likeResult.projectLikes);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}

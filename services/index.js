@@ -23,3 +23,4 @@ module.exports.memberService = require("./project/member.service");
 module.exports.joinProjectService = require("./project/joinProject.service");
 module.exports.statusService = require("./project/status.service");
 module.exports.crushService = require("./project/crush.service");
+module.exports.likeProjectService = require("./project/likeProject.service");

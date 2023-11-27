@@ -15,7 +15,7 @@ MainRouter.use("/users", require("./users"));
 MainRouter.use("/projects", require("./projects"));
 
 // Categories routes
-MainRouter.use("/cat", require("./categoriesRoute"));
+MainRouter.use("/cat", require("./categories"));
 
 // Join project routes
 MainRouter.use("/joinProject/request", require("./joinProjectRequest"));

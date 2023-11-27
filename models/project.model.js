@@ -59,7 +59,8 @@ const projectSchema = new Schema(
 		summary: { type: String, required: true, trim: true },
 		description: { type: String, required: true },
 		cover: { type: String }, // Optional
-		crush: { type: Boolean, default: false }, // Optional
+		crush: { type: Boolean, default: false },
+		likes: { type: Number, default: 0 },
 		category: {
 			type: Schema.Types.ObjectId,
 			ref: "Category",

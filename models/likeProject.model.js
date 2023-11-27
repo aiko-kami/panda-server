@@ -16,7 +16,6 @@ const likeProjectSchema = new Schema(
 	},
 	{
 		collection: "likeProjects",
-		timestamps: true, // Automatically add createdAt and updatedAt timestamps
 	}
 );
 

@@ -4,7 +4,15 @@
 
 const projectRoute = require("express").Router();
 
-const { projectController, memberController, projectRightsController, projectAttachmentsController, projectStatusController, projectCrushController } = require("../controllers");
+const {
+	projectController,
+	memberController,
+	projectRightsController,
+	projectAttachmentsController,
+	projectStatusController,
+	projectCrushController,
+	projectLikeController,
+} = require("../controllers");
 const { verifyAccess, verifyAdminAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Project creation
