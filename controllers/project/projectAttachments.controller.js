@@ -22,7 +22,7 @@ const updateProjectAttachments = async (req, res) => {
 		// Retrieve Project Rights of the updater
 		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userIdUpdater);
 		if (rightsCheckResult.status !== "success") {
-			return apiResponse.errorResponse(res, rightsCheckResult.message);
+			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
 		}
 
 		// Check if the user has canEditAttachments permission

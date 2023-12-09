@@ -181,6 +181,7 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 			.populate([
 				{ path: "category", select: "-_id name" },
 				{ path: "updatedBy", select: "-_id username profilePicture" },
+				{ path: "steps.updatedBy", select: "-_id username profilePicture" },
 				{ path: "members.user", select: "username profilePicture" },
 			]); // Populate the 'category' and 'members.user' fields
 
@@ -189,6 +190,23 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 				status: "error",
 				message: "Project not found.",
 			};
+		}
+
+		for (let member of project.members) {
+			if (member.user.profilePicture.privacy !== "public") {
+				member.user.profilePicture = undefined;
+			}
+		}
+
+		if (project.updatedBy) {
+			if (project.updatedBy.profilePicture.privacy !== "public") {
+				project.updatedBy.profilePicture = undefined;
+			}
+		}
+		if (project.steps.updatedBy) {
+			if (project.steps.updatedBy.profilePicture.privacy !== "public") {
+				project.steps.updatedBy.profilePicture = undefined;
+			}
 		}
 
 		return {

@@ -17,7 +17,7 @@ const saveDraftInvitation = async (req, res) => {
 		// Retrieve Project Rights of the sender
 		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userIdSender);
 		if (rightsCheckResult.status !== "success") {
-			return apiResponse.errorResponse(res, rightsCheckResult.message);
+			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
 		}
 
 		// Check if the user has canSendJoinProjectInvitations permission
@@ -59,7 +59,7 @@ const updateDraftInvitation = async (req, res) => {
 		// Retrieve Project Rights of the sender
 		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userIdSender);
 		if (rightsCheckResult.status !== "success") {
-			return apiResponse.errorResponse(res, rightsCheckResult.message);
+			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
 		}
 
 		// Check if the user has canSendJoinProjectInvitations permission
@@ -126,7 +126,7 @@ const sendInvitation = async (req, res) => {
 		// Retrieve Project Rights of the sender
 		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userIdSender);
 		if (rightsCheckResult.status !== "success") {
-			return apiResponse.errorResponse(res, rightsCheckResult.message);
+			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
 		}
 
 		// Check if the user has canSendJoinProjectInvitations permission

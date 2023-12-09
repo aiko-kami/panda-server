@@ -28,6 +28,40 @@ const memberSchema = new Schema({
 	},
 });
 
+const stepSchema = new Schema({
+	_id: false,
+	title: {
+		type: String,
+		required: true,
+		unique: true,
+		trim: true,
+	},
+	details: {
+		type: String,
+	},
+	published: {
+		type: Boolean,
+		default: false,
+	},
+});
+
+const QASchema = new Schema({
+	_id: false,
+	question: {
+		type: String,
+		required: true,
+		unique: true,
+		trim: true,
+	},
+	response: {
+		type: String,
+	},
+	published: {
+		type: Boolean,
+		default: false,
+	},
+});
+
 const projectSchema = new Schema(
 	{
 		projectId: { type: String, unique: true },
@@ -77,6 +111,37 @@ const projectSchema = new Schema(
 		}, // Optional
 		creatorMotivation: String, // Optional
 		tags: { type: [String] }, // Optional
+		steps: {
+			stepsList: [stepSchema],
+			updatedBy: {
+				type: Schema.Types.ObjectId,
+				ref: "User",
+				required: true,
+			},
+			createdAt: {
+				type: Date,
+				required: true,
+				default: DateTime.now().toHTTP(),
+			},
+			updatedAt: {
+				type: Date,
+				required: true,
+			},
+		}, // Optional
+		QAs: {
+			QA: [QASchema],
+			updatedBy: {
+				type: Schema.Types.ObjectId,
+				ref: "User",
+			},
+			createdAt: {
+				type: Date,
+				default: DateTime.now().toHTTP(),
+			},
+			updatedAt: {
+				type: Date,
+			},
+		}, // Optional
 		talentsNeeded: {
 			type: [String], // Array of talents needed
 			required: true,
