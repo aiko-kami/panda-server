@@ -129,17 +129,20 @@ const projectSchema = new Schema(
 			},
 		}, // Optional
 		QAs: {
-			QA: [QASchema],
+			QAsList: [QASchema],
 			updatedBy: {
 				type: Schema.Types.ObjectId,
 				ref: "User",
+				required: true,
 			},
 			createdAt: {
 				type: Date,
+				required: true,
 				default: DateTime.now().toHTTP(),
 			},
 			updatedAt: {
 				type: Date,
+				required: true,
 			},
 		}, // Optional
 		talentsNeeded: {

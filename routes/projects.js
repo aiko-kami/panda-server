@@ -51,6 +51,7 @@ projectRoute.get("/projectLikes", projectLikeController.retrieveProjectLikes);
 projectRoute.patch("/project/addSteps", verifyAccess, projectStepsController.addSteps);
 projectRoute.patch("/project/editSteps", verifyAccess, projectStepsController.editSteps);
 projectRoute.patch("/project/publishStep", verifyAccess, projectStepsController.publishStep);
+projectRoute.patch("/project/unpublishStep", verifyAccess, projectStepsController.unpublishStep);
 projectRoute.delete("/project/removeStep", verifyAccess, projectStepsController.removeStep);
 projectRoute.get("/projectStepsPublished", projectStepsController.retrieveProjectStepsPublished);
 projectRoute.get("/projectStepsAll", verifyAccess, projectStepsController.retrieveProjectStepsAll);
@@ -59,8 +60,10 @@ projectRoute.get("/projectStepsAll", verifyAccess, projectStepsController.retrie
 projectRoute.patch("/project/addQAs", verifyAccess, projectQAController.addQAs);
 projectRoute.patch("/project/editQAs", verifyAccess, projectQAController.editQAs);
 projectRoute.patch("/project/publishQA", verifyAccess, projectQAController.publishQA);
+projectRoute.patch("/project/unpublishQA", verifyAccess, projectQAController.unpublishQA);
 projectRoute.delete("/project/removeQA", verifyAccess, projectQAController.removeQA);
-projectRoute.get("/projectQAs", projectQAController.retrieveProjectQAs);
+projectRoute.get("/projectQAsPublished", projectQAController.retrieveProjectQAsPublished);
+projectRoute.get("/projectQAsAll", verifyAccess, projectQAController.retrieveProjectQAsAll);
 
 // Project comments
 projectRoute.patch("/project/addComment", verifyAccess, commentController.addComment);

@@ -1,8 +1,8 @@
-const { likeProjectService } = require("../../services");
-const { apiResponse, idsValidation } = require("../../utils");
+const { userRightsService, projectStepQAService } = require("../../services");
+const { apiResponse, idsValidation, stepQAValidation } = require("../../utils");
 
 /**
- * Update project Like controller.
+ * Update project QAs controller.
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
  * @returns {Object} - The response containing the updated project or an error message.
@@ -11,25 +11,41 @@ const addQAs = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		const { projectId = "" } = req.body;
+		const { projectId = "", QAs = [{ question: "", response: "", published: false }] } = req.body;
 
 		const ids = {
 			userId,
 			projectId,
 		};
 
-		// Validate input data for updating project like
+		// Validate input data for creating project QAs
 		const validationResult = idsValidation.validateIdsInputs(ids);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const likeResult = await likeProjectService.updateLike(projectId, userId, "like");
-		if (likeResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, likeResult.message);
+		const QAValidationResult = stepQAValidation.validateQAs(QAs);
+		if (QAValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, QAValidationResult.message);
 		}
 
-		return apiResponse.successResponse(res, likeResult.message);
+		// Retrieve Project Rights of the user
+		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userId);
+		if (rightsCheckResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
+		}
+
+		// Check if the user has canEditQA permission
+		if (!rightsCheckResult.projectRights.permissions.canEditQA) {
+			return apiResponse.unauthorizedResponse(res, "You do not have permission to update Q&A for this project.");
+		}
+
+		const QAResult = await projectStepQAService.editQAs(projectId, userId, QAs, "create");
+		if (QAResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, QAResult.message);
+		}
+
+		return apiResponse.successResponse(res, QAResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -38,25 +54,42 @@ const addQAs = async (req, res) => {
 const editQAs = async (req, res) => {
 	try {
 		const userId = req.userId;
-		const { projectId = "" } = req.body;
+
+		const { projectId = "", QAs = [] } = req.body;
 
 		const ids = {
 			userId,
 			projectId,
 		};
 
-		// Validate input data for updating project like
+		// Validate input data for updating project QAs
 		const validationResult = idsValidation.validateIdsInputs(ids);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const likeResult = await likeProjectService.updateLike(projectId, userId, "unlike");
-		if (likeResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, likeResult.message);
+		const QAValidationResult = stepQAValidation.validateQAs(QAs);
+		if (QAValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, QAValidationResult.message);
 		}
 
-		return apiResponse.successResponse(res, likeResult.message);
+		// Retrieve Project Rights of the user
+		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userId);
+		if (rightsCheckResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
+		}
+
+		// Check if the user has canEditQA permission
+		if (!rightsCheckResult.projectRights.permissions.canEditQA) {
+			return apiResponse.unauthorizedResponse(res, "You do not have permission to update Q&A for this project.");
+		}
+
+		const QAResult = await projectStepQAService.editQAs(projectId, userId, QAs, "update");
+		if (QAResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, QAResult.message);
+		}
+
+		return apiResponse.successResponse(res, QAResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -65,25 +98,86 @@ const editQAs = async (req, res) => {
 const publishQA = async (req, res) => {
 	try {
 		const userId = req.userId;
-		const { projectId = "" } = req.body;
+
+		const { projectId = "", QAQuestion = "" } = req.body;
 
 		const ids = {
 			userId,
 			projectId,
 		};
 
-		// Validate input data for updating project like
+		// Validate input data for publishing project QA
 		const validationResult = idsValidation.validateIdsInputs(ids);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const likeResult = await likeProjectService.updateLike(projectId, userId, "unlike");
-		if (likeResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, likeResult.message);
+		const QAValidationResult = stepQAValidation.validateQAQuestion(QAQuestion);
+		if (QAValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, QAValidationResult.message);
 		}
 
-		return apiResponse.successResponse(res, likeResult.message);
+		// Retrieve Project Rights of the user
+		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userId);
+		if (rightsCheckResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
+		}
+
+		// Check if the user has canEditQA permission
+		if (!rightsCheckResult.projectRights.permissions.canEditQA) {
+			return apiResponse.unauthorizedResponse(res, "You do not have permission to update Q&A for this project.");
+		}
+
+		const QAResult = await projectStepQAService.editQAs(projectId, userId, QAQuestion, "publish");
+		if (QAResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, QAResult.message);
+		}
+
+		return apiResponse.successResponse(res, QAResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const unpublishQA = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		const { projectId = "", QAQuestion = "" } = req.body;
+
+		const ids = {
+			userId,
+			projectId,
+		};
+
+		// Validate input data for unpublishing project QA
+		const validationResult = idsValidation.validateIdsInputs(ids);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		const QAValidationResult = stepQAValidation.validateQAQuestion(QAQuestion);
+		if (QAValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, QAValidationResult.message);
+		}
+
+		// Retrieve Project Rights of the user
+		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userId);
+		if (rightsCheckResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
+		}
+
+		// Check if the user has canEditQA permission
+		if (!rightsCheckResult.projectRights.permissions.canEditQA) {
+			return apiResponse.unauthorizedResponse(res, "You do not have permission to update Q&A for this project.");
+		}
+
+		const QAResult = await projectStepQAService.editQAs(projectId, userId, QAQuestion, "unpublish");
+		if (QAResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, QAResult.message);
+		}
+
+		return apiResponse.successResponse(res, QAResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -94,40 +188,102 @@ const removeQA = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		// Validate input data for updating project like
-		const validationResult = idsValidation.validateIdInput(userId);
+		const { projectId = "", QAQuestion = "" } = req.body;
+
+		const ids = {
+			userId,
+			projectId,
+		};
+
+		// Validate input data for removing project QA
+		const validationResult = idsValidation.validateIdsInputs(ids);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const likeResult = await likeProjectService.retrieveUserLikes(userId);
-
-		if (likeResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, likeResult.message);
+		const QAValidationResult = stepQAValidation.validateQAQuestion(QAQuestion);
+		if (QAValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, QAValidationResult.message);
 		}
-		return apiResponse.successResponseWithData(res, likeResult.message, likeResult.userLikes);
+
+		// Retrieve Project Rights of the user
+		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userId);
+		if (rightsCheckResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
+		}
+
+		// Check if the user has canEditQA permission
+		if (!rightsCheckResult.projectRights.permissions.canEditQA) {
+			return apiResponse.unauthorizedResponse(res, "You do not have permission to update Q&A for this project.");
+		}
+
+		const QAResult = await projectStepQAService.editQAs(projectId, userId, QAQuestion, "remove");
+		if (QAResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, QAResult.message);
+		}
+
+		return apiResponse.successResponse(res, QAResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
 // Retrive for one project the list of users that like this project and count them
-const retrieveProjectQAs = async (req, res) => {
+const retrieveProjectQAsPublished = async (req, res) => {
 	try {
 		const { projectId = "" } = req.body;
 
-		// Validate input data for updating project like
+		// Validate input data for retrieving project QA
 		const validationResult = idsValidation.validateIdInput(projectId);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const likeResult = await likeProjectService.retrieveProjectLikes(projectId);
+		const QAResult = await projectStepQAService.retrieveProjectQAs(projectId, "published");
 
-		if (likeResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, likeResult.message);
+		if (QAResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, QAResult.message);
 		}
-		return apiResponse.successResponseWithData(res, likeResult.message, likeResult.projectLikes);
+		return apiResponse.successResponseWithData(res, QAResult.message, QAResult.QAsOutput);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+// Retrive for one project the list of users that like this project and count them
+const retrieveProjectQAsAll = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		const { projectId = "" } = req.body;
+
+		const ids = {
+			userId,
+			projectId,
+		};
+
+		// Validate input data for retrieving project QA
+		const validationResult = idsValidation.validateIdsInputs(ids);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Retrieve Project Rights of the user
+		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userId);
+		if (rightsCheckResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
+		}
+
+		// Check if the user has canEditQA permission
+		if (!rightsCheckResult.projectRights.permissions.canEditQA) {
+			return apiResponse.unauthorizedResponse(res, "You do not have permission to update Q&A for this project.");
+		}
+
+		const QAResult = await projectStepQAService.retrieveProjectQAs(projectId, "all", userId);
+		if (QAResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, QAResult.message);
+		}
+		return apiResponse.successResponseWithData(res, QAResult.message, QAResult.QAsOutput);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -137,6 +293,8 @@ module.exports = {
 	addQAs,
 	editQAs,
 	publishQA,
+	unpublishQA,
 	removeQA,
-	retrieveProjectQAs,
+	retrieveProjectQAsPublished,
+	retrieveProjectQAsAll,
 };

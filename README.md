@@ -142,20 +142,20 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Add like
   - [x] remove like
   - [x] Retrieve likes
-- [ ] Q&A ❤
-  - [ ] Add Q&A to the project model ❤
-  - [ ] Add Q&A ❤
-  - [ ] Update Q&A ❤
-  - [ ] remove Q&A ❤
-  - [ ] Publish/Hide Q&A ❤
-  - [ ] Retrieve Q&As ❤
-- [ ] Steps ❤
-  - [ ] Add Steps to the project model ❤
-  - [ ] Add Step ❤
-  - [ ] Update Step ❤
-  - [ ] remove Step ❤
-  - [ ] Publish/Hide Step ❤
-  - [ ] Retrieve Steps ❤
+- [x] Q&A ❤
+  - [x] Add Q&A to the project model ❤
+  - [x] Add Q&A ❤
+  - [x] Update Q&A ❤
+  - [x] remove Q&A ❤
+  - [x] Publish/Unpublish Q&A ❤
+  - [x] Retrieve Q&As ❤
+- [x] Steps ❤
+  - [x] Add Steps to the project model ❤
+  - [x] Add Step ❤
+  - [x] Update Step ❤
+  - [x] remove Step ❤
+  - [x] Publish/Unpublish Step ❤
+  - [x] Retrieve Steps ❤
 - [ ] Comments ❤
   - [ ] Define Comments model (independant from project model?) ❤
   - [ ] Add Comment ❤

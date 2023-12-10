@@ -1,8 +1,8 @@
-const { userRightsService, projectStepService } = require("../../services");
-const { apiResponse, idsValidation, stepValidation } = require("../../utils");
+const { userRightsService, projectStepQAService } = require("../../services");
+const { apiResponse, idsValidation, stepQAValidation } = require("../../utils");
 
 /**
- * Update project Like controller.
+ * Update project steps controller.
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
  * @returns {Object} - The response containing the updated project or an error message.
@@ -24,7 +24,7 @@ const addSteps = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const stepValidationResult = stepValidation.validateSteps(steps);
+		const stepValidationResult = stepQAValidation.validateSteps(steps);
 		if (stepValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, stepValidationResult.message);
 		}
@@ -40,7 +40,7 @@ const addSteps = async (req, res) => {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to update steps for this project.");
 		}
 
-		const stepResult = await projectStepService.editSteps(projectId, userId, steps, "create");
+		const stepResult = await projectStepQAService.editSteps(projectId, userId, steps, "create");
 		if (stepResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, stepResult.message);
 		}
@@ -68,7 +68,7 @@ const editSteps = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const stepValidationResult = stepValidation.validateSteps(steps);
+		const stepValidationResult = stepQAValidation.validateSteps(steps);
 		if (stepValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, stepValidationResult.message);
 		}
@@ -84,7 +84,7 @@ const editSteps = async (req, res) => {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to update steps for this project.");
 		}
 
-		const stepResult = await projectStepService.editSteps(projectId, userId, steps, "update");
+		const stepResult = await projectStepQAService.editSteps(projectId, userId, steps, "update");
 		if (stepResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, stepResult.message);
 		}
@@ -112,7 +112,7 @@ const publishStep = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const stepValidationResult = stepValidation.validateStepTitle(stepTitle);
+		const stepValidationResult = stepQAValidation.validateStepTitle(stepTitle);
 		if (stepValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, stepValidationResult.message);
 		}
@@ -128,7 +128,50 @@ const publishStep = async (req, res) => {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to update steps for this project.");
 		}
 
-		const stepResult = await projectStepService.editSteps(projectId, userId, stepTitle, "publish");
+		const stepResult = await projectStepQAService.editSteps(projectId, userId, stepTitle, "publish");
+		if (stepResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, stepResult.message);
+		}
+
+		return apiResponse.successResponse(res, stepResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+const unpublishStep = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		const { projectId = "", stepTitle = "" } = req.body;
+
+		const ids = {
+			userId,
+			projectId,
+		};
+
+		// Validate input data for updating project step
+		const validationResult = idsValidation.validateIdsInputs(ids);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		const stepValidationResult = stepQAValidation.validateStepTitle(stepTitle);
+		if (stepValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, stepValidationResult.message);
+		}
+
+		// Retrieve Project Rights of the user
+		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userId);
+		if (rightsCheckResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
+		}
+
+		// Check if the user has canEditSteps permission
+		if (!rightsCheckResult.projectRights.permissions.canEditSteps) {
+			return apiResponse.unauthorizedResponse(res, "You do not have permission to update steps for this project.");
+		}
+
+		const stepResult = await projectStepQAService.editSteps(projectId, userId, stepTitle, "unpublish");
 		if (stepResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, stepResult.message);
 		}
@@ -156,7 +199,7 @@ const removeStep = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const stepValidationResult = stepValidation.validateStepTitle(stepTitle);
+		const stepValidationResult = stepQAValidation.validateStepTitle(stepTitle);
 		if (stepValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, stepValidationResult.message);
 		}
@@ -172,7 +215,7 @@ const removeStep = async (req, res) => {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to update steps for this project.");
 		}
 
-		const stepResult = await projectStepService.editSteps(projectId, userId, stepTitle, "remove");
+		const stepResult = await projectStepQAService.editSteps(projectId, userId, stepTitle, "remove");
 		if (stepResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, stepResult.message);
 		}
@@ -194,7 +237,7 @@ const retrieveProjectStepsPublished = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const stepResult = await projectStepService.retrieveProjectSteps(projectId, "published");
+		const stepResult = await projectStepQAService.retrieveProjectSteps(projectId, "published");
 
 		if (stepResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, stepResult.message);
@@ -234,7 +277,7 @@ const retrieveProjectStepsAll = async (req, res) => {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to update steps for this project.");
 		}
 
-		const stepResult = await projectStepService.retrieveProjectSteps(projectId, "all", userId);
+		const stepResult = await projectStepQAService.retrieveProjectSteps(projectId, "all", userId);
 		if (stepResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, stepResult.message);
 		}
@@ -248,6 +291,7 @@ module.exports = {
 	addSteps,
 	editSteps,
 	publishStep,
+	unpublishStep,
 	removeStep,
 	retrieveProjectStepsPublished,
 	retrieveProjectStepsAll,
