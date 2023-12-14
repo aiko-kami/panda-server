@@ -11,7 +11,21 @@ const retrieveMyUserData = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const userData = await userService.retrieveUserById(userId, "-_id username email createdAt updatedAt location company description bio languages website profilePicture talents");
+		const userData = await userService.retrieveUserById(userId, [
+			"-_id",
+			"username",
+			"email",
+			"createdAt",
+			"updatedAt",
+			"location",
+			"company",
+			"description",
+			"bio",
+			"languages",
+			"website",
+			"profilePicture",
+			"talents",
+		]);
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);
 		}
@@ -26,7 +40,7 @@ const retrieveMyUserData = async (req, res) => {
 // Retrieve 4 new users
 const retrieveNewUsers = async (req, res) => {
 	try {
-		const newUsers = await userService.retrieveLatestUsers(4, "-_id username profilePicture description");
+		const newUsers = await userService.retrieveLatestUsers(4, ["-_id", "username", "profilePicture", "description"]);
 		if (newUsers.users !== null && newUsers.users.length > 0) {
 			for (let user of newUsers.users) {
 				// Filter on the public fields only
@@ -150,7 +164,7 @@ const retrieveUserOverview = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const userData = await userService.retrieveUserById(userId, "-_id username location description talents profilePicture");
+		const userData = await userService.retrieveUserById(userId, ["-_id", "username", "location", "description", "talents", "profilePicture"]);
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);
 		}
@@ -175,7 +189,7 @@ const retrieveUserPublicData = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const userData = await userService.retrieveUserById(userId, "-_id username createdAt location company description bio languages website profilePicture");
+		const userData = await userService.retrieveUserById(userId, ["-_id", "username", "createdAt", "location", "company", "description", "bio", "languages", "website", "profilePicture"]);
 
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);

@@ -19,7 +19,7 @@ const forgotPassword = async (req, res) => {
 		}
 
 		// Check if the user exists in the database using email
-		const existingUser = await userService.retrieveUserByEmail(email, "-_id email userId username");
+		const existingUser = await userService.retrieveUserByEmail(email, ["-_id", "email", "userId", "username"]);
 
 		//In case of error, return a generic message to avoid email enumeration attack
 		if (existingUser.status !== "success") {
@@ -63,7 +63,7 @@ const resetPassword = async (req, res) => {
 		}
 
 		// Find the user by userId
-		const existingUser = await userService.retrieveUserById(tokenVerification.userId, "-_id email userId");
+		const existingUser = await userService.retrieveUserById(tokenVerification.userId, ["-_id", "email", "userId"]);
 
 		if (existingUser.status !== "success") {
 			return apiResponse.clientErrorResponse(res, existingUser.message);

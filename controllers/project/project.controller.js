@@ -49,7 +49,7 @@ const createProject = async (req, res) => {
 		}
 
 		//Verify that user (project creator) exists in the database
-		const existingCreator = await userService.retrieveUserById(userId, "-_id");
+		const existingCreator = await userService.retrieveUserById(userId, ["-_id"]);
 		if (existingCreator.status !== "success") {
 			return apiResponse.clientErrorResponse(res, existingCreator.message);
 		}
@@ -58,8 +58,6 @@ const createProject = async (req, res) => {
 
 		// Create the project
 		const createResult = await projectService.createProject(projectData);
-
-		console.log("🚀 ~ createProject ~ createResult:", createResult);
 
 		if (createResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, createResult.message);
@@ -72,7 +70,7 @@ const createProject = async (req, res) => {
 		}
 
 		//Retrieve project data
-		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, "-_id -members._id");
+		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-members._id"]);
 		if (projectOutput.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectOutput.message);
 		}
@@ -169,7 +167,7 @@ const retrieveProjectPublicData = async (req, res) => {
 
 		const projectData = await projectService.retrieveProjectById(
 			projectId,
-			"-_id title	goal summary description cover category subCategory location startDate creatorMotivation tags talentsNeeded objectives visibility",
+			["-_id", "title", "goal", "summary", "description", "cover", "category", "subCategory", "location", "startDate", "creatorMotivation", "tags", "talentsNeeded", "objectives", "visibility"],
 			{ visibility: "public" }
 		);
 
@@ -185,7 +183,7 @@ const retrieveProjectPublicData = async (req, res) => {
 
 const retrieveNewProjects = async (req, res) => {
 	try {
-		const newProjects = await projectService.retrieveLatestProjects(4, "-_id title summary cover category subCategory tags visibility", { visibility: "public" });
+		const newProjects = await projectService.retrieveLatestProjects(4, ["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility"], { visibility: "public" });
 
 		if (newProjects.projects !== null && newProjects.projects.length > 0) {
 			return apiResponse.successResponseWithData(res, newProjects.message, newProjects.projects);
@@ -201,7 +199,7 @@ const retrieveProjectOverview = async (req, res) => {
 	try {
 		const { projectId = "" } = req.params;
 
-		const projectData = await projectService.retrieveProjectById(projectId, "-_id title summary cover category subCategory tags visibility", { visibility: "public" });
+		const projectData = await projectService.retrieveProjectById(projectId, ["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility"], { visibility: "public" });
 
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
@@ -225,7 +223,29 @@ const retrieveProjectData = async (req, res) => {
 		}
 
 		//Retrieve proeject data
-		const projectData = await projectService.retrieveProjectById(projectId, "-_id -members._id");
+		const projectData = await projectService.retrieveProjectById(projectId, [
+			"-_id",
+			"title",
+			"goal",
+			"summary",
+			"description",
+			"cover",
+			"crush",
+			"category",
+			"subCategory",
+			"location",
+			"startDate",
+			"creatorMotivation",
+			"tags",
+			"talentsNeeded",
+			"objectives",
+			"updatedBy",
+			"visibility",
+			"status",
+			"privateData",
+			"createdAt",
+			"members",
+		]);
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
 		}
@@ -246,9 +266,6 @@ const retrieveProjectData = async (req, res) => {
 		if (!isUserProjectMember) {
 			return apiResponse.unauthorizedResponse(res, "Data only available for the members of the project.");
 		}
-
-		//Convert database object to JS object
-		projectData.project = projectData.project.toObject();
 
 		//remove _id for the output data
 		const updatedObject = {

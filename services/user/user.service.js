@@ -9,8 +9,9 @@ const retrieveUserById = async (userId, fields) => {
 		if (ObjectIdUserId.status == "error") {
 			return { status: "error", message: ObjectIdUserId.message };
 		}
+		const fieldsString = fields.join(" ");
 
-		const user = await User.findOne({ _id: ObjectIdUserId }).select(fields);
+		const user = await User.findOne({ _id: ObjectIdUserId }).select(fieldsString);
 
 		if (!user) {
 			return { status: "error", message: "User not found." };
@@ -31,7 +32,9 @@ const retrieveUserById = async (userId, fields) => {
 
 const retrieveLatestUsers = async (limit, fields) => {
 	try {
-		const users = await User.find().sort({ createdAt: -1 }).limit(limit).select(fields);
+		const fieldsString = fields.join(" ");
+
+		const users = await User.find().sort({ createdAt: -1 }).limit(limit).select(fieldsString);
 
 		if (!users) {
 			return { status: "error", message: "No user found." };
@@ -53,7 +56,9 @@ const retrieveLatestUsers = async (limit, fields) => {
 
 const retrieveUserByEmail = async (email, fields) => {
 	try {
-		const user = await User.findOne({ email }).select(fields);
+		const fieldsString = fields.join(" ");
+
+		const user = await User.findOne({ email }).select(fieldsString);
 
 		if (!user) {
 			logger.error("An error occurred while retrieving the user: No user found.");

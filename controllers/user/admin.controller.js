@@ -5,7 +5,7 @@ const retrieveMyUserData = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		const userData = await userService.retrieveUserById(userId, "-_id username email createdAt location company description bio languages website profilePicture");
+		const userData = await userService.retrieveUserById(userId, ["-_id", "username", "email", "createdAt", "location", "company", "description", "bio", "languages", "website", "profilePicture"]);
 
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);
@@ -109,6 +109,5 @@ const updateUserPassword = async (req, res) => {
 module.exports = {
 	retrieveMyUserData,
 	updateUser,
-	retrieveNewUsers,
 	updateUserPassword,
 };

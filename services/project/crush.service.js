@@ -107,7 +107,9 @@ const retrieveCrushProjects = async (fields, conditions, limit) => {
 				{ path: "members.user", select: "-_id username profilePicture" },
 			]); // Populate the 'category' and 'members.user' fields
 		if (fields) {
-			query = query.select(fields);
+			const fieldsString = fields.join(" ");
+
+			query = query.select(fieldsString);
 		}
 		// select(`-_id -__v ${fields}`)
 		const crushProject = await query;

@@ -186,7 +186,7 @@ const retrieveCategory = async (req, res) => {
 		}
 
 		// Call the service to retrieve the category
-		const retrievedCategory = await categoryService.retrieveCategoryById(categoryId, "-_id name subCategories categoryId createdAt updatedAt");
+		const retrievedCategory = await categoryService.retrieveCategoryById(categoryId, ["-_id", "name", "subCategories", "categoryId", "createdAt", "updatedAt"]);
 		if (retrievedCategory.status !== "success") {
 			return apiResponse.serverErrorResponse(res, retrievedCategory.message);
 		}

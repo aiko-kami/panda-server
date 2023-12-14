@@ -31,7 +31,7 @@ const updateUserProjectRights = async (req, res) => {
 		}
 
 		//Check if the user to be updated is owner of the project
-		const ProjectMembersResult = await projectService.retrieveProjectById(projectId, "members");
+		const ProjectMembersResult = await projectService.retrieveProjectById(projectId, ["members"]);
 
 		if (ProjectMembersResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, ProjectMembersResult.message);

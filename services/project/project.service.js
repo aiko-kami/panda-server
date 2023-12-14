@@ -35,7 +35,7 @@ const createProject = async (projectData) => {
 			category: objectIdCategoryId,
 			subCategory: projectData.subCategory,
 			status: projectData.status,
-			phase: projectData.phase,
+			privateData: { phase: projectData.phase },
 			location: projectLocation,
 			startDate: projectData.startDate !== "" ? projectData.startDate : undefined,
 			creatorMotivation: projectData.creatorMotivation,
@@ -119,7 +119,7 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 			description: "description",
 			cover: "cover",
 			startDate: "startDate",
-			phase: "phase",
+			phase: "privateData.phase",
 			creatorMotivation: "creatorMotivation",
 			visibility: "visibility",
 			tags: "tags",
@@ -174,10 +174,12 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 			return { status: "error", message: objectIdProjectId.message };
 		}
 
+		const fieldsString = fields.join(" ");
+
 		const search = { _id: objectIdProjectId, ...conditions };
 		// Use your Project model to find the project by ID
-		const project = await Project.findOne(search)
-			.select(fields)
+		const projectRetrieved = await Project.findOne(search)
+			.select(fieldsString)
 			.populate([
 				{ path: "category", select: "-_id name" },
 				{ path: "updatedBy", select: "-_id username profilePicture" },
@@ -185,28 +187,44 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 				{ path: "members.user", select: "username profilePicture" },
 			]); // Populate the 'category' and 'members.user' fields
 
-		if (!project) {
+		if (!projectRetrieved) {
 			return {
 				status: "error",
 				message: "Project not found.",
 			};
 		}
+		let project = projectRetrieved.toObject();
 
-		for (let member of project.members) {
-			if (member.user.profilePicture.privacy !== "public") {
-				member.user.profilePicture = undefined;
-			}
+		if (!fields.includes("category")) {
+			project.category = undefined;
 		}
-
-		if (project.updatedBy) {
-			if (project.updatedBy.profilePicture.privacy !== "public") {
-				project.updatedBy.profilePicture = undefined;
+		if (fields.includes("updatedBy" && project.updatedBy)) {
+			if (project.updatedBy) {
+				if (project.updatedBy.profilePicture.privacy !== "public") {
+					project.updatedBy.profilePicture = undefined;
+				}
 			}
+		} else {
+			project.updatedBy = undefined;
 		}
-		if (project.steps.updatedBy) {
-			if (project.steps.updatedBy.profilePicture.privacy !== "public") {
-				project.steps.updatedBy.profilePicture = undefined;
+		if (fields.includes("steps")) {
+			if (project.steps.updatedBy) {
+				if (project.steps.updatedBy.profilePicture.privacy !== "public") {
+					project.steps.updatedBy.profilePicture = undefined;
+				}
 			}
+		} else {
+			project.steps = undefined;
+		}
+		if (fields.includes("members")) {
+			for (let member of project.members) {
+				if (member.user.profilePicture.privacy !== "public") {
+					member.user.profilePicture = undefined;
+				}
+				member._id = undefined;
+			}
+		} else {
+			project.members = undefined;
 		}
 
 		return {
@@ -227,7 +245,9 @@ const retrieveLatestProjects = async (limit, fields, conditions) => {
 	try {
 		let query = Project.find(conditions).sort({ createdAt: -1 }).limit(limit);
 		if (fields) {
-			query = query.select(fields).populate([{ path: "category", select: "-_id name" }]); // Populate the 'category' and 'members.user' fields
+			const fieldsString = fields.join(" ");
+
+			query = query.select(fieldsString).populate([{ path: "category", select: "-_id name" }]); // Populate the 'category' and 'members.user' fields
 		}
 		// select(`-_id -__v ${fields}`)
 		const projects = await query;

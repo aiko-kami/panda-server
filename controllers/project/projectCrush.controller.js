@@ -65,7 +65,11 @@ const removeCrush = async (req, res) => {
 
 const retrieveCrushProjects = async (req, res) => {
 	try {
-		const crushProjects = await crushService.retrieveCrushProjects("-_id title summary cover category subCategory tags members.role members.startDate", { crush: true, visibility: "public" }, 99);
+		const crushProjects = await crushService.retrieveCrushProjects(
+			["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "members.role", "members.startDate"],
+			{ crush: true, visibility: "public" },
+			99
+		);
 
 		if (crushProjects.crushProject !== null && crushProjects.crushProject.length > 0) {
 			return apiResponse.successResponseWithData(res, crushProjects.message, crushProjects.crushProject);

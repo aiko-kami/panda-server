@@ -287,7 +287,8 @@ const retrieveCategoryById = async (categoryId, fields) => {
 
 		let query = Category.findOne({ _id: objectIdCategoryId });
 		if (fields) {
-			query = query.select(fields);
+			const fieldsString = fields.join(" ");
+			query = query.select(fieldsString);
 		}
 
 		const existingCategory = await query;
