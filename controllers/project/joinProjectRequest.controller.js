@@ -212,8 +212,6 @@ const acceptRequest = async (req, res) => {
 		// Retrieve join project request
 		const joinProjectRetrieved = await joinProjectService.retrieveJoinProject("join project request", joinProjectId);
 
-		console.log("🚀 ~ acceptRequest ~ joinProjectRetrieved:", joinProjectRetrieved);
-
 		if (joinProjectRetrieved.status !== "success") {
 			return apiResponse.serverErrorResponse(res, joinProjectRetrieved.message);
 		}
@@ -221,8 +219,6 @@ const acceptRequest = async (req, res) => {
 		const projectId = joinProjectRetrieved.joinProject.projectId;
 		const newMemeberId = joinProjectRetrieved.joinProject.userIdSender;
 		const talent = joinProjectRetrieved.joinProject.talent;
-
-		console.log("🚀 ~ acceptRequest ~ projectId:", projectId);
 
 		// Retrieve Project Rights of the sender
 		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userIdUpdater);

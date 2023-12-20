@@ -1,11 +1,11 @@
 const { apiResponse, userValidation, authValidation, userTools } = require("../../utils");
-const { userService } = require("../../services");
+const { adminService } = require("../../services");
 
 const retrieveMyUserData = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		const userData = await userService.retrieveUserById(userId, ["-_id", "username", "email", "createdAt", "location", "company", "description", "bio", "languages", "website", "profilePicture"]);
+		const userData = await adminService.retrieveUserById(userId, ["-_id", "username", "email", "createdAt", "profilePicture", "location", "description", "bio", "languages", "website"]);
 
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);
@@ -35,7 +35,6 @@ const updateUser = async (req, res) => {
 			profilePicture: req.body.userNewData.profilePicture || "",
 			locationCountry: req.body.userNewData.locationCountry || "",
 			locationCity: req.body.userNewData.locationCity || "",
-			company: req.body.userNewData.company || "",
 			description: req.body.userNewData.description || "",
 			bio: req.body.userNewData.bio || "",
 			languages: req.body.userNewData.languages || [],
@@ -53,14 +52,14 @@ const updateUser = async (req, res) => {
 
 		//Verify that the email (if modified) is available
 		if (filterUserInputs.email) {
-			const emailVerification = await userService.verifyEmailAvailability(filterUserInputs.email);
+			const emailVerification = await adminService.verifyEmailAvailability(filterUserInputs.email);
 			if (emailVerification.status !== "success") {
 				return apiResponse.serverErrorResponse(res, emailVerification.message);
 			}
 		}
 
 		// Update the user in the database
-		const updateUserResult = await userService.updateUser(userId, filterUserInputs);
+		const updateUserResult = await adminService.updateUser(userId, filterUserInputs);
 
 		// Check the result of the update operation
 		if (updateUserResult.status !== "success") {
@@ -93,7 +92,7 @@ const updateUserPassword = async (req, res) => {
 		}
 
 		// Update the user's password in the database
-		const updatePasswordResult = await userService.updateUserPassword(userId, newPassword);
+		const updatePasswordResult = await adminService.updateUserPassword(userId, newPassword);
 
 		// Check the result of the update operation
 		if (updatePasswordResult.status !== "success") {

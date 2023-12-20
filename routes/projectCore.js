@@ -8,8 +8,11 @@ const { projectController } = require("../controllers");
 const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Project creation
+// createProjectDraft, updateProjectDraft, removeProjectDraft to be completed
+// submitProject to be refactor a bit
 projectRoute.post("/createProjectDraft", verifyAccess, projectController.createProject);
 projectRoute.post("/updateProjectDraft/:projectId", verifyAccess, projectController.createProject);
+projectRoute.post("/removeProjectDraft/:projectId", verifyAccess, projectController.createProject);
 projectRoute.post("/submitProject", verifyAccess, projectController.createProject);
 
 // Project update

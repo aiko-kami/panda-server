@@ -132,7 +132,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] New fields (coup de coeur)
     - [ ] Project routes (creation, draft, submission) ❤
     - [ ] Upload images ❤
-    - [ ] project draft 💚
+    - [ ] Project draft 💚
     - [ ] Edit project attachments 💚
   - [ ] User 💚
     - [ ] Talents portfolio 💚
@@ -140,28 +140,29 @@ Don't let your ideas and talents go to waste – join Sheepy now!
 - [x] likes
   - [x] Add likes to the project model
   - [x] Add like
-  - [x] remove like
+  - [x] Remove like
   - [x] Retrieve likes
-- [x] Q&A ❤
-  - [x] Add Q&A to the project model ❤
-  - [x] Add Q&A ❤
-  - [x] Update Q&A ❤
-  - [x] remove Q&A ❤
-  - [x] Publish/Unpublish Q&A ❤
-  - [x] Retrieve Q&As ❤
-- [x] Steps ❤
-  - [x] Add Steps to the project model ❤
-  - [x] Add Step ❤
-  - [x] Update Step ❤
-  - [x] remove Step ❤
-  - [x] Publish/Unpublish Step ❤
-  - [x] Retrieve Steps ❤
+- [x] Q&A
+  - [x] Add Q&A to the project model
+  - [x] Add Q&A
+  - [x] Update Q&A
+  - [x] Remove Q&A
+  - [x] Publish/Unpublish Q&A
+  - [x] Retrieve Q&As
+- [x] Steps
+  - [x] Add Steps to the project model
+  - [x] Add Step
+  - [x] Update Step
+  - [x] Remove Step
+  - [x] Publish/Unpublish Step
+  - [x] Retrieve Steps
 - [ ] Comments ❤
   - [ ] Define Comments model (independant from project model?) ❤
   - [ ] Add Comment ❤
   - [ ] Answer to a Comment ❤
   - [ ] Update Comment ❤
-  - [ ] remove Comment ❤
+  - [ ] Remove Comment ❤
+  - [ ] Report bad Comment ❤
   - [ ] Retrieve Comments ❤
 - [ ] Friends 💛
   - [ ] Define friend model 💛
