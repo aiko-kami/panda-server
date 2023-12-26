@@ -9,7 +9,7 @@ module.exports.ProjectRightsValidation = require("./validation/ProjectRights.val
 module.exports.userValidation = require("./validation/user.validation");
 module.exports.talentValidation = require("./validation/talent.validation");
 module.exports.idsValidation = require("./validation/ids.validation");
-module.exports.stepQAValidation = require("./validation/stepQA.validation");
+module.exports.stringValidation = require("./validation/string.validation");
 
 // Tools
 module.exports.userTools = require("./tools/user.tools");

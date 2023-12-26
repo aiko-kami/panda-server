@@ -26,3 +26,4 @@ module.exports.statusService = require("./project/status.service");
 module.exports.crushService = require("./project/crush.service");
 module.exports.likeProjectService = require("./project/likeProject.service");
 module.exports.projectStepQAService = require("./project/projectStepQA.service");
+module.exports.commentService = require("./project/comment.service");

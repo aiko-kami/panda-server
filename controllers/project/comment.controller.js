@@ -1,8 +1,8 @@
-const { likeProjectService } = require("../../services");
-const { apiResponse, idsValidation } = require("../../utils");
+const { commentService } = require("../../services");
+const { apiResponse, idsValidation, stringValidation } = require("../../utils");
 
 /**
- * Update project Like controller.
+ * Update project comments controller.
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
  * @returns {Object} - The response containing the updated project or an error message.
@@ -11,25 +11,64 @@ const addComment = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		const { projectId = "" } = req.body;
+		const { projectId = "", commentContent = "" } = req.body;
 
 		const ids = {
 			userId,
 			projectId,
 		};
 
-		// Validate input data for updating project like
+		// Validate input data for creating project comment
 		const validationResult = idsValidation.validateIdsInputs(ids);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const likeResult = await likeProjectService.updateLike(projectId, userId, "like");
-		if (likeResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, likeResult.message);
+		const commentValidationResult = stringValidation.validateComment(commentContent);
+		if (commentValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, commentValidationResult.message);
 		}
 
-		return apiResponse.successResponse(res, likeResult.message);
+		const commentResult = await commentService.editComment(projectId, userId, commentContent, "create");
+		if (commentResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, commentResult.message);
+		}
+
+		return apiResponse.successResponse(res, commentResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const answerComment = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		const { projectId = "", commentIdtoAnswer = "", commentContent = "" } = req.body;
+
+		const ids = {
+			userId,
+			projectId,
+			commentIdtoAnswer,
+		};
+
+		// Validate input data for creating project comment answer
+		const validationResult = idsValidation.validateIdsInputs(ids);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		const commentValidationResult = stringValidation.validateComment(commentContent);
+		if (commentValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, commentValidationResult.message);
+		}
+
+		const commentResult = await commentService.editComment(projectId, userId, commentContent, "answer", commentIdtoAnswer);
+		if (commentResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, commentResult.message);
+		}
+
+		return apiResponse.successResponse(res, commentResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -38,25 +77,32 @@ const addComment = async (req, res) => {
 const editComment = async (req, res) => {
 	try {
 		const userId = req.userId;
-		const { projectId = "" } = req.body;
+
+		const { projectId = "", commentId = "", commentContent = "" } = req.body;
 
 		const ids = {
 			userId,
 			projectId,
+			commentId,
 		};
 
-		// Validate input data for updating project like
+		// Validate input data for creating project comment
 		const validationResult = idsValidation.validateIdsInputs(ids);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const likeResult = await likeProjectService.updateLike(projectId, userId, "unlike");
-		if (likeResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, likeResult.message);
+		const commentValidationResult = stringValidation.validateComment(commentContent);
+		if (commentValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, commentValidationResult.message);
 		}
 
-		return apiResponse.successResponse(res, likeResult.message);
+		const commentResult = await commentService.editComment(projectId, userId, commentContent, "update", commentId);
+		if (commentResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, commentResult.message);
+		}
+
+		return apiResponse.successResponse(res, commentResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -67,18 +113,26 @@ const removeComment = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		// Validate input data for updating project like
-		const validationResult = idsValidation.validateIdInput(userId);
+		const { projectId = "", commentId = "" } = req.body;
+
+		const ids = {
+			userId,
+			projectId,
+			commentId,
+		};
+
+		// Validate input data for creating project comment
+		const validationResult = idsValidation.validateIdsInputs(ids);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const likeResult = await likeProjectService.retrieveUserLikes(userId);
-
-		if (likeResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, likeResult.message);
+		const commentResult = await commentService.editComment(projectId, userId, "", "remove", commentId);
+		if (commentResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, commentResult.message);
 		}
-		return apiResponse.successResponseWithData(res, likeResult.message, likeResult.userLikes);
+
+		return apiResponse.successResponse(res, commentResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -95,12 +149,12 @@ const retrieveProjectComments = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const likeResult = await likeProjectService.retrieveProjectLikes(projectId);
+		const commentsResult = await commentService.retrieveProjectComments(projectId);
 
-		if (likeResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, likeResult.message);
+		if (commentsResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, commentsResult.message);
 		}
-		return apiResponse.successResponseWithData(res, likeResult.message, likeResult.projectLikes);
+		return apiResponse.successResponseWithData(res, commentsResult.message, commentsResult.projectComments);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -108,6 +162,7 @@ const retrieveProjectComments = async (req, res) => {
 
 module.exports = {
 	addComment,
+	answerComment,
 	editComment,
 	removeComment,
 	retrieveProjectComments,

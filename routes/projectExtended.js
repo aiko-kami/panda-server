@@ -47,7 +47,8 @@ projectRoute.get("/projectQAsPublished", projectQAController.retrieveProjectQAsP
 projectRoute.get("/projectQAsAll", verifyAccess, projectQAController.retrieveProjectQAsAll);
 
 // Project comments
-projectRoute.patch("/addProjectComment", verifyAccess, commentController.addComment);
+projectRoute.post("/addProjectComment", verifyAccess, commentController.addComment);
+projectRoute.patch("/answerProjectComment", verifyAccess, commentController.answerComment);
 projectRoute.patch("/editProjectComment", verifyAccess, commentController.editComment);
 projectRoute.delete("/removeProjectComment", verifyAccess, commentController.removeComment);
 projectRoute.get("/projectComments", commentController.retrieveProjectComments);

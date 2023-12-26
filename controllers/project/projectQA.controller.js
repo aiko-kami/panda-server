@@ -1,5 +1,5 @@
 const { userRightsService, projectStepQAService } = require("../../services");
-const { apiResponse, idsValidation, stepQAValidation } = require("../../utils");
+const { apiResponse, idsValidation, stringValidation } = require("../../utils");
 
 /**
  * Update project QAs controller.
@@ -24,7 +24,7 @@ const addQAs = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const QAValidationResult = stepQAValidation.validateQAs(QAs);
+		const QAValidationResult = stringValidation.validateQAs(QAs);
 		if (QAValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, QAValidationResult.message);
 		}
@@ -68,7 +68,7 @@ const editQAs = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const QAValidationResult = stepQAValidation.validateQAs(QAs);
+		const QAValidationResult = stringValidation.validateQAs(QAs);
 		if (QAValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, QAValidationResult.message);
 		}
@@ -112,7 +112,7 @@ const publishQA = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const QAValidationResult = stepQAValidation.validateQAQuestion(QAQuestion);
+		const QAValidationResult = stringValidation.validateQAQuestion(QAQuestion);
 		if (QAValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, QAValidationResult.message);
 		}
@@ -156,7 +156,7 @@ const unpublishQA = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const QAValidationResult = stepQAValidation.validateQAQuestion(QAQuestion);
+		const QAValidationResult = stringValidation.validateQAQuestion(QAQuestion);
 		if (QAValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, QAValidationResult.message);
 		}
@@ -201,7 +201,7 @@ const removeQA = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const QAValidationResult = stepQAValidation.validateQAQuestion(QAQuestion);
+		const QAValidationResult = stringValidation.validateQAQuestion(QAQuestion);
 		if (QAValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, QAValidationResult.message);
 		}

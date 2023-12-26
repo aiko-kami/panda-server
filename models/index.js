@@ -16,6 +16,7 @@ db.ProjectRights = require("./projectRights.model");
 db.JoinProject = require("./joinProject.model");
 db.CrushProject = require("./crushProject.model");
 db.LikeProject = require("./likeProject.model");
+db.Comment = require("./comment.model");
 
 //Import tokens models
 const tokenModels = require("./token.model");

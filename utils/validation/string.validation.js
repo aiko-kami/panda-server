@@ -94,9 +94,22 @@ const validateQAQuestion = (QAQuestion) => {
 	return { status: "success" };
 };
 
+const validateComment = (commentContent) => {
+	//String type validation
+	if (typeof commentContent !== "string") {
+		return { status: "error", message: "Invalid type of data." };
+	}
+	if (!commentContent) {
+		return { status: "error", message: "Comment content required." };
+	}
+	// If all validations passed
+	return { status: "success" };
+};
+
 module.exports = {
 	validateSteps,
 	validateStepTitle,
 	validateQAs,
 	validateQAQuestion,
+	validateComment,
 };

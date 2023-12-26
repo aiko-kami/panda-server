@@ -1,5 +1,5 @@
 const { userRightsService, projectStepQAService } = require("../../services");
-const { apiResponse, idsValidation, stepQAValidation } = require("../../utils");
+const { apiResponse, idsValidation, stringValidation } = require("../../utils");
 
 /**
  * Update project steps controller.
@@ -24,7 +24,7 @@ const addSteps = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const stepValidationResult = stepQAValidation.validateSteps(steps);
+		const stepValidationResult = stringValidation.validateSteps(steps);
 		if (stepValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, stepValidationResult.message);
 		}
@@ -68,7 +68,7 @@ const editSteps = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const stepValidationResult = stepQAValidation.validateSteps(steps);
+		const stepValidationResult = stringValidation.validateSteps(steps);
 		if (stepValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, stepValidationResult.message);
 		}
@@ -112,7 +112,7 @@ const publishStep = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const stepValidationResult = stepQAValidation.validateStepTitle(stepTitle);
+		const stepValidationResult = stringValidation.validateStepTitle(stepTitle);
 		if (stepValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, stepValidationResult.message);
 		}
@@ -155,7 +155,7 @@ const unpublishStep = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const stepValidationResult = stepQAValidation.validateStepTitle(stepTitle);
+		const stepValidationResult = stringValidation.validateStepTitle(stepTitle);
 		if (stepValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, stepValidationResult.message);
 		}
@@ -199,7 +199,7 @@ const removeStep = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const stepValidationResult = stepQAValidation.validateStepTitle(stepTitle);
+		const stepValidationResult = stringValidation.validateStepTitle(stepTitle);
 		if (stepValidationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, stepValidationResult.message);
 		}
