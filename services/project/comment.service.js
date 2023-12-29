@@ -1,5 +1,5 @@
 const { Project, Comment } = require("../../models");
-const { logger, encryptTools } = require("../../utils");
+const { logger, encryptTools, idTools } = require("../../utils");
 const { DateTime } = require("luxon");
 
 /**
@@ -35,6 +35,7 @@ const editComment = async (projectId, userIdUpdater, commentContent, actionType,
 				project: objectIdProjectId,
 				author: objectIdUserIdUpdater,
 				content: commentContent,
+				createdAt: DateTime.now().toHTTP(),
 			});
 
 			// Save the new comment
@@ -55,28 +56,27 @@ const editComment = async (projectId, userIdUpdater, commentContent, actionType,
 				return { status: "error", message: objectIdCommentId.message };
 			}
 
-			// Check if there are already QAs
-			if (!project.QAs.QAsList || project.QAs.QAsList.length === 0) {
-				return { status: "error", message: "No Q&A found for this project." };
+			// Find the existing comment
+			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
+
+			if (!existingComment || existingComment.isDeleted) {
+				return { status: "error", message: "Comment not found." };
 			}
 
-			// Update all QAs with the provided data
-			project.QAs.QAsList = QAs.map((updatedQA) => ({
-				question: updatedQA.question,
-				response: updatedQA.response || "",
-				published: updatedQA.published ? true : false,
-			}));
+			// Check if the user making the request is the author of the comment
+			if (existingComment.author.toString() !== objectIdUserIdUpdater.toString()) {
+				return { status: "error", message: "Only the author of the comment can update it." };
+			}
 
-			// Update timestamps and the user who made the changes
-			project.updatedBy = objectIdUserIdUpdater;
-			project.QAs.updatedBy = objectIdUserIdUpdater;
-			project.QAs.updatedAt = DateTime.now().toHTTP();
+			// Update the existing comment
+			existingComment.content = commentContent;
+			existingComment.updatedAt = DateTime.now().toHTTP();
 
-			// Save the updated project
-			await project.save();
+			// Save the updated comment
+			await existingComment.save();
 
-			logger.info(`Project Q&A updated successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater}`);
-			return { status: "success", message: "Project Q&A updated successfully." };
+			logger.info(`Comment updated successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater} - Comment ID: ${commentId}`);
+			return { status: "success", message: "Comment updated successfully." };
 		}
 
 		if (actionType === "answer") {
@@ -86,28 +86,95 @@ const editComment = async (projectId, userIdUpdater, commentContent, actionType,
 				return { status: "error", message: objectIdCommentId.message };
 			}
 
-			// Check if there are already QAs
-			if (!project.QAs.QAsList || project.QAs.QAsList.length === 0) {
-				return { status: "error", message: "No Q&A found for this project." };
+			// Find the existing comment
+			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
+
+			if (!existingComment || existingComment.isDeleted) {
+				return { status: "error", message: "Comment not found." };
 			}
 
-			// Update all QAs with the provided data
-			project.QAs.QAsList = QAs.map((updatedQA) => ({
-				question: updatedQA.question,
-				response: updatedQA.response || "",
-				published: updatedQA.published ? true : false,
-			}));
+			if (existingComment.project.toString() !== objectIdProjectId.toString()) {
+				return { status: "error", message: "Wrong project ID." };
+			}
 
-			// Update timestamps and the user who made the changes
-			project.updatedBy = objectIdUserIdUpdater;
-			project.QAs.updatedBy = objectIdUserIdUpdater;
-			project.QAs.updatedAt = DateTime.now().toHTTP();
+			// Create a new Comment and add the isAnswerTo field
+			const newComment = new Comment({
+				project: objectIdProjectId,
+				author: objectIdUserIdUpdater,
+				content: commentContent,
+				isAnswerTo: objectIdCommentId,
+				createdAt: DateTime.now().toHTTP(),
+			});
 
-			// Save the updated project
-			await project.save();
+			// Save the new comment
+			created = await newComment.save();
 
-			logger.info(`Project Q&A updated successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater}`);
-			return { status: "success", message: "Project Q&A updated successfully." };
+			//Add encrypted ID
+			const encryptedId = encryptTools.convertObjectIdToId(created._id.toString());
+			const createdComment = await Comment.findOneAndUpdate({ _id: created._id }, { commentId: encryptedId }, { new: true }).select("-_id -__v");
+
+			logger.info(`Comment answer created successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater} - Comment ID: ${createdComment.commentId} - Parent Comment ID: ${commentId}`);
+			return { status: "success", message: "Comment answer created successfully." };
+		}
+
+		if (actionType === "report") {
+			// Convert id to ObjectId
+			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);
+			if (objectIdCommentId.status == "error") {
+				return { status: "error", message: objectIdCommentId.message };
+			}
+
+			// Find the existing comment
+			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
+
+			if (!existingComment || existingComment.isDeleted) {
+				return { status: "error", message: "Comment not found." };
+			}
+
+			// Check if the user has already reported the comment
+			if (existingComment.isReportedBy.includes(objectIdUserIdUpdater)) {
+				return { status: "error", message: "You have already reported this comment." };
+			}
+
+			// Add the user to the list of users who reported the comment
+			existingComment.isReportedBy.push(objectIdUserIdUpdater);
+
+			// Save the updated comment
+			await existingComment.save();
+
+			logger.info(`Comment reported successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater} - Comment ID: ${commentId}`);
+			return { status: "success", message: "Comment reported successfully." };
+		}
+
+		if (actionType === "unreport") {
+			// Convert id to ObjectId
+			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);
+			if (objectIdCommentId.status == "error") {
+				return { status: "error", message: objectIdCommentId.message };
+			}
+
+			// Find the existing comment
+			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
+
+			if (!existingComment || existingComment.isDeleted) {
+				return { status: "error", message: "Comment not found." };
+			}
+
+			// Check if the user making the unreport is in the list of users who reported the comment
+			const reporterIndex = existingComment.isReportedBy.indexOf(objectIdUserIdUpdater);
+
+			if (reporterIndex === -1) {
+				return { status: "error", message: "You have not reported this comment." };
+			}
+
+			// Remove the user from the list of users who reported the comment
+			existingComment.isReportedBy.splice(reporterIndex, 1);
+
+			// Save the updated comment
+			await existingComment.save();
+
+			logger.info(`Comment unreported successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater} - Comment ID: ${commentId}`);
+			return { status: "success", message: "Comment unreported successfully." };
 		}
 
 		if (actionType === "remove") {
@@ -117,27 +184,26 @@ const editComment = async (projectId, userIdUpdater, commentContent, actionType,
 				return { status: "error", message: objectIdCommentId.message };
 			}
 
-			const QAQuestion = QAs;
-			// Find the index of the QA with the given question
-			const QAIndex = project.QAs.QAsList.findIndex((QA) => QA.question === QAQuestion);
+			// Find the existing comment
+			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
 
-			if (QAIndex === -1) {
-				return { status: "error", message: "Q&A not found." };
+			if (!existingComment || existingComment.isDeleted) {
+				return { status: "error", message: "Comment not found." };
 			}
 
-			// Remove the QA at the found index
-			project.QAs.QAsList.splice(QAIndex, 1);
+			// Check if the user making the request is the author of the comment
+			if (existingComment.author.toString() !== objectIdUserIdUpdater.toString()) {
+				return { status: "error", message: "Only the author of the comment can remove it." };
+			}
 
-			// Update timestamps and the user who made the changes
-			project.updatedBy = objectIdUserIdUpdater;
-			project.QAs.updatedBy = objectIdUserIdUpdater;
-			project.QAs.updatedAt = DateTime.now().toHTTP();
+			// Remove the comment
+			existingComment.isDeleted = true;
 
-			// Save the updated project
-			await project.save();
+			// Save the updated comment
+			await existingComment.save();
 
-			logger.info(`Project Q&A removed successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater}`);
-			return { status: "success", message: "Project Q&A removed successfully." };
+			logger.info(`Comment removed successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater} - Comment ID: ${commentId}`);
+			return { status: "success", message: "Comment removed successfully." };
 		}
 	} catch (error) {
 		return { status: "error", message: error.message };
@@ -152,34 +218,103 @@ const retrieveProjectComments = async (projectId) => {
 			return { status: "error", message: objectIdProjectId.message };
 		}
 
-		const projectComments = await Comment.find({ project: objectIdProjectId })
-			.select("-_id commentId author content answers createdAt")
+		const projectComments = await Comment.find({
+			project: objectIdProjectId,
+			isDeleted: { $ne: true }, // Exclude soft-deleted comments from the count
+		})
+			.select("-project -__v")
+			.sort({ createdAt: 1 })
 			.populate([{ path: "author", select: "-_id username profilePicture userId" }]);
 
-		if (!projectComments) {
-			return { status: "error", message: "Project not found." };
+		if (!projectComments || projectComments.length === 0) {
+			logger.info(`No comment found for this project.`);
+			return { status: "success", message: "No comment found for this project." };
 		}
 
-		/*		if (!projectQAs.QAs.QAsList || projectQAs.QAs.QAsList.length === 0) {
-			return { status: "error", message: "No Project Q&A found." };
-		}
+		// Initialize the comment tree to store comments and their answers
+		const commentTreeObj = {};
 
-		if (projectQAs.QAs.updatedBy.profilePicture.privacy !== "public") {
-			projectQAs.QAs.updatedBy.profilePicture = undefined;
-		}
+		// Build a tree structure by recursively adding comments and their answers
+		const buildCommentTree = (comment) => {
+			const findParent = (parentId) => {
+				for (const comm in commentTreeObj) {
+					if (commentTreeObj.hasOwnProperty(comm)) {
+						if (comm.toString() === parentId) {
+							return commentTreeObj[comm];
+						}
+						const parentComment = commentTreeObj[comm];
+						if (commentTreeObj[comm].answers.length > 0) {
+							const parentAnswer = findParentInAnswers(parentComment.answers, parentId);
+							if (parentAnswer) {
+								return parentAnswer;
+							}
+						}
+					}
+				}
+				return null;
+			};
 
-		const QAsList = projectQAs.QAs.QAsList;
+			const findParentInAnswers = (answers, parentId) => {
+				for (const answer of answers) {
+					if (answer.comment._id.toString() === parentId) {
+						return answer;
+					}
 
-		const QAsOutput = {
-			QAsList: QAsList,
-			createdAt: projectQAs.QAs.createdAt,
-			updatedAt: projectQAs.QAs.updatedAt,
-			updatedBy: projectQAs.QAs.updatedBy,
+					const parentAnswer = findParentInAnswers(answer.answers || [], parentId);
+					if (parentAnswer) {
+						return parentAnswer;
+					}
+				}
+				return null;
+			};
+
+			const commentId = comment._id.toString();
+			const parentId = comment.isAnswerTo && comment.isAnswerTo.toString();
+
+			if (!parentId) {
+				// Top-level comment
+				commentTreeObj[commentId] = { comment, answers: [] };
+			} else {
+				// Nested comment
+				const parent = findParent(parentId);
+				if (parent) {
+					parent.answers.push({ comment, answers: [] });
+				}
+			}
 		};
-*/
 
-		logger.info(`Project comments retrieved successfully.`);
-		return { status: "success", message: `Project comments retrieved successfully.`, projectComments };
+		// Clean comments and build the comment tree
+		for (let comment of projectComments) {
+			comment = comment.toObject();
+
+			if (comment.author.profilePicture) {
+				if (comment.author.profilePicture.privacy !== "public") {
+					comment.author.profilePicture = undefined;
+				}
+			}
+
+			comment.isReportedBy = comment.isReportedBy.length;
+
+			buildCommentTree(comment);
+		}
+
+		const commentTree = Object.values(commentTreeObj);
+
+		idTools.removeIdsFromArray(commentTree);
+
+		// Sort the array based on the createdAt property in descending order
+		commentTree.sort((a, b) => new Date(b.comment.createdAt) - new Date(a.comment.createdAt));
+
+		const nbProjectComments = await Comment.countDocuments({
+			project: objectIdProjectId,
+			isDeleted: { $ne: true },
+		});
+
+		if (nbProjectComments.length === 1) {
+			logger.info(`${nbProjectComments} comment for this project retrieved successfully.`);
+			return { status: "success", message: `${nbProjectComments} comment for this project retrieved successfully.`, projectComments: commentTree };
+		} else logger.info(`${nbProjectComments} comments for this project retrieved successfully.`);
+		return { status: "success", message: `${nbProjectComments} comments for this project retrieved successfully.`, projectComments: commentTree };
 	} catch (error) {
 		logger.error("Error while retrieving project comments:", error);
 		return {

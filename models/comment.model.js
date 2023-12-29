@@ -14,11 +14,13 @@ const commentSchema = new Schema(
 			required: true,
 			default: DateTime.now().toHTTP(),
 		},
+		updatedAt: { type: Date },
+		isDeleted: { type: Boolean },
 		isAnswerTo: { type: Schema.Types.ObjectId, ref: "Comment" },
+		isReportedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
 	},
 	{
 		collection: "comments",
-		timestamps: true, // Automatically add createdAt and updatedAt timestamps
 	}
 );
 

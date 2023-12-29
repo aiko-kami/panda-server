@@ -112,38 +112,44 @@ const projectSchema = new Schema(
 		creatorMotivation: String, // Optional
 		tags: { type: [String] }, // Optional
 		steps: {
-			stepsList: [stepSchema],
-			updatedBy: {
-				type: Schema.Types.ObjectId,
-				ref: "User",
-				required: true,
+			type: {
+				stepsList: [stepSchema],
+				updatedBy: {
+					type: Schema.Types.ObjectId,
+					ref: "User",
+					required: true,
+				},
+				createdAt: {
+					type: Date,
+					required: true,
+					default: DateTime.now().toHTTP(),
+				},
+				updatedAt: {
+					type: Date,
+					required: true,
+				},
 			},
-			createdAt: {
-				type: Date,
-				required: true,
-				default: DateTime.now().toHTTP(),
-			},
-			updatedAt: {
-				type: Date,
-				required: true,
-			},
+			required: false,
 		}, // Optional
 		QAs: {
-			QAsList: [QASchema],
-			updatedBy: {
-				type: Schema.Types.ObjectId,
-				ref: "User",
-				required: true,
+			type: {
+				QAsList: [QASchema],
+				updatedBy: {
+					type: Schema.Types.ObjectId,
+					ref: "User",
+					required: true,
+				},
+				createdAt: {
+					type: Date,
+					required: true,
+					default: DateTime.now().toHTTP(),
+				},
+				updatedAt: {
+					type: Date,
+					required: true,
+				},
 			},
-			createdAt: {
-				type: Date,
-				required: true,
-				default: DateTime.now().toHTTP(),
-			},
-			updatedAt: {
-				type: Date,
-				required: true,
-			},
+			required: false,
 		}, // Optional
 		talentsNeeded: {
 			type: [String], // Array of talents needed

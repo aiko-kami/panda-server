@@ -108,6 +108,64 @@ const editComment = async (req, res) => {
 	}
 };
 
+const reportComment = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		const { projectId = "", commentId = "" } = req.body;
+
+		const ids = {
+			userId,
+			projectId,
+			commentId,
+		};
+
+		// Validate input data for creating project comment
+		const validationResult = idsValidation.validateIdsInputs(ids);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		const commentResult = await commentService.editComment(projectId, userId, "", "report", commentId);
+		if (commentResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, commentResult.message);
+		}
+
+		return apiResponse.successResponse(res, commentResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const unreportComment = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		const { projectId = "", commentId = "" } = req.body;
+
+		const ids = {
+			userId,
+			projectId,
+			commentId,
+		};
+
+		// Validate input data for creating project comment
+		const validationResult = idsValidation.validateIdsInputs(ids);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		const commentResult = await commentService.editComment(projectId, userId, "", "unreport", commentId);
+		if (commentResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, commentResult.message);
+		}
+
+		return apiResponse.successResponse(res, commentResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 // Retrive all the project that a user likes
 const removeComment = async (req, res) => {
 	try {
@@ -164,6 +222,8 @@ module.exports = {
 	addComment,
 	answerComment,
 	editComment,
+	reportComment,
+	unreportComment,
 	removeComment,
 	retrieveProjectComments,
 };

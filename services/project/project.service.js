@@ -35,7 +35,7 @@ const createProject = async (projectData) => {
 			category: objectIdCategoryId,
 			subCategory: projectData.subCategory,
 			status: projectData.status,
-			privateData: { phase: projectData.phase },
+			privateData: {},
 			location: projectLocation,
 			startDate: projectData.startDate !== "" ? projectData.startDate : undefined,
 			creatorMotivation: projectData.creatorMotivation,
@@ -54,16 +54,15 @@ const createProject = async (projectData) => {
 		const encryptedId = encryptTools.convertObjectIdToId(created._id.toString());
 		const project = await Project.findOneAndUpdate({ _id: created._id }, { projectId: encryptedId }, { new: true }).select("-_id -__v");
 
-		logger.info(`New project created successfully. Project ID: ${project.projectId}`);
+		logger.info(`New project ${projectData.status} created successfully. Project ID: ${project.projectId} - Project status: ${projectData.status}`);
 
 		return {
 			status: "success",
-			message: "New project created successfully.",
+			message: `New project created successfully. Project status: ${projectData.status}`,
 			project,
 		};
 	} catch (error) {
 		logger.error("Error while while creating the project: ", error);
-
 		return {
 			status: "error",
 			message: "An error occurred while creating the project.",

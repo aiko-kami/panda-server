@@ -48,8 +48,10 @@ projectRoute.get("/projectQAsAll", verifyAccess, projectQAController.retrievePro
 
 // Project comments
 projectRoute.post("/addProjectComment", verifyAccess, commentController.addComment);
-projectRoute.patch("/answerProjectComment", verifyAccess, commentController.answerComment);
+projectRoute.post("/answerProjectComment", verifyAccess, commentController.answerComment);
 projectRoute.patch("/editProjectComment", verifyAccess, commentController.editComment);
+projectRoute.patch("/reportProjectComment", verifyAccess, commentController.reportComment);
+projectRoute.patch("/unreportProjectComment", verifyAccess, commentController.unreportComment);
 projectRoute.delete("/removeProjectComment", verifyAccess, commentController.removeComment);
 projectRoute.get("/projectComments", commentController.retrieveProjectComments);
 

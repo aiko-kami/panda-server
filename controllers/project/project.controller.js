@@ -93,6 +93,431 @@ const createProject = async (req, res) => {
 	}
 };
 
+const createProjectDraft = async (req, res) => {
+	try {
+		const userId = req.userId;
+		//Retrieve and initialize project data
+		const projectData = {
+			title: req.body.projectInputs.title || "",
+			goal: req.body.projectInputs.goal || "",
+			summary: req.body.projectInputs.summary || "",
+			description: req.body.projectInputs.description || "",
+			cover: req.body.projectInputs.cover || "",
+			categoryId: req.body.projectInputs.categoryId || "",
+			subCategory: req.body.projectInputs.subCategory || "",
+			locationCountry: req.body.projectInputs.locationCountry || "",
+			locationCity: req.body.projectInputs.locationCity || "",
+			locationOnlineOnly: Boolean(req.body.projectInputs.locationOnlineOnly) || false,
+			startDate: req.body.projectInputs.startDate || "",
+			creatorMotivation: req.body.projectInputs.creatorMotivation || "",
+			visibility: req.body.projectInputs.visibility || "public",
+			tags: req.body.projectInputs.tags || [],
+			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
+			objectives: req.body.projectInputs.objectives || [],
+			status: "draft",
+		};
+
+		// Validate input data for creating a project
+		const validationResult = projectValidation.validateNewDraftProjectInputs(projectData);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		//Verify that user (project creator) exists in the database
+		const existingCreator = await userService.retrieveUserById(userId, ["-_id"]);
+		if (existingCreator.status !== "success") {
+			return apiResponse.clientErrorResponse(res, existingCreator.message);
+		}
+
+		// Verify that category and sub-category (if sub-category provided) exist in the database
+		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectData.categoryId, projectData.subCategory);
+		if (categoryVerified.status !== "success") {
+			return apiResponse.clientErrorResponse(res, categoryVerified.message);
+		}
+
+		//Verify that title does not already exists in the database
+		const existingTitle = await projectService.verifyTitleAvailability(projectData.title);
+		if (existingTitle.status !== "success") {
+			return apiResponse.clientErrorResponse(res, existingTitle.message);
+		}
+
+		projectData.creatorId = userId;
+
+		// Create the project
+		const createResult = await projectService.createProject(projectData);
+
+		if (createResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, createResult.message);
+		}
+
+		//Retrieve project data
+		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-members._id"]);
+		if (projectOutput.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectOutput.message);
+		}
+
+		//Convert database object to JS object
+		projectOutput.project = projectOutput.project.toObject();
+
+		//remove _id for the output data
+		const finalProjectOutput = {
+			...projectOutput.project,
+			members: projectOutput.project.members.map((member) => ({
+				...member,
+				user: { ...member.user, _id: undefined },
+			})),
+		};
+
+		return apiResponse.successResponseWithData(res, createResult.message, finalProjectOutput);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const updateProjectDraft = async (req, res) => {
+	try {
+		const userId = req.userId;
+		//Retrieve and initialize project data
+		const projectData = {
+			title: req.body.projectInputs.title || "",
+			goal: req.body.projectInputs.goal || "",
+			summary: req.body.projectInputs.summary || "",
+			description: req.body.projectInputs.description || "",
+			cover: req.body.projectInputs.cover || "",
+			categoryId: req.body.projectInputs.categoryId || "",
+			subCategory: req.body.projectInputs.subCategory || "",
+			locationCountry: req.body.projectInputs.locationCountry || "",
+			locationCity: req.body.projectInputs.locationCity || "",
+			locationOnlineOnly: Boolean(req.body.projectInputs.locationOnlineOnly) || false,
+			startDate: req.body.projectInputs.startDate || "",
+			creatorMotivation: req.body.projectInputs.creatorMotivation || "",
+			visibility: req.body.projectInputs.visibility || "public",
+			tags: req.body.projectInputs.tags || [],
+			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
+			objectives: req.body.projectInputs.objectives || [],
+		};
+
+		// Validate input data for creating a project
+		const validationResult = projectValidation.validateNewProjectInputs(projectData);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Verify that category and sub-category exist in the database
+		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectData.categoryId, projectData.subCategory);
+		if (categoryVerified.status !== "success") {
+			return apiResponse.clientErrorResponse(res, categoryVerified.message);
+		}
+
+		//Verify that title does not already exists in the database
+		const existingTitle = await projectService.verifyTitleAvailability(projectData.title);
+		if (existingTitle.status !== "success") {
+			return apiResponse.clientErrorResponse(res, existingTitle.message);
+		}
+
+		//Verify that user (project creator) exists in the database
+		const existingCreator = await userService.retrieveUserById(userId, ["-_id"]);
+		if (existingCreator.status !== "success") {
+			return apiResponse.clientErrorResponse(res, existingCreator.message);
+		}
+
+		projectData.creatorId = userId;
+
+		// Create the project
+		const createResult = await projectService.createProject(projectData);
+
+		if (createResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, createResult.message);
+		}
+
+		// Set project owner's default rights during the creation of a project
+		const setRightsResult = await userRightsService.setProjectOwnerRights(createResult.project.projectId, userId);
+		if (setRightsResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, setRightsResult.message);
+		}
+
+		//Retrieve project data
+		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-members._id"]);
+		if (projectOutput.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectOutput.message);
+		}
+
+		//Convert database object to JS object
+		projectOutput.project = projectOutput.project.toObject();
+
+		//remove _id for the output data
+		const finalProjectOutput = {
+			...projectOutput.project,
+			members: projectOutput.project.members.map((member) => ({
+				...member,
+				user: { ...member.user, _id: undefined },
+			})),
+		};
+
+		return apiResponse.successResponseWithData(res, createResult.message, finalProjectOutput);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const removeProjectDraft = async (req, res) => {
+	try {
+		const userId = req.userId;
+		//Retrieve and initialize project data
+		const projectData = {
+			title: req.body.projectInputs.title || "",
+			goal: req.body.projectInputs.goal || "",
+			summary: req.body.projectInputs.summary || "",
+			description: req.body.projectInputs.description || "",
+			cover: req.body.projectInputs.cover || "",
+			categoryId: req.body.projectInputs.categoryId || "",
+			subCategory: req.body.projectInputs.subCategory || "",
+			locationCountry: req.body.projectInputs.locationCountry || "",
+			locationCity: req.body.projectInputs.locationCity || "",
+			locationOnlineOnly: Boolean(req.body.projectInputs.locationOnlineOnly) || false,
+			startDate: req.body.projectInputs.startDate || "",
+			creatorMotivation: req.body.projectInputs.creatorMotivation || "",
+			visibility: req.body.projectInputs.visibility || "public",
+			tags: req.body.projectInputs.tags || [],
+			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
+			objectives: req.body.projectInputs.objectives || [],
+		};
+
+		// Validate input data for creating a project
+		const validationResult = projectValidation.validateNewProjectInputs(projectData);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Verify that category and sub-category exist in the database
+		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectData.categoryId, projectData.subCategory);
+		if (categoryVerified.status !== "success") {
+			return apiResponse.clientErrorResponse(res, categoryVerified.message);
+		}
+
+		//Verify that title does not already exists in the database
+		const existingTitle = await projectService.verifyTitleAvailability(projectData.title);
+		if (existingTitle.status !== "success") {
+			return apiResponse.clientErrorResponse(res, existingTitle.message);
+		}
+
+		//Verify that user (project creator) exists in the database
+		const existingCreator = await userService.retrieveUserById(userId, ["-_id"]);
+		if (existingCreator.status !== "success") {
+			return apiResponse.clientErrorResponse(res, existingCreator.message);
+		}
+
+		projectData.creatorId = userId;
+
+		// Create the project
+		const createResult = await projectService.createProject(projectData);
+
+		if (createResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, createResult.message);
+		}
+
+		// Set project owner's default rights during the creation of a project
+		const setRightsResult = await userRightsService.setProjectOwnerRights(createResult.project.projectId, userId);
+		if (setRightsResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, setRightsResult.message);
+		}
+
+		//Retrieve project data
+		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-members._id"]);
+		if (projectOutput.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectOutput.message);
+		}
+
+		//Convert database object to JS object
+		projectOutput.project = projectOutput.project.toObject();
+
+		//remove _id for the output data
+		const finalProjectOutput = {
+			...projectOutput.project,
+			members: projectOutput.project.members.map((member) => ({
+				...member,
+				user: { ...member.user, _id: undefined },
+			})),
+		};
+
+		return apiResponse.successResponseWithData(res, createResult.message, finalProjectOutput);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const submitProject = async (req, res) => {
+	try {
+		const userId = req.userId;
+		//Retrieve and initialize project data
+		const projectData = {
+			title: req.body.projectInputs.title || "",
+			goal: req.body.projectInputs.goal || "",
+			summary: req.body.projectInputs.summary || "",
+			description: req.body.projectInputs.description || "",
+			cover: req.body.projectInputs.cover || "",
+			categoryId: req.body.projectInputs.categoryId || "",
+			subCategory: req.body.projectInputs.subCategory || "",
+			locationCountry: req.body.projectInputs.locationCountry || "",
+			locationCity: req.body.projectInputs.locationCity || "",
+			locationOnlineOnly: Boolean(req.body.projectInputs.locationOnlineOnly) || false,
+			startDate: req.body.projectInputs.startDate || "",
+			creatorMotivation: req.body.projectInputs.creatorMotivation || "",
+			visibility: req.body.projectInputs.visibility || "public",
+			tags: req.body.projectInputs.tags || [],
+			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
+			objectives: req.body.projectInputs.objectives || [],
+		};
+
+		// Validate input data for creating a project
+		const validationResult = projectValidation.validateNewProjectInputs(projectData);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Verify that category and sub-category exist in the database
+		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectData.categoryId, projectData.subCategory);
+		if (categoryVerified.status !== "success") {
+			return apiResponse.clientErrorResponse(res, categoryVerified.message);
+		}
+
+		//Verify that title does not already exists in the database
+		const existingTitle = await projectService.verifyTitleAvailability(projectData.title);
+		if (existingTitle.status !== "success") {
+			return apiResponse.clientErrorResponse(res, existingTitle.message);
+		}
+
+		//Verify that user (project creator) exists in the database
+		const existingCreator = await userService.retrieveUserById(userId, ["-_id"]);
+		if (existingCreator.status !== "success") {
+			return apiResponse.clientErrorResponse(res, existingCreator.message);
+		}
+
+		projectData.creatorId = userId;
+
+		// Create the project
+		const createResult = await projectService.createProject(projectData);
+
+		if (createResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, createResult.message);
+		}
+
+		// Set project owner's default rights during the creation of a project
+		const setRightsResult = await userRightsService.setProjectOwnerRights(createResult.project.projectId, userId);
+		if (setRightsResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, setRightsResult.message);
+		}
+
+		//Retrieve project data
+		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-members._id"]);
+		if (projectOutput.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectOutput.message);
+		}
+
+		//Convert database object to JS object
+		projectOutput.project = projectOutput.project.toObject();
+
+		//remove _id for the output data
+		const finalProjectOutput = {
+			...projectOutput.project,
+			members: projectOutput.project.members.map((member) => ({
+				...member,
+				user: { ...member.user, _id: undefined },
+			})),
+		};
+
+		return apiResponse.successResponseWithData(res, createResult.message, finalProjectOutput);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const saveProjectDraft = async (req, res) => {
+	try {
+		const userId = req.userId;
+		//Retrieve and initialize project data
+		const projectData = {
+			title: req.body.projectInputs.title || "",
+			goal: req.body.projectInputs.goal || "",
+			summary: req.body.projectInputs.summary || "",
+			description: req.body.projectInputs.description || "",
+			cover: req.body.projectInputs.cover || "",
+			categoryId: req.body.projectInputs.categoryId || "",
+			subCategory: req.body.projectInputs.subCategory || "",
+			locationCountry: req.body.projectInputs.locationCountry || "",
+			locationCity: req.body.projectInputs.locationCity || "",
+			locationOnlineOnly: Boolean(req.body.projectInputs.locationOnlineOnly) || false,
+			startDate: req.body.projectInputs.startDate || "",
+			creatorMotivation: req.body.projectInputs.creatorMotivation || "",
+			visibility: req.body.projectInputs.visibility || "public",
+			tags: req.body.projectInputs.tags || [],
+			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
+			objectives: req.body.projectInputs.objectives || [],
+		};
+
+		// Validate input data for creating a project
+		const validationResult = projectValidation.validateNewProjectInputs(projectData);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Verify that category and sub-category exist in the database
+		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectData.categoryId, projectData.subCategory);
+		if (categoryVerified.status !== "success") {
+			return apiResponse.clientErrorResponse(res, categoryVerified.message);
+		}
+
+		//Verify that title does not already exists in the database
+		const existingTitle = await projectService.verifyTitleAvailability(projectData.title);
+		if (existingTitle.status !== "success") {
+			return apiResponse.clientErrorResponse(res, existingTitle.message);
+		}
+
+		//Verify that user (project creator) exists in the database
+		const existingCreator = await userService.retrieveUserById(userId, ["-_id"]);
+		if (existingCreator.status !== "success") {
+			return apiResponse.clientErrorResponse(res, existingCreator.message);
+		}
+
+		projectData.creatorId = userId;
+
+		// Create the project
+		const createResult = await projectService.createProject(projectData);
+
+		if (createResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, createResult.message);
+		}
+
+		// Set project owner's default rights during the creation of a project
+		const setRightsResult = await userRightsService.setProjectOwnerRights(createResult.project.projectId, userId);
+		if (setRightsResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, setRightsResult.message);
+		}
+
+		//Retrieve project data
+		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-members._id"]);
+		if (projectOutput.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectOutput.message);
+		}
+
+		//Convert database object to JS object
+		projectOutput.project = projectOutput.project.toObject();
+
+		//remove _id for the output data
+		const finalProjectOutput = {
+			...projectOutput.project,
+			members: projectOutput.project.members.map((member) => ({
+				...member,
+				user: { ...member.user, _id: undefined },
+			})),
+		};
+
+		return apiResponse.successResponseWithData(res, createResult.message, finalProjectOutput);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 /**
  * Update existing project controller.
  * Allows to update the following elements of a project: title, goal, summary, description, cover, tags, location, talentsNeeded, startDate, phase, objectives, creatorMotivation, visibility
@@ -183,7 +608,10 @@ const retrieveProjectPublicData = async (req, res) => {
 
 const retrieveNewProjects = async (req, res) => {
 	try {
-		const newProjects = await projectService.retrieveLatestProjects(4, ["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility"], { visibility: "public" });
+		const newProjects = await projectService.retrieveLatestProjects(4, ["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility"], {
+			visibility: "public",
+			status: "active",
+		});
 
 		if (newProjects.projects !== null && newProjects.projects.length > 0) {
 			return apiResponse.successResponseWithData(res, newProjects.message, newProjects.projects);
@@ -319,4 +747,11 @@ module.exports = {
 	retrieveProjectData,
 	countProjects,
 	countProjectsPerCategory,
+
+	createProjectDraft,
+	updateProjectDraft,
+	removeProjectDraft,
+	submitProject,
+	updateProject,
+	saveProjectDraft,
 };

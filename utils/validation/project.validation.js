@@ -2,6 +2,57 @@ const validator = require("validator");
 const config = require("../../config");
 const projectVisibility = config.project_visibility;
 
+const validateNewDraftProjectInputs = (projectData) => {
+	//Types validation
+	const invalidType =
+		typeof projectData.title !== "string" ||
+		typeof projectData.goal !== "string" ||
+		typeof projectData.summary !== "string" ||
+		typeof projectData.description !== "string" ||
+		typeof projectData.cover !== "string" ||
+		typeof projectData.categoryId !== "string" ||
+		typeof projectData.subCategory !== "string" ||
+		typeof projectData.locationCountry !== "string" ||
+		typeof projectData.locationCity !== "string" ||
+		typeof projectData.locationOnlineOnly !== "boolean" ||
+		typeof projectData.startDate !== "string" ||
+		typeof projectData.creatorMotivation !== "string" ||
+		typeof projectData.visibility !== "string" ||
+		!Array.isArray(projectData.tags) ||
+		!Array.isArray(projectData.talentsNeeded) ||
+		!Array.isArray(projectData.objectives);
+	if (invalidType) {
+		return { status: "error", message: "Invalid type of data." };
+	}
+
+	// Check if required fields are present
+	if (!projectData.title) {
+		return { status: "error", message: "Title is required." };
+	}
+	if (!projectData.categoryId) {
+		return { status: "error", message: "Category is required." };
+	}
+	// Validate specific field constraints
+	if (!validator.isLength(projectData.title, { min: 4, max: 100 })) {
+		return { status: "error", message: "Title must be 4-100 characters." };
+	}
+	if (projectData.goal && !validator.isLength(projectData.goal, { min: 10, max: 500 })) {
+		return { status: "error", message: "Goal must be 10-500 characters." };
+	}
+	if (projectData.summary && !validator.isLength(projectData.summary, { min: 10, max: 300 })) {
+		return { status: "error", message: "Summary must be 10-300 characters." };
+	}
+	if (projectData.description && !validator.isLength(projectData.description, { min: 20, max: 10000 })) {
+		return { status: "error", message: "Description must be 20-2000 characters." };
+	}
+	if (projectData.visibility && !validator.isIn(projectData.visibility, projectVisibility)) {
+		return { status: "error", message: "Invalid project visibility." };
+	}
+
+	// If all validations passed
+	return { status: "success", message: "All project inputs are valid." };
+};
+
 const validateNewProjectInputs = (projectData) => {
 	//Types validation
 	const invalidType =
@@ -131,6 +182,7 @@ const validateProjectIdAndUserId = (projectId, userId) => {
 };
 
 module.exports = {
+	validateNewDraftProjectInputs,
 	validateNewProjectInputs,
 	validateUpdatedProjectInputs,
 	validateProjectIdAndUserId,

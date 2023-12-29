@@ -10,13 +10,14 @@ const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 // Project creation
 // createProjectDraft, updateProjectDraft, removeProjectDraft to be completed
 // submitProject to be refactor a bit
-projectRoute.post("/createProjectDraft", verifyAccess, projectController.createProject);
-projectRoute.post("/updateProjectDraft/:projectId", verifyAccess, projectController.createProject);
-projectRoute.post("/removeProjectDraft/:projectId", verifyAccess, projectController.createProject);
-projectRoute.post("/submitProject", verifyAccess, projectController.createProject);
+projectRoute.post("/createProjectDraft", verifyAccess, projectController.createProjectDraft);
+projectRoute.patch("/updateProjectDraft/:projectId", verifyAccess, projectController.updateProjectDraft);
+projectRoute.delete("/removeProjectDraft/:projectId", verifyAccess, projectController.removeProjectDraft);
+projectRoute.post("/submitProject", verifyAccess, projectController.submitProject);
 
 // Project update
 projectRoute.patch("/updateProject/:projectId", verifyAccess, projectController.updateProject);
+projectRoute.patch("/saveProjectDraft/:projectId", verifyAccess, projectController.saveProjectDraft);
 
 // Retrieve project data
 projectRoute.get("/projectData/:projectId", verifyAccess, projectController.retrieveProjectData);

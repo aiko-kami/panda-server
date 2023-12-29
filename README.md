@@ -156,14 +156,16 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Remove Step
   - [x] Publish/Unpublish Step
   - [x] Retrieve Steps
-- [ ] Comments ❤
-  - [ ] Define Comments model (independant from project model?) ❤
-  - [ ] Add Comment ❤
-  - [ ] Answer to a Comment ❤
-  - [ ] Update Comment ❤
-  - [ ] Remove Comment ❤
-  - [ ] Report bad Comment ❤
-  - [ ] Retrieve Comments ❤
+- [ ] Comments
+  - [x] Define Comments model
+  - [x] Add Comment
+  - [x] Answer to a Comment
+  - [x] Update Comment
+  - [x] Remove Comment
+  - [x] Report bad Comment
+  - [x] Retrieve Comments
+    - [x] Build comments tree by nesting answers in parent comments
+    - [x] Reorder parent-comments from newest to oldest
 - [ ] Friends 💛
   - [ ] Define friend model 💛
   - [ ] Send friend request 💛

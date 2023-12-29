@@ -13,6 +13,7 @@ module.exports.stringValidation = require("./validation/string.validation");
 
 // Tools
 module.exports.userTools = require("./tools/user.tools");
+module.exports.idTools = require("./tools/id.tools");
 module.exports.projectTools = require("./tools/project.tools");
 module.exports.encryptTools = require("./tools/encrypt.tools");
 
