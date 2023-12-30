@@ -52,14 +52,16 @@ const createProject = async (projectData) => {
 
 		//Add encrypted ID
 		const encryptedId = encryptTools.convertObjectIdToId(created._id.toString());
-		const project = await Project.findOneAndUpdate({ _id: created._id }, { projectId: encryptedId }, { new: true }).select("-_id -__v");
+		const project = await Project.findOneAndUpdate({ _id: created._id }, { projectId: encryptedId }, { new: true }).select("-_id -__v -draft -privateData -crush -likes -members._id");
+
+		projectOutput = project.toObject();
 
 		logger.info(`New project ${projectData.status} created successfully. Project ID: ${project.projectId} - Project status: ${projectData.status}`);
 
 		return {
 			status: "success",
 			message: `New project created successfully. Project status: ${projectData.status}`,
-			project,
+			project: projectOutput,
 		};
 	} catch (error) {
 		logger.error("Error while while creating the project: ", error);

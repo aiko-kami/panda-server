@@ -151,24 +151,12 @@ const createProjectDraft = async (req, res) => {
 		}
 
 		//Retrieve project data
-		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-members._id"]);
+		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-__v", "-draft", "-privateData", "-crush", "-likes", "-members._id"]);
 		if (projectOutput.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectOutput.message);
 		}
 
-		//Convert database object to JS object
-		projectOutput.project = projectOutput.project.toObject();
-
-		//remove _id for the output data
-		const finalProjectOutput = {
-			...projectOutput.project,
-			members: projectOutput.project.members.map((member) => ({
-				...member,
-				user: { ...member.user, _id: undefined },
-			})),
-		};
-
-		return apiResponse.successResponseWithData(res, createResult.message, finalProjectOutput);
+		return apiResponse.successResponseWithData(res, createResult.message, projectOutput.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
