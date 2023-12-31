@@ -10,12 +10,12 @@ const createProject = async (projectData) => {
 	try {
 		const objectIdCategoryId = encryptTools.convertIdToObjectId(projectData.categoryId);
 		if (objectIdCategoryId.status == "error") {
-			return apiResponse.serverErrorResponse(res, objectIdCategoryId.message);
+			return { status: "error", message: objectIdCategoryId.message };
 		}
 
 		const objectIdCreatorId = encryptTools.convertIdToObjectId(projectData.creatorId);
 		if (objectIdCreatorId.status == "error") {
-			return apiResponse.serverErrorResponse(res, objectIdCreatorId.message);
+			return { status: "error", message: objectIdCreatorId.message };
 		}
 
 		const projectLocation = {
@@ -52,12 +52,14 @@ const createProject = async (projectData) => {
 
 		//Add encrypted ID
 		const encryptedId = encryptTools.convertObjectIdToId(created._id.toString());
-		const project = await Project.findOneAndUpdate({ _id: created._id }, { projectId: encryptedId }, { new: true }).select("-_id -__v -draft -privateData -crush -likes -members._id");
+
+		const project = await Project.findOneAndUpdate({ _id: created._id }, { projectId: encryptedId }, { new: true })
+			.select("-_id -__v -draft -privateData -crush -likes -members -updatedBy")
+			.populate([{ path: "category", select: "-_id name categoryId" }]);
 
 		projectOutput = project.toObject();
 
 		logger.info(`New project ${projectData.status} created successfully. Project ID: ${project.projectId} - Project status: ${projectData.status}`);
-
 		return {
 			status: "success",
 			message: `New project created successfully. Project status: ${projectData.status}`,
@@ -89,16 +91,111 @@ const verifyTitleAvailability = async (title) => {
 	}
 };
 
+const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
+	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+		if (objectIdUserIdUpdater.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdater.message };
+		}
+
+		let objectIdCategoryId;
+		if (updatedData.categoryId) {
+			objectIdCategoryId = encryptTools.convertIdToObjectId(updatedData.categoryId);
+			if (objectIdCategoryId.status == "error") {
+				return { status: "error", message: objectIdCategoryId.message };
+			}
+		}
+		// Find the project by projectId
+		const project = await Project.findOne({ _id: objectIdProjectId });
+
+		// Check if the project exists
+		if (!project) {
+			return { status: "error", message: "Project not found." };
+		}
+
+		// Check if the user updater is the project creator
+		if (project.members[0].role !== "owner" || project.members[0].user.toString() !== objectIdUserIdUpdater.toString()) {
+			return { status: "error", message: "Only the creator of the project can edit the draft of the project." };
+		}
+
+		// Check if the project status
+		if (project.status !== "draft") {
+			return { status: "error", message: "Project status not draft." };
+		}
+
+		// Define an object to store the fields that need to be updated
+		const updateFields = {};
+
+		// Define a mapping of fields between the updatedData object and the project object
+		const fieldMapping = {
+			title: "title",
+			goal: "goal",
+			summary: "summary",
+			description: "description",
+			cover: "cover",
+			subCategory: "subCategory",
+			locationCity: "location.city",
+			locationCountry: "location.country",
+			locationOnlineOnly: "location.onlineOnly",
+			startDate: "startDate",
+			creatorMotivation: "creatorMotivation",
+			visibility: "visibility",
+			tags: "tags",
+			talentsNeeded: "talentsNeeded",
+			objectIdProjectId: "updatedBy",
+		};
+
+		// Iterate through the fieldMapping and check if the field exists in updatedData
+		for (const key in fieldMapping) {
+			const projectField = fieldMapping[key];
+			if (updatedData.hasOwnProperty(key)) {
+				// If the field exists in updatedData, update the corresponding field in updateFields
+				updateFields[projectField] = updatedData[key];
+			}
+		}
+		// In case category is updated, add the field in the list to update
+		if (updatedData.categoryId) {
+			updateFields.category = objectIdCategoryId;
+		}
+
+		// Save the updated project
+		const updatedProject = await Project.findOneAndUpdate({ _id: objectIdProjectId }, { $set: updateFields }, { new: true })
+			.select("-_id -__v -draft -privateData -crush -likes -members -updatedBy")
+			.populate([{ path: "category", select: "-_id name categoryId" }]);
+
+		projectOutput = updatedProject.toObject();
+
+		logger.info(`Project updated successfully. Project ID: ${projectId} - Project status: ${projectOutput.status}`);
+		return {
+			status: "success",
+			message: "Project updated successfully.",
+			project: updatedProject,
+		};
+	} catch (error) {
+		logger.error("Error while updating the project: ", error);
+
+		return {
+			status: "error",
+			message: "An error occurred while updating the project.",
+		};
+	}
+};
+
 const updateProject = async (projectId, updatedData, userIdUpdater) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
 		if (objectIdProjectId.status == "error") {
-			return apiResponse.serverErrorResponse(res, objectIdProjectId.message);
+			return { status: "error", message: objectIdProjectId.message };
 		}
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
 		if (objectIdUserIdUpdater.status == "error") {
-			return apiResponse.serverErrorResponse(res, objectIdUserIdUpdater.message);
+			return { status: "error", message: objectIdUserIdUpdater.message };
 		}
 
 		// Find the project by projectId
@@ -182,7 +279,7 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 		const projectRetrieved = await Project.findOne(search)
 			.select(fieldsString)
 			.populate([
-				{ path: "category", select: "-_id name" },
+				{ path: "category", select: "-_id name categoryId" },
 				{ path: "updatedBy", select: "-_id username profilePicture" },
 				{ path: "steps.updatedBy", select: "-_id username profilePicture" },
 				{ path: "members.user", select: "username profilePicture" },
@@ -248,7 +345,7 @@ const retrieveLatestProjects = async (limit, fields, conditions) => {
 		if (fields) {
 			const fieldsString = fields.join(" ");
 
-			query = query.select(fieldsString).populate([{ path: "category", select: "-_id name" }]); // Populate the 'category' and 'members.user' fields
+			query = query.select(fieldsString).populate([{ path: "category", select: "-_id name categoryId" }]); // Populate the 'category' and 'members.user' fields
 		}
 		// select(`-_id -__v ${fields}`)
 		const projects = await query;
@@ -358,6 +455,7 @@ const countNumberProjectsPerCategory = async () => {
 module.exports = {
 	createProject,
 	verifyTitleAvailability,
+	updateProjectDraft,
 	updateProject,
 	retrieveProjectById,
 	retrieveLatestProjects,

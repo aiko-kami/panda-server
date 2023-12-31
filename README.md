@@ -156,7 +156,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Remove Step
   - [x] Publish/Unpublish Step
   - [x] Retrieve Steps
-- [ ] Comments
+- [x] Comments
   - [x] Define Comments model
   - [x] Add Comment
   - [x] Answer to a Comment

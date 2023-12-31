@@ -36,6 +36,20 @@ const filterFieldsToUpdate = (projectData) => {
 			filteredInputs.cover = projectData.cover;
 		}
 	}
+	if (projectData.categoryId) {
+		if (projectData.categoryId === "@--empty--string") {
+			filteredInputs.categoryId = "";
+		} else {
+			filteredInputs.categoryId = projectData.categoryId;
+		}
+	}
+	if (projectData.subCategory) {
+		if (projectData.subCategory === "@--empty--string") {
+			filteredInputs.subCategory = "";
+		} else {
+			filteredInputs.subCategory = projectData.subCategory;
+		}
+	}
 	if (projectData.locationCountry) {
 		if (projectData.locationCountry === "@--empty--string") {
 			filteredInputs.locationCountry = "";
@@ -52,14 +66,6 @@ const filterFieldsToUpdate = (projectData) => {
 	}
 	if (projectData.locationOnlineOnly !== "no value passed") {
 		filteredInputs.locationOnlineOnly = projectData.locationOnlineOnly;
-	}
-
-	if (projectData.startDate) {
-		if (projectData.startDate === "@--empty--string") {
-			filteredInputs.startDate = "";
-		} else {
-			filteredInputs.startDate = projectData.startDate;
-		}
 	}
 	if (projectData.startDate) {
 		if (projectData.startDate === "@--empty--string") {

@@ -2,97 +2,11 @@ const { projectService, categoryService, userService, userRightsService } = requ
 const { apiResponse, projectValidation, projectTools, encryptTools } = require("../../utils");
 
 /**
- * Create new project controller.
+ * Create new project draft controller.
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
  * @returns {Object} - The response containing the created project or an error message.
  */
-const createProject = async (req, res) => {
-	try {
-		const userId = req.userId;
-		//Retrieve and initialize project data
-		const projectData = {
-			title: req.body.projectInputs.title || "",
-			goal: req.body.projectInputs.goal || "",
-			summary: req.body.projectInputs.summary || "",
-			description: req.body.projectInputs.description || "",
-			cover: req.body.projectInputs.cover || "",
-			categoryId: req.body.projectInputs.categoryId || "",
-			subCategory: req.body.projectInputs.subCategory || "",
-			locationCountry: req.body.projectInputs.locationCountry || "",
-			locationCity: req.body.projectInputs.locationCity || "",
-			locationOnlineOnly: Boolean(req.body.projectInputs.locationOnlineOnly) || false,
-			startDate: req.body.projectInputs.startDate || "",
-			creatorMotivation: req.body.projectInputs.creatorMotivation || "",
-			visibility: req.body.projectInputs.visibility || "public",
-			tags: req.body.projectInputs.tags || [],
-			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
-			objectives: req.body.projectInputs.objectives || [],
-		};
-
-		// Validate input data for creating a project
-		const validationResult = projectValidation.validateNewProjectInputs(projectData);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
-		}
-
-		// Verify that category and sub-category exist in the database
-		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectData.categoryId, projectData.subCategory);
-		if (categoryVerified.status !== "success") {
-			return apiResponse.clientErrorResponse(res, categoryVerified.message);
-		}
-
-		//Verify that title does not already exists in the database
-		const existingTitle = await projectService.verifyTitleAvailability(projectData.title);
-		if (existingTitle.status !== "success") {
-			return apiResponse.clientErrorResponse(res, existingTitle.message);
-		}
-
-		//Verify that user (project creator) exists in the database
-		const existingCreator = await userService.retrieveUserById(userId, ["-_id"]);
-		if (existingCreator.status !== "success") {
-			return apiResponse.clientErrorResponse(res, existingCreator.message);
-		}
-
-		projectData.creatorId = userId;
-
-		// Create the project
-		const createResult = await projectService.createProject(projectData);
-
-		if (createResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, createResult.message);
-		}
-
-		// Set project owner's default rights during the creation of a project
-		const setRightsResult = await userRightsService.setProjectOwnerRights(createResult.project.projectId, userId);
-		if (setRightsResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, setRightsResult.message);
-		}
-
-		//Retrieve project data
-		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-members._id"]);
-		if (projectOutput.status !== "success") {
-			return apiResponse.serverErrorResponse(res, projectOutput.message);
-		}
-
-		//Convert database object to JS object
-		projectOutput.project = projectOutput.project.toObject();
-
-		//remove _id for the output data
-		const finalProjectOutput = {
-			...projectOutput.project,
-			members: projectOutput.project.members.map((member) => ({
-				...member,
-				user: { ...member.user, _id: undefined },
-			})),
-		};
-
-		return apiResponse.successResponseWithData(res, createResult.message, finalProjectOutput);
-	} catch (error) {
-		return apiResponse.serverErrorResponse(res, error.message);
-	}
-};
-
 const createProjectDraft = async (req, res) => {
 	try {
 		const userId = req.userId;
@@ -118,7 +32,7 @@ const createProjectDraft = async (req, res) => {
 		};
 
 		// Validate input data for creating a project
-		const validationResult = projectValidation.validateNewDraftProjectInputs(projectData);
+		const validationResult = projectValidation.validateDraftProjectInputs(projectData);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
@@ -145,18 +59,11 @@ const createProjectDraft = async (req, res) => {
 
 		// Create the project
 		const createResult = await projectService.createProject(projectData);
-
 		if (createResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, createResult.message);
 		}
 
-		//Retrieve project data
-		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-__v", "-draft", "-privateData", "-crush", "-likes", "-members._id"]);
-		if (projectOutput.status !== "success") {
-			return apiResponse.serverErrorResponse(res, projectOutput.message);
-		}
-
-		return apiResponse.successResponseWithData(res, createResult.message, projectOutput.project);
+		return apiResponse.successResponseWithData(res, createResult.message, createResult.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -164,9 +71,10 @@ const createProjectDraft = async (req, res) => {
 
 const updateProjectDraft = async (req, res) => {
 	try {
+		const { projectId = "" } = req.params;
 		const userId = req.userId;
 		//Retrieve and initialize project data
-		const projectData = {
+		const projectDataToUpdate = {
 			title: req.body.projectInputs.title || "",
 			goal: req.body.projectInputs.goal || "",
 			summary: req.body.projectInputs.summary || "",
@@ -185,22 +93,16 @@ const updateProjectDraft = async (req, res) => {
 			objectives: req.body.projectInputs.objectives || [],
 		};
 
-		// Validate input data for creating a project
-		const validationResult = projectValidation.validateNewProjectInputs(projectData);
+		// Validate input data for updating a project
+		const validationResult = projectValidation.validateDraftProjectInputs(projectDataToUpdate);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		// Verify that category and sub-category exist in the database
-		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectData.categoryId, projectData.subCategory);
-		if (categoryVerified.status !== "success") {
-			return apiResponse.clientErrorResponse(res, categoryVerified.message);
-		}
-
-		//Verify that title does not already exists in the database
-		const existingTitle = await projectService.verifyTitleAvailability(projectData.title);
-		if (existingTitle.status !== "success") {
-			return apiResponse.clientErrorResponse(res, existingTitle.message);
+		// Validate Ids for updating a project
+		const validationIdsResult = projectValidation.validateProjectIdAndUserId(projectId, userId, "mandatory");
+		if (validationIdsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
 		}
 
 		//Verify that user (project creator) exists in the database
@@ -209,40 +111,28 @@ const updateProjectDraft = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, existingCreator.message);
 		}
 
-		projectData.creatorId = userId;
-
-		// Create the project
-		const createResult = await projectService.createProject(projectData);
-
-		if (createResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, createResult.message);
+		// Verify that category and sub-category (if sub-category provided) exist in the database
+		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectDataToUpdate.categoryId, projectDataToUpdate.subCategory);
+		if (categoryVerified.status !== "success") {
+			return apiResponse.clientErrorResponse(res, categoryVerified.message);
 		}
 
-		// Set project owner's default rights during the creation of a project
-		const setRightsResult = await userRightsService.setProjectOwnerRights(createResult.project.projectId, userId);
-		if (setRightsResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, setRightsResult.message);
+		//Verify that title does not already exists in the database
+		const existingTitle = await projectService.verifyTitleAvailability(projectDataToUpdate.title);
+		if (existingTitle.status !== "success") {
+			return apiResponse.clientErrorResponse(res, existingTitle.message);
 		}
 
-		//Retrieve project data
-		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-members._id"]);
-		if (projectOutput.status !== "success") {
-			return apiResponse.serverErrorResponse(res, projectOutput.message);
+		// Filter on the fields that the user wants to update
+		const filterProjectInputs = projectTools.filterFieldsToUpdate(projectDataToUpdate);
+
+		// Update the project
+		const updatedResult = await projectService.updateProjectDraft(projectId, filterProjectInputs, userId);
+		if (updatedResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updatedResult.message);
 		}
 
-		//Convert database object to JS object
-		projectOutput.project = projectOutput.project.toObject();
-
-		//remove _id for the output data
-		const finalProjectOutput = {
-			...projectOutput.project,
-			members: projectOutput.project.members.map((member) => ({
-				...member,
-				user: { ...member.user, _id: undefined },
-			})),
-		};
-
-		return apiResponse.successResponseWithData(res, createResult.message, finalProjectOutput);
+		return apiResponse.successResponseWithData(res, updatedResult.message, updatedResult.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -250,43 +140,13 @@ const updateProjectDraft = async (req, res) => {
 
 const removeProjectDraft = async (req, res) => {
 	try {
+		const { projectId = "" } = req.params;
 		const userId = req.userId;
-		//Retrieve and initialize project data
-		const projectData = {
-			title: req.body.projectInputs.title || "",
-			goal: req.body.projectInputs.goal || "",
-			summary: req.body.projectInputs.summary || "",
-			description: req.body.projectInputs.description || "",
-			cover: req.body.projectInputs.cover || "",
-			categoryId: req.body.projectInputs.categoryId || "",
-			subCategory: req.body.projectInputs.subCategory || "",
-			locationCountry: req.body.projectInputs.locationCountry || "",
-			locationCity: req.body.projectInputs.locationCity || "",
-			locationOnlineOnly: Boolean(req.body.projectInputs.locationOnlineOnly) || false,
-			startDate: req.body.projectInputs.startDate || "",
-			creatorMotivation: req.body.projectInputs.creatorMotivation || "",
-			visibility: req.body.projectInputs.visibility || "public",
-			tags: req.body.projectInputs.tags || [],
-			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
-			objectives: req.body.projectInputs.objectives || [],
-		};
 
-		// Validate input data for creating a project
-		const validationResult = projectValidation.validateNewProjectInputs(projectData);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
-		}
-
-		// Verify that category and sub-category exist in the database
-		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectData.categoryId, projectData.subCategory);
-		if (categoryVerified.status !== "success") {
-			return apiResponse.clientErrorResponse(res, categoryVerified.message);
-		}
-
-		//Verify that title does not already exists in the database
-		const existingTitle = await projectService.verifyTitleAvailability(projectData.title);
-		if (existingTitle.status !== "success") {
-			return apiResponse.clientErrorResponse(res, existingTitle.message);
+		// Validate Ids for updating a project
+		const validationIdsResult = projectValidation.validateProjectIdAndUserId(projectId, userId, "mandatory");
+		if (validationIdsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
 		}
 
 		//Verify that user (project creator) exists in the database
@@ -295,40 +155,13 @@ const removeProjectDraft = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, existingCreator.message);
 		}
 
-		projectData.creatorId = userId;
-
-		// Create the project
-		const createResult = await projectService.createProject(projectData);
-
+		// Remove the project
+		const removeResult = await projectService.removeProjectDraft(projectData);
 		if (createResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, createResult.message);
 		}
 
-		// Set project owner's default rights during the creation of a project
-		const setRightsResult = await userRightsService.setProjectOwnerRights(createResult.project.projectId, userId);
-		if (setRightsResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, setRightsResult.message);
-		}
-
-		//Retrieve project data
-		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-members._id"]);
-		if (projectOutput.status !== "success") {
-			return apiResponse.serverErrorResponse(res, projectOutput.message);
-		}
-
-		//Convert database object to JS object
-		projectOutput.project = projectOutput.project.toObject();
-
-		//remove _id for the output data
-		const finalProjectOutput = {
-			...projectOutput.project,
-			members: projectOutput.project.members.map((member) => ({
-				...member,
-				user: { ...member.user, _id: undefined },
-			})),
-		};
-
-		return apiResponse.successResponseWithData(res, createResult.message, finalProjectOutput);
+		return apiResponse.successResponseWithData(res, createResult.message, removeResult);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -336,6 +169,7 @@ const removeProjectDraft = async (req, res) => {
 
 const submitProject = async (req, res) => {
 	try {
+		const { projectId = "" } = req.params;
 		const userId = req.userId;
 		//Retrieve and initialize project data
 		const projectData = {
@@ -355,15 +189,28 @@ const submitProject = async (req, res) => {
 			tags: req.body.projectInputs.tags || [],
 			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
 			objectives: req.body.projectInputs.objectives || [],
+			status: "submitted",
 		};
 
-		// Validate input data for creating a project
-		const validationResult = projectValidation.validateNewProjectInputs(projectData);
+		// Validate input data for updating a project
+		const validationResult = projectValidation.validateDraftProjectInputs(projectData);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		// Verify that category and sub-category exist in the database
+		// Validate Ids for updating a project
+		const validationIdsResult = projectValidation.validateProjectIdAndUserId(projectId, userId, "optional");
+		if (validationIdsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
+		}
+
+		//Verify that user (project creator) exists in the database
+		const existingCreator = await userService.retrieveUserById(userId, ["-_id"]);
+		if (existingCreator.status !== "success") {
+			return apiResponse.clientErrorResponse(res, existingCreator.message);
+		}
+
+		// Verify that category and sub-category (if sub-category provided) exist in the database
 		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectData.categoryId, projectData.subCategory);
 		if (categoryVerified.status !== "success") {
 			return apiResponse.clientErrorResponse(res, categoryVerified.message);
@@ -375,23 +222,19 @@ const submitProject = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, existingTitle.message);
 		}
 
-		//Verify that user (project creator) exists in the database
-		const existingCreator = await userService.retrieveUserById(userId, ["-_id"]);
-		if (existingCreator.status !== "success") {
-			return apiResponse.clientErrorResponse(res, existingCreator.message);
-		}
-
 		projectData.creatorId = userId;
 
-		// Create the project
-		const createResult = await projectService.createProject(projectData);
-
-		if (createResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, createResult.message);
+		if (!projectId) {
+			// Create the project
+			const createResult = await projectService.createProject(projectData);
+			if (createResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, createResult.message);
+			}
+			projectId = createResult.project.projectId;
 		}
 
 		// Set project owner's default rights during the creation of a project
-		const setRightsResult = await userRightsService.setProjectOwnerRights(createResult.project.projectId, userId);
+		const setRightsResult = await userRightsService.setProjectOwnerRights(projectId, userId);
 		if (setRightsResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, setRightsResult.message);
 		}
@@ -517,6 +360,7 @@ const updateProject = async (req, res) => {
 	try {
 		const { projectId = "" } = req.params;
 		const userId = req.userId;
+
 		//Retrieve and initialize project data
 		const updatedProjectInputs = {
 			title: req.body.projectNewData.title || "",
@@ -540,6 +384,12 @@ const updateProject = async (req, res) => {
 		const validationResult = projectValidation.validateUpdatedProjectInputs(updatedProjectInputs);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Validate Ids for updating a project
+		const validationIdsResult = projectValidation.validateProjectIdAndUserId(projectId, userId, "mandatory");
+		if (validationIdsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
 		}
 
 		// Filter on the fields that the user wants to update
@@ -633,7 +483,7 @@ const retrieveProjectData = async (req, res) => {
 		const userId = req.userId;
 
 		// Validate input data for creating a project
-		const validationResult = projectValidation.validateProjectIdAndUserId(projectId, userId);
+		const validationResult = projectValidation.validateProjectIdAndUserId(projectId, userId, "mandatory");
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
@@ -727,7 +577,6 @@ const countProjectsPerCategory = async (req, res) => {
 };
 
 module.exports = {
-	createProject,
 	updateProject,
 	retrieveProjectPublicData,
 	retrieveNewProjects,
