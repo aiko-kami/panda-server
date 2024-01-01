@@ -1,6 +1,7 @@
 const validator = require("validator");
 const config = require("../../config");
 const projectVisibility = config.project_visibility;
+const projectApprovalList = config.project_approval;
 
 const validateDraftProjectInputs = (projectData) => {
 	//Types validation
@@ -53,7 +54,7 @@ const validateDraftProjectInputs = (projectData) => {
 	return { status: "success", message: "All project inputs are valid." };
 };
 
-const validateNewProjectInputs = (projectData) => {
+const validateSubmittedProjectInputs = (projectData) => {
 	//Types validation
 	const invalidType =
 		typeof projectData.title !== "string" ||
@@ -181,9 +182,28 @@ const validateProjectIdAndUserId = (projectId, userId, requiredStatus) => {
 	return { status: "success", message: "Project ID and user ID are valid." };
 };
 
+const validateProjectApproval = (projectApproval) => {
+	//Type validation
+	if (typeof projectApproval !== "string") {
+		return { status: "error", message: "Invalid type of data." };
+	}
+
+	// Check if required field is present
+	if (!projectApproval) {
+		return { status: "error", message: "Project approval is required." };
+	}
+	if (!validator.isIn(projectApproval, projectApprovalList)) {
+		return { status: "error", message: "Invalid project approval." };
+	}
+
+	// If all validations passed
+	return { status: "success", message: "Project approval is valid." };
+};
+
 module.exports = {
 	validateDraftProjectInputs,
-	validateNewProjectInputs,
+	validateSubmittedProjectInputs,
 	validateUpdatedProjectInputs,
 	validateProjectIdAndUserId,
+	validateProjectApproval,
 };

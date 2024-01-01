@@ -5,7 +5,7 @@
 const projectRoute = require("express").Router();
 
 const { projectController } = require("../controllers");
-const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
+const { verifyAccess, verifyAdminAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Project creation
 // createProjectDraft, updateProjectDraft, removeProjectDraft to be completed
@@ -14,6 +14,7 @@ projectRoute.post("/createProjectDraft", verifyAccess, projectController.createP
 projectRoute.patch("/updateProjectDraft/:projectId", verifyAccess, projectController.updateProjectDraft);
 projectRoute.delete("/removeProjectDraft/:projectId", verifyAccess, projectController.removeProjectDraft);
 projectRoute.post("/submitProject", verifyAccess, projectController.submitProject);
+projectRoute.post("/submitProject", verifyAdminAccess, projectController.processProjectApproval);
 
 // Project update
 projectRoute.patch("/updateProject/:projectId", verifyAccess, projectController.updateProject);

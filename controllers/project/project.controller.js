@@ -1,4 +1,4 @@
-const { projectService, categoryService, userService, userRightsService } = require("../../services");
+const { projectService, categoryService, userService, userRightsService, statusService, adminService } = require("../../services");
 const { apiResponse, projectValidation, projectTools, encryptTools } = require("../../utils");
 
 /**
@@ -156,12 +156,12 @@ const removeProjectDraft = async (req, res) => {
 		}
 
 		// Remove the project
-		const removeResult = await projectService.removeProjectDraft(projectData);
-		if (createResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, createResult.message);
+		const removeResult = await projectService.removeProjectDraft(projectId, userId);
+		if (removeResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, removeResult.message);
 		}
 
-		return apiResponse.successResponseWithData(res, createResult.message, removeResult);
+		return apiResponse.successResponseWithData(res, removeResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -193,7 +193,7 @@ const submitProject = async (req, res) => {
 		};
 
 		// Validate input data for updating a project
-		const validationResult = projectValidation.validateDraftProjectInputs(projectData);
+		const validationResult = projectValidation.validateDraftProjectInputs(projectDataToUpdate);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
@@ -211,26 +211,76 @@ const submitProject = async (req, res) => {
 		}
 
 		// Verify that category and sub-category (if sub-category provided) exist in the database
-		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectData.categoryId, projectData.subCategory);
+		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectDataToUpdate.categoryId, projectDataToUpdate.subCategory);
 		if (categoryVerified.status !== "success") {
 			return apiResponse.clientErrorResponse(res, categoryVerified.message);
 		}
 
 		//Verify that title does not already exists in the database
-		const existingTitle = await projectService.verifyTitleAvailability(projectData.title);
+		const existingTitle = await projectService.verifyTitleAvailability(projectDataToUpdate.title);
 		if (existingTitle.status !== "success") {
 			return apiResponse.clientErrorResponse(res, existingTitle.message);
 		}
 
-		projectData.creatorId = userId;
+		// Filter on the fields that the user wants to update
+		const filterProjectInputs = projectTools.filterFieldsToUpdate(projectDataToUpdate);
 
 		if (!projectId) {
 			// Create the project
-			const createResult = await projectService.createProject(projectData);
+			const createResult = await projectService.createProject(projectData, userId);
 			if (createResult.status !== "success") {
 				return apiResponse.serverErrorResponse(res, createResult.message);
 			}
 			projectId = createResult.project.projectId;
+		} else {
+			// Update the project
+			const updatedResult = await projectService.updateProjectDraft(projectId, filterProjectInputs, userId);
+			if (updatedResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, updatedResult.message);
+			}
+		}
+
+		//Retrieve project data
+		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-members._id"]);
+		if (projectOutput.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectOutput.message);
+		}
+
+		return apiResponse.successResponseWithData(res, createResult.message, finalProjectOutput);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const processProjectApproval = async (req, res) => {
+	try {
+		const { projectId = "" } = req.params;
+		const projectApproval = req.body.projectApproval || "";
+
+		const adminUserId = req.userId;
+
+		// Validate input data for updating a project
+		const validationResult = projectValidation.validateProjectApproval(projectApproval);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Validate Ids for updating a project
+		const validationIdsResult = projectValidation.validateProjectIdAndUserId(projectId, adminUserId, "mandatory");
+		if (validationIdsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
+		}
+
+		//Verify that user (project creator) exists in the database
+		const existingCreator = await adminService.retrieveUserById(adminUserId, ["-_id"]);
+		if (existingCreator.status !== "success") {
+			return apiResponse.clientErrorResponse(res, existingCreator.message);
+		}
+
+		// Update the project
+		const updatedResult = await projectService.processProjectApproval(projectId, projectApproval, adminUserId);
+		if (updatedResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updatedResult.message);
 		}
 
 		// Set project owner's default rights during the creation of a project
@@ -245,17 +295,7 @@ const submitProject = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, projectOutput.message);
 		}
 
-		//Convert database object to JS object
-		projectOutput.project = projectOutput.project.toObject();
-
-		//remove _id for the output data
-		const finalProjectOutput = {
-			...projectOutput.project,
-			members: projectOutput.project.members.map((member) => ({
-				...member,
-				user: { ...member.user, _id: undefined },
-			})),
-		};
+		// Send notification email that project approval has been processed
 
 		return apiResponse.successResponseWithData(res, createResult.message, finalProjectOutput);
 	} catch (error) {
@@ -577,6 +617,8 @@ const countProjectsPerCategory = async (req, res) => {
 };
 
 module.exports = {
+	createProjectDraft,
+	updateProjectDraft,
 	updateProject,
 	retrieveProjectPublicData,
 	retrieveNewProjects,
@@ -585,10 +627,9 @@ module.exports = {
 	countProjects,
 	countProjectsPerCategory,
 
-	createProjectDraft,
-	updateProjectDraft,
 	removeProjectDraft,
 	submitProject,
+	processProjectApproval,
 	updateProject,
 	saveProjectDraft,
 };

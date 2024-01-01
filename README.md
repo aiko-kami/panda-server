@@ -131,6 +131,11 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] Project 💚❤
     - [x] New fields (coup de coeur)
     - [ ] Project routes (creation, draft, submission) ❤
+      - [x] Create project draft ❤
+      - [x] Update project draft ❤
+      - [x] Remove project draft ❤
+      - [ ] Submit project ❤
+      - [ ] Save project draft ❤
     - [ ] Upload images ❤
     - [ ] Project draft 💚
     - [ ] Edit project attachments 💚
@@ -274,7 +279,7 @@ List of available routes:
 | `PATCH`  | `/users/talent/update/me`     | Update talent               |
 | `DELETE` | `/users/talent/remove/me`     | Remove talent               |
 
-- **Project routes**:
+- **Project Core routes**:
 
 | Method   | URI                                        | Action                       |
 | -------- | ------------------------------------------ | ---------------------------- |
@@ -290,6 +295,19 @@ List of available routes:
 | `POST`   | `/projects/category`                       | Create new project category  |
 | `PATCH`  | `/projects/category`                       | Update project category      |
 | `DELETE` | `/projects/category`                       | Remove project category      |
+
+- **Project Extended routes**:
+
+| Method   | URI                                   | Action                       |
+| -------- | ------------------------------------- | ---------------------------- |
+| `PATCH`  | `/projects/project/:projectId`        | Update project               |
+| `PATCH`  | `/projects/project/status/:projectId` | Update project status        |
+| `GET`    | `/projects/project/:projectId`        | Retrieve project             |
+| `GET`    | `/projectOverview/:projectId`         | Retrieve project overview    |
+| `GET`    | `/projectPublic/:projectId`           | Retrieve project public data |
+| `POST`   | `/projects/category`                  | Create new project category  |
+| `PATCH`  | `/projects/category`                  | Update project category      |
+| `DELETE` | `/projects/category`                  | Remove project category      |
 
 ## 🛠 Environment Variables
 

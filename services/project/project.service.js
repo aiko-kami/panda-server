@@ -103,13 +103,11 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 			return { status: "error", message: objectIdUserIdUpdater.message };
 		}
 
-		let objectIdCategoryId;
-		if (updatedData.categoryId) {
-			objectIdCategoryId = encryptTools.convertIdToObjectId(updatedData.categoryId);
-			if (objectIdCategoryId.status == "error") {
-				return { status: "error", message: objectIdCategoryId.message };
-			}
+		objectIdCategoryId = encryptTools.convertIdToObjectId(updatedData.categoryId);
+		if (objectIdCategoryId.status == "error") {
+			return { status: "error", message: objectIdCategoryId.message };
 		}
+
 		// Find the project by projectId
 		const project = await Project.findOne({ _id: objectIdProjectId });
 
@@ -158,10 +156,8 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 				updateFields[projectField] = updatedData[key];
 			}
 		}
-		// In case category is updated, add the field in the list to update
-		if (updatedData.categoryId) {
-			updateFields.category = objectIdCategoryId;
-		}
+		// Add the field in the list to update
+		updateFields.category = objectIdCategoryId;
 
 		// Save the updated project
 		const updatedProject = await Project.findOneAndUpdate({ _id: objectIdProjectId }, { $set: updateFields }, { new: true })
@@ -182,6 +178,51 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 		return {
 			status: "error",
 			message: "An error occurred while updating the project.",
+		};
+	}
+};
+
+const removeProjectDraft = async (projectId, userIdUpdater) => {
+	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+		if (objectIdUserIdUpdater.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdater.message };
+		}
+
+		// Find the project by projectId
+		const project = await Project.findOne({ _id: objectIdProjectId });
+
+		// Check if the project exists
+		if (!project) {
+			return { status: "error", message: "Project not found." };
+		}
+
+		// Check if the user updater is the project creator
+		if (project.members[0].role !== "owner" || project.members[0].user.toString() !== objectIdUserIdUpdater.toString()) {
+			return { status: "error", message: "Only the creator of the project can remove the draft of the project." };
+		}
+
+		// Check if the project status
+		if (project.status !== "draft") {
+			return { status: "error", message: "Project status not draft." };
+		}
+
+		// Remove project draft
+		await project.deleteOne();
+
+		logger.info(`Project removed successfully. Project ID: ${projectId}`);
+		return { status: "success", message: "Project removed successfully." };
+	} catch (error) {
+		logger.error("Error while removing the project: ", error);
+
+		return {
+			status: "error",
+			message: "An error occurred while removing the project.",
 		};
 	}
 };
@@ -456,6 +497,7 @@ module.exports = {
 	createProject,
 	verifyTitleAvailability,
 	updateProjectDraft,
+	removeProjectDraft,
 	updateProject,
 	retrieveProjectById,
 	retrieveLatestProjects,
