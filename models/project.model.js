@@ -171,6 +171,7 @@ const projectSchema = new Schema(
 			enum: projectStatus,
 			message: "The value {VALUE} is not valid.",
 		},
+		statusReason: { type: String },
 		privateData: {
 			phase: { type: String }, // Optional
 			attachments: [String], // Array of file URLs - Optional

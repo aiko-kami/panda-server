@@ -1,4 +1,4 @@
-const { projectService, categoryService, userService, userRightsService, statusService, adminService } = require("../../services");
+const { projectService, categoryService, userService, userRightsService, adminService } = require("../../services");
 const { apiResponse, projectValidation, projectTools, encryptTools } = require("../../utils");
 
 /**
@@ -47,12 +47,6 @@ const createProjectDraft = async (req, res) => {
 		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectData.categoryId, projectData.subCategory);
 		if (categoryVerified.status !== "success") {
 			return apiResponse.clientErrorResponse(res, categoryVerified.message);
-		}
-
-		//Verify that title does not already exists in the database
-		const existingTitle = await projectService.verifyTitleAvailability(projectData.title);
-		if (existingTitle.status !== "success") {
-			return apiResponse.clientErrorResponse(res, existingTitle.message);
 		}
 
 		projectData.creatorId = userId;
@@ -117,12 +111,6 @@ const updateProjectDraft = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, categoryVerified.message);
 		}
 
-		//Verify that title does not already exists in the database
-		const existingTitle = await projectService.verifyTitleAvailability(projectDataToUpdate.title);
-		if (existingTitle.status !== "success") {
-			return apiResponse.clientErrorResponse(res, existingTitle.message);
-		}
-
 		// Filter on the fields that the user wants to update
 		const filterProjectInputs = projectTools.filterFieldsToUpdate(projectDataToUpdate);
 
@@ -169,7 +157,7 @@ const removeProjectDraft = async (req, res) => {
 
 const submitProject = async (req, res) => {
 	try {
-		const { projectId = "" } = req.params;
+		const projectId = req.body.projectInputs.projectId || "";
 		const userId = req.userId;
 		//Retrieve and initialize project data
 		const projectData = {
@@ -193,7 +181,7 @@ const submitProject = async (req, res) => {
 		};
 
 		// Validate input data for updating a project
-		const validationResult = projectValidation.validateDraftProjectInputs(projectDataToUpdate);
+		const validationResult = projectValidation.validateSubmittedProjectInputs(projectData);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
@@ -211,42 +199,37 @@ const submitProject = async (req, res) => {
 		}
 
 		// Verify that category and sub-category (if sub-category provided) exist in the database
-		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectDataToUpdate.categoryId, projectDataToUpdate.subCategory);
+		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectData.categoryId, projectData.subCategory);
 		if (categoryVerified.status !== "success") {
 			return apiResponse.clientErrorResponse(res, categoryVerified.message);
 		}
 
-		//Verify that title does not already exists in the database
-		const existingTitle = await projectService.verifyTitleAvailability(projectDataToUpdate.title);
-		if (existingTitle.status !== "success") {
-			return apiResponse.clientErrorResponse(res, existingTitle.message);
-		}
+		projectData.creatorId = userId;
 
-		// Filter on the fields that the user wants to update
-		const filterProjectInputs = projectTools.filterFieldsToUpdate(projectDataToUpdate);
-
+		let projectSubmittedResult;
 		if (!projectId) {
-			// Create the project
-			const createResult = await projectService.createProject(projectData, userId);
-			if (createResult.status !== "success") {
-				return apiResponse.serverErrorResponse(res, createResult.message);
+			// Create the project and set project status to submitted
+			projectSubmittedResult = await projectService.createProject(projectData, userId);
+
+			console.log("🚀 ~ submitProject ~ projectSubmittedResult:", projectSubmittedResult);
+
+			if (projectSubmittedResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, projectSubmittedResult.message);
 			}
-			projectId = createResult.project.projectId;
-		} else {
+		} else if (projectId) {
+			// Filter on the fields that the user wants to update
+			const filterProjectInputs = projectTools.filterFieldsToUpdate(projectData);
+
 			// Update the project
-			const updatedResult = await projectService.updateProjectDraft(projectId, filterProjectInputs, userId);
-			if (updatedResult.status !== "success") {
-				return apiResponse.serverErrorResponse(res, updatedResult.message);
+			projectSubmittedResult = await projectService.updateProjectDraft(projectId, filterProjectInputs, userId);
+			if (projectSubmittedResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, projectSubmittedResult.message);
 			}
 		}
 
-		//Retrieve project data
-		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-members._id"]);
-		if (projectOutput.status !== "success") {
-			return apiResponse.serverErrorResponse(res, projectOutput.message);
-		}
+		// Send email notification to admin that new project has been submitted
 
-		return apiResponse.successResponseWithData(res, createResult.message, finalProjectOutput);
+		return apiResponse.successResponseWithData(res, projectSubmittedResult.message, projectSubmittedResult.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -255,7 +238,11 @@ const submitProject = async (req, res) => {
 const processProjectApproval = async (req, res) => {
 	try {
 		const { projectId = "" } = req.params;
-		const projectApproval = req.body.projectApproval || "";
+
+		const projectApproval = {
+			approval: req.body.projectApprovalInputs.approval || "",
+			reason: req.body.projectApprovalInputs.reason || "",
+		};
 
 		const adminUserId = req.userId;
 
@@ -271,33 +258,30 @@ const processProjectApproval = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
 		}
 
-		//Verify that user (project creator) exists in the database
+		//Verify that user admin exists in the database
 		const existingCreator = await adminService.retrieveUserById(adminUserId, ["-_id"]);
 		if (existingCreator.status !== "success") {
 			return apiResponse.clientErrorResponse(res, existingCreator.message);
 		}
 
 		// Update the project
+		//adminUserId is useless today (who did the update is not logged in the DB)
 		const updatedResult = await projectService.processProjectApproval(projectId, projectApproval, adminUserId);
 		if (updatedResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updatedResult.message);
 		}
 
+		const creatorId = updatedResult.project.owner;
+
 		// Set project owner's default rights during the creation of a project
-		const setRightsResult = await userRightsService.setProjectOwnerRights(projectId, userId);
+		const setRightsResult = await userRightsService.setProjectOwnerRights(projectId, creatorId);
 		if (setRightsResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, setRightsResult.message);
 		}
 
-		//Retrieve project data
-		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-members._id"]);
-		if (projectOutput.status !== "success") {
-			return apiResponse.serverErrorResponse(res, projectOutput.message);
-		}
-
 		// Send notification email that project approval has been processed
 
-		return apiResponse.successResponseWithData(res, createResult.message, finalProjectOutput);
+		return apiResponse.successResponseWithData(res, updatedResult.message, updatedResult.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -336,12 +320,6 @@ const saveProjectDraft = async (req, res) => {
 		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectData.categoryId, projectData.subCategory);
 		if (categoryVerified.status !== "success") {
 			return apiResponse.clientErrorResponse(res, categoryVerified.message);
-		}
-
-		//Verify that title does not already exists in the database
-		const existingTitle = await projectService.verifyTitleAvailability(projectData.title);
-		if (existingTitle.status !== "success") {
-			return apiResponse.clientErrorResponse(res, existingTitle.message);
 		}
 
 		//Verify that user (project creator) exists in the database
@@ -442,14 +420,6 @@ const updateProject = async (req, res) => {
 		const userRights = await userRightsService.validateUserRights(userId, projectId, filterProjectInputsArray);
 		if (!userRights.canEdit) {
 			return apiResponse.unauthorizedResponse(res, userRights.message);
-		}
-
-		//Verify that the title (if modified) is available
-		if (filterProjectInputs.title) {
-			const titleVerification = await projectService.verifyTitleAvailability(filterProjectInputs.title);
-			if (titleVerification.status !== "success") {
-				return apiResponse.serverErrorResponse(res, titleVerification.message);
-			}
 		}
 
 		// Update the project
@@ -619,6 +589,8 @@ const countProjectsPerCategory = async (req, res) => {
 module.exports = {
 	createProjectDraft,
 	updateProjectDraft,
+	removeProjectDraft,
+	submitProject,
 	updateProject,
 	retrieveProjectPublicData,
 	retrieveNewProjects,
@@ -627,9 +599,6 @@ module.exports = {
 	countProjects,
 	countProjectsPerCategory,
 
-	removeProjectDraft,
-	submitProject,
 	processProjectApproval,
-	updateProject,
 	saveProjectDraft,
 };

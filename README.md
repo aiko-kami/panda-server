@@ -131,13 +131,15 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] Project 💚❤
     - [x] New fields (coup de coeur)
     - [ ] Project routes (creation, draft, submission) ❤
-      - [x] Create project draft ❤
-      - [x] Update project draft ❤
-      - [x] Remove project draft ❤
-      - [ ] Submit project ❤
+      - [x] Create project draft
+      - [x] Update project draft
+      - [x] Remove project draft
+      - [x] Submit project
+      - [ ] Send email notification to admin for project submission ❤
+      - [ ] process project approval ❤
+      - [ ] Send email notification to project creator for project approval ❤
       - [ ] Save project draft ❤
     - [ ] Upload images ❤
-    - [ ] Project draft 💚
     - [ ] Edit project attachments 💚
   - [ ] User 💚
     - [ ] Talents portfolio 💚

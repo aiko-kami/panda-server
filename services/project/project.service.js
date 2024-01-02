@@ -24,10 +24,17 @@ const createProject = async (projectData) => {
 			onlineOnly: projectData.locationOnlineOnly,
 		};
 
+		// Verify that title does not already exists in the database
+		const titleCapitalized = projectData.title.toUpperCase();
+		const existingTitle = await Project.findOne({ titleCapitalized });
+		if (existingTitle) {
+			return { status: "error", message: "Project title is not available." };
+		}
+
 		// Create a new project in the database
 		const newProject = new Project({
 			title: projectData.title,
-			titleCapitalized: projectData.title.toUpperCase(),
+			titleCapitalized: titleCapitalized,
 			goal: projectData.goal,
 			summary: projectData.summary,
 			description: projectData.description,
@@ -59,7 +66,7 @@ const createProject = async (projectData) => {
 
 		projectOutput = project.toObject();
 
-		logger.info(`New project ${projectData.status} created successfully. Project ID: ${project.projectId} - Project status: ${projectData.status}`);
+		logger.info(`New project created successfully. Project ID: ${project.projectId} - Project status: ${projectData.status}`);
 		return {
 			status: "success",
 			message: `New project created successfully. Project status: ${projectData.status}`,
@@ -71,23 +78,6 @@ const createProject = async (projectData) => {
 			status: "error",
 			message: "An error occurred while creating the project.",
 		};
-	}
-};
-
-const verifyTitleAvailability = async (title) => {
-	const titleCapitalized = title.toUpperCase();
-	const existingTitle = await Project.findOne({ titleCapitalized });
-	try {
-		if (existingTitle) {
-			return {
-				status: "error",
-				message: "Project title is not available.",
-			};
-		}
-		return { status: "success", message: "Title is available." };
-	} catch (error) {
-		// Handle any errors that occur during the database query
-		return { status: "error", message: "An error occurred while checking title availability." };
 	}
 };
 
@@ -121,9 +111,16 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 			return { status: "error", message: "Only the creator of the project can edit the draft of the project." };
 		}
 
-		// Check if the project status
+		// Check if the project status is draft
 		if (project.status !== "draft") {
 			return { status: "error", message: "Project status not draft." };
+		}
+
+		// Verify that title does not already exists in the database
+		const titleCapitalized = updatedData.title.toUpperCase();
+		const existingTitle = await Project.findOne({ $and: [{ projectId: { $ne: projectId } }, { titleCapitalized }] });
+		if (existingTitle) {
+			return { status: "error", message: "Project title is not available." };
 		}
 
 		// Define an object to store the fields that need to be updated
@@ -146,6 +143,7 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 			tags: "tags",
 			talentsNeeded: "talentsNeeded",
 			objectIdProjectId: "updatedBy",
+			status: "status",
 		};
 
 		// Iterate through the fieldMapping and check if the field exists in updatedData
@@ -169,7 +167,7 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 		logger.info(`Project updated successfully. Project ID: ${projectId} - Project status: ${projectOutput.status}`);
 		return {
 			status: "success",
-			message: "Project updated successfully.",
+			message: `Project updated successfully. Project status: ${projectOutput.status}`,
 			project: updatedProject,
 		};
 	} catch (error) {
@@ -227,6 +225,55 @@ const removeProjectDraft = async (projectId, userIdUpdater) => {
 	}
 };
 
+const processProjectApproval = async (projectId, projectApproval, adminUserId) => {
+	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		// Find the project by projectId
+		const project = await Project.findOne({ _id: objectIdProjectId });
+
+		// Check if the project exists
+		if (!project) {
+			return { status: "error", message: "Project not found." };
+		}
+
+		// Check if the user updater is the project creator
+		if (project.members[0].role !== "owner" || project.members[0].user.toString() !== objectIdUserIdUpdater.toString()) {
+			return { status: "error", message: "Only the creator of the project can remove the draft of the project." };
+		}
+
+		// Check if the project status
+		if (project.status !== "submitted") {
+			return { status: "error", message: "Project status not submitted." };
+		}
+
+		// Update the project status
+		if (projectApproval.approval === "approved") {
+			project.status = "active";
+		} else if (projectApproval.approval === "rejected") {
+			project.status = "rejected";
+			project.statusReason = projectApproval.reason;
+		}
+
+		// Save the updated project
+		await project.save();
+
+		logger.info(`Project approval set successfully. Project ID: ${projectId}`);
+		return { status: "success", message: "Project approval set successfully." };
+	} catch (error) {
+		logger.error("Error while setting the project approval: ", error);
+
+		return {
+			status: "error",
+			message: "An error occurred while setting the project approval.",
+		};
+	}
+};
+
 const updateProject = async (projectId, updatedData, userIdUpdater) => {
 	try {
 		// Convert id to ObjectId
@@ -245,6 +292,13 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 		// Check if the project exists
 		if (!project) {
 			return { status: "error", message: "Project not found." };
+		}
+
+		// Verify that title does not already exists in the database
+		const titleCapitalized = updatedData.title.toUpperCase();
+		const existingTitle = await Project.findOne({ $and: [{ projectId: { $ne: projectId } }, { titleCapitalized }] });
+		if (existingTitle) {
+			return { status: "error", message: "Project title is not available." };
 		}
 
 		// Define an object to store the fields that need to be updated
@@ -495,9 +549,9 @@ const countNumberProjectsPerCategory = async () => {
 
 module.exports = {
 	createProject,
-	verifyTitleAvailability,
 	updateProjectDraft,
 	removeProjectDraft,
+	processProjectApproval,
 	updateProject,
 	retrieveProjectById,
 	retrieveLatestProjects,

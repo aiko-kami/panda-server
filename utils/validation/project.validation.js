@@ -15,7 +15,7 @@ const validateDraftProjectInputs = (projectData) => {
 		typeof projectData.subCategory !== "string" ||
 		typeof projectData.locationCountry !== "string" ||
 		typeof projectData.locationCity !== "string" ||
-		typeof projectData.locationOnlineOnly !== "boolean" ||
+		(typeof projectData.locationOnlineOnly !== "boolean" && projectData.locationOnlineOnly !== "no value passed") ||
 		typeof projectData.startDate !== "string" ||
 		typeof projectData.creatorMotivation !== "string" ||
 		typeof projectData.visibility !== "string" ||
@@ -66,7 +66,7 @@ const validateSubmittedProjectInputs = (projectData) => {
 		typeof projectData.subCategory !== "string" ||
 		typeof projectData.locationCountry !== "string" ||
 		typeof projectData.locationCity !== "string" ||
-		typeof projectData.locationOnlineOnly !== "boolean" ||
+		(typeof projectData.locationOnlineOnly !== "boolean" && projectData.locationOnlineOnly !== "no value passed") ||
 		typeof projectData.startDate !== "string" ||
 		typeof projectData.creatorMotivation !== "string" ||
 		typeof projectData.visibility !== "string" ||
@@ -130,7 +130,7 @@ const validateUpdatedProjectInputs = (projectData) => {
 		typeof projectData.cover !== "string" ||
 		typeof projectData.locationCountry !== "string" ||
 		typeof projectData.locationCity !== "string" ||
-		typeof projectData.locationOnlineOnly !== "string" ||
+		(typeof projectData.locationOnlineOnly !== "boolean" && projectData.locationOnlineOnly !== "no value passed") ||
 		typeof projectData.startDate !== "string" ||
 		typeof projectData.phase !== "string" ||
 		typeof projectData.creatorMotivation !== "string" ||
@@ -184,15 +184,15 @@ const validateProjectIdAndUserId = (projectId, userId, requiredStatus) => {
 
 const validateProjectApproval = (projectApproval) => {
 	//Type validation
-	if (typeof projectApproval !== "string") {
+	if (typeof projectApproval.approval !== "string" || typeof projectApproval.reason !== "string") {
 		return { status: "error", message: "Invalid type of data." };
 	}
 
 	// Check if required field is present
-	if (!projectApproval) {
+	if (!projectApproval.approval) {
 		return { status: "error", message: "Project approval is required." };
 	}
-	if (!validator.isIn(projectApproval, projectApprovalList)) {
+	if (!validator.isIn(projectApproval.approval, projectApprovalList)) {
 		return { status: "error", message: "Invalid project approval." };
 	}
 

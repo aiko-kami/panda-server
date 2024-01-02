@@ -112,6 +112,13 @@ const filterFieldsToUpdate = (projectData) => {
 	if (projectData.visibility) {
 		filteredInputs.visibility = projectData.visibility;
 	}
+	if (projectData.status) {
+		if (projectData.status === "@--empty--string") {
+			filteredInputs.status = "";
+		} else {
+			filteredInputs.status = projectData.status;
+		}
+	}
 
 	return filteredInputs;
 };
