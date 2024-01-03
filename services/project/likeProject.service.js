@@ -101,15 +101,13 @@ const retrieveUserLikes = async (userId) => {
 				},
 			]);
 
+		const nbUserLikes = userLikes.length;
+
 		// If no like found for the project
-		if (!userLikes || userLikes.length === 0) {
+		if (!userLikes || nbUserLikes === 0) {
 			logger.info(`No like found for this user.`);
 			return { status: "success", message: `No like found for this user.`, userLikes };
-		}
-
-		const nbUserLikes = await LikeProject.countDocuments({ user: objectIdUserId });
-
-		if (userLikes.length === 1) {
+		} else if (nbUserLikes === 1) {
 			logger.info(`${nbUserLikes} like for this user retrieved successfully.`);
 			return { status: "success", message: `${nbUserLikes} like for this user retrieved successfully.`, userLikes };
 		} else logger.info(`${nbUserLikes} likes for this user retrieved successfully.`);
@@ -153,9 +151,9 @@ const retrieveProjectLikes = async (projectId) => {
 			}
 		}
 
-		const nbProjectLikes = await LikeProject.countDocuments({ project: objectIdProjectId });
+		const nbProjectLikes = projectLikes.length;
 
-		if (projectLikes.length === 1) {
+		if (nbProjectLikes === 1) {
 			logger.info(`${nbProjectLikes} like for this project retrieved successfully.`);
 			return { status: "success", message: `${nbProjectLikes} like for this project retrieved successfully.`, projectLikes };
 		} else logger.info(`${nbProjectLikes} likes for this project retrieved successfully.`);

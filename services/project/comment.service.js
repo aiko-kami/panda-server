@@ -305,12 +305,9 @@ const retrieveProjectComments = async (projectId) => {
 		// Sort the array based on the createdAt property in descending order
 		commentTree.sort((a, b) => new Date(b.comment.createdAt) - new Date(a.comment.createdAt));
 
-		const nbProjectComments = await Comment.countDocuments({
-			project: objectIdProjectId,
-			isDeleted: { $ne: true },
-		});
+		const nbProjectComments = projectComments.length;
 
-		if (nbProjectComments.length === 1) {
+		if (nbProjectComments === 1) {
 			logger.info(`${nbProjectComments} comment for this project retrieved successfully.`);
 			return { status: "success", message: `${nbProjectComments} comment for this project retrieved successfully.`, projectComments: commentTree };
 		} else logger.info(`${nbProjectComments} comments for this project retrieved successfully.`);

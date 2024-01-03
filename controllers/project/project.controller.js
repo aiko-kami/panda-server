@@ -210,9 +210,6 @@ const submitProject = async (req, res) => {
 		if (!projectId) {
 			// Create the project and set project status to submitted
 			projectSubmittedResult = await projectService.createProject(projectData, userId);
-
-			console.log("🚀 ~ submitProject ~ projectSubmittedResult:", projectSubmittedResult);
-
 			if (projectSubmittedResult.status !== "success") {
 				return apiResponse.serverErrorResponse(res, projectSubmittedResult.message);
 			}
@@ -456,16 +453,15 @@ const retrieveProjectPublicData = async (req, res) => {
 
 const retrieveNewProjects = async (req, res) => {
 	try {
-		const newProjects = await projectService.retrieveLatestProjects(4, ["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility"], {
+		const newProjects = await projectService.retrieveProjects(4, ["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility"], {
 			visibility: "public",
 			status: "active",
 		});
 
-		if (newProjects.projects !== null && newProjects.projects.length > 0) {
-			return apiResponse.successResponseWithData(res, newProjects.message, newProjects.projects);
-		} else {
+		if (newProjects.status !== "success") {
 			return apiResponse.serverErrorResponse(res, newProjects.message);
 		}
+		return apiResponse.successResponseWithData(res, newProjects.message, newProjects.projects);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -482,6 +478,47 @@ const retrieveProjectOverview = async (req, res) => {
 		}
 
 		return apiResponse.successResponseWithData(res, projectData.message, projectData.project);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const retrieveSubmittedProjects = async (req, res) => {
+	try {
+		const submittedProjects = await projectService.retrieveProjects(
+			999,
+			[
+				"-_id",
+				"title",
+				"goal",
+				"summary",
+				"description",
+				"cover",
+				"crush",
+				"category",
+				"subCategory",
+				"location",
+				"startDate",
+				"creatorMotivation",
+				"tags",
+				"talentsNeeded",
+				"objectives",
+				"updatedBy",
+				"visibility",
+				"status",
+				"privateData",
+				"createdAt",
+				"members",
+			],
+			{
+				status: "submitted",
+			}
+		);
+
+		if (submittedProjects.status !== "success") {
+			return apiResponse.serverErrorResponse(res, submittedProjects.message);
+		}
+		return apiResponse.successResponseWithData(res, submittedProjects.message, submittedProjects.projects);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -601,4 +638,5 @@ module.exports = {
 
 	processProjectApproval,
 	saveProjectDraft,
+	retrieveSubmittedProjects,
 };

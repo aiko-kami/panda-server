@@ -25,6 +25,7 @@ projectRoute.get("/projectData/:projectId", verifyAccess, projectController.retr
 projectRoute.get("/projectOverview/:projectId", projectController.retrieveProjectOverview);
 projectRoute.get("/projectPublic/:projectId", projectController.retrieveProjectPublicData);
 projectRoute.get("/lastProjectsOverview", projectController.retrieveNewProjects);
+projectRoute.get("/submittedProjects", verifyAdminAccess, projectController.retrieveSubmittedProjects);
 
 // Count projects
 projectRoute.get("/nbProjects", projectController.countProjects);

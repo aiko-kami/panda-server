@@ -112,18 +112,18 @@ const retrieveCrushProjects = async (fields, conditions, limit) => {
 			query = query.select(fieldsString);
 		}
 		// select(`-_id -__v ${fields}`)
-		const crushProject = await query;
+		const projects = await query;
 
-		const nbCrushProject = await Project.countDocuments(conditions);
+		const nbCrushProjects = projects.length;
 
-		if (!crushProject || crushProject.length === 0) {
+		if (!projects || projects.length === 0) {
 			logger.info(`No crush project found.`);
-			return { status: "success", message: `No crush project found.`, crushProject };
-		} else if (crushProject.length === 1) {
-			logger.info(`${nbCrushProject} crush project retrieved successfully.`);
-			return { status: "success", message: `${nbCrushProject} crush project retrieved successfully.`, crushProject };
-		} else logger.info(`${nbCrushProject} crush projects retrieved successfully.`);
-		return { status: "success", message: `${nbCrushProject} crush projects retrieved successfully.`, crushProject };
+			return { status: "success", message: `No crush project found.` };
+		} else if (nbCrushProjects === 1) {
+			logger.info(`${nbCrushProjects} crush project retrieved successfully.`);
+			return { status: "success", message: `${nbCrushProjects} crush project retrieved successfully.`, projects };
+		} else logger.info(`${nbCrushProjects} crush projects retrieved successfully.`);
+		return { status: "success", message: `${nbCrushProjects} crush projects retrieved successfully.`, projects };
 	} catch (error) {
 		logger.error("Error while retrieving projects:", error);
 		return {

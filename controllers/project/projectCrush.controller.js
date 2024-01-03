@@ -71,8 +71,8 @@ const retrieveCrushProjects = async (req, res) => {
 			99
 		);
 
-		if (crushProjects.crushProject !== null && crushProjects.crushProject.length > 0) {
-			return apiResponse.successResponseWithData(res, crushProjects.message, crushProjects.crushProject);
+		if (crushProjects.projects !== null && crushProjects.projects.length > 0) {
+			return apiResponse.successResponseWithData(res, crushProjects.message, crushProjects.projects);
 		} else {
 			return apiResponse.serverErrorResponse(res, crushProjects.message);
 		}

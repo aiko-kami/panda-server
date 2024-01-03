@@ -377,8 +377,8 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 				{ path: "category", select: "-_id name categoryId" },
 				{ path: "updatedBy", select: "-_id username profilePicture" },
 				{ path: "steps.updatedBy", select: "-_id username profilePicture" },
-				{ path: "members.user", select: "username profilePicture" },
-			]); // Populate the 'category' and 'members.user' fields
+				{ path: "members.user", select: "-_id username profilePicture userId" },
+			]); // Populate fields
 
 		if (!projectRetrieved) {
 			return {
@@ -434,25 +434,71 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 	}
 };
 
-const retrieveLatestProjects = async (limit, fields, conditions) => {
+const retrieveProjects = async (limit, fields, conditions) => {
 	try {
 		let query = Project.find(conditions).sort({ createdAt: -1 }).limit(limit);
 		if (fields) {
 			const fieldsString = fields.join(" ");
 
-			query = query.select(fieldsString).populate([{ path: "category", select: "-_id name categoryId" }]); // Populate the 'category' and 'members.user' fields
+			query = query.select(fieldsString).populate([
+				{ path: "category", select: "-_id name categoryId" },
+				{ path: "updatedBy", select: "-_id username profilePicture" },
+				{ path: "steps.updatedBy", select: "-_id username profilePicture" },
+				{ path: "members.user", select: "-_id username profilePicture userId" },
+			]); // Populate fields
 		}
 		// select(`-_id -__v ${fields}`)
-		const projects = await query;
+		const projectsRetrieved = await query;
 
-		if (!projects) {
-			return { status: "error", message: "No project found." };
+		if (!projectsRetrieved || projectsRetrieved.length === 0) {
+			logger.info(`No project found.`);
+			return { status: "success", message: "No project found." };
 		}
-		return {
-			status: "success",
-			message: "New projects retrieved successfully.",
-			projects,
-		};
+
+		let projects = projectsRetrieved.map((project) => {
+			let modifiedProject = project.toObject();
+
+			if (!fields.includes("category")) {
+				modifiedProject.category = undefined;
+			}
+			if (fields.includes("updatedBy" && modifiedProject.updatedBy)) {
+				if (modifiedProject.updatedBy) {
+					if (modifiedProject.updatedBy.profilePicture.privacy !== "public") {
+						modifiedProject.updatedBy.profilePicture = undefined;
+					}
+				}
+			} else {
+				modifiedProject.updatedBy = undefined;
+			}
+			if (fields.includes("steps")) {
+				if (modifiedProject.steps.updatedBy) {
+					if (modifiedProject.steps.updatedBy.profilePicture.privacy !== "public") {
+						modifiedProject.steps.updatedBy.profilePicture = undefined;
+					}
+				}
+			} else {
+				modifiedProject.steps = undefined;
+			}
+			if (fields.includes("members")) {
+				for (let member of modifiedProject.members) {
+					if (member.user.profilePicture.privacy !== "public") {
+						member.user.profilePicture = undefined;
+					}
+					member._id = undefined;
+				}
+			} else {
+				modifiedProject.members = undefined;
+			}
+			return modifiedProject;
+		});
+
+		const nbProjects = projects.length;
+
+		if (nbProjects === 1) {
+			logger.info(`${nbProjects} project retrieved successfully.`);
+			return { status: "success", message: `${nbProjects} project retrieved successfully.`, projects };
+		} else logger.info(`${nbProjects} projects retrieved successfully.`);
+		return { status: "success", message: `${nbProjects} projects retrieved successfully.`, projects };
 	} catch (error) {
 		logger.error("Error while retrieving projects:", error);
 		return {
@@ -554,7 +600,7 @@ module.exports = {
 	processProjectApproval,
 	updateProject,
 	retrieveProjectById,
-	retrieveLatestProjects,
+	retrieveProjects,
 	countNumberProjects,
 	countNumberProjectsPerCategory,
 };
