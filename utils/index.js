@@ -19,5 +19,6 @@ module.exports.encryptTools = require("./tools/encrypt.tools");
 
 // Others
 module.exports.apiResponse = require("./apiResponse");
-module.exports.emailDelivery = require("./emailDelivery");
+module.exports.emailDelivery = require("./email/emailDelivery");
+module.exports.emailTemplates = require("./email/emailtemplates");
 module.exports.logger = require("./logger");

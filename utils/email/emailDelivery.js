@@ -1,4 +1,5 @@
-const logger = require("./logger");
+const logger = require("../logger");
+const fetch = require("node-fetch");
 
 /**
  * Sends an email using an external email service (EmailJS).
@@ -11,6 +12,37 @@ const logger = require("./logger");
  */
 const sendEmail = async (data) => {
 	try {
+		// Ignore SSL certificate issues (for testing purposes only)
+		process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
+
+		// Send an HTTP POST request to the email service API with the provided email data.
+		const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+			method: "POST",
+			headers: {
+				"Content-type": "application/json",
+			},
+			body: JSON.stringify(data),
+		});
+
+		// Check if the HTTP response is OK (status code 200).
+		if (response.ok) {
+			return { status: "success", message: "Email sent successfully." };
+		} else {
+			// If the response status is not OK, extract the error text from the response and throw an error.
+			const errorText = await response.text();
+			throw new Error(errorText);
+		}
+	} catch (error) {
+		logger.error("Error while sending an email: ", error);
+		return { status: "error", message: error.message };
+	}
+};
+
+const useEmailTemplate = async (username) => {
+	try {
+		// Ignore SSL certificate issues (for testing purposes only)
+		process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
+
 		// Send an HTTP POST request to the email service API with the provided email data.
 		const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
 			method: "POST",
@@ -36,4 +68,5 @@ const sendEmail = async (data) => {
 
 module.exports = {
 	sendEmail,
+	useEmailTemplate,
 };

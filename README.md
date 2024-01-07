@@ -135,10 +135,11 @@ Don't let your ideas and talents go to waste – join Sheepy now!
       - [x] Update project draft
       - [x] Remove project draft
       - [x] Submit project
-      - [ ] Send email notification to admin for project submission ❤
+      - [x] Send email notification to admin for project submission ❤
       - [x] Retrieve submitted project for admin ❤
       - [ ] process project approval ❤
       - [ ] Send email notification to project creator for project approval ❤
+      - [ ] Refactor email template ❤
       - [ ] Save project draft ❤
     - [ ] Upload images ❤
     - [ ] Edit project attachments 💚

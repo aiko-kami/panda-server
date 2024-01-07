@@ -159,10 +159,20 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 
 		// Save the updated project
 		const updatedProject = await Project.findOneAndUpdate({ _id: objectIdProjectId }, { $set: updateFields }, { new: true })
-			.select("-_id -__v -draft -privateData -crush -likes -members -updatedBy")
-			.populate([{ path: "category", select: "-_id name categoryId" }]);
+			.select("-_id -__v -draft -privateData -crush -likes -updatedBy")
+			.populate([
+				{ path: "category", select: "-_id name categoryId" },
+				{ path: "members.user", select: "-_id username profilePicture userId" },
+			]);
 
 		projectOutput = updatedProject.toObject();
+
+		for (let member of projectOutput.members) {
+			if (member.user.profilePicture.privacy !== "public") {
+				member.user.profilePicture = undefined;
+			}
+			member._id = undefined;
+		}
 
 		logger.info(`Project updated successfully. Project ID: ${projectId} - Project status: ${projectOutput.status}`);
 		return {

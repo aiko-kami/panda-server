@@ -1,4 +1,4 @@
-const { projectService, categoryService, userService, userRightsService, adminService } = require("../../services");
+const { projectService, categoryService, userService, userRightsService, adminService, emailService } = require("../../services");
 const { apiResponse, projectValidation, projectTools, encryptTools } = require("../../utils");
 
 /**
@@ -224,7 +224,25 @@ const submitProject = async (req, res) => {
 			}
 		}
 
+		const username = projectSubmittedResult.project.members[0].user.username;
+		const usernameCapitalized = username.charAt(0).toUpperCase() + username.slice(1);
+
 		// Send email notification to admin that new project has been submitted
+		const emailInputs = {
+			adminEmail: process.env.ADMIN_EMAIL,
+			projectId: projectSubmittedResult.project.projectId,
+			projectTitle: projectSubmittedResult.project.title,
+			category: projectSubmittedResult.project.category.name,
+			subCategory: projectSubmittedResult.project.subCategory,
+			usernameCapitalized,
+			submissionDateTime: projectSubmittedResult.project.createdAt.toString(),
+			projectSummary: projectSubmittedResult.project.summary,
+		};
+
+		const projectSubmittedEmailSent = await emailService.sendProjectSubmissionEmail(emailInputs);
+		if (projectSubmittedEmailSent.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectSubmittedEmailSent.message);
+		}
 
 		return apiResponse.successResponseWithData(res, projectSubmittedResult.message, projectSubmittedResult.project);
 	} catch (error) {
@@ -269,16 +287,22 @@ const processProjectApproval = async (req, res) => {
 		}
 
 		const creatorId = updatedResult.project.owner;
-
-		// Set project owner's default rights during the creation of a project
-		const setRightsResult = await userRightsService.setProjectOwnerRights(projectId, creatorId);
-		if (setRightsResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, setRightsResult.message);
+		const projectTitle = updatedResult.project.title;
+		if (projectApproval.approval === "approved") {
+			// Set project owner's default rights during the creation of a project
+			const setRightsResult = await userRightsService.setProjectOwnerRights(projectId, creatorId);
+			if (setRightsResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, setRightsResult.message);
+			}
 		}
 
 		// Send notification email that project approval has been processed
+		const notificationtionEmailSent = await emailService.sendProjectApprovalEmail(creatorId, projectId, projectTitle, projectApproval);
+		if (notificationtionEmailSent.status !== "success") {
+			return apiResponse.serverErrorResponse(res, notificationtionEmailSent.message);
+		}
 
-		return apiResponse.successResponseWithData(res, updatedResult.message, updatedResult.project);
+		return apiResponse.successResponseWithData(res, "Project approval processed successfully and notification email sent.", updatedResult.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
