@@ -244,16 +244,16 @@ const processProjectApproval = async (projectId, projectApproval, adminUserId) =
 		}
 
 		// Find the project by projectId
-		const project = await Project.findOne({ _id: objectIdProjectId });
+		const project = await Project.findOne({ _id: objectIdProjectId })
+			.select("-__v -draft -privateData -crush -likes -updatedBy")
+			.populate([
+				{ path: "category", select: "-_id name categoryId" },
+				{ path: "members.user", select: "-_id username profilePicture userId email" },
+			]);
 
 		// Check if the project exists
 		if (!project) {
 			return { status: "error", message: "Project not found." };
-		}
-
-		// Check if the user updater is the project creator
-		if (project.members[0].role !== "owner" || project.members[0].user.toString() !== objectIdUserIdUpdater.toString()) {
-			return { status: "error", message: "Only the creator of the project can remove the draft of the project." };
 		}
 
 		// Check if the project status
@@ -270,10 +270,10 @@ const processProjectApproval = async (projectId, projectApproval, adminUserId) =
 		}
 
 		// Save the updated project
-		await project.save();
+		const updatedProject = await project.save();
 
 		logger.info(`Project approval set successfully. Project ID: ${projectId}`);
-		return { status: "success", message: "Project approval set successfully." };
+		return { status: "success", message: "Project approval set successfully.", project: updatedProject };
 	} catch (error) {
 		logger.error("Error while setting the project approval: ", error);
 

@@ -55,7 +55,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
 - [API Documentation](#-api-documentation)
 - [API Endpoints](#-api-endpoints)
 - [Environment Variables](#-environment-variables)
-- [Authors](#-authors)
+- [Author](#-authors)
 - [Contributing](#-contributing)
 - [Demo](#-demo)
 - [Status](#️-status)
@@ -137,11 +137,14 @@ Don't let your ideas and talents go to waste – join Sheepy now!
       - [x] Submit project
       - [x] Send email notification to admin for project submission ❤
       - [x] Retrieve submitted project for admin ❤
-      - [ ] process project approval ❤
-      - [ ] Send email notification to project creator for project approval ❤
-      - [ ] Refactor email template ❤
+      - [x] process project approval ❤
+      - [x] Send email notification to project creator for project approval ❤
+      - [x] Refactor email template ❤
+      - [ ] Add project status history (array of updates dateTime and modifiedBy) ❤
       - [ ] Save project draft ❤
     - [ ] Upload images ❤
+    - [ ] Use Axios instead of fetch ❤
+    - [ ] Use import instead of require ❤
     - [ ] Edit project attachments 💚
   - [ ] User 💚
     - [ ] Talents portfolio 💚
@@ -238,6 +241,7 @@ src
 │   └───utils
 │       └───validation
 └───utils                 # Utility classes and functions
+    ├───email
     ├───scripts
     ├───tools
     └───validation
@@ -278,40 +282,108 @@ List of available routes:
 | `GET`    | `/users/userPublic/:userId`   | Retrieve user public data   |
 | `GET`    | `/users/me`                   | Retrieve user personal data |
 | `PATCH`  | `/users/me`                   | Update user personal data   |
-| `PATCH`  | `/users/changePassword`       | Change user's password      |
-| `POST`   | `/users/talent/add/me`        | Add talent                  |
-| `PATCH`  | `/users/talent/update/me`     | Update talent               |
-| `DELETE` | `/users/talent/remove/me`     | Remove talent               |
+| `PATCH`  | `/users/me/changePassword`    | Change user's password      |
+| `POST`   | `/users/me/talent/add`        | Add talent                  |
+| `PATCH`  | `/users/me/talent/update`     | Update talent               |
+| `DELETE` | `/users/me/talent/remove`     | Remove talent               |
 
-- **Project Core routes**:
+- **Project core routes**:
 
-| Method   | URI                                        | Action                       |
-| -------- | ------------------------------------------ | ---------------------------- |
-| `POST`   | `/projects/project/createDraft`            | Create new project draft     |
-| `POST`   | `/projects/project/updateDraft/:projectId` | Update project draft         |
-| `POST`   | `/projects/project/create`                 | Create new project           |
-| `POST`   | `/projects/project/submit/:projectId`      | Create new project           |
-| `PATCH`  | `/projects/project/:projectId`             | Update project               |
-| `PATCH`  | `/projects/project/status/:projectId`      | Update project status        |
-| `GET`    | `/projects/project/:projectId`             | Retrieve project             |
-| `GET`    | `/projectOverview/:projectId`              | Retrieve project overview    |
-| `GET`    | `/projectPublic/:projectId`                | Retrieve project public data |
-| `POST`   | `/projects/category`                       | Create new project category  |
-| `PATCH`  | `/projects/category`                       | Update project category      |
-| `DELETE` | `/projects/category`                       | Remove project category      |
+| Method   | URI                                       | Action                          |
+| -------- | ----------------------------------------- | ------------------------------- |
+| `POST`   | `/projects/createProjectDraft`            | Create new project draft        |
+| `PATCH`  | `/projects/updateProjectDraft/:projectId` | Update project draft            |
+| `DELETE` | `/projects/removeProjectDraft/:projectId` | Remove project draft            |
+| `POST`   | `/projects/submitProject`                 | Submit project                  |
+| `PATCH`  | `/projects/updateProject/:projectId`      | Update project                  |
+| `PATCH`  | `/projects/saveProjectDraft/:projectId`   | Save draft of project update    |
+| `GET`    | `/projects/projectData/:projectId`        | Retrieve project data           |
+| `GET`    | `/projects/projectOverview/:projectId`    | Retrieve project overview       |
+| `GET`    | `/projects/projectPublic/:projectId`      | Retrieve project public data    |
+| `GET`    | `/projects/lastProjectsOverview`          | Retrieve last project overview  |
+| `GET`    | `/projects/nbProjects`                    | Retrieve nb of projects         |
+| `GET`    | `/projects/nbProjectsPerCategory`         | Retrieve nb of projects per cat |
 
-- **Project Extended routes**:
+- **Categories and sub-categories routes**:
 
-| Method   | URI                                   | Action                       |
-| -------- | ------------------------------------- | ---------------------------- |
-| `PATCH`  | `/projects/project/:projectId`        | Update project               |
-| `PATCH`  | `/projects/project/status/:projectId` | Update project status        |
-| `GET`    | `/projects/project/:projectId`        | Retrieve project             |
-| `GET`    | `/projectOverview/:projectId`         | Retrieve project overview    |
-| `GET`    | `/projectPublic/:projectId`           | Retrieve project public data |
-| `POST`   | `/projects/category`                  | Create new project category  |
-| `PATCH`  | `/projects/category`                  | Update project category      |
-| `DELETE` | `/projects/category`                  | Remove project category      |
+| Method   | URI            | Action                               |
+| -------- | -------------- | ------------------------------------ |
+| `GET`    | `/category`    | Retrieve a specific category         |
+| `GET`    | `/categories`  | Retrieve all categories              |
+| `POST`   | `/category`    | Create a new category                |
+| `PATCH`  | `/category`    | Update a category                    |
+| `DELETE` | `/category`    | Remove a category                    |
+| `POST`   | `/subCategory` | Add a new sub-category to a category |
+| `PATCH`  | `/subCategory` | Update a sub-category                |
+| `DELETE` | `/subCategory` | Remove a sub-category                |
+
+- **Project extended features routes**:
+
+| Method   | URI                                 | Action                            |
+| -------- | ----------------------------------- | --------------------------------- |
+| `PATCH`  | `/addProjectCrush`                  | Add crush to a project            |
+| `PATCH`  | `/removeProjectCrush`               | Remove crush from a project       |
+| `GET`    | `/crushProjects`                    | Retrieve projects with crush      |
+| `PATCH`  | `/likeProject`                      | Like a project                    |
+| `PATCH`  | `/unlikeProject`                    | Unlike a project                  |
+| `GET`    | `/projectsUserLikes`                | Retrieve projects liked by a user |
+| `GET`    | `/projectLikes`                     | Retrieve project likes            |
+| `PATCH`  | `/addProjectSteps`                  | Add steps to a project            |
+| `PATCH`  | `/editProjectSteps`                 | Edit steps of a project           |
+| `PATCH`  | `/publishProjectStep`               | Publish a project step            |
+| `PATCH`  | `/unpublishProjectStep`             | Unpublish a project step          |
+| `DELETE` | `/removeProjectStep`                | Remove a project step             |
+| `GET`    | `/projectStepsPublished`            | Retrieve published project steps  |
+| `GET`    | `/projectStepsAll`                  | Retrieve all project steps        |
+| `PATCH`  | `/addProjectQAs`                    | Add Q&As to a project             |
+| `PATCH`  | `/editProjectQAs`                   | Edit Q&As of a project            |
+| `PATCH`  | `/publishProjectQA`                 | Publish a project QA              |
+| `PATCH`  | `/unpublishProjectQA`               | Unpublish a project QA            |
+| `DELETE` | `/removeProjectQA`                  | Remove a project QA               |
+| `GET`    | `/projectQAsPublished`              | Retrieve published project Q&As   |
+| `GET`    | `/projectQAsAll`                    | Retrieve all project Q&As         |
+| `POST`   | `/addProjectComment`                | Add a comment to a project        |
+| `POST`   | `/answerProjectComment`             | Answer a project comment          |
+| `PATCH`  | `/editProjectComment`               | Edit a project comment            |
+| `PATCH`  | `/reportProjectComment`             | Report a project comment          |
+| `PATCH`  | `/unreportProjectComment`           | Unreport a project comment        |
+| `DELETE` | `/removeProjectComment`             | Remove a project comment          |
+| `GET`    | `/projectComments`                  | Retrieve project comments         |
+| `PATCH`  | `/projectUserRights/:projectId`     | Update user rights for a project  |
+| `PATCH`  | `/projectMembers/update/:projectId` | Update project member             |
+| `DELETE` | `/projectMembers/remove/:projectId` | Remove project member             |
+| `PATCH`  | `/projectStatus/:projectId`         | Update project status             |
+| `PATCH`  | `/projectAttachments/:projectId`    | Update project attachments        |
+
+- **Join project invitation routes**:
+
+| Method   | URI                           | Action                              |
+| -------- | ----------------------------- | ----------------------------------- |
+| `POST`   | `/saveDraft`                  | Save draft invitation               |
+| `PATCH`  | `/updateDraft`                | Update draft invitation             |
+| `DELETE` | `/removeDraft`                | Remove draft invitation             |
+| `POST`   | `/send`                       | Send project invitation             |
+| `PATCH`  | `/cancel`                     | Cancel project invitation           |
+| `POST`   | `/accept`                     | Accept project invitation           |
+| `POST`   | `/refuse`                     | Refuse project invitation           |
+| `GET`    | `/myDrafts`                   | Retrieve user's draft invitations   |
+| `GET`    | `/myInvitations`              | Retrieve user's invitations         |
+| `GET`    | `/myInvitation/:invitationId` | Retrieve user's specific invitation |
+
+- **Join project request routes**:
+
+| Method   | URI                     | Action                           |
+| -------- | ----------------------- | -------------------------------- |
+| `POST`   | `/saveDraft`            | Save draft request               |
+| `PATCH`  | `/updateDraft`          | Update draft request             |
+| `DELETE` | `/removeDraft`          | Remove draft request             |
+| `POST`   | `/send`                 | Send project request             |
+| `PATCH`  | `/cancel`               | Cancel project request           |
+| `POST`   | `/accept`               | Accept project request           |
+| `POST`   | `/refuse`               | Refuse project request           |
+| `GET`    | `/myDrafts`             | Retrieve user's draft requests   |
+| `GET`    | `/myRequests`           | Retrieve user's requests         |
+| `GET`    | `/myRequest/:requestId` | Retrieve user's specific request |
 
 ## 🛠 Environment Variables
 
@@ -322,17 +394,22 @@ To run this project, you will need the following environment variables in your .
 `MONGODB_URI`  
 `MONGODB_URI_PUBLIC`  
 `MONGODB_URI_PRIVATE`  
+`MONGODB_URI_SECURE`  
 `DB_PUBLIC`  
 `DB_PRIVATE`  
+`DB_SECURE`  
 `DB_TEST`  
 `NODE_ENV`  
 `WEBSITE_URL`  
+`ADMIN_EMAIL`  
 `GITHUB_ID`  
 `GITHUB_SECRET`  
 `ACCESS_TOKEN_SECRET`  
 `REFRESH_TOKEN_SECRET`  
 `RESET_PASSWORD_TOKEN_SECRET`  
+`ACCESS_TOKEN_ADMIN_SECRET`  
 `ENCRYPT_KEY`  
+`ID_ENCRYPT_KEY`  
 `ACCESS_TOKEN_EXPIRATION`  
 `ACCESS_TOKEN_EXPIRATION_SECONDS`  
 `REFRESH_TOKEN_EXPIRATION`  
@@ -340,8 +417,7 @@ To run this project, you will need the following environment variables in your .
 `RESET_PASSWORD_TOKEN_EXPIRATION`  
 `RESET_PASSWORD_TOKEN_EXPIRATION_SECONDS`  
 `EMAILJS_SERVICE_ID`  
-`EMAILJS_TEMPLATE_ID_VERIF`  
-`EMAILJS_TEMPLATE_RESET_PASSWORD`  
+`EMAILJS_TEMPLATE_ID_STD_EMAIL`  
 `EMAILJS_USER_ID`  
 `EMAILJS_ACCESS_TOKEN`
 
@@ -361,4 +437,4 @@ NextJS version: [Sheepy](https://www.neutroneer.com/)
 
 ## 🧗‍♂️ Status
 
-I am currently working on... **Project creation features**
+I am currently working on... **Project improvements**

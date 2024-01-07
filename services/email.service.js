@@ -40,6 +40,7 @@ const sendVerificationEmail = async (userId) => {
 		const emailInputs = {
 			usernameCapitalized,
 			verificationLink,
+			emailTitle: "[Sheepy] please confirm your email",
 		};
 		//Put data in email template
 		const emailContent = emailTemplates.useEmailAddressVerificationTemplate(emailInputs);
@@ -53,7 +54,7 @@ const sendVerificationEmail = async (userId) => {
 			template_params: {
 				email_to: userEmail,
 				html: emailContent,
-				email_title: "[Sheepy] please confirm your email",
+				email_title: emailTitle,
 			},
 		};
 
@@ -165,6 +166,7 @@ const sendPasswordResetEmail = async (email, username, resetPasswordToken) => {
 		const emailInputs = {
 			usernameCapitalized,
 			resetLink,
+			emailTitle: "[Sheepy] Password change request",
 		};
 		//Put data in email template
 		const emailContent = emailTemplates.useResetPasswordTemplate(emailInputs);
@@ -178,7 +180,7 @@ const sendPasswordResetEmail = async (email, username, resetPasswordToken) => {
 			template_params: {
 				email_to: email,
 				html: emailContent,
-				email_title: "[Sheepy] Password change request",
+				email_title: emailInputs.emailTitle,
 			},
 		};
 
@@ -216,86 +218,46 @@ const sendProjectSubmissionEmail = async (emailInputs) => {
 			template_params: {
 				email_to: emailInputs.adminEmail,
 				html: emailContent,
-				email_title: "[Sheepy - Admin] New Project Submitted - Approval Required",
+				email_title: emailInputs.emailTitle,
 			},
 		};
 
 		const sentMail = await emailDelivery.sendEmail(data);
 		if (sentMail.status !== "success") {
-			logger.error("Error while sending email: ", sentMail);
-			return { status: "error", message: "An error occurred while sending the email." };
+			logger.error("Error while sending admin approval notification email: ", sentMail);
+			return { status: "error", message: "An error occurred while sending the admin approval notification email." };
 		}
 
-		logger.info("Notification email sent successfully to admin.");
-		return { status: "success", message: "Notification email sent successfully to admin." };
+		logger.info("Approval notification email sent successfully to admin.");
+		return { status: "success", message: "Approval notification email sent successfully to admin." };
 	} catch (error) {
-		logger.error("Error sending Notification email to admin:", error);
-		return { status: "error", message: "An error occurred while sending the Notification email to admin." };
+		logger.error("Error sending approval notification email to admin:", error);
+		return { status: "error", message: "An error occurred while sending the approval notification email to admin." };
 	}
 };
 
 //Function to send notification email to a project creator to inform that the project approval has been processed (project has been approved or rejected)
-const sendProjectApprovalEmail = async (userId, projectId, projectTitle, projectApproval) => {
+const sendProjectApprovalEmail = async (emailInputs) => {
 	try {
-		// Convert id to ObjectId
-		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
+		const emailContent = emailTemplates.useProjectApprovalTemplate(emailInputs);
 
-		//Find user in the database
-		const user = await User.findOne({ _id: objectIdUserId }).select("username email");
-
-		//Return error if userId is not found
-		if (!user) {
-			return { status: "error", message: "Invalid userId." };
-		}
-
-		const userEmail = user.email;
-		const usernameCapitalized = user.username.charAt(0).toUpperCase() + user.username.slice(1);
-
-		const approval = projectApproval.approval;
-		const reason = projectApproval.reason;
-
-		let mailContentPart1, mailContentPart2, mailContentPart3;
-		if (approval === "approved") {
-			mailContentPart1 = `Good news! Your project ${projectTitle} has been approved and is now live on our platform. Congratulations on reaching this first milestone!`;
-			mailContentPart2 = "Check out your project here:";
-			mailContentPart3 = "We wish you all the best with your project journey. Thank you for contributing to our community!";
-		} else if (approval === "rejected") {
-			mailContentPart1 = `We regret to inform you that your project ${projectTitle} has been rejected due to the following reason: ${reason}`;
-			mailContentPart2 =
-				"We appreciate your effort and creativity, and we encourage you to review the feedback provided and make the necessary adjustments. Feel free to review your project details and submit it again. Update your project here:";
-			mailContentPart3 = "If you believe this is an error or if you have questions, please contact our support team. Thank you for your understanding.";
-		}
-
-		//Link to the project
-		//Example https://www.neutroneer.com/project/xxxxxxxxxxxxxxxxxxx
-		const project_link = `${process.env.WEBSITE_URL}/project/${projectId}`;
-
-		//Send verification email containing the link
+		//Send notification email
 		const data = {
 			service_id: process.env.EMAILJS_SERVICE_ID,
-			template_id: process.env.EMAILJS_TEMPLATE_ID_VERIF,
+			template_id: process.env.EMAILJS_TEMPLATE_ID_STD_EMAIL,
 			user_id: process.env.EMAILJS_USER_ID,
 			accessToken: process.env.EMAILJS_ACCESS_TOKEN,
 			template_params: {
-				to_name: usernameCapitalized,
-				email_to: userEmail,
-				project_link,
-				mailContentPart1,
-				mailContentPart2,
-				mailContentPart3,
+				email_to: emailInputs.projectCreatorEmail,
+				html: emailContent,
+				email_title: emailInputs.emailTitle,
 			},
 		};
 
 		const sentMail = await emailDelivery.sendEmail(data);
 		if (sentMail.status !== "success") {
 			logger.error("Error while sending project approval notification email: ", sentMail.message);
-			return {
-				status: "error",
-				message: "An error occurred while sending the project approval notification email.",
-			};
+			return { status: "error", message: "An error occurred while sending the project approval notification email." };
 		}
 
 		logger.info("Project approval notification email sent successfully.");

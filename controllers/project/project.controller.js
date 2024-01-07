@@ -226,6 +226,7 @@ const submitProject = async (req, res) => {
 
 		const username = projectSubmittedResult.project.members[0].user.username;
 		const usernameCapitalized = username.charAt(0).toUpperCase() + username.slice(1);
+		const emailTitle = "[Sheepy - Admin] New Project Submitted - Approval Required";
 
 		// Send email notification to admin that new project has been submitted
 		const emailInputs = {
@@ -237,6 +238,7 @@ const submitProject = async (req, res) => {
 			usernameCapitalized,
 			submissionDateTime: projectSubmittedResult.project.createdAt.toString(),
 			projectSummary: projectSubmittedResult.project.summary,
+			emailTitle,
 		};
 
 		const projectSubmittedEmailSent = await emailService.sendProjectSubmissionEmail(emailInputs);
@@ -252,14 +254,13 @@ const submitProject = async (req, res) => {
 
 const processProjectApproval = async (req, res) => {
 	try {
-		const { projectId = "" } = req.params;
+		const projectId = req.body.projectApprovalInputs.projectId || "";
+		const adminUserId = req.userId;
 
 		const projectApproval = {
 			approval: req.body.projectApprovalInputs.approval || "",
 			reason: req.body.projectApprovalInputs.reason || "",
 		};
-
-		const adminUserId = req.userId;
 
 		// Validate input data for updating a project
 		const validationResult = projectValidation.validateProjectApproval(projectApproval);
@@ -274,20 +275,20 @@ const processProjectApproval = async (req, res) => {
 		}
 
 		//Verify that user admin exists in the database
-		const existingCreator = await adminService.retrieveUserById(adminUserId, ["-_id"]);
-		if (existingCreator.status !== "success") {
-			return apiResponse.clientErrorResponse(res, existingCreator.message);
+		const existingAdmin = await adminService.retrieveUserById(adminUserId, ["-_id"]);
+		if (existingAdmin.status !== "success") {
+			return apiResponse.clientErrorResponse(res, existingAdmin.message);
 		}
 
 		// Update the project
 		//adminUserId is useless today (who did the update is not logged in the DB)
-		const updatedResult = await projectService.processProjectApproval(projectId, projectApproval, adminUserId);
-		if (updatedResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, updatedResult.message);
+		const approvalResult = await projectService.processProjectApproval(projectId, projectApproval, adminUserId);
+		if (approvalResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, approvalResult.message);
 		}
 
-		const creatorId = updatedResult.project.owner;
-		const projectTitle = updatedResult.project.title;
+		const creatorId = approvalResult.project.members[0].user.userId;
+
 		if (projectApproval.approval === "approved") {
 			// Set project owner's default rights during the creation of a project
 			const setRightsResult = await userRightsService.setProjectOwnerRights(projectId, creatorId);
@@ -296,13 +297,31 @@ const processProjectApproval = async (req, res) => {
 			}
 		}
 
+		const username = approvalResult.project.members[0].user.username;
+		const usernameCapitalized = username.charAt(0).toUpperCase() + username.slice(1);
+		const projectCreatorEmail = approvalResult.project.members[0].user.email;
+		const emailTitle = "[Sheepy] Your project has been processed";
+
+		const projectLink = `${process.env.WEBSITE_URL}/project/${projectId}`;
+
+		// Send email notification to admin that new project has been submitted
+		const emailInputs = {
+			usernameCapitalized,
+			projectCreatorEmail,
+			projectId,
+			projectLink,
+			projectTitle: approvalResult.project.title,
+			projectApproval,
+			emailTitle,
+		};
+
 		// Send notification email that project approval has been processed
-		const notificationtionEmailSent = await emailService.sendProjectApprovalEmail(creatorId, projectId, projectTitle, projectApproval);
-		if (notificationtionEmailSent.status !== "success") {
-			return apiResponse.serverErrorResponse(res, notificationtionEmailSent.message);
+		const projectApprovalEmailSent = await emailService.sendProjectApprovalEmail(emailInputs);
+		if (projectApprovalEmailSent.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectApprovalEmailSent.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Project approval processed successfully and notification email sent.", updatedResult.project);
+		return apiResponse.successResponseWithData(res, "Project approval processed successfully and notification email sent.", approvalResult.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -533,6 +552,7 @@ const retrieveSubmittedProjects = async (req, res) => {
 				"privateData",
 				"createdAt",
 				"members",
+				"projectId",
 			],
 			{
 				status: "submitted",
@@ -652,15 +672,15 @@ module.exports = {
 	updateProjectDraft,
 	removeProjectDraft,
 	submitProject,
+	processProjectApproval,
 	updateProject,
 	retrieveProjectPublicData,
 	retrieveNewProjects,
+	retrieveSubmittedProjects,
 	retrieveProjectOverview,
 	retrieveProjectData,
 	countProjects,
 	countProjectsPerCategory,
 
-	processProjectApproval,
 	saveProjectDraft,
-	retrieveSubmittedProjects,
 };

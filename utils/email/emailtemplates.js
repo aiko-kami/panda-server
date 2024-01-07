@@ -31,8 +31,26 @@ const useProjectSubmittedTemplate = (emailInputs) => {
 	return emailContent;
 };
 
+const useProjectApprovalTemplate = (emailInputs) => {
+	const usernameCapitalized = emailInputs.usernameCapitalized || "project creator username";
+	const projectTitle = emailInputs.projectTitle || "project title";
+	const projectLink = emailInputs.projectLink || "project link";
+	const approval = emailInputs.projectApproval.approval || "project approval";
+	const reason = emailInputs.projectApproval.reason || "reason";
+
+	let emailContent;
+	if (approval === "approved") {
+		emailContent = `<table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f4f4f4"><tbody><tr><td><table style="max-width:600px;margin:auto;background-color:#fff;padding:20px" border="0" width="100%" cellspacing="0" cellpadding="0" align="center"><tbody><tr><td style="text-align:center;padding:20px"><img style="max-width:100%" src="https://pngimg.com/uploads/approved/approved_PNG1.png" alt="Welcome Banner"></td></tr><tr><td style="text-align:center;padding:10px"><h2>Your project has been approved!</h2></td></tr><tr><td style="padding:20px"><div>Dear ${usernameCapitalized},<br><div>&nbsp;</div><div>Good news! Your project <b><i>${projectTitle}</i></b> has been approved and is now live on our platform. Congratulations on reaching this first milestone!</div><br><div>Check out your project here:</div><p style="text-align:center"><a style="display:inline-block;padding:10px 20px;background-color:#007bff;color:#fff;text-decoration:none;border-radius:5px" href="${projectLink}">Go to my project</a></p><br><div>We wish you all the best with your project journey. Thank you for contributing to our community!</div><br><div>Best regards,</div><br><div style="text-align:right">Sheppy team</div></div></td></tr></tbody></table></td></tr></tbody></table>`;
+	} else if (approval === "rejected") {
+		emailContent = `<table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f4f4f4"><tbody><tr><td><table style="max-width:600px;margin:auto;background-color:#fff;padding:20px" border="0" width="100%" cellspacing="0" cellpadding="0" align="center"><tbody><tr><td style="text-align:center;padding:20px"><img style="max-width:100%" src="https://pngimg.com/uploads/denied/denied_PNG4.png" alt="Welcome Banner"></td></tr><tr><td style="text-align:center;padding:10px"><h2>Sorry your project has been rejected</h2></td></tr><tr><td style="padding:20px"><div>Dear ${usernameCapitalized},<br><div>&nbsp;</div><div>We regret to inform you that your project <b><i>${projectTitle}</i></b> has been rejected due to the following reason: ${reason}</div><br><div>We appreciate your effort and creativity, and we encourage you to review the feedback provided and make the necessary adjustments. Feel free to review your project details and submit it again. You can update your project here:</div><p style="text-align:center"><a style="display:inline-block;padding:10px 20px;background-color:#007bff;color:#fff;text-decoration:none;border-radius:5px" href="${projectLink}">Go to my project</a></p><br><div>If you believe this is an error or if you have questions, please contact our support team. Thank you for your understanding.</div><br><div>Best regards,</div><br><div style="text-align:right">Sheppy team</div></div></td></tr></tbody></table></td></tr></tbody></table>`;
+	}
+
+	return emailContent;
+};
+
 module.exports = {
 	useEmailAddressVerificationTemplate,
 	useResetPasswordTemplate,
 	useProjectSubmittedTemplate,
+	useProjectApprovalTemplate,
 };
