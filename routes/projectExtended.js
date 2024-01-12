@@ -2,7 +2,7 @@
  * Project extended routes
  */
 
-const projectRoute = require("express").Router();
+const projectExtendedRoute = require("express").Router();
 
 const {
 	memberController,
@@ -18,54 +18,54 @@ const {
 const { verifyAccess, verifyAdminAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Project crush
-projectRoute.patch("/addProjectCrush", verifyAdminAccess, projectCrushController.addCrush);
-projectRoute.patch("/removeProjectCrush", verifyAdminAccess, projectCrushController.removeCrush);
-projectRoute.get("/crushProjects", projectCrushController.retrieveCrushProjects);
+projectExtendedRoute.patch("/addProjectCrush", verifyAdminAccess, projectCrushController.addCrush);
+projectExtendedRoute.patch("/removeProjectCrush", verifyAdminAccess, projectCrushController.removeCrush);
+projectExtendedRoute.get("/crushProjects", projectCrushController.retrieveCrushProjects);
 
 // Project like
-projectRoute.patch("/likeProject", verifyAccess, projectLikeController.likeProject);
-projectRoute.patch("/unlikeProject", verifyAccess, projectLikeController.unlikeProject);
-projectRoute.get("/projectsUserLikes", verifyAccess, projectLikeController.retrieveUserLikes);
-projectRoute.get("/projectLikes", projectLikeController.retrieveProjectLikes);
+projectExtendedRoute.patch("/likeProject", verifyAccess, projectLikeController.likeProject);
+projectExtendedRoute.patch("/unlikeProject", verifyAccess, projectLikeController.unlikeProject);
+projectExtendedRoute.get("/projectsUserLikes", verifyAccess, projectLikeController.retrieveUserLikes);
+projectExtendedRoute.get("/projectLikes", projectLikeController.retrieveProjectLikes);
 
 // Project steps
-projectRoute.patch("/addProjectSteps", verifyAccess, projectStepsController.addSteps);
-projectRoute.patch("/editProjectSteps", verifyAccess, projectStepsController.editSteps);
-projectRoute.patch("/publishProjectStep", verifyAccess, projectStepsController.publishStep);
-projectRoute.patch("/unpublishProjectStep", verifyAccess, projectStepsController.unpublishStep);
-projectRoute.delete("/removeProjectStep", verifyAccess, projectStepsController.removeStep);
-projectRoute.get("/projectStepsPublished", projectStepsController.retrieveProjectStepsPublished);
-projectRoute.get("/projectStepsAll", verifyAccess, projectStepsController.retrieveProjectStepsAll);
+projectExtendedRoute.patch("/addProjectSteps", verifyAccess, projectStepsController.addSteps);
+projectExtendedRoute.patch("/editProjectSteps", verifyAccess, projectStepsController.editSteps);
+projectExtendedRoute.patch("/publishProjectStep", verifyAccess, projectStepsController.publishStep);
+projectExtendedRoute.patch("/unpublishProjectStep", verifyAccess, projectStepsController.unpublishStep);
+projectExtendedRoute.delete("/removeProjectStep", verifyAccess, projectStepsController.removeStep);
+projectExtendedRoute.get("/projectStepsPublished", projectStepsController.retrieveProjectStepsPublished);
+projectExtendedRoute.get("/projectStepsAll", verifyAccess, projectStepsController.retrieveProjectStepsAll);
 
 // Project Q and A
-projectRoute.patch("/addProjectQAs", verifyAccess, projectQAController.addQAs);
-projectRoute.patch("/editProjectQAs", verifyAccess, projectQAController.editQAs);
-projectRoute.patch("/publishProjectQA", verifyAccess, projectQAController.publishQA);
-projectRoute.patch("/unpublishProjectQA", verifyAccess, projectQAController.unpublishQA);
-projectRoute.delete("/removeProjectQA", verifyAccess, projectQAController.removeQA);
-projectRoute.get("/projectQAsPublished", projectQAController.retrieveProjectQAsPublished);
-projectRoute.get("/projectQAsAll", verifyAccess, projectQAController.retrieveProjectQAsAll);
+projectExtendedRoute.patch("/addProjectQAs", verifyAccess, projectQAController.addQAs);
+projectExtendedRoute.patch("/editProjectQAs", verifyAccess, projectQAController.editQAs);
+projectExtendedRoute.patch("/publishProjectQA", verifyAccess, projectQAController.publishQA);
+projectExtendedRoute.patch("/unpublishProjectQA", verifyAccess, projectQAController.unpublishQA);
+projectExtendedRoute.delete("/removeProjectQA", verifyAccess, projectQAController.removeQA);
+projectExtendedRoute.get("/projectQAsPublished", projectQAController.retrieveProjectQAsPublished);
+projectExtendedRoute.get("/projectQAsAll", verifyAccess, projectQAController.retrieveProjectQAsAll);
 
 // Project comments
-projectRoute.post("/addProjectComment", verifyAccess, commentController.addComment);
-projectRoute.post("/answerProjectComment", verifyAccess, commentController.answerComment);
-projectRoute.patch("/editProjectComment", verifyAccess, commentController.editComment);
-projectRoute.patch("/reportProjectComment", verifyAccess, commentController.reportComment);
-projectRoute.patch("/unreportProjectComment", verifyAccess, commentController.unreportComment);
-projectRoute.delete("/removeProjectComment", verifyAccess, commentController.removeComment);
-projectRoute.get("/projectComments", commentController.retrieveProjectComments);
+projectExtendedRoute.post("/addProjectComment", verifyAccess, commentController.addComment);
+projectExtendedRoute.post("/answerProjectComment", verifyAccess, commentController.answerComment);
+projectExtendedRoute.patch("/editProjectComment", verifyAccess, commentController.editComment);
+projectExtendedRoute.patch("/reportProjectComment", verifyAccess, commentController.reportComment);
+projectExtendedRoute.patch("/unreportProjectComment", verifyAccess, commentController.unreportComment);
+projectExtendedRoute.delete("/removeProjectComment", verifyAccess, commentController.removeComment);
+projectExtendedRoute.get("/projectComments", commentController.retrieveProjectComments);
 
 // User's rights
-projectRoute.patch("/projectUserRights/:projectId", verifyAccess, projectRightsController.updateUserProjectRights);
+projectExtendedRoute.patch("/projectUserRights/:projectId", verifyAccess, projectRightsController.updateUserProjectRights);
 
 // Project members
-projectRoute.patch("/projectMembers/update/:projectId", verifyAccess, memberController.updateProjectMember);
-projectRoute.delete("/projectMembers/remove/:projectId", verifyAccess, memberController.removeProjectMember);
+projectExtendedRoute.patch("/projectMembers/update/:projectId", verifyAccess, memberController.updateProjectMember);
+projectExtendedRoute.delete("/projectMembers/remove/:projectId", verifyAccess, memberController.removeProjectMember);
 
 // Project status
-projectRoute.patch("/projectStatus/:projectId", verifyAccess, projectStatusController.updateProjectStatus);
+projectExtendedRoute.patch("/projectStatus/:projectId", verifyAccess, projectStatusController.updateProjectStatus);
 
 // Project attachments
-projectRoute.patch("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.updateProjectAttachments);
+projectExtendedRoute.patch("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.updateProjectAttachments);
 
-module.exports = projectRoute;
+module.exports = projectExtendedRoute;

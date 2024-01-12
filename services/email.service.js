@@ -1,12 +1,12 @@
 const { User } = require("../models");
 const CryptoJS = require("crypto-js");
-const v4 = require("uuid").v4;
+const { v4: uuidv4 } = require("uuid").v4;
 const { logger, encryptTools, emailDelivery, emailTemplates } = require("../utils");
 
 //Function to send verification email (to validate the user email address with a personalized link)
 const sendVerificationEmail = async (userId) => {
 	//Create email ID
-	const emailId = v4();
+	const emailId = uuidv4();
 
 	try {
 		// Convert id to ObjectId

@@ -1,6 +1,6 @@
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
-const v4 = require("uuid").v4;
+const { v4: uuidv4 } = require("uuid").v4;
 const { logger } = require("../../utils");
 
 function generateAccessToken(userId, expires = process.env.ACCESS_TOKEN_EXPIRATION) {
@@ -31,7 +31,7 @@ function generateRefreshToken(userId, expires = process.env.REFRESH_TOKEN_EXPIRA
 }
 
 function generateResetPasswordToken(userId) {
-	const tokenUuid = v4();
+	const tokenUuid = uuidv4();
 	const dataToEncrypt = { tokenUuid, userId };
 
 	// Encrypt

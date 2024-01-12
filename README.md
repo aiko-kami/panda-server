@@ -55,7 +55,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
 - [API Documentation](#-api-documentation)
 - [API Endpoints](#-api-endpoints)
 - [Environment Variables](#-environment-variables)
-- [Author](#-authors)
+- [Author](#-author)
 - [Contributing](#-contributing)
 - [Demo](#-demo)
 - [Status](#️-status)
@@ -143,8 +143,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
       - [ ] Add project status history (array of updates dateTime and modifiedBy) ❤
       - [ ] Save project draft ❤
     - [ ] Upload images ❤
-    - [ ] Use Axios instead of fetch ❤
-    - [ ] Use import instead of require ❤
+    - [x] Use Axios instead of fetch ❤
     - [ ] Edit project attachments 💚
   - [ ] User 💚
     - [ ] Talents portfolio 💚
@@ -421,7 +420,7 @@ To run this project, you will need the following environment variables in your .
 `EMAILJS_USER_ID`  
 `EMAILJS_ACCESS_TOKEN`
 
-## 🐱‍💻 Authors
+## 🐱‍💻 Author
 
 - [@aiko-kami](https://www.github.com/aiko-kami)
 

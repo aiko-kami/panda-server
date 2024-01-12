@@ -1,5 +1,5 @@
 const { userRightsService, projectService } = require("../../services");
-const { apiResponse, ProjectRightsValidation, encryptTools } = require("../../utils");
+const { apiResponse, projectRightsValidation, encryptTools } = require("../../utils");
 
 /**
  * Edit user's right to update a project controller.
@@ -14,7 +14,7 @@ const updateUserProjectRights = async (req, res) => {
 		const { projectId } = req.params;
 
 		// Validate input data for updating user's right
-		const validationResult = ProjectRightsValidation.validateUserProjectRightsInputs(userIdUpdater, userIdUpdated, projectId, updatedPermissions);
+		const validationResult = projectRightsValidation.validateUserProjectRightsInputs(userIdUpdater, userIdUpdated, projectId, updatedPermissions);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}

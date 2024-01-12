@@ -1,5 +1,5 @@
-const { Project, JoinProject } = require("../../models");
-const { logger } = require("../../utils");
+const { Project } = require("../../models");
+const { logger, encryptTools } = require("../../utils");
 
 /**
  * Add or remove a member from a project.
@@ -10,7 +10,7 @@ const { logger } = require("../../utils");
  */
 const updateMemberFromProject = async (projectId, userIdUpdated, action, talent) => {
 	try {
-		const objectIdUserIdUpdated = encryptTools.convertIdToObjectId(joinProjectData.userIdUpdated);
+		const objectIdUserIdUpdated = encryptTools.convertIdToObjectId(userIdUpdated);
 		if (objectIdUserIdUpdated.status == "error") {
 			return { status: "error", message: objectIdUserIdUpdated.message };
 		}

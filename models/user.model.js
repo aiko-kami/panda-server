@@ -5,8 +5,6 @@ const { DateTime } = require("luxon");
 const config = require("../config");
 
 const userVisibility = config.user_visibility;
-const public = config.user_visibility[0];
-const private = config.user_visibility[1];
 
 const privacyString = new Schema({
 	_id: false,
@@ -14,7 +12,7 @@ const privacyString = new Schema({
 	privacy: {
 		type: String,
 		required: true,
-		default: public,
+		default: userVisibility[0],
 		enum: userVisibility,
 		message: "The value {VALUE} is not valid.",
 	},
@@ -51,7 +49,7 @@ const userSchema = new Schema(
 			privacy: {
 				type: String,
 				required: true,
-				default: public,
+				default: userVisibility[0],
 				enum: userVisibility,
 				message: "The value {VALUE} is not valid.",
 			},
