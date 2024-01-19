@@ -9,11 +9,7 @@ const projectVisibility = config.project_visibility;
 const projectMembersRoles = config.project_members_roles;
 
 const memberSchema = new Schema({
-	user: {
-		type: Schema.Types.ObjectId,
-		ref: "User",
-		required: true,
-	},
+	user: { type: Schema.Types.ObjectId, ref: "User", required: true },
 	talent: String,
 	role: {
 		type: String,
@@ -22,44 +18,29 @@ const memberSchema = new Schema({
 		enum: projectMembersRoles,
 		message: "The value {VALUE} is not valid.",
 	},
-	startDate: {
-		type: Date,
-		default: DateTime.now().toHTTP(),
-	},
+	startDate: { type: Date, default: DateTime.now().toHTTP() },
+});
+
+const statusChangeSchema = new Schema({
+	_id: false,
+	status: { type: String, required: true },
+	updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
+	reason: { type: String },
+	timestamp: { type: Date, default: DateTime.now().toHTTP() },
 });
 
 const stepSchema = new Schema({
 	_id: false,
-	title: {
-		type: String,
-		required: true,
-		unique: true,
-		trim: true,
-	},
-	details: {
-		type: String,
-	},
-	published: {
-		type: Boolean,
-		default: false,
-	},
+	title: { type: String, required: true, unique: true, trim: true },
+	details: { type: String },
+	published: { type: Boolean, default: false },
 });
 
 const QASchema = new Schema({
 	_id: false,
-	question: {
-		type: String,
-		required: true,
-		unique: true,
-		trim: true,
-	},
-	response: {
-		type: String,
-	},
-	published: {
-		type: Boolean,
-		default: false,
-	},
+	question: { type: String, required: true, unique: true, trim: true },
+	response: { type: String },
+	published: { type: Boolean, default: false },
 });
 
 const projectSchema = new Schema(
@@ -76,14 +57,10 @@ const projectSchema = new Schema(
 				country: { type: String },
 				onlineOnly: { type: Boolean, default: false },
 			}, // Optional
-			startDate: {
-				type: Date,
-			}, // Optional
+			startDate: { type: Date }, // Optional
 			creatorMotivation: String, // Optional
 			tags: { type: [String] }, // Optional
-			talentsNeeded: {
-				type: [String], // Array of talents needed
-			},
+			talentsNeeded: { type: [String] }, // Array of talents needed
 			objectives: { type: [String] }, // Optional
 			updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
 		},
@@ -93,68 +70,37 @@ const projectSchema = new Schema(
 		summary: { type: String, required: true, trim: true },
 		description: { type: String, required: true },
 		cover: { type: String }, // Optional
-		crush: { type: Boolean, default: false },
-		likes: { type: Number, default: 0 },
-		category: {
-			type: Schema.Types.ObjectId,
-			ref: "Category",
-			required: true,
-		},
+		crush: { type: Boolean, default: false }, // Optional
+		likes: { type: Number, default: 0 }, // Optional
+		category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
 		subCategory: { type: String }, // Optional
 		location: {
 			city: { type: String },
 			country: { type: String },
 			onlineOnly: { type: Boolean, default: false },
 		}, // Optional
-		startDate: {
-			type: Date,
-		}, // Optional
+		startDate: Date, // Optional
 		creatorMotivation: String, // Optional
-		tags: { type: [String] }, // Optional
+		tags: [String], // Optional
 		steps: {
 			type: {
 				stepsList: [stepSchema],
-				updatedBy: {
-					type: Schema.Types.ObjectId,
-					ref: "User",
-					required: true,
-				},
-				createdAt: {
-					type: Date,
-					required: true,
-					default: DateTime.now().toHTTP(),
-				},
-				updatedAt: {
-					type: Date,
-					required: true,
-				},
+				updatedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
+				createdAt: { type: Date, required: true, default: DateTime.now().toHTTP() },
+				updatedAt: { type: Date, required: true },
 			},
 			required: false,
 		}, // Optional
 		QAs: {
 			type: {
 				QAsList: [QASchema],
-				updatedBy: {
-					type: Schema.Types.ObjectId,
-					ref: "User",
-					required: true,
-				},
-				createdAt: {
-					type: Date,
-					required: true,
-					default: DateTime.now().toHTTP(),
-				},
-				updatedAt: {
-					type: Date,
-					required: true,
-				},
+				updatedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
+				createdAt: { type: Date, required: true, default: DateTime.now().toHTTP() },
+				updatedAt: { type: Date, required: true },
 			},
 			required: false,
 		}, // Optional
-		talentsNeeded: {
-			type: [String], // Array of talents needed
-			required: true,
-		},
+		talentsNeeded: { type: [String], required: true },
 		objectives: { type: [String] }, // Optional
 		updatedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
 		visibility: {
@@ -164,16 +110,19 @@ const projectSchema = new Schema(
 			enum: projectVisibility,
 			message: "The value {VALUE} is not valid.",
 		},
-		status: {
-			type: String,
-			required: true,
-			default: projectStatus[0],
-			enum: projectStatus,
-			message: "The value {VALUE} is not valid.",
+		statusInfo: {
+			currentStatus: {
+				type: String,
+				required: true,
+				default: projectStatus[0],
+				enum: projectStatus,
+				message: "The value {VALUE} is not valid.",
+			},
+			reason: { type: String },
+			statusHistory: [statusChangeSchema],
 		},
-		statusReason: { type: String },
 		privateData: {
-			phase: { type: String }, // Optional
+			phase: String, // Optional
 			attachments: [String], // Array of file URLs - Optional
 		},
 		createdAt: {

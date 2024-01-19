@@ -1,5 +1,5 @@
 const { projectService, categoryService, userService, userRightsService } = require("../../services");
-const { apiResponse, projectValidation, projectTools } = require("../../utils");
+const { apiResponse, projectValidation } = require("../../utils");
 
 /**
  * Update project attachments.

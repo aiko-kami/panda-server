@@ -24,6 +24,18 @@ const createProject = async (projectData) => {
 			onlineOnly: projectData.locationOnlineOnly,
 		};
 
+		const projectStatus = {
+			currentStatus: projectData.status,
+			reason: projectData.statusReason,
+			statusHistory: [
+				{
+					status: projectData.status,
+					reason: projectData.statusReason,
+					updatedBy: objectIdCreatorId,
+				},
+			],
+		};
+
 		// Verify that title does not already exists in the database
 		const titleCapitalized = projectData.title.toUpperCase();
 		const existingTitle = await Project.findOne({ titleCapitalized });
@@ -41,7 +53,7 @@ const createProject = async (projectData) => {
 			cover: projectData.cover,
 			category: objectIdCategoryId,
 			subCategory: projectData.subCategory,
-			status: projectData.status,
+			statusInfo: projectStatus,
 			privateData: {},
 			location: projectLocation,
 			startDate: projectData.startDate !== "" ? projectData.startDate : undefined,
@@ -112,7 +124,7 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 		}
 
 		// Check if the project status is draft
-		if (project.status !== "draft") {
+		if (project.statusInfo.currentStatus !== "draft") {
 			return { status: "error", message: "Project status not draft." };
 		}
 
@@ -143,7 +155,6 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 			tags: "tags",
 			talentsNeeded: "talentsNeeded",
 			objectIdProjectId: "updatedBy",
-			status: "status",
 		};
 
 		// Iterate through the fieldMapping and check if the field exists in updatedData
@@ -174,10 +185,10 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 			member._id = undefined;
 		}
 
-		logger.info(`Project updated successfully. Project ID: ${projectId} - Project status: ${projectOutput.status}`);
+		logger.info(`Project updated successfully. Project ID: ${projectId} - Project status: ${projectOutput.statusInfo.currentStatus}`);
 		return {
 			status: "success",
-			message: `Project updated successfully. Project status: ${projectOutput.status}`,
+			message: `Project updated successfully. Project status: ${projectOutput.statusInfo.currentStatus}`,
 			project: updatedProject,
 		};
 	} catch (error) {
@@ -216,7 +227,7 @@ const removeProjectDraft = async (projectId, userIdUpdater) => {
 		}
 
 		// Check if the project status
-		if (project.status !== "draft") {
+		if (project.statusInfo.currentStatus !== "draft") {
 			return { status: "error", message: "Project status not draft." };
 		}
 
@@ -257,16 +268,16 @@ const processProjectApproval = async (projectId, projectApproval, adminUserId) =
 		}
 
 		// Check if the project status
-		if (project.status !== "submitted") {
+		if (project.statusInfo.currentStatus !== "submitted") {
 			return { status: "error", message: "Project status not submitted." };
 		}
 
 		// Update the project status
 		if (projectApproval.approval === "approved") {
-			project.status = "active";
+			project.statusInfo.currentStatus = "active";
 		} else if (projectApproval.approval === "rejected") {
-			project.status = "rejected";
-			project.statusReason = projectApproval.reason;
+			project.statusInfo.currentStatus = "rejected";
+			project.statusInfo.reason = projectApproval.reason;
 		}
 
 		// Save the updated project
@@ -521,14 +532,14 @@ const retrieveProjects = async (limit, fields, conditions) => {
 const countNumberProjects = async () => {
 	try {
 		const nbPublicProject = await Project.countDocuments({ visibility: "public" }); // Count total number of projects
-		const nbPublicSubmittedProject = await Project.countDocuments({ visibility: "public", status: "submitted" }); // Count documents with visibility set to "public" and status set to "submitted"
-		const nbPublicOnHoldProject = await Project.countDocuments({ visibility: "public", status: "on hold" }); // Count documents with visibility set to "public" and status set to "on hold"
-		const nbPublicCompletedProject = await Project.countDocuments({ visibility: "public", status: "completed" }); // Count documents with visibility set to "public" and status set to "completed"
-		const nbPublicArchivedProject = await Project.countDocuments({ visibility: "public", status: "archived" }); // Count documents with visibility set to "public" and status set to "archived"
-		const nbPublicCancelledProject = await Project.countDocuments({ visibility: "public", status: "cancelled" }); // Count documents with visibility set to "public" and status set to "cancelled"
+		const nbPublicSubmittedProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus": "submitted" }); // Count documents with visibility set to "public" and status set to "submitted"
+		const nbPublicOnHoldProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus": "on hold" }); // Count documents with visibility set to "public" and status set to "on hold"
+		const nbPublicCompletedProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus": "completed" }); // Count documents with visibility set to "public" and status set to "completed"
+		const nbPublicArchivedProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus": "archived" }); // Count documents with visibility set to "public" and status set to "archived"
+		const nbPublicCancelledProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus": "cancelled" }); // Count documents with visibility set to "public" and status set to "cancelled"
 		const nbPublicActiveProject = await Project.countDocuments({
 			visibility: "public",
-			status: "active",
+			"statusInfo.currentStatus": "active",
 		}); // Count documents with visibility set to "public" and status set to "active"
 
 		return {

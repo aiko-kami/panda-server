@@ -135,19 +135,22 @@ Don't let your ideas and talents go to waste – join Sheepy now!
       - [x] Update project draft
       - [x] Remove project draft
       - [x] Submit project
-      - [x] Send email notification to admin for project submission ❤
-      - [x] Retrieve submitted project for admin ❤
-      - [x] process project approval ❤
-      - [x] Send email notification to project creator for project approval ❤
-      - [x] Refactor email template ❤
-      - [ ] Add project status history (array of updates dateTime and modifiedBy) ❤
+      - [x] Send email notification to admin for project submission
+      - [x] Retrieve submitted project for admin
+      - [x] process project approval
+      - [x] Send email notification to project creator for project approval
+      - [x] Refactor email template
+      - [x] Add project status history (array of updates dateTime and modifiedBy)
+      - [ ] Finish the refacto of project status ❤
       - [ ] Save project draft ❤
+      - [ ] Retrieve all former project status ❤
     - [ ] Upload images ❤
     - [x] Use Axios instead of fetch ❤
     - [ ] Edit project attachments 💚
   - [ ] User 💚
     - [ ] Talents portfolio 💚
     - [ ] Share talent? 💚
+  - [ ] Set email templates in database to be editable 💚
 - [x] likes
   - [x] Add likes to the project model
   - [x] Add like

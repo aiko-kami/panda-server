@@ -1,4 +1,4 @@
-const { apiResponse, userValidation, authValidation, userTools } = require("../../utils");
+const { apiResponse, userValidation, authValidation, filterTools } = require("../../utils");
 const { userService } = require("../../services");
 
 const retrieveMyUserData = async (req, res) => {
@@ -44,7 +44,7 @@ const retrieveNewUsers = async (req, res) => {
 		if (newUsers.users !== null && newUsers.users.length > 0) {
 			for (let user of newUsers.users) {
 				// Filter on the public fields only
-				user = userTools.filterOutputFields(user);
+				user = filterTools.filterUserOutputFields(user);
 			}
 
 			return apiResponse.successResponseWithData(res, newUsers.message, newUsers.users);
@@ -93,7 +93,7 @@ const updateUser = async (req, res) => {
 		}
 
 		// Filter on the fields that the user wants to update
-		const filterUserInputs = userTools.filterFieldsToUpdate(updatedUserInputs);
+		const filterUserInputs = filterTools.filterUserFieldsToUpdate(updatedUserInputs);
 
 		//Verify that the email (if modified) is available
 		if (filterUserInputs.email) {
@@ -170,7 +170,7 @@ const retrieveUserOverview = async (req, res) => {
 		}
 
 		// Filter on the public fields only
-		const userDataFiltered = userTools.filterOutputFields(userData.user);
+		const userDataFiltered = filterTools.filterUserOutputFields(userData.user);
 
 		return apiResponse.successResponseWithData(res, userData.message, userDataFiltered);
 	} catch (error) {
@@ -196,7 +196,7 @@ const retrieveUserPublicData = async (req, res) => {
 		}
 
 		// Filter on the public fields only
-		const userDataFiltered = userTools.filterOutputFields(userData.user);
+		const userDataFiltered = filterTools.filterUserOutputFields(userData.user);
 
 		return apiResponse.successResponseWithData(res, userData.message, userDataFiltered);
 	} catch (error) {

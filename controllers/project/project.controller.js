@@ -1,5 +1,5 @@
-const { projectService, categoryService, userService, userRightsService, adminService, emailService } = require("../../services");
-const { apiResponse, projectValidation, projectTools, encryptTools } = require("../../utils");
+const { projectService, categoryService, userService, userRightsService, statusService, adminService, emailService } = require("../../services");
+const { apiResponse, projectValidation, filterTools, encryptTools } = require("../../utils");
 
 /**
  * Create new project draft controller.
@@ -29,6 +29,7 @@ const createProjectDraft = async (req, res) => {
 			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
 			objectives: req.body.projectInputs.objectives || [],
 			status: "draft",
+			statusReason: "project creation",
 		};
 
 		// Validate input data for creating a project
@@ -112,7 +113,7 @@ const updateProjectDraft = async (req, res) => {
 		}
 
 		// Filter on the fields that the user wants to update
-		const filterProjectInputs = projectTools.filterFieldsToUpdate(projectDataToUpdate);
+		const filterProjectInputs = filterTools.filterProjectFieldsToUpdate(projectDataToUpdate);
 
 		// Update the project
 		const updatedResult = await projectService.updateProjectDraft(projectId, filterProjectInputs, userId);
@@ -177,7 +178,6 @@ const submitProject = async (req, res) => {
 			tags: req.body.projectInputs.tags || [],
 			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
 			objectives: req.body.projectInputs.objectives || [],
-			status: "submitted",
 		};
 
 		// Validate input data for updating a project
@@ -206,22 +206,30 @@ const submitProject = async (req, res) => {
 
 		projectData.creatorId = userId;
 
-		let projectSubmittedResult;
+		let projectUpdatedResult;
 		if (!projectId) {
+			projectData.status = "draft";
+			projectData.statusReason = "Project creation and submission";
 			// Create the project and set project status to submitted
-			projectSubmittedResult = await projectService.createProject(projectData, userId);
-			if (projectSubmittedResult.status !== "success") {
-				return apiResponse.serverErrorResponse(res, projectSubmittedResult.message);
+			projectUpdatedResult = await projectService.createProject(projectData, userId);
+			if (projectUpdatedResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, projectUpdatedResult.message);
 			}
 		} else if (projectId) {
 			// Filter on the fields that the user wants to update
-			const filterProjectInputs = projectTools.filterFieldsToUpdate(projectData);
+			const filterProjectInputs = filterTools.filterProjectFieldsToUpdate(projectData);
 
 			// Update the project
-			projectSubmittedResult = await projectService.updateProjectDraft(projectId, filterProjectInputs, userId);
-			if (projectSubmittedResult.status !== "success") {
-				return apiResponse.serverErrorResponse(res, projectSubmittedResult.message);
+			projectUpdatedResult = await projectService.updateProjectDraft(projectId, filterProjectInputs, userId);
+			if (projectUpdatedResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, projectUpdatedResult.message);
 			}
+		}
+
+		// Set project status to Submitted
+		const projectSubmittedResult = await statusService.updateStatus(projectUpdatedResult.project.projectId, userId, "submitted", "Project creation and submission");
+		if (projectSubmittedResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectSubmittedResult.message);
 		}
 
 		const username = projectSubmittedResult.project.members[0].user.username;
@@ -246,7 +254,7 @@ const submitProject = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, projectSubmittedEmailSent.message);
 		}
 
-		return apiResponse.successResponseWithData(res, projectSubmittedResult.message, projectSubmittedResult.project);
+		return apiResponse.successResponseWithData(res, "Project submitted successfully.", projectSubmittedResult.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -451,7 +459,7 @@ const updateProject = async (req, res) => {
 		}
 
 		// Filter on the fields that the user wants to update
-		const filterProjectInputs = projectTools.filterFieldsToUpdate(updatedProjectInputs);
+		const filterProjectInputs = filterTools.filterProjectFieldsToUpdate(updatedProjectInputs);
 
 		// Retrieve only the keys of filtered fileds to be updated
 		const filterProjectInputsArray = Object.keys(filterProjectInputs);
@@ -498,7 +506,7 @@ const retrieveNewProjects = async (req, res) => {
 	try {
 		const newProjects = await projectService.retrieveProjects(4, ["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility"], {
 			visibility: "public",
-			status: "active",
+			"statusInfo.currentStatus": "active",
 		});
 
 		if (newProjects.status !== "success") {
@@ -555,7 +563,7 @@ const retrieveSubmittedProjects = async (req, res) => {
 				"projectId",
 			],
 			{
-				status: "submitted",
+				"statusInfo.currentStatus": "submitted",
 			}
 		);
 

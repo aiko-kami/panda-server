@@ -1,4 +1,4 @@
-const filterFieldsToUpdate = (projectData) => {
+const filterProjectFieldsToUpdate = (projectData) => {
 	const filteredInputs = {};
 
 	if (projectData.title) {
@@ -112,17 +112,89 @@ const filterFieldsToUpdate = (projectData) => {
 	if (projectData.visibility) {
 		filteredInputs.visibility = projectData.visibility;
 	}
-	if (projectData.status) {
-		if (projectData.status === "@--empty--string") {
-			filteredInputs.status = "";
-		} else {
-			filteredInputs.status = projectData.status;
-		}
-	}
 
 	return filteredInputs;
 };
 
+const filterUserFieldsToUpdate = (data) => {
+	const filteredInputs = {};
+
+	for (const key in data) {
+		if (data[key]) {
+			if (Array.isArray(data[key]) && data[key].length > 0) {
+				if (data[key][0] === "@--empty--string") {
+					filteredInputs[key] = [];
+				} else {
+					filteredInputs[key] = data[key];
+				}
+			} else {
+				if (data[key] === "@--empty--string") {
+					filteredInputs[key] = "";
+				} else {
+					filteredInputs[key] = data[key];
+				}
+			}
+		}
+	}
+	return filteredInputs;
+};
+
+const filterUserOutputFields = (user) => {
+	if (user.profilePicture) {
+		if (user.profilePicture.privacy !== "public") {
+			user.profilePicture = undefined;
+		} else {
+			user.profilePicture.privacy = undefined;
+		}
+	}
+	if (user.location.city) {
+		if (user.location.city.privacy !== "public") {
+			user.location.city = undefined;
+		} else {
+			user.location.city.privacy = undefined;
+		}
+	}
+	if (user.location.country) {
+		if (user.location.country.privacy !== "public") {
+			user.location.country = undefined;
+		} else {
+			user.location.country.privacy = undefined;
+		}
+	}
+	if (user.company) {
+		if (user.company.privacy !== "public") {
+			user.company = undefined;
+		} else {
+			user.company.privacy = undefined;
+		}
+	}
+	if (user.bio) {
+		if (user.bio.privacy !== "public") {
+			user.bio = undefined;
+		} else {
+			user.bio.privacy = undefined;
+		}
+	}
+	if (user.languages) {
+		if (user.languages.privacy !== "public") {
+			user.languages = undefined;
+		} else {
+			user.languages.privacy = undefined;
+		}
+	}
+	if (user.website) {
+		if (user.website.privacy !== "public") {
+			user.website = undefined;
+		} else {
+			user.website.privacy = undefined;
+		}
+	}
+
+	return user;
+};
+
 module.exports = {
-	filterFieldsToUpdate,
+	filterProjectFieldsToUpdate,
+	filterUserFieldsToUpdate,
+	filterUserOutputFields,
 };

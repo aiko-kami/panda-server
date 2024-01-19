@@ -2,9 +2,9 @@ const validator = require("validator");
 const config = require("../../config");
 const projectStatus = config.project_status;
 
-const validateStatusInputs = (userIdUpdater, projectId, newStatus) => {
+const validateStatusInputs = (userIdUpdater, projectId, newStatus, reason) => {
 	//Types validation
-	const invalidType = typeof userIdUpdater !== "string" || typeof projectId !== "string" || typeof newStatus !== "string";
+	const invalidType = typeof userIdUpdater !== "string" || typeof projectId !== "string" || typeof newStatus !== "string" || typeof reason !== "string";
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
 	}
@@ -20,9 +20,13 @@ const validateStatusInputs = (userIdUpdater, projectId, newStatus) => {
 		return { status: "error", message: "New status is required." };
 	}
 
+	if (!reason) {
+		return { status: "error", message: "Reason is required." };
+	}
+
 	// Verify status is in the standard list
 	if (!validator.isIn(newStatus, projectStatus)) {
-		return { status: "error", message: "Invalid status." };
+		return { status: "error", message: `Invalid project status: ${newStatus.toUpperCase()}` };
 	}
 
 	// If all validations passed
