@@ -1,5 +1,6 @@
 const { Project } = require("../../models");
 const { logger, encryptTools, statusTools } = require("../../utils");
+const { DateTime } = require("luxon");
 
 /**
  * Update status of a project.
@@ -51,16 +52,17 @@ const updateStatus = async (projectId, userIdUpdater, newStatus, reason) => {
 			status: newStatus,
 			updatedBy: objectIdUserIdUpdater,
 			reason: reason,
+			timestamp: DateTime.now().toHTTP(),
 		});
 
 		const updatedProject = await project.save();
-		const projectOutput = await Project.populate(updatedProject, [
+
+		const projectOutput = await updatedProject.populate([
 			{ path: "statusInfo.statusHistory.updatedBy", select: "-_id username profilePicture userId" },
 			{ path: "updatedBy", select: "-_id username profilePicture userId" },
 		]);
 
 		console.log("🚀 ~ updateStatus ~ projectOutput:", JSON.stringify(projectOutput));
-		console.log("🚀 ~ updateStatus ~ projectOutput.members:", projectOutput.statusInfo.statusHistory[1].updatedBy.profilePicture);
 
 		if (projectOutput.updatedBy) {
 			if (projectOutput.updatedBy.profilePicture.privacy !== "public") {
@@ -76,8 +78,7 @@ const updateStatus = async (projectId, userIdUpdater, newStatus, reason) => {
 		}
 
 		for (let statusHisto of projectOutput.statusInfo.statusHistory) {
-			if (statusHisto.updatedBy.profilePicture.privacy !== "public") {
-				console.log("🚀 ~ updateStatus ~ statusHisto:", statusHisto.updatedBy.profilePicture.privacy);
+			if (statusHisto.updatedBy.profilePicture && statusHisto.updatedBy.profilePicture.privacy !== "public") {
 				statusHisto.updatedBy.profilePicture = undefined;
 			}
 		}

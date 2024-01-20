@@ -209,7 +209,7 @@ const submitProject = async (req, res) => {
 		let projectUpdatedResult;
 		if (!projectId) {
 			projectData.status = "draft";
-			projectData.statusReason = "Project creation and submission";
+			projectData.statusReason = "Project creation before submission";
 			// Create the project and set project status to submitted
 			projectUpdatedResult = await projectService.createProject(projectData, userId);
 			if (projectUpdatedResult.status !== "success") {
@@ -228,6 +228,9 @@ const submitProject = async (req, res) => {
 
 		// Set project status to Submitted
 		const projectSubmittedResult = await statusService.updateStatus(projectUpdatedResult.project.projectId, userId, "submitted", "Project creation and submission");
+
+		console.log("🚀 ~ submitProject ~ projectSubmittedResult:", projectSubmittedResult);
+
 		if (projectSubmittedResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectSubmittedResult.message);
 		}

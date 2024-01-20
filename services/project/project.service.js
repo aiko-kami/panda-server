@@ -1,5 +1,6 @@
 const { Project, Category } = require("../../models");
 const { logger, encryptTools } = require("../../utils");
+const { DateTime } = require("luxon");
 
 /**
  * Create a new project.
@@ -32,6 +33,7 @@ const createProject = async (projectData) => {
 					status: projectData.status,
 					reason: projectData.statusReason,
 					updatedBy: objectIdCreatorId,
+					timestamp: DateTime.now().toHTTP(),
 				},
 			],
 		};
@@ -64,6 +66,7 @@ const createProject = async (projectData) => {
 			members: [{ user: objectIdCreatorId, role: "owner" }],
 			talentsNeeded: projectData.talentsNeeded,
 			objectives: projectData.objectives,
+			createdAt: DateTime.now().toHTTP(),
 		});
 
 		// Save the project to the database
