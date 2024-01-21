@@ -415,35 +415,15 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 		if (!fields.includes("category")) {
 			project.category = undefined;
 		}
-		if (fields.includes("updatedBy" && project.updatedBy)) {
-			if (project.updatedBy) {
-				if (project.updatedBy.profilePicture.privacy !== "public") {
-					project.updatedBy.profilePicture = undefined;
-				}
-			}
-		} else {
+		if (!fields.includes("updatedBy")) {
 			project.updatedBy = undefined;
 		}
-		if (fields.includes("steps")) {
-			if (project.steps.updatedBy) {
-				if (project.steps.updatedBy.profilePicture.privacy !== "public") {
-					project.steps.updatedBy.profilePicture = undefined;
-				}
-			}
-		} else {
+		if (!fields.includes("steps")) {
 			project.steps = undefined;
 		}
-		if (fields.includes("members")) {
-			for (let member of project.members) {
-				if (member.user.profilePicture.privacy !== "public") {
-					member.user.profilePicture = undefined;
-				}
-				member._id = undefined;
-			}
-		} else {
+		if (!fields.includes("members")) {
 			project.members = undefined;
 		}
-
 		return {
 			status: "success",
 			message: "Project retrieved successfully.",
@@ -485,34 +465,16 @@ const retrieveProjects = async (limit, fields, conditions) => {
 			if (!fields.includes("category")) {
 				modifiedProject.category = undefined;
 			}
-			if (fields.includes("updatedBy" && modifiedProject.updatedBy)) {
-				if (modifiedProject.updatedBy) {
-					if (modifiedProject.updatedBy.profilePicture.privacy !== "public") {
-						modifiedProject.updatedBy.profilePicture = undefined;
-					}
-				}
-			} else {
+			if (!fields.includes("updatedBy")) {
 				modifiedProject.updatedBy = undefined;
 			}
-			if (fields.includes("steps")) {
-				if (modifiedProject.steps.updatedBy) {
-					if (modifiedProject.steps.updatedBy.profilePicture.privacy !== "public") {
-						modifiedProject.steps.updatedBy.profilePicture = undefined;
-					}
-				}
-			} else {
+			if (!fields.includes("steps")) {
 				modifiedProject.steps = undefined;
 			}
-			if (fields.includes("members")) {
-				for (let member of modifiedProject.members) {
-					if (member.user.profilePicture.privacy !== "public") {
-						member.user.profilePicture = undefined;
-					}
-					member._id = undefined;
-				}
-			} else {
+			if (!fields.includes("members")) {
 				modifiedProject.members = undefined;
 			}
+
 			return modifiedProject;
 		});
 

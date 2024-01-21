@@ -207,8 +207,8 @@ const retrieveUserPublicData = async (req, res) => {
 
 module.exports = {
 	retrieveMyUserData,
-	updateUser,
 	retrieveNewUsers,
+	updateUser,
 	updateUserPassword,
 	retrieveUserOverview,
 	retrieveUserPublicData,

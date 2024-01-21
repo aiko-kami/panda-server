@@ -1,23 +1,29 @@
 Where to implement the filters for public data:
 	updateProject
-	retrieveProjectPublicData
-	retrieveNewProjects
+	retrieveProjectPublicData  OK
 	retrieveProjectOverview
 	retrieveProjectData
-	saveProjectDraft
-
 	retrieveProjectComments
-
-	retrieveCrushProjects
-
-	retrieveUserLikes
+	saveProjectDraft
 	retrieveProjectLikes
-
 	retrieveProjectQAsPublished
 	retrieveProjectQAsAll
-
 	retrieveProjectStepsPublished
 	retrieveProjectStepsAll
+==> Filter one project
+
+	retrieveNewProjects  OK
+	retrieveCrushProjects
+==> Filter array of projects
+
+	retrieveUserLikes
+	retrieveUserOverview
+	retrieveUserPublicData
+==> Filter one user
+
+	retrieveNewUsers
+==> Filter array of users
+
 
 ////////////////////////////////////////////////////////////////////
 

@@ -494,12 +494,16 @@ const retrieveProjectPublicData = async (req, res) => {
 			["-_id", "title", "goal", "summary", "description", "cover", "category", "subCategory", "location", "startDate", "creatorMotivation", "tags", "talentsNeeded", "objectives", "visibility"],
 			{ visibility: "public" }
 		);
-
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
 		}
 
-		return apiResponse.successResponseWithData(res, projectData.message, projectData.project);
+		//Filter users public data from project
+		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project);
+		if (projectFiltered.status !== "success") {
+			return apiResponse.clientErrorResponse(res, projectFiltered.message);
+		}
+		return apiResponse.successResponseWithData(res, projectData.message, projectFiltered.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -511,11 +515,16 @@ const retrieveNewProjects = async (req, res) => {
 			visibility: "public",
 			"statusInfo.currentStatus": "active",
 		});
-
 		if (newProjects.status !== "success") {
 			return apiResponse.serverErrorResponse(res, newProjects.message);
 		}
-		return apiResponse.successResponseWithData(res, newProjects.message, newProjects.projects);
+
+		//Filter users public data from projects
+		const projectFiltered = filterTools.filterProjectsOutputFields(newProjects.projects);
+		if (projectFiltered.status !== "success") {
+			return apiResponse.clientErrorResponse(res, projectFiltered.message);
+		}
+		return apiResponse.successResponseWithData(res, newProjects.message, projectFiltered.projects);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}

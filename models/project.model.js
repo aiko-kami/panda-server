@@ -9,6 +9,7 @@ const projectVisibility = config.project_visibility;
 const projectMembersRoles = config.project_members_roles;
 
 const memberSchema = new Schema({
+	_id: false,
 	user: { type: Schema.Types.ObjectId, ref: "User", required: true },
 	talent: String,
 	role: {
