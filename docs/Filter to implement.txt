@@ -1,3 +1,26 @@
+Where to implement the filters for public data:
+	updateProject
+	retrieveProjectPublicData
+	retrieveNewProjects
+	retrieveProjectOverview
+	retrieveProjectData
+	saveProjectDraft
+
+	retrieveProjectComments
+
+	retrieveCrushProjects
+
+	retrieveUserLikes
+	retrieveProjectLikes
+
+	retrieveProjectQAsPublished
+	retrieveProjectQAsAll
+
+	retrieveProjectStepsPublished
+	retrieveProjectStepsAll
+
+////////////////////////////////////////////////////////////////////
+
 Filters to do
 
 comment model:
