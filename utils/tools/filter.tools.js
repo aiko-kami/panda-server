@@ -198,7 +198,7 @@ const filterUserOutputFields = (user) => {
 				user.website.privacy = undefined;
 			}
 		}
-		return user;
+		return { status: "success", message: "User filtered successfully.", user };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}
@@ -257,7 +257,7 @@ const filterUsersOutputFields = (users) => {
 				}
 			}
 		}
-		return users;
+		return { status: "success", message: "Users filtered successfully.", users };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}

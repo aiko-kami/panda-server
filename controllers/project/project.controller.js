@@ -511,10 +511,14 @@ const retrieveProjectPublicData = async (req, res) => {
 
 const retrieveNewProjects = async (req, res) => {
 	try {
-		const newProjects = await projectService.retrieveProjects(4, ["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility"], {
-			visibility: "public",
-			"statusInfo.currentStatus": "active",
-		});
+		const newProjects = await projectService.retrieveProjects(
+			["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility"],
+			{
+				visibility: "public",
+				"statusInfo.currentStatus": "active",
+			},
+			4
+		);
 		if (newProjects.status !== "success") {
 			return apiResponse.serverErrorResponse(res, newProjects.message);
 		}
@@ -534,6 +538,12 @@ const retrieveProjectOverview = async (req, res) => {
 	try {
 		const { projectId = "" } = req.params;
 
+		// Validate project ID
+		const validationResult = userValidation.validateUserId(projectId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
 		const projectData = await projectService.retrieveProjectById(projectId, ["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility"], { visibility: "public" });
 
 		if (projectData.status !== "success") {
@@ -549,7 +559,6 @@ const retrieveProjectOverview = async (req, res) => {
 const retrieveSubmittedProjects = async (req, res) => {
 	try {
 		const submittedProjects = await projectService.retrieveProjects(
-			999,
 			[
 				"-_id",
 				"title",
@@ -576,7 +585,8 @@ const retrieveSubmittedProjects = async (req, res) => {
 			],
 			{
 				"statusInfo.currentStatus": "submitted",
-			}
+			},
+			999
 		);
 
 		if (submittedProjects.status !== "success") {

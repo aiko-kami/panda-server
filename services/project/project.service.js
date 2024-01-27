@@ -438,7 +438,7 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 	}
 };
 
-const retrieveProjects = async (limit, fields, conditions) => {
+const retrieveProjects = async (fields, conditions, limit) => {
 	try {
 		let query = Project.find(conditions).sort({ createdAt: -1 }).limit(limit);
 		if (fields) {

@@ -1,5 +1,5 @@
 const { crushService } = require("../../services");
-const { apiResponse, idsValidation } = require("../../utils");
+const { apiResponse, idsValidation, filterTools } = require("../../utils");
 
 /**
  * Update project crush controller.
@@ -65,17 +65,22 @@ const removeCrush = async (req, res) => {
 
 const retrieveCrushProjects = async (req, res) => {
 	try {
-		const crushProjects = await crushService.retrieveCrushProjects(
-			["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "members.role", "members.startDate"],
-			{ crush: true, visibility: "public" },
-			99
-		);
+		const crushProjects = await crushService.retrieveCrushProjects(["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "members"], { crush: true, visibility: "public" }, 99);
 
-		if (crushProjects.projects !== null && crushProjects.projects.length > 0) {
-			return apiResponse.successResponseWithData(res, crushProjects.message, crushProjects.projects);
-		} else {
+		if (crushProjects.status !== "success") {
 			return apiResponse.serverErrorResponse(res, crushProjects.message);
 		}
+
+		if (crushProjects.projects === null || crushProjects.projects.length === 0) {
+			return apiResponse.serverErrorResponse(res, crushProjects.message);
+		}
+
+		//Filter users public data from projects
+		const projectFiltered = filterTools.filterProjectsOutputFields(crushProjects.projects);
+		if (projectFiltered.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectFiltered.message);
+		}
+		return apiResponse.successResponseWithData(res, crushProjects.message, projectFiltered.projects);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}

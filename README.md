@@ -141,7 +141,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
       - [x] Send email notification to project creator for project approval
       - [x] Refactor email template
       - [x] Add project status history (array of updates dateTime and modifiedBy)
-      - [ ] Finish the refacto of project status ❤
+      - [ ] Finish the refactor of project status ❤
       - [ ] Save project draft ❤
       - [ ] Retrieve all former project status ❤
     - [ ] Upload images ❤
