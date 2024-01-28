@@ -1,16 +1,16 @@
 Where to implement the filters for public data:
 	retrieveProjectPublicData  OK
-	updateProject
-	retrieveProjectOverview
-	retrieveProjectData
+	retrieveProjectOverview  OK
+	retrieveProjectData  OK
 	retrieveProjectComments
-	saveProjectDraft
 	retrieveUserLikes
 	retrieveProjectLikes
 	retrieveProjectQAsPublished
 	retrieveProjectQAsAll
 	retrieveProjectStepsPublished
 	retrieveProjectStepsAll
+	saveProjectDraft
+	updateProject
 ==> Filter one project-------------------
 
 	retrieveNewProjects  OK

@@ -198,6 +198,10 @@ const filterUserOutputFields = (user) => {
 				user.website.privacy = undefined;
 			}
 		}
+		if (user._id) {
+			user._id = undefined;
+		}
+
 		return { status: "success", message: "User filtered successfully.", user };
 	} catch (error) {
 		return { status: "error", message: error.message };
@@ -256,6 +260,9 @@ const filterUsersOutputFields = (users) => {
 					user.website.privacy = undefined;
 				}
 			}
+			if (user._id) {
+				user._id = undefined;
+			}
 		}
 		return { status: "success", message: "Users filtered successfully.", users };
 	} catch (error) {
@@ -267,28 +274,28 @@ const filterProjectsOutputFields = (projects) => {
 	try {
 		for (let project of projects) {
 			if (project.draft && project.draft.updatedBy) {
-				project.draft.updatedBy = filterUserOutputFields(project.draft.updatedBy);
+				project.draft.updatedBy = filterUserOutputFields(project.draft.updatedBy).user;
 			}
 			if (project.updatedBy) {
-				project.updatedBy = filterUserOutputFields(project.updatedBy);
+				project.updatedBy = filterUserOutputFields(project.updatedBy).user;
 			}
 			if (project.steps && project.steps.updatedBy) {
-				project.steps.updatedBy = filterUserOutputFields(project.steps.updatedBy);
+				project.steps.updatedBy = filterUserOutputFields(project.steps.updatedBy).user;
 			}
 			if (project.QAs && project.QAs.updatedBy) {
-				project.QAs.updatedBy = filterUserOutputFields(project.QAs.updatedBy);
+				project.QAs.updatedBy = filterUserOutputFields(project.QAs.updatedBy).user;
 			}
 			if (project.members) {
 				for (let member of project.members) {
 					if (member.user) {
-						member.user = filterUserOutputFields(member.user);
+						member.user = filterUserOutputFields(member.user).user;
 					}
 				}
 			}
 			if (project.statusInfo && project.statusInfo.statusHistory) {
 				for (let statusHis of project.statusInfo.statusHistory) {
 					if (statusHis.updatedBy) {
-						statusHis.updatedBy = filterUserOutputFields(statusHis.updatedBy);
+						statusHis.updatedBy = filterUserOutputFields(statusHis.updatedBy).user;
 					}
 				}
 			}
@@ -302,28 +309,28 @@ const filterProjectsOutputFields = (projects) => {
 const filterProjectOutputFields = (project) => {
 	try {
 		if (project.draft && project.draft.updatedBy) {
-			project.draft.updatedBy = filterUserOutputFields(project.draft.updatedBy);
+			project.draft.updatedBy = filterUserOutputFields(project.draft.updatedBy).user;
 		}
 		if (project.updatedBy) {
-			project.updatedBy = filterUserOutputFields(project.updatedBy);
+			project.updatedBy = filterUserOutputFields(project.updatedBy).user;
 		}
 		if (project.steps && project.steps.updatedBy) {
-			project.steps.updatedBy = filterUserOutputFields(project.steps.updatedBy);
+			project.steps.updatedBy = filterUserOutputFields(project.steps.updatedBy).user;
 		}
 		if (project.QAs && project.QAs.updatedBy) {
-			project.QAs.updatedBy = filterUserOutputFields(project.QAs.updatedBy);
+			project.QAs.updatedBy = filterUserOutputFields(project.QAs.updatedBy).user;
 		}
 		if (project.members) {
 			for (let member of project.members) {
 				if (member.user) {
-					member.user = filterUserOutputFields(member.user);
+					member.user = filterUserOutputFields(member.user).user;
 				}
 			}
 		}
 		if (project.statusInfo && project.statusInfo.statusHistory) {
 			for (let statusHis of project.statusInfo.statusHistory) {
 				if (statusHis.updatedBy) {
-					statusHis.updatedBy = filterUserOutputFields(statusHis.updatedBy);
+					statusHis.updatedBy = filterUserOutputFields(statusHis.updatedBy).user;
 				}
 			}
 		}

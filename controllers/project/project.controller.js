@@ -1,5 +1,5 @@
 const { projectService, categoryService, userService, userRightsService, statusService, adminService, emailService } = require("../../services");
-const { apiResponse, projectValidation, filterTools, encryptTools } = require("../../utils");
+const { apiResponse, projectValidation, filterTools, encryptTools, idsValidation } = require("../../utils");
 
 /**
  * Create new project draft controller.
@@ -539,18 +539,22 @@ const retrieveProjectOverview = async (req, res) => {
 		const { projectId = "" } = req.params;
 
 		// Validate project ID
-		const validationResult = userValidation.validateUserId(projectId);
+		const validationResult = idsValidation.validateIdInput(projectId);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
 		const projectData = await projectService.retrieveProjectById(projectId, ["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility"], { visibility: "public" });
-
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
 		}
 
-		return apiResponse.successResponseWithData(res, projectData.message, projectData.project);
+		//Filter users public data from projects
+		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project);
+		if (projectFiltered.status !== "success") {
+			return apiResponse.clientErrorResponse(res, projectFiltered.message);
+		}
+		return apiResponse.successResponseWithData(res, projectData.message, projectFiltered.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -642,28 +646,25 @@ const retrieveProjectData = async (req, res) => {
 
 		// Convert id to ObjectId
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+
 		if (objectIdUserId.status == "error") {
 			return apiResponse.serverErrorResponse(res, objectIdUserId.message);
 		}
 
 		// Find the user in the project's members
-		const isUserProjectMember = projectMembers.find((member) => member.user._id.toString() === objectIdUserId.toString());
+		const isUserProjectMember = projectMembers.find((member) => encryptTools.convertIdToObjectId(member.user.userId).toString() === objectIdUserId.toString());
 
 		// If user is not member of the project, return error
 		if (!isUserProjectMember) {
 			return apiResponse.unauthorizedResponse(res, "Data only available for the members of the project.");
 		}
 
-		//remove _id for the output data
-		const updatedObject = {
-			...projectData.project,
-			members: projectData.project.members.map((member) => ({
-				...member,
-				user: { ...member.user, _id: undefined },
-			})),
-		};
-
-		return apiResponse.successResponseWithData(res, projectData.message, updatedObject);
+		//Filter users public data from projects
+		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project);
+		if (projectFiltered.status !== "success") {
+			return apiResponse.clientErrorResponse(res, projectFiltered.message);
+		}
+		return apiResponse.successResponseWithData(res, projectData.message, projectFiltered.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
