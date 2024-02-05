@@ -54,6 +54,7 @@ const userSchema = new Schema(
 				message: "The value {VALUE} is not valid.",
 			},
 		},
+		projectLikePublic: { type: Boolean, required: true, default: true },
 		website: privacyString,
 		talents: [
 			{

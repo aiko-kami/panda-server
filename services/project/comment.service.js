@@ -1,5 +1,5 @@
 const { Project, Comment } = require("../../models");
-const { logger, encryptTools, idTools } = require("../../utils");
+const { logger, encryptTools, idTools, filterTools } = require("../../utils");
 const { DateTime } = require("luxon");
 
 /**
@@ -287,11 +287,8 @@ const retrieveProjectComments = async (projectId) => {
 		for (let comment of projectComments) {
 			comment = comment.toObject();
 
-			if (comment.author.profilePicture) {
-				if (comment.author.profilePicture.privacy !== "public") {
-					comment.author.profilePicture = undefined;
-				}
-			}
+			//Filter users public data from comment
+			comment.author = filterTools.filterUserOutputFields(comment.author).user;
 
 			comment.isReportedBy = comment.isReportedBy.length;
 

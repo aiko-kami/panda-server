@@ -144,10 +144,15 @@ Don't let your ideas and talents go to waste – join Sheepy now!
       - [ ] Finish the refactor of project status ❤
       - [ ] Save project draft ❤
       - [ ] Retrieve all former project status ❤
+    - [ ] projectLikePublic ❤
+      - [ ] When retrieving project likes: count all like but replace user private likes by "private user" ❤
+      - [x] When retrieving user likes: separate userlikes "Project I likes" (private, user userId from login info) and "public user page" (show only if projectLikePublic is true) ❤
+      - [ ] Update user profile (set projectLikePublic to true or false) ❤
     - [ ] Upload images ❤
     - [x] Use Axios instead of fetch ❤
     - [ ] Edit project attachments 💚
-  - [ ] User 💚
+  - [ ] User 💚❤
+    - [ ] Update user privacy data ❤
     - [ ] Talents portfolio 💚
     - [ ] Share talent? 💚
   - [ ] Set email templates in database to be editable 💚

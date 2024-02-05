@@ -99,6 +99,10 @@ const retrieveUserLikes = async (userId) => {
 						select: "-_id name",
 					},
 				},
+				{
+					path: "user",
+					select: "-_id username profilePicture projectLikePublic",
+				},
 			]);
 
 		const nbUserLikes = userLikes.length;
@@ -137,7 +141,7 @@ const retrieveProjectLikes = async (projectId) => {
 		const projectLikes = await LikeProject.find({ project: objectIdProjectId })
 			.select("-_id likeProjectId createdAt")
 			.sort({ createdAt: -1 })
-			.populate([{ path: "user", select: "-_id username profilePicture userId" }]);
+			.populate([{ path: "user", select: "-_id username profilePicture userId projectLikePublic" }]);
 
 		// If no like found for the project
 		if (!projectLikes || projectLikes.length === 0) {

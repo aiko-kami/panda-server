@@ -1,4 +1,4 @@
-const { likeProjectService } = require("../../services");
+const { likeProjectService, userService } = require("../../services");
 const { apiResponse, idsValidation } = require("../../utils");
 
 /**
@@ -63,18 +63,51 @@ const unlikeProject = async (req, res) => {
 };
 
 // Retrive all the project that a user likes
-const retrieveUserLikes = async (req, res) => {
+const retrieveUserPublicLikes = async (req, res) => {
+	try {
+		const { userId = "" } = req.body;
+
+		// Validate input data
+		const validationResult = idsValidation.validateIdInput(userId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Verify if user likes are public
+		const userRetrieved = await userService.retrieveUserById(userId, ["projectLikePublic"]);
+		if (userRetrieved.status !== "success") {
+			return apiResponse.clientErrorResponse(res, userRetrieved.message);
+		}
+
+		// In case user likes are private return message likes are private
+		if (!userRetrieved.user.projectLikePublic) {
+			return apiResponse.serverErrorResponse(res, "User project likes are private");
+
+			// In case user likes are public retrive the projects that user likes
+		} else if (userRetrieved.user.projectLikePublic) {
+			const likeResult = await likeProjectService.retrieveUserLikes(userId);
+			if (likeResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, likeResult.message);
+			}
+			return apiResponse.successResponseWithData(res, likeResult.message, likeResult.userLikes);
+		}
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+// Retrive all the project that current connected user likes
+const retrieveUserPrivateLikes = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		// Validate input data for updating project like
+		// Validate input data
 		const validationResult = idsValidation.validateIdInput(userId);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
 		const likeResult = await likeProjectService.retrieveUserLikes(userId);
-
 		if (likeResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, likeResult.message);
 		}
@@ -109,6 +142,7 @@ const retrieveProjectLikes = async (req, res) => {
 module.exports = {
 	likeProject,
 	unlikeProject,
-	retrieveUserLikes,
+	retrieveUserPublicLikes,
+	retrieveUserPrivateLikes,
 	retrieveProjectLikes,
 };
