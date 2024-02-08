@@ -7,8 +7,8 @@ Where to implement the filters for public data:
 	retrieveProjectQAsAll  OK
 	retrieveProjectStepsPublished  OK
 	retrieveProjectStepsAll  OK
-	retrieveUserLikes  
-	retrieveProjectLikes  
+	retrieveUserLikes  OK
+	retrieveProjectLikes  OK
 	saveProjectDraft  
 	updateProject  
 ==> Filter one project-------------------
@@ -24,7 +24,7 @@ Where to implement the filters for public data:
 	retrieveNewUsers  OK
 ==> Filter array of users---------------
 
-Total = 4 remaining
+Total = 2 remaining
 
 ////////////////////////////////////////////////////////////////////
 

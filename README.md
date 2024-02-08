@@ -118,7 +118,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Retrieve one join project invitation
   - [x] Send draft join project invitation
   - [x] Accept/decline join project invitation
-- [ ] Improvements (Brainstorms/clarifications needed) ❤💚
+- [ ] Improvements (Brainstorms/clarifications needed) 💚❤
   - [x] Retrieve specific data (GET requests)
     - [x] Retrieve project all data
     - [x] Retrieve last projects overview (when project is public)
@@ -141,11 +141,12 @@ Don't let your ideas and talents go to waste – join Sheepy now!
       - [x] Send email notification to project creator for project approval
       - [x] Refactor email template
       - [x] Add project status history (array of updates dateTime and modifiedBy)
+      - [ ] Complete filterings public data ❤
       - [ ] Finish the refactor of project status ❤
       - [ ] Save project draft ❤
       - [ ] Retrieve all former project status ❤
     - [ ] projectLikePublic ❤
-      - [ ] When retrieving project likes: count all like but replace user private likes by "private user" ❤
+      - [x] When retrieving project likes: count all like but replace user private likes by "private user" ❤
       - [x] When retrieving user likes: separate userlikes "Project I likes" (private, user userId from login info) and "public user page" (show only if projectLikePublic is true) ❤
       - [ ] Update user profile (set projectLikePublic to true or false) ❤
     - [ ] Upload images ❤
@@ -204,6 +205,18 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [ ] Language(s) of the project 💚
 
 Order of priorities: ❤ > 💛 > 💚
+
+---
+
+- [ ] Complete filterings public data ❤
+- [ ] Finish the refactor of project status ❤
+- [ ] Retrieve all former project status ❤
+- [ ] Save project draft ❤
+- [ ] Update user profile (set projectLikePublic to true or false) ❤
+- [ ] Update user privacy data ❤
+- [ ] Upload images ❤
+
+---
 
 ## 📦 Installation
 

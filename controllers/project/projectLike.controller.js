@@ -1,5 +1,5 @@
 const { likeProjectService, userService } = require("../../services");
-const { apiResponse, idsValidation } = require("../../utils");
+const { apiResponse, idsValidation, filterTools } = require("../../utils");
 
 /**
  * Update project Like controller.
@@ -73,23 +73,32 @@ const retrieveUserPublicLikes = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		// Verify if user likes are public
-		const userRetrieved = await userService.retrieveUserById(userId, ["projectLikePublic"]);
+		// Retrieve user to verify if user likes are public
+		const userRetrieved = await userService.retrieveUserById(userId, ["projectLikePublic", "-_id", "userId", "username", "profilePicture", "projectLikePublic"]);
 		if (userRetrieved.status !== "success") {
 			return apiResponse.clientErrorResponse(res, userRetrieved.message);
 		}
 
+		//Filter user public data from user
+		const userFiltered = filterTools.filterUserOutputFields(userRetrieved.user);
+		if (userFiltered.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userFiltered.message);
+		}
+
 		// In case user likes are private return message likes are private
 		if (!userRetrieved.user.projectLikePublic) {
-			return apiResponse.serverErrorResponse(res, "User project likes are private");
+			userRetrieved.user.projectLikePublic = undefined;
+			return apiResponse.successResponseWithData(res, "User project likes are private", { user: userFiltered.user });
 
 			// In case user likes are public retrive the projects that user likes
 		} else if (userRetrieved.user.projectLikePublic) {
+			userRetrieved.user.projectLikePublic = undefined;
 			const likeResult = await likeProjectService.retrieveUserLikes(userId);
 			if (likeResult.status !== "success") {
 				return apiResponse.serverErrorResponse(res, likeResult.message);
 			}
-			return apiResponse.successResponseWithData(res, likeResult.message, likeResult.userLikes);
+
+			return apiResponse.successResponseWithData(res, likeResult.message, { user: userFiltered.user, userLikes: likeResult.userLikes });
 		}
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
@@ -111,7 +120,7 @@ const retrieveUserPrivateLikes = async (req, res) => {
 		if (likeResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, likeResult.message);
 		}
-		return apiResponse.successResponseWithData(res, likeResult.message, likeResult.userLikes);
+		return apiResponse.successResponseWithData(res, likeResult.message, { userLikes: likeResult.userLikes });
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}

@@ -17,6 +17,9 @@ module.exports.idTools = require("./tools/id.tools");
 module.exports.statusTools = require("./tools/status.tools");
 module.exports.encryptTools = require("./tools/encrypt.tools");
 
+// Queries
+module.exports.aggregateQueries = require("./queries/aggregateQueries");
+
 // Others
 module.exports.apiResponse = require("./apiResponse");
 module.exports.emailDelivery = require("./email/emailDelivery");
