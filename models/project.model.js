@@ -48,18 +48,25 @@ const projectSchema = new Schema(
 	{
 		projectId: { type: String, unique: true },
 		draft: {
+			title: { type: String, trim: true },
 			goal: { type: String, trim: true },
 			summary: { type: String, trim: true },
 			description: { type: String },
 			cover: { type: String }, // Optional
-			phase: { type: String }, // Optional
 			location: {
 				city: { type: String },
 				country: { type: String },
 				onlineOnly: { type: Boolean, default: false },
 			}, // Optional
 			startDate: { type: Date }, // Optional
+			phase: { type: String }, // Optional
 			creatorMotivation: String, // Optional
+			visibility: {
+				type: String,
+				default: projectVisibility[0],
+				enum: projectVisibility,
+				message: "The value {VALUE} is not valid.",
+			}, // Optional
 			tags: { type: [String] }, // Optional
 			talentsNeeded: { type: [String] }, // Array of talents needed
 			objectives: { type: [String] }, // Optional

@@ -306,7 +306,7 @@ const filterProjectsOutputFields = (projects) => {
 	}
 };
 
-const filterProjectOutputFields = (project) => {
+const filterProjectOutputFields = (project, userId) => {
 	try {
 		if (project.draft && project.draft.updatedBy) {
 			project.draft.updatedBy = filterUserOutputFields(project.draft.updatedBy).user;

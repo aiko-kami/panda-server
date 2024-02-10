@@ -64,6 +64,12 @@ const createProjectDraft = async (req, res) => {
 	}
 };
 
+/**
+ * Update a project for which status is draft controller.
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ * @returns {Object} - The response containing the created project or an error message.
+ */
 const updateProjectDraft = async (req, res) => {
 	try {
 		const { projectId = "" } = req.params;
@@ -338,86 +344,6 @@ const processProjectApproval = async (req, res) => {
 	}
 };
 
-const saveProjectDraft = async (req, res) => {
-	try {
-		const userId = req.userId;
-		//Retrieve and initialize project data
-		const projectData = {
-			title: req.body.projectInputs.title || "",
-			goal: req.body.projectInputs.goal || "",
-			summary: req.body.projectInputs.summary || "",
-			description: req.body.projectInputs.description || "",
-			cover: req.body.projectInputs.cover || "",
-			categoryId: req.body.projectInputs.categoryId || "",
-			subCategory: req.body.projectInputs.subCategory || "",
-			locationCountry: req.body.projectInputs.locationCountry || "",
-			locationCity: req.body.projectInputs.locationCity || "",
-			locationOnlineOnly: Boolean(req.body.projectInputs.locationOnlineOnly) || false,
-			startDate: req.body.projectInputs.startDate || "",
-			creatorMotivation: req.body.projectInputs.creatorMotivation || "",
-			visibility: req.body.projectInputs.visibility || "public",
-			tags: req.body.projectInputs.tags || [],
-			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
-			objectives: req.body.projectInputs.objectives || [],
-		};
-
-		// Validate input data for creating a project
-		const validationResult = projectValidation.validateNewProjectInputs(projectData);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
-		}
-
-		// Verify that category and sub-category exist in the database
-		const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(projectData.categoryId, projectData.subCategory);
-		if (categoryVerified.status !== "success") {
-			return apiResponse.clientErrorResponse(res, categoryVerified.message);
-		}
-
-		//Verify that user (project creator) exists in the database
-		const existingCreator = await userService.retrieveUserById(userId, ["-_id"]);
-		if (existingCreator.status !== "success") {
-			return apiResponse.clientErrorResponse(res, existingCreator.message);
-		}
-
-		projectData.creatorId = userId;
-
-		// Create the project
-		const createResult = await projectService.createProject(projectData);
-
-		if (createResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, createResult.message);
-		}
-
-		// Set project owner's default rights during the creation of a project
-		const setRightsResult = await userRightsService.setProjectOwnerRights(createResult.project.projectId, userId);
-		if (setRightsResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, setRightsResult.message);
-		}
-
-		//Retrieve project data
-		const projectOutput = await projectService.retrieveProjectById(createResult.project.projectId, ["-_id", "-members._id"]);
-		if (projectOutput.status !== "success") {
-			return apiResponse.serverErrorResponse(res, projectOutput.message);
-		}
-
-		//Convert database object to JS object
-		projectOutput.project = projectOutput.project.toObject();
-
-		//remove _id for the output data
-		const finalProjectOutput = {
-			...projectOutput.project,
-			members: projectOutput.project.members.map((member) => ({
-				...member,
-				user: { ...member.user, _id: undefined },
-			})),
-		};
-
-		return apiResponse.successResponseWithData(res, createResult.message, finalProjectOutput);
-	} catch (error) {
-		return apiResponse.serverErrorResponse(res, error.message);
-	}
-};
-
 /**
  * Update existing project controller.
  * Allows to update the following elements of a project: title, goal, summary, description, cover, tags, location, talentsNeeded, startDate, phase, objectives, creatorMotivation, visibility
@@ -449,7 +375,7 @@ const updateProject = async (req, res) => {
 			objectives: req.body.projectNewData.objectives || [],
 		};
 
-		// Validate input data for updating a project
+		// Validate input data for updating project
 		const validationResult = projectValidation.validateUpdatedProjectInputs(updatedProjectInputs);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
@@ -479,7 +405,118 @@ const updateProject = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, updateResult.message);
 		}
 
-		return apiResponse.successResponseWithData(res, updateResult.message, updateResult);
+		// Retrieve the updated project
+		const updatedProject = await projectService.retrieveProjectById(projectId, [
+			"-_id",
+			"title",
+			"goal",
+			"summary",
+			"description",
+			"cover",
+			"crush",
+			"category",
+			"subCategory",
+			"location",
+			"startDate",
+			"creatorMotivation",
+			"tags",
+			"talentsNeeded",
+			"objectives",
+			"updatedBy",
+			"visibility",
+			"status",
+			"privateData",
+			"createdAt",
+			"members",
+		]);
+		if (updatedProject.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updatedProject.message);
+		}
+
+		//Filter users public data from projects
+		const projectFiltered = filterTools.filterProjectOutputFields(updatedProject.project);
+		if (projectFiltered.status !== "success") {
+			return apiResponse.clientErrorResponse(res, projectFiltered.message);
+		}
+
+		return apiResponse.successResponseWithData(res, updateResult.message, projectFiltered.project);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+/**
+ * Update the draft section of a project controller.
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ * @returns {Object} - The response containing the created project or an error message.
+ */
+
+const updateProjectDraftSection = async (req, res) => {
+	try {
+		const { projectId = "" } = req.params;
+		const userId = req.userId;
+
+		//Retrieve and initialize project data
+		const projectDraftData = {
+			title: req.body.projectDraftData.title || "",
+			goal: req.body.projectDraftData.goal || "",
+			summary: req.body.projectDraftData.summary || "",
+			description: req.body.projectDraftData.description || "",
+			cover: req.body.projectDraftData.cover || "",
+			locationCountry: req.body.projectDraftData.locationCountry || "",
+			locationCity: req.body.projectDraftData.locationCity || "",
+			locationOnlineOnly: req.body.projectDraftData.locationOnlineOnly || "no value passed",
+			startDate: req.body.projectDraftData.startDate || "",
+			phase: req.body.projectDraftData.phase || "",
+			creatorMotivation: req.body.projectDraftData.creatorMotivation || "",
+			visibility: req.body.projectDraftData.visibility || "",
+			tags: req.body.projectDraftData.tags || [],
+			talentsNeeded: req.body.projectDraftData.talentsNeeded || [],
+			objectives: req.body.projectDraftData.objectives || [],
+		};
+
+		// Validate input data for updating project draft section
+		const validationResult = projectValidation.validateProjectDraftInputs(projectDraftData);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Validate Ids for updating project draft section
+		const validationIdsResult = projectValidation.validateProjectIdAndUserId(projectId, userId, "mandatory");
+		if (validationIdsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
+		}
+
+		// Filter on the fields that the user wants to update
+		const filterProjectInputs = filterTools.filterProjectFieldsToUpdate(projectDraftData);
+		// Retrieve only the keys of filtered fileds to be updated
+		const filterProjectInputsArray = Object.keys(filterProjectInputs);
+		// Check user rights for updating the project
+		const userRights = await userRightsService.validateUserRights(userId, projectId, filterProjectInputsArray);
+		if (!userRights.canEdit) {
+			return apiResponse.unauthorizedResponse(res, userRights.message);
+		}
+
+		// Update the project draft section
+		const updatedDraftResult = await projectService.updateProjectDraftSection(projectId, filterProjectInputs, userId);
+		if (updatedDraftResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updatedDraftResult.message);
+		}
+
+		// Retrieve the updated project
+		const updatedProject = await projectService.retrieveProjectById(projectId, ["-_id", "draft"]);
+		if (updatedProject.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updatedProject.message);
+		}
+
+		//Filter users public data from projects
+		const projectFiltered = filterTools.filterProjectOutputFields(updatedProject.project, userId);
+		if (projectFiltered.status !== "success") {
+			return apiResponse.clientErrorResponse(res, projectFiltered.message);
+		}
+
+		return apiResponse.successResponseWithData(res, updatedDraftResult.message, { project: projectFiltered.project });
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -534,32 +571,6 @@ const retrieveNewProjects = async (req, res) => {
 	}
 };
 
-const retrieveProjectOverview = async (req, res) => {
-	try {
-		const { projectId = "" } = req.params;
-
-		// Validate project ID
-		const validationResult = idsValidation.validateIdInput(projectId);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
-		}
-
-		const projectData = await projectService.retrieveProjectById(projectId, ["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility"], { visibility: "public" });
-		if (projectData.status !== "success") {
-			return apiResponse.serverErrorResponse(res, projectData.message);
-		}
-
-		//Filter users public data from projects
-		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project);
-		if (projectFiltered.status !== "success") {
-			return apiResponse.clientErrorResponse(res, projectFiltered.message);
-		}
-		return apiResponse.successResponseWithData(res, projectData.message, projectFiltered.project);
-	} catch (error) {
-		return apiResponse.serverErrorResponse(res, error.message);
-	}
-};
-
 const retrieveSubmittedProjects = async (req, res) => {
 	try {
 		const submittedProjects = await projectService.retrieveProjects(
@@ -597,6 +608,32 @@ const retrieveSubmittedProjects = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, submittedProjects.message);
 		}
 		return apiResponse.successResponseWithData(res, submittedProjects.message, submittedProjects.projects);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const retrieveProjectOverview = async (req, res) => {
+	try {
+		const { projectId = "" } = req.params;
+
+		// Validate project ID
+		const validationResult = idsValidation.validateIdInput(projectId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		const projectData = await projectService.retrieveProjectById(projectId, ["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility"], { visibility: "public" });
+		if (projectData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectData.message);
+		}
+
+		//Filter users public data from projects
+		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project);
+		if (projectFiltered.status !== "success") {
+			return apiResponse.clientErrorResponse(res, projectFiltered.message);
+		}
+		return apiResponse.successResponseWithData(res, projectData.message, projectFiltered.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -705,6 +742,7 @@ module.exports = {
 	submitProject,
 	processProjectApproval,
 	updateProject,
+	updateProjectDraftSection,
 	retrieveProjectPublicData,
 	retrieveNewProjects,
 	retrieveSubmittedProjects,
@@ -712,6 +750,4 @@ module.exports = {
 	retrieveProjectData,
 	countProjects,
 	countProjectsPerCategory,
-
-	saveProjectDraft,
 };

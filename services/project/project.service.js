@@ -121,23 +121,14 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 			return { status: "error", message: "Project not found." };
 		}
 
-		// Check if the user updater is the project creator
-		if (project.members[0].role !== "owner" || project.members[0].user.toString() !== objectIdUserIdUpdater.toString()) {
-			return { status: "error", message: "Only the creator of the project can edit the draft of the project." };
-		}
-
-		// Check if the project status is draft
-		if (project.statusInfo.currentStatus !== "draft") {
-			return { status: "error", message: "Project status not draft." };
-		}
-
 		// Verify that title does not already exists in the database
-		const titleCapitalized = updatedData.title.toUpperCase();
-		const existingTitle = await Project.findOne({ $and: [{ projectId: { $ne: projectId } }, { titleCapitalized }] });
-		if (existingTitle) {
-			return { status: "error", message: "Project title is not available." };
+		if (updatedData.title) {
+			const titleCapitalized = updatedData.title.toUpperCase();
+			const existingTitle = await Project.findOne({ $and: [{ projectId: { $ne: projectId } }, { titleCapitalized }] });
+			if (existingTitle) {
+				return { status: "error", message: "Project title is not available." };
+			}
 		}
-
 		// Define an object to store the fields that need to be updated
 		const updateFields = {};
 
@@ -318,11 +309,14 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 			return { status: "error", message: "Project not found." };
 		}
 
-		// Verify that title does not already exists in the database
-		const titleCapitalized = updatedData.title.toUpperCase();
-		const existingTitle = await Project.findOne({ $and: [{ projectId: { $ne: projectId } }, { titleCapitalized }] });
-		if (existingTitle) {
-			return { status: "error", message: "Project title is not available." };
+		// In case of title update, verify that title does not already exists in the database
+		if (updatedData.title) {
+			const titleCapitalized = updatedData.title.toUpperCase();
+
+			const existingTitle = await Project.findOne({ $and: [{ projectId: { $ne: projectId } }, { titleCapitalized }] });
+			if (existingTitle) {
+				return { status: "error", message: "Project title is not available." };
+			}
 		}
 
 		// Define an object to store the fields that need to be updated
@@ -378,6 +372,89 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 	}
 };
 
+const updateProjectDraftSection = async (projectId, updatedData, userIdUpdater) => {
+	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+		if (objectIdUserIdUpdater.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdater.message };
+		}
+
+		// Find the project by projectId
+		const project = await Project.findOne({ _id: objectIdProjectId });
+
+		// Check if the project exists
+		if (!project) {
+			return { status: "error", message: "Project not found." };
+		}
+
+		// In case of title update, verify that title does not already exists in the database
+		if (updatedData.title) {
+			const titleCapitalized = updatedData.title.toUpperCase();
+
+			const existingTitle = await Project.findOne({ $and: [{ projectId: { $ne: projectId } }, { titleCapitalized }] });
+			if (existingTitle) {
+				return { status: "error", message: "Project title is not available." };
+			}
+		}
+
+		// Define an object to store the fields that need to be updated
+		const updateFields = {};
+
+		// Define a mapping of fields between the updatedData object and the project object
+		const fieldMapping = {
+			title: "draft.title",
+			goal: "draft.goal",
+			summary: "draft.summary",
+			description: "draft.description",
+			cover: "draft.cover",
+			locationCity: "draft.location.city",
+			locationCountry: "draft.location.country",
+			locationOnlineOnly: "draft.location.onlineOnly",
+			startDate: "draft.startDate",
+			phase: "draft.phase",
+			creatorMotivation: "draft.creatorMotivation",
+			visibility: "draft.visibility",
+			tags: "draft.tags",
+			talentsNeeded: "draft.talentsNeeded",
+			objectives: "draft.objectives",
+		};
+
+		// Iterate through the fieldMapping and check if the field exists in updatedData
+		for (const key in fieldMapping) {
+			const projectField = fieldMapping[key];
+			if (updatedData.hasOwnProperty(key)) {
+				// If the field exists in updatedData, update the corresponding field in updateFields
+				updateFields[projectField] = updatedData[key];
+			}
+		}
+
+		// Update the project properties
+		project.set(updateFields);
+		project.draft.updatedBy = objectIdUserIdUpdater;
+
+		// Save the updated project
+		const updatedProject = await project.save();
+		logger.info(`Project draft section updated successfully. Project ID: ${projectId}`);
+		return {
+			status: "success",
+			message: "Project draft section updated successfully.",
+			updatedProject,
+		};
+	} catch (error) {
+		logger.error("Error while updating the project draft section: ", error);
+
+		return {
+			status: "error",
+			message: "An error occurred while updating the project draft section.",
+		};
+	}
+};
+
 /**
  * Retrieve project data by project ID.
  * @param {string} projectId - The ID of the project to retrieve.
@@ -399,8 +476,8 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 			.select(fieldsString)
 			.populate([
 				{ path: "category", select: "-_id name categoryId" },
-				{ path: "updatedBy", select: "-_id username profilePicture" },
-				{ path: "steps.updatedBy", select: "-_id username profilePicture" },
+				{ path: "updatedBy", select: "-_id username profilePicture userId" },
+				{ path: "steps.updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "members.user", select: "-_id username profilePicture userId" },
 			]); // Populate fields
 
@@ -446,8 +523,8 @@ const retrieveProjects = async (fields, conditions, limit) => {
 
 			query = query.select(fieldsString).populate([
 				{ path: "category", select: "-_id name categoryId" },
-				{ path: "updatedBy", select: "-_id username profilePicture" },
-				{ path: "steps.updatedBy", select: "-_id username profilePicture" },
+				{ path: "updatedBy", select: "-_id username profilePicture userId" },
+				{ path: "steps.updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "members.user", select: "-_id username profilePicture userId" },
 			]); // Populate fields
 		}
@@ -585,6 +662,7 @@ module.exports = {
 	removeProjectDraft,
 	processProjectApproval,
 	updateProject,
+	updateProjectDraftSection,
 	retrieveProjectById,
 	retrieveProjects,
 	countNumberProjects,

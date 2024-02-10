@@ -208,7 +208,7 @@ Order of priorities: ❤ > 💛 > 💚
 
 ---
 
-- [ ] Complete filterings public data ❤
+- [x] Complete filterings public data ❤
 - [ ] Finish the refactor of project status ❤
 - [ ] Retrieve all former project status ❤
 - [ ] Save project draft ❤
