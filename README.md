@@ -118,7 +118,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Retrieve one join project invitation
   - [x] Send draft join project invitation
   - [x] Accept/decline join project invitation
-- [ ] Improvements (Brainstorms/clarifications needed) 💚❤
+- [x] Improvements (Brainstorms/clarifications needed)
   - [x] Retrieve specific data (GET requests)
     - [x] Retrieve project all data
     - [x] Retrieve last projects overview (when project is public)
@@ -128,9 +128,9 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Allow multiple database connections
   - [x] Admin Login
   - [x] User routes (overview and public)
-  - [ ] Project 💚❤
+  - [x] Project
     - [x] New fields (coup de coeur)
-    - [ ] Project routes (creation, draft, submission) ❤
+    - [x] Project routes (creation, draft, submission)
       - [x] Create project draft
       - [x] Update project draft
       - [x] Remove project draft
@@ -141,22 +141,12 @@ Don't let your ideas and talents go to waste – join Sheepy now!
       - [x] Send email notification to project creator for project approval
       - [x] Refactor email template
       - [x] Add project status history (array of updates dateTime and modifiedBy)
-      - [x] Complete filterings public data ❤
-      - [x] Save project draft ❤
-      - [ ] Finish the refactor of project status ❤
-      - [ ] Retrieve all former project status ❤
-    - [ ] projectLikePublic ❤
-      - [x] When retrieving project likes: count all like but replace user private likes by "private user" ❤
-      - [x] When retrieving user likes: separate userlikes "Project I likes" (private, user userId from login info) and "public user page" (show only if projectLikePublic is true) ❤
-      - [ ] Update user profile (set projectLikePublic to true or false) ❤
-    - [ ] Upload images ❤
-    - [x] Use Axios instead of fetch ❤
-    - [ ] Edit project attachments 💚
-  - [ ] User 💚❤
-    - [ ] Update user privacy data ❤
-    - [ ] Talents portfolio 💚
-    - [ ] Share talent? 💚
-  - [ ] Set email templates in database to be editable 💚
+      - [x] Complete filterings public data
+      - [x] Save project draft
+    - [x] projectLikePublic
+      - [x] When retrieving project likes: count all like but replace user private likes by "private user"
+      - [x] When retrieving user likes: separate userlikes "Project I likes" (private, user userId from login info) and "public user page" (show only if projectLikePublic is true)
+    - [x] Use Axios instead of fetch
 - [x] likes
   - [x] Add likes to the project model
   - [x] Add like
@@ -186,35 +176,48 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Retrieve Comments
     - [x] Build comments tree by nesting answers in parent comments
     - [x] Reorder parent-comments from newest to oldest
-- [ ] Friends 💛
-  - [ ] Define friend model 💛
-  - [ ] Send friend request 💛
-  - [ ] Cancel friend request 💛
-  - [ ] Retrieve friend requests 💛
-  - [ ] Accept/decline friend request 💛
-- [ ] Messenger 💛
-  - [ ] Define messenger model 💛
-- [ ] Search 💛
-  - [ ] Filter by categories/sub-categories 💛
-  - [ ] Filter by locations 💛
-  - [ ] Filter by talents needed 💛
-  - [ ] Filter by tags 💛
-- [ ] O-Auth 💚
-- [ ] Add properties to projects: 💚
-  - [ ] Applications authorized 💚
-  - [ ] Language(s) of the project 💚
-
-Order of priorities: ❤ > 💛 > 💚
 
 ---
 
-- [ ] Finish the refactor of project status ❤
-- [ ] Retrieve all former project status ❤
-- [ ] Update user profile (set projectLikePublic to true or false) ❤
-- [ ] Update user privacy data ❤
+### ❤ Last required improvements
+
+- [ ] Project ❤
+  - [ ] Finish the refactor of project status ❤
+  - [ ] Retrieve all former project status ❤
+- [ ] User ❤
+  - [ ] Update user privacy data (also projectLikePublic to true or false) ❤
 - [ ] Upload images ❤
 
 ---
+
+### 💛💚 Complementary features
+
+- Complementary features:
+  - [ ] Search 💛
+    - [ ] Filter by categories/sub-categories 💛
+    - [ ] Filter by locations 💛
+    - [ ] Filter by talents needed 💛
+    - [ ] Filter by tags 💛
+  - [ ] Friends 💛
+    - [ ] Define friend model 💛
+    - [ ] Send friend request 💛
+    - [ ] Cancel friend request 💛
+    - [ ] Retrieve friend requests 💛
+    - [ ] Accept/decline friend request 💛
+  - [ ] Messenger 💛
+    - [ ] Define messenger model 💛
+  - [ ] O-Auth 💚
+  - [ ] Set email templates in database to be editable 💚
+  - [ ] Project: 💚
+    - [ ] Edit project attachments 💚
+    - [ ] Add properties to projects: 💚
+      - [ ] Applications authorized 💚
+      - [ ] Language(s) of the project 💚
+  - [ ] User: 💚
+    - [ ] Talents portfolio 💚
+    - [ ] Share talent? 💚
+
+Order of priorities: ❤ > 💛 > 💚
 
 ## 📦 Installation
 
@@ -260,6 +263,7 @@ src
 │       └───validation
 └───utils                 # Utility classes and functions
     ├───email
+    ├───queries
     ├───scripts
     ├───tools
     └───validation
