@@ -141,9 +141,9 @@ Don't let your ideas and talents go to waste – join Sheepy now!
       - [x] Send email notification to project creator for project approval
       - [x] Refactor email template
       - [x] Add project status history (array of updates dateTime and modifiedBy)
-      - [ ] Complete filterings public data ❤
+      - [x] Complete filterings public data ❤
+      - [x] Save project draft ❤
       - [ ] Finish the refactor of project status ❤
-      - [ ] Save project draft ❤
       - [ ] Retrieve all former project status ❤
     - [ ] projectLikePublic ❤
       - [x] When retrieving project likes: count all like but replace user private likes by "private user" ❤
@@ -208,10 +208,8 @@ Order of priorities: ❤ > 💛 > 💚
 
 ---
 
-- [x] Complete filterings public data ❤
 - [ ] Finish the refactor of project status ❤
 - [ ] Retrieve all former project status ❤
-- [ ] Save project draft ❤
 - [ ] Update user profile (set projectLikePublic to true or false) ❤
 - [ ] Update user privacy data ❤
 - [ ] Upload images ❤

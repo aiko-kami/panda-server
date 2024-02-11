@@ -1,3 +1,5 @@
+const { convertIdToObjectId } = require("./encrypt.tools");
+
 const filterProjectFieldsToUpdate = (projectData) => {
 	try {
 		const filteredInputs = {};
@@ -147,52 +149,61 @@ const filterUserFieldsToUpdate = (data) => {
 	}
 };
 
-const filterUserOutputFields = (user) => {
+const handleUserFiltering = (user, userId) => {
 	try {
+		let objectIdUserId = userId;
+		if (userId !== "unknown") {
+			// Convert id to ObjectId
+			objectIdUserId = convertIdToObjectId(userId);
+			if (objectIdUserId.status == "error") {
+				return { status: "error", message: objectIdUserId.message };
+			}
+		}
+
 		if (user.profilePicture) {
-			if (user.profilePicture.privacy !== "public") {
+			if (user.profilePicture.privacy !== "public" && user._id !== objectIdUserId) {
 				user.profilePicture = undefined;
 			} else {
 				user.profilePicture.privacy = undefined;
 			}
 		}
 		if (user.location && user.location.city) {
-			if (user.location.city.privacy !== "public") {
+			if (user.location.city.privacy !== "public" && user._id !== objectIdUserId) {
 				user.location.city = undefined;
 			} else {
 				user.location.city.privacy = undefined;
 			}
 		}
 		if (user.location && user.location.country) {
-			if (user.location.country.privacy !== "public") {
+			if (user.location.country.privacy !== "public" && user._id !== objectIdUserId) {
 				user.location.country = undefined;
 			} else {
 				user.location.country.privacy = undefined;
 			}
 		}
 		if (user.company) {
-			if (user.company.privacy !== "public") {
+			if (user.company.privacy !== "public" && user._id !== objectIdUserId) {
 				user.company = undefined;
 			} else {
 				user.company.privacy = undefined;
 			}
 		}
 		if (user.bio) {
-			if (user.bio.privacy !== "public") {
+			if (user.bio.privacy !== "public" && user._id !== objectIdUserId) {
 				user.bio = undefined;
 			} else {
 				user.bio.privacy = undefined;
 			}
 		}
 		if (user.languages) {
-			if (user.languages.privacy !== "public") {
+			if (user.languages.privacy !== "public" && user._id !== objectIdUserId) {
 				user.languages = undefined;
 			} else {
 				user.languages.privacy = undefined;
 			}
 		}
 		if (user.website) {
-			if (user.website.privacy !== "public") {
+			if (user.website.privacy !== "public" && user._id !== objectIdUserId) {
 				user.website = undefined;
 			} else {
 				user.website.privacy = undefined;
@@ -201,68 +212,25 @@ const filterUserOutputFields = (user) => {
 		if (user._id) {
 			user._id = undefined;
 		}
+		return user;
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
 
+const filterUserOutputFields = (user, userId) => {
+	try {
+		user = handleUserFiltering(user, userId);
 		return { status: "success", message: "User filtered successfully.", user };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}
 };
 
-const filterUsersOutputFields = (users) => {
+const filterUsersOutputFields = (users, userId) => {
 	try {
 		for (let user of users) {
-			if (user.profilePicture) {
-				if (user.profilePicture.privacy !== "public") {
-					user.profilePicture = undefined;
-				} else {
-					user.profilePicture.privacy = undefined;
-				}
-			}
-			if (user.location && user.location.city) {
-				if (user.location.city.privacy !== "public") {
-					user.location.city = undefined;
-				} else {
-					user.location.city.privacy = undefined;
-				}
-			}
-			if (user.location && user.location.country) {
-				if (user.location.country.privacy !== "public") {
-					user.location.country = undefined;
-				} else {
-					user.location.country.privacy = undefined;
-				}
-			}
-			if (user.company) {
-				if (user.company.privacy !== "public") {
-					user.company = undefined;
-				} else {
-					user.company.privacy = undefined;
-				}
-			}
-			if (user.bio) {
-				if (user.bio.privacy !== "public") {
-					user.bio = undefined;
-				} else {
-					user.bio.privacy = undefined;
-				}
-			}
-			if (user.languages) {
-				if (user.languages.privacy !== "public") {
-					user.languages = undefined;
-				} else {
-					user.languages.privacy = undefined;
-				}
-			}
-			if (user.website) {
-				if (user.website.privacy !== "public") {
-					user.website = undefined;
-				} else {
-					user.website.privacy = undefined;
-				}
-			}
-			if (user._id) {
-				user._id = undefined;
-			}
+			user = handleUserFiltering(user, userId);
 		}
 		return { status: "success", message: "Users filtered successfully.", users };
 	} catch (error) {
@@ -270,35 +238,46 @@ const filterUsersOutputFields = (users) => {
 	}
 };
 
-const filterProjectsOutputFields = (projects) => {
+const handleProjectFiltering = (project, userId) => {
+	try {
+		if (project.draft && project.draft.updatedBy) {
+			project.draft.updatedBy = filterUserOutputFields(project.draft.updatedBy, userId).user;
+		}
+		if (project.updatedBy) {
+			project.updatedBy = filterUserOutputFields(project.updatedBy, userId).user;
+		}
+		if (project.steps && project.steps.updatedBy) {
+			project.steps.updatedBy = filterUserOutputFields(project.steps.updatedBy, userId).user;
+		}
+		if (project.QAs && project.QAs.updatedBy) {
+			project.QAs.updatedBy = filterUserOutputFields(project.QAs.updatedBy, userId).user;
+		}
+		if (project.members) {
+			for (let member of project.members) {
+				console.log("🚀 ~ handleProjectFiltering ~ member:", member);
+
+				if (member.user) {
+					member.user = filterUserOutputFields(member.user, userId).user;
+				}
+			}
+		}
+		if (project.statusInfo && project.statusInfo.statusHistory) {
+			for (let statusHist of project.statusInfo.statusHistory) {
+				if (statusHist.updatedBy) {
+					statusHist.updatedBy = filterUserOutputFields(statusHist.updatedBy, userId).user;
+				}
+			}
+		}
+		return project;
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
+
+const filterProjectsOutputFields = (projects, userId) => {
 	try {
 		for (let project of projects) {
-			if (project.draft && project.draft.updatedBy) {
-				project.draft.updatedBy = filterUserOutputFields(project.draft.updatedBy).user;
-			}
-			if (project.updatedBy) {
-				project.updatedBy = filterUserOutputFields(project.updatedBy).user;
-			}
-			if (project.steps && project.steps.updatedBy) {
-				project.steps.updatedBy = filterUserOutputFields(project.steps.updatedBy).user;
-			}
-			if (project.QAs && project.QAs.updatedBy) {
-				project.QAs.updatedBy = filterUserOutputFields(project.QAs.updatedBy).user;
-			}
-			if (project.members) {
-				for (let member of project.members) {
-					if (member.user) {
-						member.user = filterUserOutputFields(member.user).user;
-					}
-				}
-			}
-			if (project.statusInfo && project.statusInfo.statusHistory) {
-				for (let statusHis of project.statusInfo.statusHistory) {
-					if (statusHis.updatedBy) {
-						statusHis.updatedBy = filterUserOutputFields(statusHis.updatedBy).user;
-					}
-				}
-			}
+			project = handleProjectFiltering(project, userId);
 		}
 		return { status: "success", message: "Projects filtered successfully.", projects };
 	} catch (error) {
@@ -308,32 +287,7 @@ const filterProjectsOutputFields = (projects) => {
 
 const filterProjectOutputFields = (project, userId) => {
 	try {
-		if (project.draft && project.draft.updatedBy) {
-			project.draft.updatedBy = filterUserOutputFields(project.draft.updatedBy).user;
-		}
-		if (project.updatedBy) {
-			project.updatedBy = filterUserOutputFields(project.updatedBy).user;
-		}
-		if (project.steps && project.steps.updatedBy) {
-			project.steps.updatedBy = filterUserOutputFields(project.steps.updatedBy).user;
-		}
-		if (project.QAs && project.QAs.updatedBy) {
-			project.QAs.updatedBy = filterUserOutputFields(project.QAs.updatedBy).user;
-		}
-		if (project.members) {
-			for (let member of project.members) {
-				if (member.user) {
-					member.user = filterUserOutputFields(member.user).user;
-				}
-			}
-		}
-		if (project.statusInfo && project.statusInfo.statusHistory) {
-			for (let statusHis of project.statusInfo.statusHistory) {
-				if (statusHis.updatedBy) {
-					statusHis.updatedBy = filterUserOutputFields(statusHis.updatedBy).user;
-				}
-			}
-		}
+		project = handleProjectFiltering(project, userId);
 		return { status: "success", message: "Project filtered successfully.", project };
 	} catch (error) {
 		return { status: "error", message: error.message };

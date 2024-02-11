@@ -434,7 +434,7 @@ const updateProject = async (req, res) => {
 		}
 
 		//Filter users public data from projects
-		const projectFiltered = filterTools.filterProjectOutputFields(updatedProject.project);
+		const projectFiltered = filterTools.filterProjectOutputFields(updatedProject.project, userId);
 		if (projectFiltered.status !== "success") {
 			return apiResponse.clientErrorResponse(res, projectFiltered.message);
 		}
@@ -536,7 +536,7 @@ const retrieveProjectPublicData = async (req, res) => {
 		}
 
 		//Filter users public data from project
-		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project);
+		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project, "unknown");
 		if (projectFiltered.status !== "success") {
 			return apiResponse.clientErrorResponse(res, projectFiltered.message);
 		}
@@ -629,7 +629,7 @@ const retrieveProjectOverview = async (req, res) => {
 		}
 
 		//Filter users public data from projects
-		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project);
+		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project, "unknown");
 		if (projectFiltered.status !== "success") {
 			return apiResponse.clientErrorResponse(res, projectFiltered.message);
 		}
@@ -697,7 +697,7 @@ const retrieveProjectData = async (req, res) => {
 		}
 
 		//Filter users public data from projects
-		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project);
+		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project, userId);
 		if (projectFiltered.status !== "success") {
 			return apiResponse.clientErrorResponse(res, projectFiltered.message);
 		}
