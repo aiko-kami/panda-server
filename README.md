@@ -190,7 +190,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
 
 ---
 
-### 💛💚 Complementary features
+### 💛&💚 Complementary features
 
 - Complementary features:
   - [ ] Search 💛
