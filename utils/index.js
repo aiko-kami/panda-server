@@ -12,10 +12,13 @@ module.exports.idsValidation = require("./validation/ids.validation");
 module.exports.stringValidation = require("./validation/string.validation");
 
 // Tools
-module.exports.userTools = require("./tools/user.tools");
+module.exports.filterTools = require("./tools/filter.tools");
 module.exports.idTools = require("./tools/id.tools");
-module.exports.projectTools = require("./tools/project.tools");
+module.exports.statusTools = require("./tools/status.tools");
 module.exports.encryptTools = require("./tools/encrypt.tools");
+
+// Queries
+module.exports.aggregateQueries = require("./queries/aggregateQueries");
 
 // Others
 module.exports.apiResponse = require("./apiResponse");

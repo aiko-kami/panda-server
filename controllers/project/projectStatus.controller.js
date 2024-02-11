@@ -11,10 +11,10 @@ const updateProjectStatus = async (req, res) => {
 	try {
 		const userIdUpdater = req.userId;
 		const { projectId = "" } = req.params;
-		const { newStatus = "" } = req.body;
+		const { newStatus = "", reason = "" } = req.body;
 
 		// Validate input data for updating project status
-		const validationResult = statusValidation.validateStatusInputs(userIdUpdater, projectId, newStatus);
+		const validationResult = statusValidation.validateStatusInputs(userIdUpdater, projectId, newStatus, reason);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
@@ -30,7 +30,7 @@ const updateProjectStatus = async (req, res) => {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to update status for this project.");
 		}
 
-		const updateStatusResult = await statusService.updateStatus(projectId, userIdUpdater, newStatus);
+		const updateStatusResult = await statusService.updateStatus(projectId, userIdUpdater, newStatus, reason);
 		if (updateStatusResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updateStatusResult.message);
 		}

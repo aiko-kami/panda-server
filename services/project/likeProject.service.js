@@ -1,5 +1,5 @@
 const { Project, LikeProject } = require("../../models");
-const { logger, encryptTools } = require("../../utils");
+const { logger, encryptTools, aggregateQueries, filterTools } = require("../../utils");
 
 /**
  * Update project like. Allow users to like projects and unlike them. Retrieve likes for a project and for a user
@@ -134,10 +134,7 @@ const retrieveProjectLikes = async (projectId) => {
 			return { status: "error", message: "Project not found." };
 		}
 
-		const projectLikes = await LikeProject.find({ project: objectIdProjectId })
-			.select("-_id likeProjectId createdAt")
-			.sort({ createdAt: -1 })
-			.populate([{ path: "user", select: "-_id username profilePicture userId" }]);
+		const projectLikes = await LikeProject.aggregate(aggregateQueries.projectLikePublicQuery(objectIdProjectId));
 
 		// If no like found for the project
 		if (!projectLikes || projectLikes.length === 0) {
@@ -145,10 +142,9 @@ const retrieveProjectLikes = async (projectId) => {
 			return { status: "success", message: `No like found for this project.`, projectLikes };
 		}
 
+		//Filter users public data from comment
 		for (let pl of projectLikes) {
-			if (pl.user.profilePicture.privacy !== "public") {
-				pl.user.profilePicture = undefined;
-			}
+			pl.user = filterTools.filterUserOutputFields(pl.user).user;
 		}
 
 		const nbProjectLikes = projectLikes.length;

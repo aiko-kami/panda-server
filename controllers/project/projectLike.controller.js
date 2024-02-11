@@ -1,5 +1,5 @@
-const { likeProjectService } = require("../../services");
-const { apiResponse, idsValidation } = require("../../utils");
+const { likeProjectService, userService } = require("../../services");
+const { apiResponse, idsValidation, filterTools } = require("../../utils");
 
 /**
  * Update project Like controller.
@@ -63,22 +63,64 @@ const unlikeProject = async (req, res) => {
 };
 
 // Retrive all the project that a user likes
-const retrieveUserLikes = async (req, res) => {
+const retrieveUserPublicLikes = async (req, res) => {
+	try {
+		const { userId = "" } = req.body;
+
+		// Validate input data
+		const validationResult = idsValidation.validateIdInput(userId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Retrieve user to verify if user likes are public
+		const userRetrieved = await userService.retrieveUserById(userId, ["projectLikePublic", "-_id", "userId", "username", "profilePicture", "projectLikePublic"]);
+		if (userRetrieved.status !== "success") {
+			return apiResponse.clientErrorResponse(res, userRetrieved.message);
+		}
+
+		//Filter user public data from user
+		const userFiltered = filterTools.filterUserOutputFields(userRetrieved.user);
+		if (userFiltered.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userFiltered.message);
+		}
+
+		// In case user likes are private return message likes are private
+		if (!userRetrieved.user.projectLikePublic) {
+			userRetrieved.user.projectLikePublic = undefined;
+			return apiResponse.successResponseWithData(res, "User project likes are private", { user: userFiltered.user });
+
+			// In case user likes are public retrive the projects that user likes
+		} else if (userRetrieved.user.projectLikePublic) {
+			userRetrieved.user.projectLikePublic = undefined;
+			const likeResult = await likeProjectService.retrieveUserLikes(userId);
+			if (likeResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, likeResult.message);
+			}
+
+			return apiResponse.successResponseWithData(res, likeResult.message, { user: userFiltered.user, userLikes: likeResult.userLikes });
+		}
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+// Retrive all the project that current connected user likes
+const retrieveUserPrivateLikes = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		// Validate input data for updating project like
+		// Validate input data
 		const validationResult = idsValidation.validateIdInput(userId);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
 		const likeResult = await likeProjectService.retrieveUserLikes(userId);
-
 		if (likeResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, likeResult.message);
 		}
-		return apiResponse.successResponseWithData(res, likeResult.message, likeResult.userLikes);
+		return apiResponse.successResponseWithData(res, likeResult.message, { userLikes: likeResult.userLikes });
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -109,6 +151,7 @@ const retrieveProjectLikes = async (req, res) => {
 module.exports = {
 	likeProject,
 	unlikeProject,
-	retrieveUserLikes,
+	retrieveUserPublicLikes,
+	retrieveUserPrivateLikes,
 	retrieveProjectLikes,
 };

@@ -18,7 +18,7 @@ projectRoute.post("/processProjectApproval", verifyAdminAccess, projectControlle
 
 // Project update
 projectRoute.patch("/updateProject/:projectId", verifyAccess, projectController.updateProject);
-projectRoute.patch("/saveProjectDraft/:projectId", verifyAccess, projectController.saveProjectDraft);
+projectRoute.patch("/updateProjectDraftSection/:projectId", verifyAccess, projectController.updateProjectDraftSection);
 
 // Retrieve project data
 projectRoute.get("/projectData/:projectId", verifyAccess, projectController.retrieveProjectData);

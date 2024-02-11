@@ -1,0 +1,79 @@
+Where to implement the filters for public data:
+	retrieveProjectPublicData  OK
+	retrieveProjectOverview  OK
+	retrieveProjectData  OK
+	retrieveProjectComments  OK
+	retrieveProjectQAsPublished  OK
+	retrieveProjectQAsAll  OK
+	retrieveProjectStepsPublished  OK
+	retrieveProjectStepsAll  OK
+	retrieveUserLikes  OK
+	retrieveProjectLikes  OK
+	updateProject  OK
+	saveProjectDraft  OK
+==> Filter one project-------------------
+
+	retrieveNewProjects  OK
+	retrieveCrushProjects  OK
+==> Filter array of projects-------------
+
+	retrieveUserPublicData  OK
+	retrieveUserOverview  OK
+==> Filter one user---------------------
+
+	retrieveNewUsers  OK
+==> Filter array of users---------------
+
+Total = 0 remaining
+
+////////////////////////////////////////////////////////////////////
+
+Filters to do
+
+comment model:
+project
+author (user)
+isReportedBy (user)
+
+crushProject model:
+project
+updatedBy (user)
+
+joinProject model:
+project
+sender (user)
+receiver (user)
+updatedBy (user)
+
+likeProject model:
+project
+user
+
+project model:
+draft.updatedBy (user)
+steps.updatedBy (user)
+QAs.updatedBy (user)
+updatedBy (user)
+statusInfo.? (user)
+members.user (user)
+
+projectRights model:
+project
+user
+updatedBy (user)
+
+refreshToken model:
+user
+
+resetPasswordToken model:
+user
+
+user model:
+profilePicture
+location.city
+location.country
+company
+bio
+languages
+website
+

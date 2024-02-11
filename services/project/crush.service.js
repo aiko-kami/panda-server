@@ -103,8 +103,10 @@ const retrieveCrushProjects = async (fields, conditions, limit) => {
 			.sort({ createdAt: -1 })
 			.limit(limit)
 			.populate([
-				{ path: "category", select: "-_id name" },
-				{ path: "members.user", select: "-_id username profilePicture" },
+				{ path: "category", select: "-_id name categoryId" },
+				{ path: "updatedBy", select: "-_id username profilePicture" },
+				{ path: "steps.updatedBy", select: "-_id username profilePicture" },
+				{ path: "members.user", select: "-_id username profilePicture userId" },
 			]); // Populate the 'category' and 'members.user' fields
 		if (fields) {
 			const fieldsString = fields.join(" ");
@@ -112,7 +114,31 @@ const retrieveCrushProjects = async (fields, conditions, limit) => {
 			query = query.select(fieldsString);
 		}
 		// select(`-_id -__v ${fields}`)
-		const projects = await query;
+		const projectsRetrieved = await query;
+
+		if (!projectsRetrieved || projectsRetrieved.length === 0) {
+			logger.info(`No project found.`);
+			return { status: "success", message: "No project found." };
+		}
+
+		let projects = projectsRetrieved.map((project) => {
+			let modifiedProject = project.toObject();
+
+			if (!fields.includes("category")) {
+				modifiedProject.category = undefined;
+			}
+			if (!fields.includes("updatedBy")) {
+				modifiedProject.updatedBy = undefined;
+			}
+			if (!fields.includes("steps")) {
+				modifiedProject.steps = undefined;
+			}
+			if (!fields.includes("members")) {
+				modifiedProject.members = undefined;
+			}
+
+			return modifiedProject;
+		});
 
 		const nbCrushProjects = projects.length;
 

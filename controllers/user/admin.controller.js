@@ -1,4 +1,4 @@
-const { apiResponse, userValidation, authValidation, userTools } = require("../../utils");
+const { apiResponse, userValidation, authValidation, filterTools } = require("../../utils");
 const { adminService } = require("../../services");
 
 const retrieveMyUserData = async (req, res) => {
@@ -48,7 +48,7 @@ const updateUser = async (req, res) => {
 		}
 
 		// Filter on the fields that the user wants to update
-		const filterUserInputs = userTools.filterFieldsToUpdate(updatedUserInputs);
+		const filterUserInputs = filterTools.filterUserFieldsToUpdate(updatedUserInputs);
 
 		//Verify that the email (if modified) is available
 		if (filterUserInputs.email) {

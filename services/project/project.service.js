@@ -1,5 +1,6 @@
 const { Project, Category } = require("../../models");
 const { logger, encryptTools } = require("../../utils");
+const { DateTime } = require("luxon");
 
 /**
  * Create a new project.
@@ -24,6 +25,19 @@ const createProject = async (projectData) => {
 			onlineOnly: projectData.locationOnlineOnly,
 		};
 
+		const projectStatus = {
+			currentStatus: projectData.status,
+			reason: projectData.statusReason,
+			statusHistory: [
+				{
+					status: projectData.status,
+					reason: projectData.statusReason,
+					updatedBy: objectIdCreatorId,
+					timestamp: DateTime.now().toHTTP(),
+				},
+			],
+		};
+
 		// Verify that title does not already exists in the database
 		const titleCapitalized = projectData.title.toUpperCase();
 		const existingTitle = await Project.findOne({ titleCapitalized });
@@ -41,7 +55,7 @@ const createProject = async (projectData) => {
 			cover: projectData.cover,
 			category: objectIdCategoryId,
 			subCategory: projectData.subCategory,
-			status: projectData.status,
+			statusInfo: projectStatus,
 			privateData: {},
 			location: projectLocation,
 			startDate: projectData.startDate !== "" ? projectData.startDate : undefined,
@@ -52,6 +66,7 @@ const createProject = async (projectData) => {
 			members: [{ user: objectIdCreatorId, role: "owner" }],
 			talentsNeeded: projectData.talentsNeeded,
 			objectives: projectData.objectives,
+			createdAt: DateTime.now().toHTTP(),
 		});
 
 		// Save the project to the database
@@ -106,23 +121,14 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 			return { status: "error", message: "Project not found." };
 		}
 
-		// Check if the user updater is the project creator
-		if (project.members[0].role !== "owner" || project.members[0].user.toString() !== objectIdUserIdUpdater.toString()) {
-			return { status: "error", message: "Only the creator of the project can edit the draft of the project." };
-		}
-
-		// Check if the project status is draft
-		if (project.status !== "draft") {
-			return { status: "error", message: "Project status not draft." };
-		}
-
 		// Verify that title does not already exists in the database
-		const titleCapitalized = updatedData.title.toUpperCase();
-		const existingTitle = await Project.findOne({ $and: [{ projectId: { $ne: projectId } }, { titleCapitalized }] });
-		if (existingTitle) {
-			return { status: "error", message: "Project title is not available." };
+		if (updatedData.title) {
+			const titleCapitalized = updatedData.title.toUpperCase();
+			const existingTitle = await Project.findOne({ $and: [{ projectId: { $ne: projectId } }, { titleCapitalized }] });
+			if (existingTitle) {
+				return { status: "error", message: "Project title is not available." };
+			}
 		}
-
 		// Define an object to store the fields that need to be updated
 		const updateFields = {};
 
@@ -143,7 +149,6 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 			tags: "tags",
 			talentsNeeded: "talentsNeeded",
 			objectIdProjectId: "updatedBy",
-			status: "status",
 		};
 
 		// Iterate through the fieldMapping and check if the field exists in updatedData
@@ -174,10 +179,10 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 			member._id = undefined;
 		}
 
-		logger.info(`Project updated successfully. Project ID: ${projectId} - Project status: ${projectOutput.status}`);
+		logger.info(`Project updated successfully. Project ID: ${projectId} - Project status: ${projectOutput.statusInfo.currentStatus}`);
 		return {
 			status: "success",
-			message: `Project updated successfully. Project status: ${projectOutput.status}`,
+			message: `Project updated successfully. Project status: ${projectOutput.statusInfo.currentStatus}`,
 			project: updatedProject,
 		};
 	} catch (error) {
@@ -216,7 +221,7 @@ const removeProjectDraft = async (projectId, userIdUpdater) => {
 		}
 
 		// Check if the project status
-		if (project.status !== "draft") {
+		if (project.statusInfo.currentStatus !== "draft") {
 			return { status: "error", message: "Project status not draft." };
 		}
 
@@ -257,16 +262,16 @@ const processProjectApproval = async (projectId, projectApproval, adminUserId) =
 		}
 
 		// Check if the project status
-		if (project.status !== "submitted") {
+		if (project.statusInfo.currentStatus !== "submitted") {
 			return { status: "error", message: "Project status not submitted." };
 		}
 
 		// Update the project status
 		if (projectApproval.approval === "approved") {
-			project.status = "active";
+			project.statusInfo.currentStatus = "active";
 		} else if (projectApproval.approval === "rejected") {
-			project.status = "rejected";
-			project.statusReason = projectApproval.reason;
+			project.statusInfo.currentStatus = "rejected";
+			project.statusInfo.reason = projectApproval.reason;
 		}
 
 		// Save the updated project
@@ -304,11 +309,14 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 			return { status: "error", message: "Project not found." };
 		}
 
-		// Verify that title does not already exists in the database
-		const titleCapitalized = updatedData.title.toUpperCase();
-		const existingTitle = await Project.findOne({ $and: [{ projectId: { $ne: projectId } }, { titleCapitalized }] });
-		if (existingTitle) {
-			return { status: "error", message: "Project title is not available." };
+		// In case of title update, verify that title does not already exists in the database
+		if (updatedData.title) {
+			const titleCapitalized = updatedData.title.toUpperCase();
+
+			const existingTitle = await Project.findOne({ $and: [{ projectId: { $ne: projectId } }, { titleCapitalized }] });
+			if (existingTitle) {
+				return { status: "error", message: "Project title is not available." };
+			}
 		}
 
 		// Define an object to store the fields that need to be updated
@@ -364,6 +372,89 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 	}
 };
 
+const updateProjectDraftSection = async (projectId, updatedData, userIdUpdater) => {
+	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+		if (objectIdUserIdUpdater.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdater.message };
+		}
+
+		// Find the project by projectId
+		const project = await Project.findOne({ _id: objectIdProjectId });
+
+		// Check if the project exists
+		if (!project) {
+			return { status: "error", message: "Project not found." };
+		}
+
+		// In case of title update, verify that title does not already exists in the database
+		if (updatedData.title) {
+			const titleCapitalized = updatedData.title.toUpperCase();
+
+			const existingTitle = await Project.findOne({ $and: [{ projectId: { $ne: projectId } }, { titleCapitalized }] });
+			if (existingTitle) {
+				return { status: "error", message: "Project title is not available." };
+			}
+		}
+
+		// Define an object to store the fields that need to be updated
+		const updateFields = {};
+
+		// Define a mapping of fields between the updatedData object and the project object
+		const fieldMapping = {
+			title: "draft.title",
+			goal: "draft.goal",
+			summary: "draft.summary",
+			description: "draft.description",
+			cover: "draft.cover",
+			locationCity: "draft.location.city",
+			locationCountry: "draft.location.country",
+			locationOnlineOnly: "draft.location.onlineOnly",
+			startDate: "draft.startDate",
+			phase: "draft.phase",
+			creatorMotivation: "draft.creatorMotivation",
+			visibility: "draft.visibility",
+			tags: "draft.tags",
+			talentsNeeded: "draft.talentsNeeded",
+			objectives: "draft.objectives",
+		};
+
+		// Iterate through the fieldMapping and check if the field exists in updatedData
+		for (const key in fieldMapping) {
+			const projectField = fieldMapping[key];
+			if (updatedData.hasOwnProperty(key)) {
+				// If the field exists in updatedData, update the corresponding field in updateFields
+				updateFields[projectField] = updatedData[key];
+			}
+		}
+
+		// Update the project properties
+		project.set(updateFields);
+		project.draft.updatedBy = objectIdUserIdUpdater;
+
+		// Save the updated project
+		const updatedProject = await project.save();
+		logger.info(`Project draft section updated successfully. Project ID: ${projectId}`);
+		return {
+			status: "success",
+			message: "Project draft section updated successfully.",
+			updatedProject,
+		};
+	} catch (error) {
+		logger.error("Error while updating the project draft section: ", error);
+
+		return {
+			status: "error",
+			message: "An error occurred while updating the project draft section.",
+		};
+	}
+};
+
 /**
  * Retrieve project data by project ID.
  * @param {string} projectId - The ID of the project to retrieve.
@@ -385,8 +476,8 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 			.select(fieldsString)
 			.populate([
 				{ path: "category", select: "-_id name categoryId" },
-				{ path: "updatedBy", select: "-_id username profilePicture" },
-				{ path: "steps.updatedBy", select: "-_id username profilePicture" },
+				{ path: "updatedBy", select: "-_id username profilePicture userId" },
+				{ path: "steps.updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "members.user", select: "-_id username profilePicture userId" },
 			]); // Populate fields
 
@@ -401,35 +492,15 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 		if (!fields.includes("category")) {
 			project.category = undefined;
 		}
-		if (fields.includes("updatedBy" && project.updatedBy)) {
-			if (project.updatedBy) {
-				if (project.updatedBy.profilePicture.privacy !== "public") {
-					project.updatedBy.profilePicture = undefined;
-				}
-			}
-		} else {
+		if (!fields.includes("updatedBy")) {
 			project.updatedBy = undefined;
 		}
-		if (fields.includes("steps")) {
-			if (project.steps.updatedBy) {
-				if (project.steps.updatedBy.profilePicture.privacy !== "public") {
-					project.steps.updatedBy.profilePicture = undefined;
-				}
-			}
-		} else {
+		if (!fields.includes("steps")) {
 			project.steps = undefined;
 		}
-		if (fields.includes("members")) {
-			for (let member of project.members) {
-				if (member.user.profilePicture.privacy !== "public") {
-					member.user.profilePicture = undefined;
-				}
-				member._id = undefined;
-			}
-		} else {
+		if (!fields.includes("members")) {
 			project.members = undefined;
 		}
-
 		return {
 			status: "success",
 			message: "Project retrieved successfully.",
@@ -444,7 +515,7 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 	}
 };
 
-const retrieveProjects = async (limit, fields, conditions) => {
+const retrieveProjects = async (fields, conditions, limit) => {
 	try {
 		let query = Project.find(conditions).sort({ createdAt: -1 }).limit(limit);
 		if (fields) {
@@ -452,8 +523,8 @@ const retrieveProjects = async (limit, fields, conditions) => {
 
 			query = query.select(fieldsString).populate([
 				{ path: "category", select: "-_id name categoryId" },
-				{ path: "updatedBy", select: "-_id username profilePicture" },
-				{ path: "steps.updatedBy", select: "-_id username profilePicture" },
+				{ path: "updatedBy", select: "-_id username profilePicture userId" },
+				{ path: "steps.updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "members.user", select: "-_id username profilePicture userId" },
 			]); // Populate fields
 		}
@@ -471,34 +542,16 @@ const retrieveProjects = async (limit, fields, conditions) => {
 			if (!fields.includes("category")) {
 				modifiedProject.category = undefined;
 			}
-			if (fields.includes("updatedBy" && modifiedProject.updatedBy)) {
-				if (modifiedProject.updatedBy) {
-					if (modifiedProject.updatedBy.profilePicture.privacy !== "public") {
-						modifiedProject.updatedBy.profilePicture = undefined;
-					}
-				}
-			} else {
+			if (!fields.includes("updatedBy")) {
 				modifiedProject.updatedBy = undefined;
 			}
-			if (fields.includes("steps")) {
-				if (modifiedProject.steps.updatedBy) {
-					if (modifiedProject.steps.updatedBy.profilePicture.privacy !== "public") {
-						modifiedProject.steps.updatedBy.profilePicture = undefined;
-					}
-				}
-			} else {
+			if (!fields.includes("steps")) {
 				modifiedProject.steps = undefined;
 			}
-			if (fields.includes("members")) {
-				for (let member of modifiedProject.members) {
-					if (member.user.profilePicture.privacy !== "public") {
-						member.user.profilePicture = undefined;
-					}
-					member._id = undefined;
-				}
-			} else {
+			if (!fields.includes("members")) {
 				modifiedProject.members = undefined;
 			}
+
 			return modifiedProject;
 		});
 
@@ -521,14 +574,14 @@ const retrieveProjects = async (limit, fields, conditions) => {
 const countNumberProjects = async () => {
 	try {
 		const nbPublicProject = await Project.countDocuments({ visibility: "public" }); // Count total number of projects
-		const nbPublicSubmittedProject = await Project.countDocuments({ visibility: "public", status: "submitted" }); // Count documents with visibility set to "public" and status set to "submitted"
-		const nbPublicOnHoldProject = await Project.countDocuments({ visibility: "public", status: "on hold" }); // Count documents with visibility set to "public" and status set to "on hold"
-		const nbPublicCompletedProject = await Project.countDocuments({ visibility: "public", status: "completed" }); // Count documents with visibility set to "public" and status set to "completed"
-		const nbPublicArchivedProject = await Project.countDocuments({ visibility: "public", status: "archived" }); // Count documents with visibility set to "public" and status set to "archived"
-		const nbPublicCancelledProject = await Project.countDocuments({ visibility: "public", status: "cancelled" }); // Count documents with visibility set to "public" and status set to "cancelled"
+		const nbPublicSubmittedProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus": "submitted" }); // Count documents with visibility set to "public" and status set to "submitted"
+		const nbPublicOnHoldProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus": "on hold" }); // Count documents with visibility set to "public" and status set to "on hold"
+		const nbPublicCompletedProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus": "completed" }); // Count documents with visibility set to "public" and status set to "completed"
+		const nbPublicArchivedProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus": "archived" }); // Count documents with visibility set to "public" and status set to "archived"
+		const nbPublicCancelledProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus": "cancelled" }); // Count documents with visibility set to "public" and status set to "cancelled"
 		const nbPublicActiveProject = await Project.countDocuments({
 			visibility: "public",
-			status: "active",
+			"statusInfo.currentStatus": "active",
 		}); // Count documents with visibility set to "public" and status set to "active"
 
 		return {
@@ -609,6 +662,7 @@ module.exports = {
 	removeProjectDraft,
 	processProjectApproval,
 	updateProject,
+	updateProjectDraftSection,
 	retrieveProjectById,
 	retrieveProjects,
 	countNumberProjects,

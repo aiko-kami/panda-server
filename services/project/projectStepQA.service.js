@@ -1,5 +1,5 @@
 const { Project } = require("../../models");
-const { logger, encryptTools } = require("../../utils");
+const { logger, encryptTools, filterTools } = require("../../utils");
 const { DateTime } = require("luxon");
 
 /**
@@ -170,9 +170,8 @@ const retrieveProjectSteps = async (projectId, actionType) => {
 				return { status: "error", message: "No Project step found." };
 			}
 
-			if (projectSteps.steps.updatedBy.profilePicture.privacy !== "public") {
-				projectSteps.steps.updatedBy.profilePicture = undefined;
-			}
+			//Filter users public data from steps
+			projectSteps.steps.updatedBy = filterTools.filterUserOutputFields(projectSteps.steps.updatedBy).user;
 
 			const stepsList = projectSteps.steps.stepsList;
 
@@ -380,9 +379,8 @@ const retrieveProjectQAs = async (projectId, actionType) => {
 				return { status: "error", message: "No Project Q&A found." };
 			}
 
-			if (projectQAs.QAs.updatedBy.profilePicture.privacy !== "public") {
-				projectQAs.QAs.updatedBy.profilePicture = undefined;
-			}
+			//Filter users public data from QAs
+			projectQAs.QAs.updatedBy = filterTools.filterUserOutputFields(projectQAs.QAs.updatedBy).user;
 
 			const QAsList = projectQAs.QAs.QAsList;
 

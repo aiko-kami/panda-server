@@ -25,7 +25,8 @@ projectExtendedRoute.get("/crushProjects", projectCrushController.retrieveCrushP
 // Project like
 projectExtendedRoute.patch("/likeProject", verifyAccess, projectLikeController.likeProject);
 projectExtendedRoute.patch("/unlikeProject", verifyAccess, projectLikeController.unlikeProject);
-projectExtendedRoute.get("/projectsUserLikes", verifyAccess, projectLikeController.retrieveUserLikes);
+projectExtendedRoute.get("/projectsUserPublicLikes", verifyAccess, projectLikeController.retrieveUserPublicLikes);
+projectExtendedRoute.get("/projectsUserPrivateLikes", verifyAccess, projectLikeController.retrieveUserPrivateLikes);
 projectExtendedRoute.get("/projectLikes", projectLikeController.retrieveProjectLikes);
 
 // Project steps

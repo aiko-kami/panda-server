@@ -30,21 +30,24 @@ const retrieveUserById = async (userId, fields) => {
 	}
 };
 
-const retrieveLatestUsers = async (limit, fields) => {
+const retrieveLatestUsers = async (fields, conditions, limit) => {
 	try {
 		const fieldsString = fields.join(" ");
 
-		const users = await User.find().sort({ createdAt: -1 }).limit(limit).select(fieldsString);
+		const users = await User.find(conditions).sort({ createdAt: -1 }).limit(limit).select(fieldsString);
 
-		if (!users) {
-			return { status: "error", message: "No user found." };
+		if (!users || users.length === 0) {
+			logger.info(`No user found.`);
+			return { status: "success", message: "No user found." };
 		}
 
-		return {
-			status: "success",
-			message: "New users retrieved successfully",
-			users,
-		};
+		const nbUsers = users.length;
+
+		if (nbUsers === 1) {
+			logger.info(`${nbUsers} user retrieved successfully.`);
+			return { status: "success", message: `${nbUsers} user retrieved successfully.`, users };
+		} else logger.info(`${nbUsers} users retrieved successfully.`);
+		return { status: "success", message: `${nbUsers} users retrieved successfully.`, users };
 	} catch (error) {
 		logger.error("Error while retrieving users:", error);
 		return {

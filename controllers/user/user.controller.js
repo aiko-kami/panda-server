@@ -1,4 +1,4 @@
-const { apiResponse, userValidation, authValidation, userTools } = require("../../utils");
+const { apiResponse, userValidation, authValidation, filterTools } = require("../../utils");
 const { userService } = require("../../services");
 
 const retrieveMyUserData = async (req, res) => {
@@ -40,17 +40,28 @@ const retrieveMyUserData = async (req, res) => {
 // Retrieve 4 new users
 const retrieveNewUsers = async (req, res) => {
 	try {
-		const newUsers = await userService.retrieveLatestUsers(4, ["-_id", "username", "profilePicture", "description"]);
-		if (newUsers.users !== null && newUsers.users.length > 0) {
-			for (let user of newUsers.users) {
-				// Filter on the public fields only
-				user = userTools.filterOutputFields(user);
-			}
+		const newUsers = await userService.retrieveLatestUsers(
+			["-_id", "username", "profilePicture", "description"],
+			{
+				"emailVerified.verified": true,
+			},
+			4
+		);
 
-			return apiResponse.successResponseWithData(res, newUsers.message, newUsers.users);
-		} else {
+		if (newUsers.status !== "success") {
 			return apiResponse.serverErrorResponse(res, newUsers.message);
 		}
+
+		if (newUsers.users === null || newUsers.users.length === 0) {
+			return apiResponse.serverErrorResponse(res, newUsers.message);
+		}
+
+		//Filter users public data from users
+		const userFiltered = filterTools.filterUsersOutputFields(newUsers.users);
+		if (userFiltered.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userFiltered.message);
+		}
+		return apiResponse.successResponseWithData(res, newUsers.message, userFiltered.users);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -93,7 +104,7 @@ const updateUser = async (req, res) => {
 		}
 
 		// Filter on the fields that the user wants to update
-		const filterUserInputs = userTools.filterFieldsToUpdate(updatedUserInputs);
+		const filterUserInputs = filterTools.filterUserFieldsToUpdate(updatedUserInputs);
 
 		//Verify that the email (if modified) is available
 		if (filterUserInputs.email) {
@@ -169,10 +180,12 @@ const retrieveUserOverview = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, userData.message);
 		}
 
-		// Filter on the public fields only
-		const userDataFiltered = userTools.filterOutputFields(userData.user);
-
-		return apiResponse.successResponseWithData(res, userData.message, userDataFiltered);
+		//Filter user public data from user
+		const userFiltered = filterTools.filterUserOutputFields(userData.user);
+		if (userFiltered.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userFiltered.message);
+		}
+		return apiResponse.successResponseWithData(res, userData.message, userFiltered.user);
 	} catch (error) {
 		// Throw error in json response with status 500.
 		return apiResponse.serverErrorResponse(res, error.message);
@@ -190,15 +203,16 @@ const retrieveUserPublicData = async (req, res) => {
 		}
 
 		const userData = await userService.retrieveUserById(userId, ["-_id", "username", "createdAt", "location", "company", "description", "bio", "languages", "website", "profilePicture"]);
-
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);
 		}
 
-		// Filter on the public fields only
-		const userDataFiltered = userTools.filterOutputFields(userData.user);
-
-		return apiResponse.successResponseWithData(res, userData.message, userDataFiltered);
+		//Filter user public data from user
+		const userFiltered = filterTools.filterUserOutputFields(userData.user);
+		if (userFiltered.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userFiltered.message);
+		}
+		return apiResponse.successResponseWithData(res, userData.message, userFiltered.user);
 	} catch (error) {
 		// Throw error in json response with status 500.
 		return apiResponse.serverErrorResponse(res, error.message);
@@ -207,8 +221,8 @@ const retrieveUserPublicData = async (req, res) => {
 
 module.exports = {
 	retrieveMyUserData,
-	updateUser,
 	retrieveNewUsers,
+	updateUser,
 	updateUserPassword,
 	retrieveUserOverview,
 	retrieveUserPublicData,
