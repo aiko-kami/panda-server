@@ -479,6 +479,7 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 				{ path: "updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "steps.updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "members.user", select: "-_id username profilePicture userId" },
+				{ path: "statusInfo.statusHistory.updatedBy", select: "-_id username profilePicture userId" },
 			]); // Populate fields
 
 		if (!projectRetrieved) {
@@ -488,7 +489,6 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 			};
 		}
 		let project = projectRetrieved.toObject();
-
 		if (!fields.includes("category")) {
 			project.category = undefined;
 		}
@@ -500,6 +500,9 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 		}
 		if (!fields.includes("members")) {
 			project.members = undefined;
+		}
+		if (!fields.includes("statusInfo")) {
+			project.statusInfo = undefined;
 		}
 		return {
 			status: "success",
@@ -526,6 +529,7 @@ const retrieveProjects = async (fields, conditions, limit) => {
 				{ path: "updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "steps.updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "members.user", select: "-_id username profilePicture userId" },
+				{ path: "statusInfo.statusHistory.updatedBy", select: "-_id username profilePicture userId" },
 			]); // Populate fields
 		}
 		// select(`-_id -__v ${fields}`)
@@ -550,6 +554,9 @@ const retrieveProjects = async (fields, conditions, limit) => {
 			}
 			if (!fields.includes("members")) {
 				modifiedProject.members = undefined;
+			}
+			if (!fields.includes("statusInfo")) {
+				modifiedProject.statusInfo = undefined;
 			}
 
 			return modifiedProject;

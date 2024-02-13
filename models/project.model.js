@@ -25,8 +25,8 @@ const memberSchema = new Schema({
 const statusChangeSchema = new Schema({
 	_id: false,
 	status: { type: String, required: true },
-	updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
 	reason: { type: String },
+	updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
 	timestamp: { type: Date, default: DateTime.now().toHTTP() },
 });
 

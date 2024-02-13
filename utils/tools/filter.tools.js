@@ -254,15 +254,16 @@ const handleProjectFiltering = (project, userId) => {
 		}
 		if (project.members) {
 			for (let member of project.members) {
-				console.log("🚀 ~ handleProjectFiltering ~ member:", member);
-
 				if (member.user) {
 					member.user = filterUserOutputFields(member.user, userId).user;
 				}
 			}
 		}
+
 		if (project.statusInfo && project.statusInfo.statusHistory) {
 			for (let statusHist of project.statusInfo.statusHistory) {
+				console.log("🚀 ~ handleProjectFiltering ~ project2:", project.statusInfo.statusHistory[0].updatedBy);
+				console.log("🚀 ~ handleProjectFiltering ~ statusHist:", statusHist);
 				if (statusHist.updatedBy) {
 					statusHist.updatedBy = filterUserOutputFields(statusHist.updatedBy, userId).user;
 				}

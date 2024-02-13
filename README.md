@@ -181,6 +181,8 @@ Don't let your ideas and talents go to waste – join Sheepy now!
 
 ### ❤ Last required improvements
 
+- [ ] Fixes ❤
+  - [ ] Retrieve project status details (image from user updater) ❤
 - [ ] Project ❤
   - [ ] Finish the refactor of project status ❤
   - [ ] Retrieve all former project status ❤

@@ -235,8 +235,6 @@ const submitProject = async (req, res) => {
 		// Set project status to Submitted
 		const projectSubmittedResult = await statusService.updateStatus(projectUpdatedResult.project.projectId, userId, "submitted", "Project creation and submission");
 
-		console.log("🚀 ~ submitProject ~ projectSubmittedResult:", projectSubmittedResult);
-
 		if (projectSubmittedResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectSubmittedResult.message);
 		}
@@ -424,10 +422,11 @@ const updateProject = async (req, res) => {
 			"objectives",
 			"updatedBy",
 			"visibility",
-			"status",
+			"statusInfo",
 			"privateData",
 			"createdAt",
 			"members",
+			"projectId",
 		]);
 		if (updatedProject.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updatedProject.message);
@@ -528,7 +527,24 @@ const retrieveProjectPublicData = async (req, res) => {
 
 		const projectData = await projectService.retrieveProjectById(
 			projectId,
-			["-_id", "title", "goal", "summary", "description", "cover", "category", "subCategory", "location", "startDate", "creatorMotivation", "tags", "talentsNeeded", "objectives", "visibility"],
+			[
+				"-_id",
+				"title",
+				"goal",
+				"summary",
+				"description",
+				"cover",
+				"category",
+				"subCategory",
+				"location",
+				"startDate",
+				"creatorMotivation",
+				"tags",
+				"talentsNeeded",
+				"objectives",
+				"visibility",
+				"projectId",
+			],
 			{ visibility: "public" }
 		);
 		if (projectData.status !== "success") {
@@ -549,7 +565,7 @@ const retrieveProjectPublicData = async (req, res) => {
 const retrieveNewProjects = async (req, res) => {
 	try {
 		const newProjects = await projectService.retrieveProjects(
-			["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility"],
+			["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility", "projectId"],
 			{
 				visibility: "public",
 				"statusInfo.currentStatus": "active",
@@ -592,7 +608,7 @@ const retrieveSubmittedProjects = async (req, res) => {
 				"objectives",
 				"updatedBy",
 				"visibility",
-				"status",
+				"statusInfo",
 				"privateData",
 				"createdAt",
 				"members",
@@ -650,7 +666,7 @@ const retrieveProjectData = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		//Retrieve proeject data
+		//Retrieve project data
 		const projectData = await projectService.retrieveProjectById(projectId, [
 			"-_id",
 			"title",
@@ -669,11 +685,15 @@ const retrieveProjectData = async (req, res) => {
 			"objectives",
 			"updatedBy",
 			"visibility",
-			"status",
+			"statusInfo",
 			"privateData",
 			"createdAt",
 			"members",
+			"projectId",
 		]);
+
+		console.log("🚀 ~ retrieveProjectData ~ projectData:", projectData);
+
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
 		}

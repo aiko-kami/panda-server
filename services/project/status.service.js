@@ -35,7 +35,6 @@ const updateStatus = async (projectId, userIdUpdater, newStatus, reason) => {
 		}
 
 		// Update project status
-		////////////////////////////////////To be reviewed///////////////////
 		const formerStatus = project.statusInfo.currentStatus;
 
 		const statusUpdateValidated = statusTools.validateStatusUpdate(newStatus, formerStatus);
@@ -57,34 +56,8 @@ const updateStatus = async (projectId, userIdUpdater, newStatus, reason) => {
 
 		const updatedProject = await project.save();
 
-		const projectOutput = await updatedProject.populate([
-			{ path: "statusInfo.statusHistory.updatedBy", select: "-_id username profilePicture userId" },
-			{ path: "updatedBy", select: "-_id username profilePicture userId" },
-		]);
-
-		console.log("🚀 ~ updateStatus ~ projectOutput:", JSON.stringify(projectOutput));
-
-		if (projectOutput.updatedBy) {
-			if (projectOutput.updatedBy.profilePicture.privacy !== "public") {
-				projectOutput.updatedBy.profilePicture = undefined;
-			}
-		}
-
-		for (let member of projectOutput.members) {
-			if (member.user.profilePicture.privacy !== "public") {
-				member.user.profilePicture = undefined;
-			}
-			member._id = undefined;
-		}
-
-		for (let statusHisto of projectOutput.statusInfo.statusHistory) {
-			if (statusHisto.updatedBy.profilePicture && statusHisto.updatedBy.profilePicture.privacy !== "public") {
-				statusHisto.updatedBy.profilePicture = undefined;
-			}
-		}
-
 		logger.info(`Project status updated successfully. Project ID: ${projectId} - Updater user ID: ${userIdUpdater} - Former project status: ${formerStatus} - New project status: ${newStatus}`);
-		return { status: "success", message: "Project status updated successfully.", project: projectOutput };
+		return { status: "success", message: "Project status updated successfully." };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}

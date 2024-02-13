@@ -1,5 +1,5 @@
-const { statusService, userRightsService } = require("../../services");
-const { apiResponse, statusValidation } = require("../../utils");
+const { statusService, userRightsService, projectService } = require("../../services");
+const { apiResponse, statusValidation, filterTools } = require("../../utils");
 
 /**
  * Update project status controller.
@@ -35,7 +35,41 @@ const updateProjectStatus = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, updateStatusResult.message);
 		}
 
-		return apiResponse.successResponse(res, updateStatusResult.message);
+		// Retrieve the updated project
+		const updatedProject = await projectService.retrieveProjectById(projectId, [
+			"-_id",
+			"title",
+			"goal",
+			"summary",
+			"description",
+			"cover",
+			"crush",
+			"category",
+			"subCategory",
+			"location",
+			"startDate",
+			"creatorMotivation",
+			"tags",
+			"talentsNeeded",
+			"objectives",
+			"updatedBy",
+			"visibility",
+			"statusInfo",
+			"privateData",
+			"createdAt",
+			"members",
+			"projectId",
+		]);
+		if (updatedProject.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updatedProject.message);
+		}
+
+		//Filter users public data from projects
+		const projectFiltered = filterTools.filterProjectOutputFields(updatedProject.project, userIdUpdater);
+		if (projectFiltered.status !== "success") {
+			return apiResponse.clientErrorResponse(res, projectFiltered.message);
+		}
+		return apiResponse.successResponseWithData(res, updateStatusResult.message, projectFiltered.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
