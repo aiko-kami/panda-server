@@ -691,9 +691,6 @@ const retrieveProjectData = async (req, res) => {
 			"members",
 			"projectId",
 		]);
-
-		console.log("🚀 ~ retrieveProjectData ~ projectData:", projectData);
-
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
 		}

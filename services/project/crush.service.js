@@ -107,7 +107,8 @@ const retrieveCrushProjects = async (fields, conditions, limit) => {
 				{ path: "updatedBy", select: "-_id username profilePicture" },
 				{ path: "steps.updatedBy", select: "-_id username profilePicture" },
 				{ path: "members.user", select: "-_id username profilePicture userId" },
-			]); // Populate the 'category' and 'members.user' fields
+				{ path: "statusInfo.statusHistory.updatedBy", select: "-_id username profilePicture userId" },
+			]);
 		if (fields) {
 			const fieldsString = fields.join(" ");
 
@@ -135,6 +136,9 @@ const retrieveCrushProjects = async (fields, conditions, limit) => {
 			}
 			if (!fields.includes("members")) {
 				modifiedProject.members = undefined;
+			}
+			if (!fields.includes("statusInfo")) {
+				project.statusInfo = undefined;
 			}
 
 			return modifiedProject;

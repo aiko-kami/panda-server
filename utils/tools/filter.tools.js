@@ -151,6 +151,9 @@ const filterUserFieldsToUpdate = (data) => {
 
 const handleUserFiltering = (user, userId) => {
 	try {
+		// Create a deep copy of the user object
+		const userCopy = structuredClone(user);
+
 		let objectIdUserId = userId;
 		if (userId !== "unknown") {
 			// Convert id to ObjectId
@@ -160,59 +163,59 @@ const handleUserFiltering = (user, userId) => {
 			}
 		}
 
-		if (user.profilePicture) {
-			if (user.profilePicture.privacy !== "public" && user._id !== objectIdUserId) {
-				user.profilePicture = undefined;
+		if (userCopy.profilePicture) {
+			if (userCopy.profilePicture.privacy !== "public" && userCopy._id !== objectIdUserId) {
+				userCopy.profilePicture = undefined;
 			} else {
-				user.profilePicture.privacy = undefined;
+				userCopy.profilePicture.privacy = undefined;
 			}
 		}
-		if (user.location && user.location.city) {
-			if (user.location.city.privacy !== "public" && user._id !== objectIdUserId) {
-				user.location.city = undefined;
+		if (userCopy.location && userCopy.location.city) {
+			if (userCopy.location.city.privacy !== "public" && userCopy._id !== objectIdUserId) {
+				userCopy.location.city = undefined;
 			} else {
-				user.location.city.privacy = undefined;
+				userCopy.location.city.privacy = undefined;
 			}
 		}
-		if (user.location && user.location.country) {
-			if (user.location.country.privacy !== "public" && user._id !== objectIdUserId) {
-				user.location.country = undefined;
+		if (userCopy.location && userCopy.location.country) {
+			if (userCopy.location.country.privacy !== "public" && userCopy._id !== objectIdUserId) {
+				userCopy.location.country = undefined;
 			} else {
-				user.location.country.privacy = undefined;
+				userCopy.location.country.privacy = undefined;
 			}
 		}
-		if (user.company) {
-			if (user.company.privacy !== "public" && user._id !== objectIdUserId) {
-				user.company = undefined;
+		if (userCopy.company) {
+			if (userCopy.company.privacy !== "public" && userCopy._id !== objectIdUserId) {
+				userCopy.company = undefined;
 			} else {
-				user.company.privacy = undefined;
+				userCopy.company.privacy = undefined;
 			}
 		}
-		if (user.bio) {
-			if (user.bio.privacy !== "public" && user._id !== objectIdUserId) {
-				user.bio = undefined;
+		if (userCopy.bio) {
+			if (userCopy.bio.privacy !== "public" && userCopy._id !== objectIdUserId) {
+				userCopy.bio = undefined;
 			} else {
-				user.bio.privacy = undefined;
+				userCopy.bio.privacy = undefined;
 			}
 		}
-		if (user.languages) {
-			if (user.languages.privacy !== "public" && user._id !== objectIdUserId) {
-				user.languages = undefined;
+		if (userCopy.languages) {
+			if (userCopy.languages.privacy !== "public" && userCopy._id !== objectIdUserId) {
+				userCopy.languages = undefined;
 			} else {
-				user.languages.privacy = undefined;
+				userCopy.languages.privacy = undefined;
 			}
 		}
-		if (user.website) {
-			if (user.website.privacy !== "public" && user._id !== objectIdUserId) {
-				user.website = undefined;
+		if (userCopy.website) {
+			if (userCopy.website.privacy !== "public" && userCopy._id !== objectIdUserId) {
+				userCopy.website = undefined;
 			} else {
-				user.website.privacy = undefined;
+				userCopy.website.privacy = undefined;
 			}
 		}
-		if (user._id) {
-			user._id = undefined;
+		if (userCopy._id) {
+			userCopy._id = undefined;
 		}
-		return user;
+		return userCopy;
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}
@@ -262,8 +265,6 @@ const handleProjectFiltering = (project, userId) => {
 
 		if (project.statusInfo && project.statusInfo.statusHistory) {
 			for (let statusHist of project.statusInfo.statusHistory) {
-				console.log("🚀 ~ handleProjectFiltering ~ project2:", project.statusInfo.statusHistory[0].updatedBy);
-				console.log("🚀 ~ handleProjectFiltering ~ statusHist:", statusHist);
 				if (statusHist.updatedBy) {
 					statusHist.updatedBy = filterUserOutputFields(statusHist.updatedBy, userId).user;
 				}
