@@ -76,7 +76,7 @@ const retrieveCrushProjects = async (req, res) => {
 		}
 
 		//Filter users public data from projects
-		const projectFiltered = filterTools.filterProjectsOutputFields(crushProjects.projects);
+		const projectFiltered = filterTools.filterProjectsOutputFields(crushProjects.projects, "unknown");
 		if (projectFiltered.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectFiltered.message);
 		}

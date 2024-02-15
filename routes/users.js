@@ -9,7 +9,7 @@ const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Me
 usersRoute.get("/me", verifyAccess, userController.retrieveMyUserData);
-usersRoute.patch("/me", verifyAccess, userController.updateUser);
+usersRoute.patch("/updateMyData", verifyAccess, userController.updateUser);
 
 // Talents
 usersRoute.post("/me/talent/add", verifyAccess, talentController.createTalent);

@@ -577,7 +577,7 @@ const retrieveNewProjects = async (req, res) => {
 		}
 
 		//Filter users public data from projects
-		const projectFiltered = filterTools.filterProjectsOutputFields(newProjects.projects);
+		const projectFiltered = filterTools.filterProjectsOutputFields(newProjects.projects, "unknown");
 		if (projectFiltered.status !== "success") {
 			return apiResponse.clientErrorResponse(res, projectFiltered.message);
 		}

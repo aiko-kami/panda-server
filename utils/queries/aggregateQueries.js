@@ -19,16 +19,10 @@ const projectLikePublicQuery = (objectIdProjectId) => [
 		$project: {
 			_id: 0,
 			likeProjectId: 1,
-			createdAt: {
-				$cond: {
-					if: "$user.projectLikePublic",
-					then: "$createdAt",
-					else: "$$REMOVE",
-				},
-			},
+			createdAt: 1,
 			user: {
 				$cond: {
-					if: "$user.projectLikePublic",
+					if: { $eq: ["$user.projectLikePrivacy", "public"] },
 					then: {
 						username: "$user.username",
 						profilePicture: "$user.profilePicture",

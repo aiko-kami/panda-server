@@ -57,7 +57,7 @@ const retrieveNewUsers = async (req, res) => {
 		}
 
 		//Filter users public data from users
-		const userFiltered = filterTools.filterUsersOutputFields(newUsers.users);
+		const userFiltered = filterTools.filterUsersOutputFields(newUsers.users, "unknown");
 		if (userFiltered.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userFiltered.message);
 		}
@@ -91,6 +91,18 @@ const updateUser = async (req, res) => {
 			website: req.body.userNewData.website || "",
 		};
 
+		//Retrieve and initialize user privacy data
+		const updatedPrivacyInputs = {
+			profilePicture: req.body.userPrivacyData.profilePicture || "",
+			locationCountry: req.body.userPrivacyData.locationCountry || "",
+			locationCity: req.body.userPrivacyData.locationCity || "",
+			company: req.body.userPrivacyData.company || "",
+			bio: req.body.userPrivacyData.bio || "",
+			website: req.body.userPrivacyData.website || "",
+			languages: req.body.userPrivacyData.languages || "",
+			projectLike: req.body.userPrivacyData.projectLike || "",
+		};
+
 		// Validate user ID
 		const idValidationResult = userValidation.validateUserId(userId);
 		if (idValidationResult.status !== "success") {
@@ -101,6 +113,12 @@ const updateUser = async (req, res) => {
 		const validationResult = userValidation.validateUpdatedUserInputs(updatedUserInputs);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Validate privacy data for updating a user
+		const validationPrivacyResult = userValidation.validateUpdatedUserPrivacyInputs(updatedPrivacyInputs);
+		if (validationPrivacyResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationPrivacyResult.message);
 		}
 
 		// Filter on the fields that the user wants to update
@@ -116,9 +134,14 @@ const updateUser = async (req, res) => {
 
 		// Update the user in the database
 		const updateUserResult = await userService.updateUser(userId, filterUserInputs);
-		// Check the result of the update operation
 		if (updateUserResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updateUserResult.message);
+		}
+
+		// Update the user in the database
+		const updateUserPrivacyResult = await userService.updateUserPrivacy(userId, updatedPrivacyInputs);
+		if (updateUserPrivacyResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateUserPrivacyResult.message);
 		}
 
 		return apiResponse.successResponse(res, updateUserResult.message);
@@ -181,7 +204,7 @@ const retrieveUserOverview = async (req, res) => {
 		}
 
 		//Filter user public data from user
-		const userFiltered = filterTools.filterUserOutputFields(userData.user);
+		const userFiltered = filterTools.filterUserOutputFields(userData.user, "unknown");
 		if (userFiltered.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userFiltered.message);
 		}
@@ -208,7 +231,7 @@ const retrieveUserPublicData = async (req, res) => {
 		}
 
 		//Filter user public data from user
-		const userFiltered = filterTools.filterUserOutputFields(userData.user);
+		const userFiltered = filterTools.filterUserOutputFields(userData.user, "unknown");
 		if (userFiltered.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userFiltered.message);
 		}

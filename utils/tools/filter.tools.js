@@ -149,64 +149,64 @@ const filterUserFieldsToUpdate = (data) => {
 	}
 };
 
-const handleUserFiltering = (user, userId) => {
+const handleUserFiltering = (user, userIdViewer) => {
 	try {
 		// Create a deep copy of the user object
 		const userCopy = structuredClone(user);
 
-		let objectIdUserId = userId;
-		if (userId !== "unknown") {
+		let objectIdUserIdViewer = userIdViewer;
+		if (userIdViewer !== "unknown") {
 			// Convert id to ObjectId
-			objectIdUserId = convertIdToObjectId(userId);
-			if (objectIdUserId.status == "error") {
-				return { status: "error", message: objectIdUserId.message };
+			objectIdUserIdViewer = convertIdToObjectId(userIdViewer);
+			if (objectIdUserIdViewer.status == "error") {
+				return { status: "error", message: objectIdUserIdViewer.message };
 			}
 		}
 
 		if (userCopy.profilePicture) {
-			if (userCopy.profilePicture.privacy !== "public" && userCopy._id !== objectIdUserId) {
+			if (userCopy.profilePicture.privacy !== "public" && userCopy._id !== objectIdUserIdViewer) {
 				userCopy.profilePicture = undefined;
 			} else {
 				userCopy.profilePicture.privacy = undefined;
 			}
 		}
 		if (userCopy.location && userCopy.location.city) {
-			if (userCopy.location.city.privacy !== "public" && userCopy._id !== objectIdUserId) {
+			if (userCopy.location.city.privacy !== "public" && userCopy._id !== objectIdUserIdViewer) {
 				userCopy.location.city = undefined;
 			} else {
 				userCopy.location.city.privacy = undefined;
 			}
 		}
 		if (userCopy.location && userCopy.location.country) {
-			if (userCopy.location.country.privacy !== "public" && userCopy._id !== objectIdUserId) {
+			if (userCopy.location.country.privacy !== "public" && userCopy._id !== objectIdUserIdViewer) {
 				userCopy.location.country = undefined;
 			} else {
 				userCopy.location.country.privacy = undefined;
 			}
 		}
 		if (userCopy.company) {
-			if (userCopy.company.privacy !== "public" && userCopy._id !== objectIdUserId) {
+			if (userCopy.company.privacy !== "public" && userCopy._id !== objectIdUserIdViewer) {
 				userCopy.company = undefined;
 			} else {
 				userCopy.company.privacy = undefined;
 			}
 		}
 		if (userCopy.bio) {
-			if (userCopy.bio.privacy !== "public" && userCopy._id !== objectIdUserId) {
+			if (userCopy.bio.privacy !== "public" && userCopy._id !== objectIdUserIdViewer) {
 				userCopy.bio = undefined;
 			} else {
 				userCopy.bio.privacy = undefined;
 			}
 		}
 		if (userCopy.languages) {
-			if (userCopy.languages.privacy !== "public" && userCopy._id !== objectIdUserId) {
+			if (userCopy.languages.privacy !== "public" && userCopy._id !== objectIdUserIdViewer) {
 				userCopy.languages = undefined;
 			} else {
 				userCopy.languages.privacy = undefined;
 			}
 		}
 		if (userCopy.website) {
-			if (userCopy.website.privacy !== "public" && userCopy._id !== objectIdUserId) {
+			if (userCopy.website.privacy !== "public" && userCopy._id !== objectIdUserIdViewer) {
 				userCopy.website = undefined;
 			} else {
 				userCopy.website.privacy = undefined;
@@ -221,19 +221,19 @@ const handleUserFiltering = (user, userId) => {
 	}
 };
 
-const filterUserOutputFields = (user, userId) => {
+const filterUserOutputFields = (user, userIdViewer) => {
 	try {
-		user = handleUserFiltering(user, userId);
+		user = handleUserFiltering(user, userIdViewer);
 		return { status: "success", message: "User filtered successfully.", user };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}
 };
 
-const filterUsersOutputFields = (users, userId) => {
+const filterUsersOutputFields = (users, userIdViewer) => {
 	try {
 		for (let user of users) {
-			user = handleUserFiltering(user, userId);
+			user = handleUserFiltering(user, userIdViewer);
 		}
 		return { status: "success", message: "Users filtered successfully.", users };
 	} catch (error) {
@@ -241,32 +241,31 @@ const filterUsersOutputFields = (users, userId) => {
 	}
 };
 
-const handleProjectFiltering = (project, userId) => {
+const handleProjectFiltering = (project, userIdViewer) => {
 	try {
 		if (project.draft && project.draft.updatedBy) {
-			project.draft.updatedBy = filterUserOutputFields(project.draft.updatedBy, userId).user;
+			project.draft.updatedBy = filterUserOutputFields(project.draft.updatedBy, userIdViewer).user;
 		}
 		if (project.updatedBy) {
-			project.updatedBy = filterUserOutputFields(project.updatedBy, userId).user;
+			project.updatedBy = filterUserOutputFields(project.updatedBy, userIdViewer).user;
 		}
 		if (project.steps && project.steps.updatedBy) {
-			project.steps.updatedBy = filterUserOutputFields(project.steps.updatedBy, userId).user;
+			project.steps.updatedBy = filterUserOutputFields(project.steps.updatedBy, userIdViewer).user;
 		}
 		if (project.QAs && project.QAs.updatedBy) {
-			project.QAs.updatedBy = filterUserOutputFields(project.QAs.updatedBy, userId).user;
+			project.QAs.updatedBy = filterUserOutputFields(project.QAs.updatedBy, userIdViewer).user;
 		}
 		if (project.members) {
 			for (let member of project.members) {
 				if (member.user) {
-					member.user = filterUserOutputFields(member.user, userId).user;
+					member.user = filterUserOutputFields(member.user, userIdViewer).user;
 				}
 			}
 		}
-
 		if (project.statusInfo && project.statusInfo.statusHistory) {
 			for (let statusHist of project.statusInfo.statusHistory) {
 				if (statusHist.updatedBy) {
-					statusHist.updatedBy = filterUserOutputFields(statusHist.updatedBy, userId).user;
+					statusHist.updatedBy = filterUserOutputFields(statusHist.updatedBy, userIdViewer).user;
 				}
 			}
 		}
@@ -276,10 +275,10 @@ const handleProjectFiltering = (project, userId) => {
 	}
 };
 
-const filterProjectsOutputFields = (projects, userId) => {
+const filterProjectsOutputFields = (projects, userIdViewer) => {
 	try {
 		for (let project of projects) {
-			project = handleProjectFiltering(project, userId);
+			project = handleProjectFiltering(project, userIdViewer);
 		}
 		return { status: "success", message: "Projects filtered successfully.", projects };
 	} catch (error) {
@@ -287,9 +286,9 @@ const filterProjectsOutputFields = (projects, userId) => {
 	}
 };
 
-const filterProjectOutputFields = (project, userId) => {
+const filterProjectOutputFields = (project, userIdViewer) => {
 	try {
-		project = handleProjectFiltering(project, userId);
+		project = handleProjectFiltering(project, userIdViewer);
 		return { status: "success", message: "Project filtered successfully.", project };
 	} catch (error) {
 		return { status: "error", message: error.message };

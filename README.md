@@ -143,7 +143,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
       - [x] Add project status history (array of updates dateTime and modifiedBy)
       - [x] Complete filterings public data
       - [x] Save project draft
-    - [x] projectLikePublic
+    - [x] projectLikePublic (=>projectLikePrivacy)
       - [x] When retrieving project likes: count all like but replace user private likes by "private user"
       - [x] When retrieving user likes: separate userlikes "Project I likes" (private, user userId from login info) and "public user page" (show only if projectLikePublic is true)
     - [x] Use Axios instead of fetch
@@ -183,11 +183,15 @@ Don't let your ideas and talents go to waste – join Sheepy now!
 
 - [x] Fixes
   - [x] Retrieve project status details (image from user updater)
+  - [ ] Review project steps retrieval (projectsExtended/projectStepsAll) and QAs
+  - [ ] Review user public likes retrieval (projectsExtended/projectsUserPublicLikes)
+  - [ ] Review crush project retrieval (projectsExtended/crushProjects) => there are some private project data
 - [ ] Project ❤
   - [x] Finish the refactor of project status
   - [ ] Retrieve all former project status ❤
-- [ ] User ❤
-  - [ ] Update user privacy data (also projectLikePublic to true or false) ❤
+- [x] User
+  - [x] Update user privacy data (also projectLikePublic to true or false)
+  - [x] Change projectLikePublic to projectLikePrivacy and replace occurences from boolean to string
 - [ ] Upload images ❤
 
 ---

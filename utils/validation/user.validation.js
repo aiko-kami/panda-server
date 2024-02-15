@@ -1,4 +1,6 @@
 const validator = require("validator");
+const config = require("../../config");
+const userVisibility = config.user_visibility;
 
 const validateUpdatedUserInputs = (userData) => {
 	//String type validation
@@ -26,6 +28,25 @@ const validateUpdatedUserInputs = (userData) => {
 	return { status: "success", message: "All user inputs are valid." };
 };
 
+const validateUpdatedUserPrivacyInputs = (userPrivacyData) => {
+	// Iterate over each key in userPrivacyData
+	for (let key in userPrivacyData) {
+		if (Object.prototype.hasOwnProperty.call(userPrivacyData, key)) {
+			// Validate type
+			if (typeof userPrivacyData[key] !== "string") {
+				return { status: "error", message: "Invalid type of data." };
+			}
+
+			// Validate visibility
+			if (userPrivacyData[key] && !validator.isIn(userPrivacyData[key], userVisibility)) {
+				return { status: "error", message: `Invalid user visibility for ${key}.` };
+			}
+		}
+	}
+	// If all validations passed
+	return { status: "success", message: "All user privacy inputs are valid." };
+};
+
 const validateUserId = (userId) => {
 	//String type validation
 	if (typeof userId !== "string") {
@@ -37,5 +58,6 @@ const validateUserId = (userId) => {
 
 module.exports = {
 	validateUpdatedUserInputs,
+	validateUpdatedUserPrivacyInputs,
 	validateUserId,
 };

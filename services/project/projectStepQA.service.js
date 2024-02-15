@@ -171,7 +171,7 @@ const retrieveProjectSteps = async (projectId, actionType) => {
 			}
 
 			//Filter users public data from steps
-			projectSteps.steps.updatedBy = filterTools.filterUserOutputFields(projectSteps.steps.updatedBy).user;
+			projectSteps.steps.updatedBy = filterTools.filterUserOutputFields(projectSteps.steps.updatedBy, "unknown").user;
 
 			const stepsList = projectSteps.steps.stepsList;
 
@@ -380,7 +380,7 @@ const retrieveProjectQAs = async (projectId, actionType) => {
 			}
 
 			//Filter users public data from QAs
-			projectQAs.QAs.updatedBy = filterTools.filterUserOutputFields(projectQAs.QAs.updatedBy).user;
+			projectQAs.QAs.updatedBy = filterTools.filterUserOutputFields(projectQAs.QAs.updatedBy, "unknown").user;
 
 			const QAsList = projectQAs.QAs.QAsList;
 

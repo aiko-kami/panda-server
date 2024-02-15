@@ -144,7 +144,9 @@ const retrieveProjectLikes = async (projectId) => {
 
 		//Filter users public data from comment
 		for (let pl of projectLikes) {
-			pl.user = filterTools.filterUserOutputFields(pl.user).user;
+			if (pl.user.username) {
+				pl.user = filterTools.filterUserOutputFields(pl.user, "unknown").user;
+			}
 		}
 
 		const nbProjectLikes = projectLikes.length;

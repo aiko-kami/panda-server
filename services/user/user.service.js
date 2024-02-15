@@ -143,6 +143,67 @@ const updateUser = async (userId, updatedData) => {
 	}
 };
 
+const updateUserPrivacy = async (userId, updatedData) => {
+	try {
+		// Convert id to ObjectId
+		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (ObjectIdUserId.status == "error") {
+			return { status: "error", message: ObjectIdUserId.message };
+		}
+
+		// Find the user by userId
+		const user = await User.findOne({ _id: ObjectIdUserId });
+
+		// Check if the user exists
+		if (!user) {
+			return { status: "error", message: "User not found." };
+		}
+
+		// Define an object to store the fields that need to be updated
+		const updateFields = {};
+
+		// Define a mapping of fields between the updatedData object and the project object
+		const fieldMapping = {
+			profilePicture: "profilePicture.privacy",
+			locationCountry: "location.country.privacy",
+			locationCity: "location.city.privacy",
+			company: "company.privacy",
+			bio: "bio.privacy",
+			website: "website.privacy",
+			languages: "languages.privacy",
+			projectLike: "projectLikePrivacy",
+		};
+
+		// Iterate through the fieldMapping and check if the field exists in updatedData
+		for (const key in fieldMapping) {
+			const userField = fieldMapping[key];
+			if (updatedData.hasOwnProperty(key)) {
+				// If the field exists in updatedData, update the corresponding field in updateFields
+				updateFields[userField] = updatedData[key];
+			}
+		}
+
+		// Update the user properties
+		user.set(updateFields);
+
+		// Save the updated user
+		const updatedUser = await user.save();
+		logger.info(`User privacy data updated successfully. User ID: ${userId}`);
+		return {
+			status: "success",
+			message: "User privacy data updated successfully.",
+			updatedUser,
+		};
+	} catch (error) {
+		logger.error("Error while updating the user privacy data: ", error);
+
+		return {
+			status: "error",
+			message: "An error occurred while updating the user privacy data.",
+		};
+	}
+};
+
 /**
  * Update user's password in the database.
  * @param {string} userId - The ID of the user whose password needs to be updated.
@@ -223,6 +284,7 @@ module.exports = {
 	retrieveLatestUsers,
 	retrieveUserByEmail,
 	updateUser,
+	updateUserPrivacy,
 	updateUserPassword,
 	verifyEmailAvailability,
 };

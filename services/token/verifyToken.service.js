@@ -4,7 +4,12 @@ const jwt = require("jsonwebtoken");
 
 const verifyAccessToken = (accessToken) => {
 	try {
+		console.log("🚀 ~ verifyAccessToken ~ accessToken:", accessToken);
+		console.log("🚀 ~ verifyAccessToken ~ process.env.ACCESS_TOKEN_SECRET:", process.env.ACCESS_TOKEN_SECRET);
 		const tokenDecoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+
+		console.log("🚀 ~ verifyAccessToken ~ tokenDecoded:", tokenDecoded);
+
 		// Check if the token is still valid (not expired)
 		if (tokenDecoded.exp > Date.now() / 1000) {
 			// Access token is valid
