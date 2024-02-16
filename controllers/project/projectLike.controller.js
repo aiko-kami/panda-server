@@ -86,13 +86,13 @@ const retrieveUserPublicLikes = async (req, res) => {
 		}
 
 		// In case user likes are private return message likes are private
-		if (userRetrieved.user.projectLikePrivacy && userRetrieved.user.projectLikePrivacy !== "public") {
-			userRetrieved.user.projectLikePrivacy = undefined;
+		if (userFiltered.user.projectLikePrivacy && userFiltered.user.projectLikePrivacy !== "public") {
+			userFiltered.user.projectLikePrivacy = undefined;
 			return apiResponse.successResponseWithData(res, "User project likes are private", { user: userFiltered.user });
 
 			// In case user likes are public retrive the projects that user likes
-		} else if (userRetrieved.user.projectLikePrivacy && userRetrieved.user.projectLikePrivacy === "public") {
-			userRetrieved.user.projectLikePrivacy = undefined;
+		} else if (userFiltered.user.projectLikePrivacy && userFiltered.user.projectLikePrivacy === "public") {
+			userFiltered.user.projectLikePrivacy = undefined;
 			const likeResult = await likeProjectService.retrieveUserLikes(userId);
 			if (likeResult.status !== "success") {
 				return apiResponse.serverErrorResponse(res, likeResult.message);

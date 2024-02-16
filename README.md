@@ -128,6 +128,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Allow multiple database connections
   - [x] Admin Login
   - [x] User routes (overview and public)
+  - [x] Use Axios instead of fetch
   - [x] Project
     - [x] New fields (coup de coeur)
     - [x] Project routes (creation, draft, submission)
@@ -146,7 +147,8 @@ Don't let your ideas and talents go to waste – join Sheepy now!
     - [x] projectLikePublic (=>projectLikePrivacy)
       - [x] When retrieving project likes: count all like but replace user private likes by "private user"
       - [x] When retrieving user likes: separate userlikes "Project I likes" (private, user userId from login info) and "public user page" (show only if projectLikePublic is true)
-    - [x] Use Axios instead of fetch
+    - [x] Finish the refactor of project status
+    - [x] Retrieve all former project status ❤
 - [x] likes
   - [x] Add likes to the project model
   - [x] Add like
@@ -176,22 +178,19 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Retrieve Comments
     - [x] Build comments tree by nesting answers in parent comments
     - [x] Reorder parent-comments from newest to oldest
+- [x] User
+  - [x] Update user privacy data (also projectLikePublic to true or false)
+  - [x] Change projectLikePublic to projectLikePrivacy and replace occurences from boolean to string
+- [x] Fixes
+  - [x] Retrieve project status details (image from user updater)
+  - [x] Review project steps retrieval (projectsExtended/projectStepsAll) and QAs
+  - [x] Review user public likes retrieval (projectsExtended/projectsUserPublicLikes) => filter projectLikePrivacy field
+  - [x] Review crush project retrieval (projectsExtended/crushProjects) => there are some private project data
 
 ---
 
 ### ❤ Last required improvements
 
-- [x] Fixes
-  - [x] Retrieve project status details (image from user updater)
-  - [ ] Review project steps retrieval (projectsExtended/projectStepsAll) and QAs
-  - [ ] Review user public likes retrieval (projectsExtended/projectsUserPublicLikes)
-  - [ ] Review crush project retrieval (projectsExtended/crushProjects) => there are some private project data
-- [ ] Project ❤
-  - [x] Finish the refactor of project status
-  - [ ] Retrieve all former project status ❤
-- [x] User
-  - [x] Update user privacy data (also projectLikePublic to true or false)
-  - [x] Change projectLikePublic to projectLikePrivacy and replace occurences from boolean to string
 - [ ] Upload images ❤
 
 ---

@@ -542,7 +542,7 @@ const retrieveProjectPublicData = async (req, res) => {
 				"tags",
 				"talentsNeeded",
 				"objectives",
-				"visibility",
+				"statusInfo",
 				"projectId",
 			],
 			{ visibility: "public" }
@@ -550,8 +550,8 @@ const retrieveProjectPublicData = async (req, res) => {
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
 		}
-
 		//Filter users public data from project
+		projectData.project.statusInfo.statusHistory = undefined;
 		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project, "unknown");
 		if (projectFiltered.status !== "success") {
 			return apiResponse.clientErrorResponse(res, projectFiltered.message);

@@ -65,6 +65,7 @@ projectExtendedRoute.delete("/projectMembers/remove/:projectId", verifyAccess, m
 
 // Project status
 projectExtendedRoute.patch("/projectStatus/:projectId", verifyAccess, projectStatusController.updateProjectStatus);
+projectExtendedRoute.get("/projectStatus/:projectId", verifyAccess, projectStatusController.retrieveProjectStatusInfo);
 
 // Project attachments
 projectExtendedRoute.patch("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.updateProjectAttachments);

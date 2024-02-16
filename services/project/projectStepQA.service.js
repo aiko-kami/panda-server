@@ -33,7 +33,7 @@ const editSteps = async (projectId, userIdUpdater, steps, actionType) => {
 			const alreadyExistingSteps = project.steps.stepsList;
 
 			if (alreadyExistingSteps && alreadyExistingSteps.length > 0) {
-				return { status: "error", message: "Steps already present for this project." };
+				return { status: "error", message: "Steps already present for this project. Cannot create new steps." };
 			}
 
 			// Create new steps
@@ -171,7 +171,7 @@ const retrieveProjectSteps = async (projectId, actionType) => {
 			}
 
 			//Filter users public data from steps
-			projectSteps.steps.updatedBy = filterTools.filterUserOutputFields(projectSteps.steps.updatedBy, "unknown").user;
+			const updater = filterTools.filterUserOutputFields(projectSteps.steps.updatedBy, "unknown").user;
 
 			const stepsList = projectSteps.steps.stepsList;
 
@@ -179,7 +179,7 @@ const retrieveProjectSteps = async (projectId, actionType) => {
 				stepsList: stepsList,
 				createdAt: projectSteps.steps.createdAt,
 				updatedAt: projectSteps.steps.updatedAt,
-				updatedBy: projectSteps.steps.updatedBy,
+				updatedBy: updater,
 			};
 
 			logger.info(`Project steps retrieved successfully.`);
@@ -242,7 +242,7 @@ const editQAs = async (projectId, userIdUpdater, QAs, actionType) => {
 			const alreadyExistingQAs = project.QAs.QAsList;
 
 			if (alreadyExistingQAs && alreadyExistingQAs.length > 0) {
-				return { status: "error", message: "Q&A already present for this project." };
+				return { status: "error", message: "Q&A already present for this project. Cannot create new Q&A." };
 			}
 
 			// Create new QAs
@@ -380,7 +380,7 @@ const retrieveProjectQAs = async (projectId, actionType) => {
 			}
 
 			//Filter users public data from QAs
-			projectQAs.QAs.updatedBy = filterTools.filterUserOutputFields(projectQAs.QAs.updatedBy, "unknown").user;
+			const updater = filterTools.filterUserOutputFields(projectQAs.QAs.updatedBy, "unknown").user;
 
 			const QAsList = projectQAs.QAs.QAsList;
 
@@ -388,7 +388,7 @@ const retrieveProjectQAs = async (projectId, actionType) => {
 				QAsList: QAsList,
 				createdAt: projectQAs.QAs.createdAt,
 				updatedAt: projectQAs.QAs.updatedAt,
-				updatedBy: projectQAs.QAs.updatedBy,
+				updatedBy: updater,
 			};
 
 			logger.info(`Project Q&A retrieved successfully.`);

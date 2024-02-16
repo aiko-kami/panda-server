@@ -65,8 +65,7 @@ const removeCrush = async (req, res) => {
 
 const retrieveCrushProjects = async (req, res) => {
 	try {
-		const crushProjects = await crushService.retrieveCrushProjects(["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "members"], { crush: true, visibility: "public" }, 99);
-
+		const crushProjects = await crushService.retrieveCrushProjects(["-_id", "title", "summary", "cover", "category", "subCategory", "tags"], { crush: true, visibility: "public" }, 99);
 		if (crushProjects.status !== "success") {
 			return apiResponse.serverErrorResponse(res, crushProjects.message);
 		}
@@ -80,7 +79,7 @@ const retrieveCrushProjects = async (req, res) => {
 		if (projectFiltered.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectFiltered.message);
 		}
-		return apiResponse.successResponseWithData(res, crushProjects.message, projectFiltered.projects);
+		return apiResponse.successResponseWithData(res, crushProjects.message, { projecsts: projectFiltered.projects });
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}

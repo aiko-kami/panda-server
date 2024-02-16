@@ -138,9 +138,8 @@ const retrieveCrushProjects = async (fields, conditions, limit) => {
 				modifiedProject.members = undefined;
 			}
 			if (!fields.includes("statusInfo")) {
-				project.statusInfo = undefined;
+				modifiedProject.statusInfo = undefined;
 			}
-
 			return modifiedProject;
 		});
 

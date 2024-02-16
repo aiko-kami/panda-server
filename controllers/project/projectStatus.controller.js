@@ -1,5 +1,5 @@
 const { statusService, userRightsService, projectService } = require("../../services");
-const { apiResponse, statusValidation, filterTools } = require("../../utils");
+const { apiResponse, statusValidation, projectValidation, filterTools, encryptTools } = require("../../utils");
 
 /**
  * Update project status controller.
@@ -75,6 +75,54 @@ const updateProjectStatus = async (req, res) => {
 	}
 };
 
+const retrieveProjectStatusInfo = async (req, res) => {
+	try {
+		const userId = req.userId;
+		const { projectId = "" } = req.params;
+
+		// Validate input data for creating a project
+		const validationResult = projectValidation.validateProjectIdAndUserId(projectId, userId, "mandatory");
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		//Retrieve project data
+		const projectData = await projectService.retrieveProjectById(projectId, ["-_id", "title", "members", "statusInfo", "projectId"]);
+		if (projectData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectData.message);
+		}
+
+		//Verify user is member of the project
+		const projectMembers = projectData.project.members;
+
+		// Convert id to ObjectId
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+
+		if (objectIdUserId.status == "error") {
+			return apiResponse.serverErrorResponse(res, objectIdUserId.message);
+		}
+
+		// Find the user in the project's members
+		const isUserProjectMember = projectMembers.find((member) => encryptTools.convertIdToObjectId(member.user.userId).toString() === objectIdUserId.toString());
+
+		// If user is not member of the project, return error
+		if (!isUserProjectMember) {
+			return apiResponse.unauthorizedResponse(res, "Status info only available for the members of the project.");
+		}
+
+		//Filter users public data from projects
+		projectData.project.members = undefined;
+		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project, userId);
+		if (projectFiltered.status !== "success") {
+			return apiResponse.clientErrorResponse(res, projectFiltered.message);
+		}
+		return apiResponse.successResponseWithData(res, projectData.message, projectFiltered.project);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 module.exports = {
 	updateProjectStatus,
+	retrieveProjectStatusInfo,
 };

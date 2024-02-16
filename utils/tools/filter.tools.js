@@ -152,7 +152,7 @@ const filterUserFieldsToUpdate = (data) => {
 const handleUserFiltering = (user, userIdViewer) => {
 	try {
 		// Create a deep copy of the user object
-		const userCopy = structuredClone(user);
+		const userCopy = JSON.parse(JSON.stringify(user));
 
 		let objectIdUserIdViewer = userIdViewer;
 		if (userIdViewer !== "unknown") {
