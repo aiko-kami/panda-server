@@ -25,3 +25,4 @@ module.exports.apiResponse = require("./apiResponse");
 module.exports.emailDelivery = require("./email/emailDelivery");
 module.exports.emailTemplates = require("./email/emailtemplates");
 module.exports.logger = require("./logger");
+module.exports.uploadFile = require("./filesUpload/uploadFile");

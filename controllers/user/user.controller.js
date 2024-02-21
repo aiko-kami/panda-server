@@ -1,4 +1,4 @@
-const { apiResponse, userValidation, authValidation, filterTools } = require("../../utils");
+const { apiResponse, userValidation, authValidation, filterTools, uploadFile } = require("../../utils");
 const { userService } = require("../../services");
 
 const retrieveMyUserData = async (req, res) => {
@@ -150,6 +150,36 @@ const updateUser = async (req, res) => {
 	}
 };
 
+const uploadAnImage = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		console.log("🚀 ~ uploadAnImage ~ userId:", userId);
+		console.log("🚀 ~ uploadAnImage ~ req:", req);
+		console.log("🚀 ~ uploadAnImage ~ uploadFile:", JSON.stringify(uploadFile));
+
+		const singleUpload = uploadFile.single("Image");
+
+		singleUpload(req, res, function (err) {
+			if (err) {
+				return res.json({
+					success: false,
+					errors: {
+						title: "Image Upload Error",
+						detail: err.message,
+						error: err,
+					},
+				});
+			}
+
+			console.log(req.file);
+			return apiResponse.successResponse(res, "File uploaded successfully.");
+		});
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 /**
  * Change User's password Controller
  * This controller handles the update of user's password.
@@ -249,4 +279,5 @@ module.exports = {
 	updateUserPassword,
 	retrieveUserOverview,
 	retrieveUserPublicData,
+	uploadAnImage,
 };
