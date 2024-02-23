@@ -1,5 +1,5 @@
-const { apiResponse, userValidation, authValidation, filterTools, uploadFile } = require("../../utils");
-const { userService } = require("../../services");
+const { apiResponse, userValidation, authValidation, filterTools, uploadFiles } = require("../../utils");
+const { userService, uploadService } = require("../../services");
 
 const retrieveMyUserData = async (req, res) => {
 	try {
@@ -138,7 +138,7 @@ const updateUser = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, updateUserResult.message);
 		}
 
-		// Update the user in the database
+		// Update user privacy in the database
 		const updateUserPrivacyResult = await userService.updateUserPrivacy(userId, updatedPrivacyInputs);
 		if (updateUserPrivacyResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updateUserPrivacyResult.message);
@@ -150,31 +150,31 @@ const updateUser = async (req, res) => {
 	}
 };
 
-const uploadAnImage = async (req, res) => {
+const updateUserPicture = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		console.log("🚀 ~ uploadAnImage ~ userId:", userId);
-		console.log("🚀 ~ uploadAnImage ~ req:", req);
-		console.log("🚀 ~ uploadAnImage ~ uploadFile:", JSON.stringify(uploadFile));
+		// Validate user ID
+		const idValidationResult = userValidation.validateUserId(userId);
+		if (idValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, idValidationResult.message);
+		}
 
-		const singleUpload = uploadFile.single("Image");
+		// Upload the picture to the cloud
+		const uploadPictureResult = await uploadService.uploadPicture(req, res, userId);
+		console.log("🚀 ~ updateUserPicture ~ uploadPictureResult:", uploadPictureResult);
 
-		singleUpload(req, res, function (err) {
-			if (err) {
-				return res.json({
-					success: false,
-					errors: {
-						title: "Image Upload Error",
-						detail: err.message,
-						error: err,
-					},
-				});
-			}
+		if (uploadPictureResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, uploadPictureResult.message);
+		}
 
-			console.log(req.file);
-			return apiResponse.successResponse(res, "File uploaded successfully.");
-		});
+		// Update the user in the database
+		//		const updateUserResult = await userService.updateUser(userId, profilePictureLink);
+		//		if (updateUserResult.status !== "success") {
+		//			return apiResponse.serverErrorResponse(res, updateUserResult.message);
+		//		}
+
+		return apiResponse.successResponse(res, uploadPictureResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -276,8 +276,8 @@ module.exports = {
 	retrieveMyUserData,
 	retrieveNewUsers,
 	updateUser,
+	updateUserPicture,
 	updateUserPassword,
 	retrieveUserOverview,
 	retrieveUserPublicData,
-	uploadAnImage,
 };
