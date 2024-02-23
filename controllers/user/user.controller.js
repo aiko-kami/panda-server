@@ -162,8 +162,6 @@ const updateUserPicture = async (req, res) => {
 
 		// Upload the picture to the cloud
 		const uploadPictureResult = await uploadService.uploadPicture(req, res, userId);
-		console.log("🚀 ~ updateUserPicture ~ uploadPictureResult:", uploadPictureResult);
-
 		if (uploadPictureResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, uploadPictureResult.message);
 		}

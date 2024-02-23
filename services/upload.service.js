@@ -16,9 +16,9 @@ const uploadPicture = async (req, res, userId) => {
 					},
 				});
 			}
-			logger.info("User profile picture uploaded successfully.");
-			return { status: "success", message: "User profile picture uploaded successfully." };
 		});
+		logger.info("User profile picture uploaded successfully.");
+		return { status: "success", message: "User profile picture uploaded successfully." };
 	} catch (error) {
 		logger.error("Error uploading user profile picture:", error);
 		return { status: "error", message: "An error occurred while uploading user profile picture." };
