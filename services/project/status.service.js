@@ -26,7 +26,7 @@ const updateStatus = async (projectId, userIdUpdater, newStatus, reason) => {
 
 		// Retrieve project
 		const project = await Project.findOne({ _id: objectIdProjectId }).populate([
-			{ path: "members.user", select: "-_id username profilePicture userId" },
+			{ path: "members.user", select: "username profilePicture userId" },
 			{ path: "category", select: "-_id name categoryId" },
 		]);
 

@@ -160,7 +160,7 @@ const retrieveProjectSteps = async (projectId, actionType) => {
 		if (actionType === "all") {
 			const projectSteps = await Project.findOne({ _id: objectIdProjectId })
 				.select("-_id steps")
-				.populate([{ path: "steps.updatedBy", select: "-_id username profilePicture userId" }]);
+				.populate([{ path: "steps.updatedBy", select: "username profilePicture userId" }]);
 
 			if (!projectSteps) {
 				return { status: "error", message: "Project not found." };
@@ -369,7 +369,7 @@ const retrieveProjectQAs = async (projectId, actionType) => {
 		if (actionType === "all") {
 			const projectQAs = await Project.findOne({ _id: objectIdProjectId })
 				.select("-_id QAs")
-				.populate([{ path: "QAs.updatedBy", select: "-_id username profilePicture userId" }]);
+				.populate([{ path: "QAs.updatedBy", select: "username profilePicture userId" }]);
 
 			if (!projectQAs) {
 				return { status: "error", message: "Project not found." };

@@ -224,7 +224,7 @@ const retrieveProjectComments = async (projectId) => {
 		})
 			.select("-project -__v")
 			.sort({ createdAt: 1 })
-			.populate([{ path: "author", select: "-_id username profilePicture userId" }]);
+			.populate([{ path: "author", select: "username profilePicture userId" }]);
 
 		if (!projectComments || projectComments.length === 0) {
 			logger.info(`No comment found for this project.`);

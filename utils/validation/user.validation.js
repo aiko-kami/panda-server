@@ -6,7 +6,6 @@ const validateUpdatedUserInputs = (userData) => {
 	//String type validation
 	const invalidType =
 		typeof userData.email !== "string" ||
-		typeof userData.profilePicture !== "string" ||
 		typeof userData.locationCountry !== "string" ||
 		typeof userData.locationCity !== "string" ||
 		typeof userData.company !== "string" ||

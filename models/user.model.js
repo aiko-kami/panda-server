@@ -37,7 +37,17 @@ const userSchema = new Schema(
 			expirationTimestamp: { type: Number },
 		},
 		description: { type: String },
-		profilePicture: privacyString,
+		profilePicture: {
+			key: { type: String },
+			link: { type: String },
+			privacy: {
+				type: String,
+				required: true,
+				default: userVisibility[0],
+				enum: userVisibility,
+				message: "The value {VALUE} is not valid.",
+			},
+		},
 		location: {
 			city: privacyString,
 			country: privacyString,

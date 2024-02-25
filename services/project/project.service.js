@@ -167,7 +167,7 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 			.select("-_id -__v -draft -privateData -crush -likes -updatedBy")
 			.populate([
 				{ path: "category", select: "-_id name categoryId" },
-				{ path: "members.user", select: "-_id username profilePicture userId" },
+				{ path: "members.user", select: "username profilePicture userId" },
 			]);
 
 		projectOutput = updatedProject.toObject();
@@ -253,7 +253,7 @@ const processProjectApproval = async (projectId, projectApproval, adminUserId) =
 			.select("-__v -draft -privateData -crush -likes -updatedBy")
 			.populate([
 				{ path: "category", select: "-_id name categoryId" },
-				{ path: "members.user", select: "-_id username profilePicture userId email" },
+				{ path: "members.user", select: "username profilePicture userId email" },
 			]);
 
 		// Check if the project exists
@@ -476,10 +476,10 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 			.select(fieldsString)
 			.populate([
 				{ path: "category", select: "-_id name categoryId" },
-				{ path: "updatedBy", select: "-_id username profilePicture userId" },
-				{ path: "steps.updatedBy", select: "-_id username profilePicture userId" },
-				{ path: "members.user", select: "-_id username profilePicture userId" },
-				{ path: "statusInfo.statusHistory.updatedBy", select: "-_id username profilePicture userId" },
+				{ path: "updatedBy", select: "username profilePicture userId" },
+				{ path: "steps.updatedBy", select: "username profilePicture userId" },
+				{ path: "members.user", select: "username profilePicture userId" },
+				{ path: "statusInfo.statusHistory.updatedBy", select: "username profilePicture userId" },
 			]); // Populate fields
 
 		if (!projectRetrieved) {
@@ -526,10 +526,10 @@ const retrieveProjects = async (fields, conditions, limit) => {
 
 			query = query.select(fieldsString).populate([
 				{ path: "category", select: "-_id name categoryId" },
-				{ path: "updatedBy", select: "-_id username profilePicture userId" },
-				{ path: "steps.updatedBy", select: "-_id username profilePicture userId" },
-				{ path: "members.user", select: "-_id username profilePicture userId" },
-				{ path: "statusInfo.statusHistory.updatedBy", select: "-_id username profilePicture userId" },
+				{ path: "updatedBy", select: "username profilePicture userId" },
+				{ path: "steps.updatedBy", select: "username profilePicture userId" },
+				{ path: "members.user", select: "username profilePicture userId" },
+				{ path: "statusInfo.statusHistory.updatedBy", select: "username profilePicture userId" },
 			]); // Populate fields
 		}
 		// select(`-_id -__v ${fields}`)

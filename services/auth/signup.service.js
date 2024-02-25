@@ -29,7 +29,7 @@ const signupUser = async (username, email, password) => {
 				verified: false,
 				emailId: "",
 			},
-			profilePicture: { data: "" },
+			profilePicture: { key: "", link: "" },
 			location: {
 				city: { data: "" },
 				country: { data: "" },

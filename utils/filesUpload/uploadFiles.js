@@ -1,4 +1,4 @@
-const { S3Client, PutObjectTaggingCommand } = require("@aws-sdk/client-s3");
+const { S3Client, DeleteObjectCommand, PutObjectTaggingCommand } = require("@aws-sdk/client-s3");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const path = require("path");
@@ -19,10 +19,8 @@ function sanitizeFile(file, cb) {
 	// Define the allowed extension
 	const fileExts = [".png", ".jpg", ".jpeg", ".gif"];
 
-	// Check allowed extensions
+	// Check allowed extensions and Mime type
 	const isAllowedExt = fileExts.includes(path.extname(file.originalname.toLowerCase()));
-
-	// Mime type must be an image
 	const isAllowedMimeType = file.mimetype === "image/jpeg" || file.mimetype === "image/png";
 
 	if (isAllowedExt && isAllowedMimeType) {
@@ -33,7 +31,7 @@ function sanitizeFile(file, cb) {
 	}
 }
 
-const fileUpload = function upload(destinationPath, name) {
+const fileUpload = (req, destinationPath, name) => {
 	return multer({
 		storage: multerS3({
 			s3,
@@ -43,10 +41,11 @@ const fileUpload = function upload(destinationPath, name) {
 				cb(null, { fieldname: file.fieldname });
 			},
 			key: (req, file, cb) => {
-				const fileName = Date.now() + name;
+				const fileName = Date.now() + name + path.extname(file.originalname.toLowerCase());
 				var fullPath = destinationPath + fileName;
 				cb(null, fullPath);
 			},
+			contentType: multerS3.AUTO_CONTENT_TYPE,
 		}),
 		fileFilter: (req, file, callback) => {
 			sanitizeFile(file, callback);
@@ -57,7 +56,7 @@ const fileUpload = function upload(destinationPath, name) {
 	});
 };
 
-async function applyObjectTags(objectKey, tags) {
+const applyObjectTags = async (objectKey, tags) => {
 	console.log("🚀 ~ applyObjectTags ~ tags:", tags);
 
 	console.log("🚀 ~ applyObjectTags ~ objectKey:", objectKey);
@@ -75,9 +74,40 @@ async function applyObjectTags(objectKey, tags) {
 		console.error("Error", err);
 		return false;
 	}
-}
+};
+
+const checkInputFile = (req) => {
+	try {
+		if (req.headers["content-type"] && req.headers["content-type"].startsWith("multipart/form-data")) {
+			return { status: "success", message: "Input file found in the request.", isFile: true };
+		} else {
+			return { status: "success", message: "Input file not found in the request.", isFile: false };
+		}
+	} catch (error) {
+		logger.error("Error while checking the input file:", error);
+		return { status: "error", message: "An error occurred while checking the input file." };
+	}
+};
+
+const deleteFile = async (objectKey) => {
+	try {
+		const params = { Bucket: process.env.AWS_BUCKET, Key: objectKey };
+		const command = new DeleteObjectCommand(params);
+		const output = await s3.send(command);
+
+		console.log("🚀 ~ deleteFile ~ output:", output);
+
+		console.log(`File ${objectKey} deleted successfully`);
+		return { status: "success", message: `File ${objectKey} deleted successfully.` };
+	} catch (error) {
+		console.error(`Error while deleting file ${objectKey}:`, error);
+		return { status: "error", message: `Error while deleting file ${objectKey}: ${error.message}` };
+	}
+};
 
 module.exports = {
 	fileUpload,
 	applyObjectTags,
+	checkInputFile,
+	deleteFile,
 };

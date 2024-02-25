@@ -158,55 +158,58 @@ const handleUserFiltering = (user, userIdViewer) => {
 		if (userIdViewer !== "unknown") {
 			// Convert id to ObjectId
 			objectIdUserIdViewer = convertIdToObjectId(userIdViewer);
+
 			if (objectIdUserIdViewer.status == "error") {
 				return { status: "error", message: objectIdUserIdViewer.message };
 			}
 		}
-
 		if (userCopy.profilePicture) {
-			if (userCopy.profilePicture.privacy !== "public" && userCopy._id !== objectIdUserIdViewer) {
+			if (userCopy.profilePicture.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.profilePicture = undefined;
 			} else {
+				userCopy.profilePicture.data = userCopy.profilePicture.link;
+				userCopy.profilePicture.key = undefined;
+				userCopy.profilePicture.link = undefined;
 				userCopy.profilePicture.privacy = undefined;
 			}
 		}
 		if (userCopy.location && userCopy.location.city) {
-			if (userCopy.location.city.privacy !== "public" && userCopy._id !== objectIdUserIdViewer) {
+			if (userCopy.location.city.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.location.city = undefined;
 			} else {
 				userCopy.location.city.privacy = undefined;
 			}
 		}
 		if (userCopy.location && userCopy.location.country) {
-			if (userCopy.location.country.privacy !== "public" && userCopy._id !== objectIdUserIdViewer) {
+			if (userCopy.location.country.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.location.country = undefined;
 			} else {
 				userCopy.location.country.privacy = undefined;
 			}
 		}
 		if (userCopy.company) {
-			if (userCopy.company.privacy !== "public" && userCopy._id !== objectIdUserIdViewer) {
+			if (userCopy.company.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.company = undefined;
 			} else {
 				userCopy.company.privacy = undefined;
 			}
 		}
 		if (userCopy.bio) {
-			if (userCopy.bio.privacy !== "public" && userCopy._id !== objectIdUserIdViewer) {
+			if (userCopy.bio.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.bio = undefined;
 			} else {
 				userCopy.bio.privacy = undefined;
 			}
 		}
 		if (userCopy.languages) {
-			if (userCopy.languages.privacy !== "public" && userCopy._id !== objectIdUserIdViewer) {
+			if (userCopy.languages.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.languages = undefined;
 			} else {
 				userCopy.languages.privacy = undefined;
 			}
 		}
 		if (userCopy.website) {
-			if (userCopy.website.privacy !== "public" && userCopy._id !== objectIdUserIdViewer) {
+			if (userCopy.website.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.website = undefined;
 			} else {
 				userCopy.website.privacy = undefined;
@@ -232,10 +235,8 @@ const filterUserOutputFields = (user, userIdViewer) => {
 
 const filterUsersOutputFields = (users, userIdViewer) => {
 	try {
-		for (let user of users) {
-			user = handleUserFiltering(user, userIdViewer);
-		}
-		return { status: "success", message: "Users filtered successfully.", users };
+		const filteredUsers = users.map((user) => handleUserFiltering(user, userIdViewer));
+		return { status: "success", message: "Users filtered successfully.", users: filteredUsers };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}

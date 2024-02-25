@@ -74,7 +74,7 @@ const retrieveUserPublicLikes = async (req, res) => {
 		}
 
 		// Retrieve user to verify if user likes are public
-		const userRetrieved = await userService.retrieveUserById(userId, ["-_id", "userId", "username", "profilePicture", "projectLikePrivacy"]);
+		const userRetrieved = await userService.retrieveUserById(userId, ["userId", "username", "profilePicture", "projectLikePrivacy"]);
 		if (userRetrieved.status !== "success") {
 			return apiResponse.clientErrorResponse(res, userRetrieved.message);
 		}

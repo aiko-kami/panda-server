@@ -12,7 +12,6 @@ const retrieveMyUserData = async (req, res) => {
 		}
 
 		const userData = await userService.retrieveUserById(userId, [
-			"-_id",
 			"username",
 			"email",
 			"createdAt",
@@ -30,7 +29,13 @@ const retrieveMyUserData = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, userData.message);
 		}
 
-		return apiResponse.successResponseWithData(res, userData.message, userData.user);
+		//Filter user data from user
+		const userFiltered = filterTools.filterUserOutputFields(userData.user, userId);
+		if (userFiltered.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userFiltered.message);
+		}
+
+		return apiResponse.successResponseWithData(res, userData.message, userFiltered);
 	} catch (error) {
 		// Throw error in json response with status 500.
 		return apiResponse.serverErrorResponse(res, error.message);
@@ -41,13 +46,12 @@ const retrieveMyUserData = async (req, res) => {
 const retrieveNewUsers = async (req, res) => {
 	try {
 		const newUsers = await userService.retrieveLatestUsers(
-			["-_id", "username", "profilePicture", "description"],
+			["username", "profilePicture", "description"],
 			{
 				"emailVerified.verified": true,
 			},
 			4
 		);
-
 		if (newUsers.status !== "success") {
 			return apiResponse.serverErrorResponse(res, newUsers.message);
 		}
@@ -81,7 +85,6 @@ const updateUser = async (req, res) => {
 		//Retrieve and initialize user data
 		const updatedUserInputs = {
 			email: req.body.userNewData.email || "",
-			profilePicture: req.body.userNewData.profilePicture || "",
 			locationCountry: req.body.userNewData.locationCountry || "",
 			locationCity: req.body.userNewData.locationCity || "",
 			company: req.body.userNewData.company || "",
@@ -160,19 +163,52 @@ const updateUserPicture = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, idValidationResult.message);
 		}
 
-		// Upload the picture to the cloud
-		const uploadPictureResult = await uploadService.uploadPicture(req, res, userId);
-		if (uploadPictureResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, uploadPictureResult.message);
+		// Verify user exists, retrieve former profile picture
+		const userData = await userService.retrieveUserById(userId, ["username", "profilePicture"]);
+		if (userData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userData.message);
 		}
 
-		// Update the user in the database
-		//		const updateUserResult = await userService.updateUser(userId, profilePictureLink);
-		//		if (updateUserResult.status !== "success") {
-		//			return apiResponse.serverErrorResponse(res, updateUserResult.message);
-		//		}
+		const formerProfilePicture = userData.user.profilePicture.key;
+		const isFormerPicturePresent = formerProfilePicture !== "";
 
-		return apiResponse.successResponse(res, uploadPictureResult.message);
+		//Verify that query contains an input file
+		const inputFileCheckResult = uploadFiles.checkInputFile(req);
+		if (inputFileCheckResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, inputFileCheckResult.message);
+		}
+
+		const isNewPicturePresent = inputFileCheckResult.isFile;
+
+		// If new picture is present in the request, upload new profile picture to AWS
+		if (isNewPicturePresent) {
+			const uploadPictureResult = await uploadService.uploadProfilePicture(req, res, userId);
+			if (uploadPictureResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, uploadPictureResult.message);
+			}
+		}
+
+		// Remove former profile picture from AWS
+		if (isFormerPicturePresent) {
+			const deletePictureResult = await uploadFiles.deleteFile(formerProfilePicture);
+			if (deletePictureResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, deletePictureResult.message);
+			}
+		}
+
+		//Set new profile picture link in the data to update the database
+		const updatedUserData = {
+			profilePictureKey: req.file.key || "",
+			profilePictureLink: req.file.location || "",
+		};
+
+		// Add new profile picture link to database (replace with new link or simply remove the former one if there is no new input)
+		const updateUserResult = await userService.updateUser(userId, updatedUserData);
+		if (updateUserResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateUserResult.message);
+		}
+
+		return apiResponse.successResponseWithData(res, "User profile picture updated successfully.", profilePictureLink);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -226,7 +262,7 @@ const retrieveUserOverview = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const userData = await userService.retrieveUserById(userId, ["-_id", "username", "location", "description", "talents", "profilePicture"]);
+		const userData = await userService.retrieveUserById(userId, ["username", "location", "description", "talents", "profilePicture"]);
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);
 		}
@@ -253,7 +289,7 @@ const retrieveUserPublicData = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const userData = await userService.retrieveUserById(userId, ["-_id", "username", "createdAt", "location", "company", "description", "bio", "languages", "website", "profilePicture"]);
+		const userData = await userService.retrieveUserById(userId, ["username", "createdAt", "location", "company", "description", "bio", "languages", "website", "profilePicture"]);
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);
 		}

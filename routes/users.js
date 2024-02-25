@@ -8,17 +8,17 @@ const { userController, talentController } = require("../controllers");
 const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Me
-usersRoute.get("/me", verifyAccess, userController.retrieveMyUserData);
+usersRoute.get("/myData", verifyAccess, userController.retrieveMyUserData);
 usersRoute.patch("/updateMyData", verifyAccess, userController.updateUser);
 usersRoute.post("/updateMyPicture", verifyAccess, userController.updateUserPicture);
 
 // Talents
-usersRoute.post("/me/talent/add", verifyAccess, talentController.createTalent);
-usersRoute.patch("/me/talent/update", verifyAccess, talentController.updateTalent);
-usersRoute.delete("/me/talent/remove", verifyAccess, talentController.removeTalent);
+usersRoute.post("/talent/add", verifyAccess, talentController.createTalent);
+usersRoute.patch("/talent/update", verifyAccess, talentController.updateTalent);
+usersRoute.delete("/talent/remove", verifyAccess, talentController.removeTalent);
 
 // Change password
-usersRoute.patch("/me/changePassword", verifyAccess, userController.updateUserPassword);
+usersRoute.patch("/changePassword", verifyAccess, userController.updateUserPassword);
 
 // New User Overview
 usersRoute.get("/lastUsersOverview", userController.retrieveNewUsers);

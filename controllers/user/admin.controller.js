@@ -32,7 +32,6 @@ const updateUser = async (req, res) => {
 		//Retrieve and initialize user data
 		const updatedUserInputs = {
 			email: req.body.userNewData.email || "",
-			profilePicture: req.body.userNewData.profilePicture || "",
 			locationCountry: req.body.userNewData.locationCountry || "",
 			locationCity: req.body.userNewData.locationCity || "",
 			description: req.body.userNewData.description || "",
