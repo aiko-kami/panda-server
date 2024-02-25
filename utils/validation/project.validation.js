@@ -10,7 +10,6 @@ const validateDraftProjectInputs = (projectData) => {
 		typeof projectData.goal !== "string" ||
 		typeof projectData.summary !== "string" ||
 		typeof projectData.description !== "string" ||
-		typeof projectData.cover !== "string" ||
 		typeof projectData.categoryId !== "string" ||
 		typeof projectData.subCategory !== "string" ||
 		typeof projectData.locationCountry !== "string" ||
@@ -61,7 +60,6 @@ const validateSubmittedProjectInputs = (projectData) => {
 		typeof projectData.goal !== "string" ||
 		typeof projectData.summary !== "string" ||
 		typeof projectData.description !== "string" ||
-		typeof projectData.cover !== "string" ||
 		typeof projectData.categoryId !== "string" ||
 		typeof projectData.subCategory !== "string" ||
 		typeof projectData.locationCountry !== "string" ||
@@ -127,7 +125,6 @@ const validateUpdatedProjectInputs = (projectData) => {
 		typeof projectData.goal !== "string" ||
 		typeof projectData.summary !== "string" ||
 		typeof projectData.description !== "string" ||
-		typeof projectData.cover !== "string" ||
 		typeof projectData.locationCountry !== "string" ||
 		typeof projectData.locationCity !== "string" ||
 		(typeof projectData.locationOnlineOnly !== "boolean" && projectData.locationOnlineOnly !== "no value passed") ||
@@ -207,7 +204,6 @@ const validateProjectDraftInputs = (projectData) => {
 		typeof projectData.goal !== "string" ||
 		typeof projectData.summary !== "string" ||
 		typeof projectData.description !== "string" ||
-		typeof projectData.cover !== "string" ||
 		typeof projectData.locationCountry !== "string" ||
 		typeof projectData.locationCity !== "string" ||
 		(typeof projectData.locationOnlineOnly !== "boolean" && projectData.locationOnlineOnly !== "no value passed") ||

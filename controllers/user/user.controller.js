@@ -45,13 +45,7 @@ const retrieveMyUserData = async (req, res) => {
 // Retrieve 4 new users
 const retrieveNewUsers = async (req, res) => {
 	try {
-		const newUsers = await userService.retrieveLatestUsers(
-			["username", "profilePicture", "description"],
-			{
-				"emailVerified.verified": true,
-			},
-			4
-		);
+		const newUsers = await userService.retrieveLatestUsers(["username", "profilePicture", "description"], { "emailVerified.verified": true }, 4);
 		if (newUsers.status !== "success") {
 			return apiResponse.serverErrorResponse(res, newUsers.message);
 		}
@@ -196,10 +190,13 @@ const updateUserPicture = async (req, res) => {
 			}
 		}
 
+		const profilePictureKey = req.file.key || "";
+		const profilePictureLink = req.file.location || "";
+
 		//Set new profile picture link in the data to update the database
 		const updatedUserData = {
-			profilePictureKey: req.file.key || "",
-			profilePictureLink: req.file.location || "",
+			profilePictureKey,
+			profilePictureLink,
 		};
 
 		// Add new profile picture link to database (replace with new link or simply remove the former one if there is no new input)

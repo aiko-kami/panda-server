@@ -12,6 +12,7 @@ module.exports.projectController = require("./project/project.controller");
 module.exports.projectRightsController = require("./project/projectRights.controller");
 module.exports.projectStatusController = require("./project/projectStatus.controller");
 module.exports.projectCrushController = require("./project/projectCrush.controller");
+module.exports.projectCoverController = require("./project/projectCover.controller");
 module.exports.projectLikeController = require("./project/projectLike.controller");
 module.exports.projectStepsController = require("./project/projectSteps.controller");
 module.exports.projectQAController = require("./project/projectQA.controller");

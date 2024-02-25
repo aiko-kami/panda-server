@@ -3,6 +3,8 @@ const multer = require("multer");
 const multerS3 = require("multer-s3");
 const path = require("path");
 
+const logger = require("../logger");
+
 let s3 = new S3Client({
 	region: process.env.AWS_REGION,
 	credentials: {
@@ -68,7 +70,6 @@ const applyObjectTags = async (objectKey, tags) => {
 			Tagging: { TagSet: tags },
 		});
 		await s3.send(command);
-		console.log(`Tags applied to ${objectKey}`);
 		return true;
 	} catch (err) {
 		console.error("Error", err);
@@ -95,12 +96,10 @@ const deleteFile = async (objectKey) => {
 		const command = new DeleteObjectCommand(params);
 		const output = await s3.send(command);
 
-		console.log("🚀 ~ deleteFile ~ output:", output);
-
-		console.log(`File ${objectKey} deleted successfully`);
+		logger.info(`File ${objectKey} deleted successfully`);
 		return { status: "success", message: `File ${objectKey} deleted successfully.` };
 	} catch (error) {
-		console.error(`Error while deleting file ${objectKey}:`, error);
+		logger.error(`Error while deleting file ${objectKey}:`, error);
 		return { status: "error", message: `Error while deleting file ${objectKey}: ${error.message}` };
 	}
 };

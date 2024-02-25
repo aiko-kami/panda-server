@@ -10,12 +10,17 @@ const {
 	projectAttachmentsController,
 	projectStatusController,
 	projectCrushController,
+	projectCoverController,
 	projectLikeController,
 	projectStepsController,
 	projectQAController,
 	commentController,
 } = require("../controllers");
 const { verifyAccess, verifyAdminAccess } = require("../middlewares/verifyAccess.middleware");
+
+// Project cover
+projectExtendedRoute.post("/updateProjectCover/:projectId", verifyAccess, projectCoverController.updateCover);
+projectExtendedRoute.post("/updateProjectCoverDraft/:projectId", verifyAccess, projectCoverController.updateCoverDraft);
 
 // Project crush
 projectExtendedRoute.patch("/addProjectCrush", verifyAdminAccess, projectCrushController.addCrush);

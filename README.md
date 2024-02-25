@@ -186,6 +186,7 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Review project steps retrieval (projectsExtended/projectStepsAll) and QAs
   - [x] Review user public likes retrieval (projectsExtended/projectsUserPublicLikes) => filter projectLikePrivacy field
   - [x] Review crush project retrieval (projectsExtended/crushProjects) => there are some private project data
+  - [x] Filter on updateProjectDraft service
 - [x] Upload images
 - [x] Update user profile picture
 
@@ -194,8 +195,8 @@ Don't let your ideas and talents go to waste – join Sheepy now!
 ### ❤ Last required improvements
 
 - [ ] Update project cover ❤
+- [x] Add createdBy field when creating a project ❤
 - [ ] Upload project documents ❤
-- [ ] Filter on updateProjectDraft service ❤
 - [ ] Refactor admin (profile picture) ❤
 
 ---

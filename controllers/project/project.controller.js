@@ -16,7 +16,6 @@ const createProjectDraft = async (req, res) => {
 			goal: req.body.projectInputs.goal || "",
 			summary: req.body.projectInputs.summary || "",
 			description: req.body.projectInputs.description || "",
-			cover: req.body.projectInputs.cover || "",
 			categoryId: req.body.projectInputs.categoryId || "",
 			subCategory: req.body.projectInputs.subCategory || "",
 			locationCountry: req.body.projectInputs.locationCountry || "",
@@ -80,7 +79,6 @@ const updateProjectDraft = async (req, res) => {
 			goal: req.body.projectInputs.goal || "",
 			summary: req.body.projectInputs.summary || "",
 			description: req.body.projectInputs.description || "",
-			cover: req.body.projectInputs.cover || "",
 			categoryId: req.body.projectInputs.categoryId || "",
 			subCategory: req.body.projectInputs.subCategory || "",
 			locationCountry: req.body.projectInputs.locationCountry || "",
@@ -127,7 +125,43 @@ const updateProjectDraft = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, updatedResult.message);
 		}
 
-		return apiResponse.successResponseWithData(res, updatedResult.message, updatedResult.project);
+		// Retrieve the updated project
+		const updatedProject = await projectService.retrieveProjectById(projectId, [
+			"-_id",
+			"title",
+			"goal",
+			"summary",
+			"description",
+			"cover",
+			"category",
+			"subCategory",
+			"location",
+			"startDate",
+			"creatorMotivation",
+			"tags",
+			"talentsNeeded",
+			"objectives",
+			"updatedBy",
+			"visibility",
+			"statusInfo",
+			"privateData",
+			"createdAt",
+			"createdBy",
+			"updatedAt",
+			"members",
+			"projectId",
+		]);
+		if (updatedProject.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updatedProject.message);
+		}
+
+		//Filter users public data from projects
+		const projectFiltered = filterTools.filterProjectOutputFields(updatedProject.project, userId);
+		if (projectFiltered.status !== "success") {
+			return apiResponse.clientErrorResponse(res, projectFiltered.message);
+		}
+
+		return apiResponse.successResponseWithData(res, updatedResult.message, projectFiltered.project);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -172,7 +206,6 @@ const submitProject = async (req, res) => {
 			goal: req.body.projectInputs.goal || "",
 			summary: req.body.projectInputs.summary || "",
 			description: req.body.projectInputs.description || "",
-			cover: req.body.projectInputs.cover || "",
 			categoryId: req.body.projectInputs.categoryId || "",
 			subCategory: req.body.projectInputs.subCategory || "",
 			locationCountry: req.body.projectInputs.locationCountry || "",
@@ -344,7 +377,7 @@ const processProjectApproval = async (req, res) => {
 
 /**
  * Update existing project controller.
- * Allows to update the following elements of a project: title, goal, summary, description, cover, tags, location, talentsNeeded, startDate, phase, objectives, creatorMotivation, visibility
+ * Allows to update the following elements of a project: title, goal, summary, description, tags, location, talentsNeeded, startDate, phase, objectives, creatorMotivation, visibility
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
  * @returns {Object} - The response containing the updated project or an error message.
@@ -360,7 +393,6 @@ const updateProject = async (req, res) => {
 			goal: req.body.projectNewData.goal || "",
 			summary: req.body.projectNewData.summary || "",
 			description: req.body.projectNewData.description || "",
-			cover: req.body.projectNewData.cover || "",
 			locationCountry: req.body.projectNewData.locationCountry || "",
 			locationCity: req.body.projectNewData.locationCity || "",
 			locationOnlineOnly: req.body.projectNewData.locationOnlineOnly || "no value passed",
@@ -462,7 +494,6 @@ const updateProjectDraftSection = async (req, res) => {
 			goal: req.body.projectDraftData.goal || "",
 			summary: req.body.projectDraftData.summary || "",
 			description: req.body.projectDraftData.description || "",
-			cover: req.body.projectDraftData.cover || "",
 			locationCountry: req.body.projectDraftData.locationCountry || "",
 			locationCity: req.body.projectDraftData.locationCity || "",
 			locationOnlineOnly: req.body.projectDraftData.locationOnlineOnly || "no value passed",

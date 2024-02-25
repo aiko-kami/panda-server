@@ -52,7 +52,10 @@ const projectSchema = new Schema(
 			goal: { type: String, trim: true },
 			summary: { type: String, trim: true },
 			description: { type: String },
-			cover: { type: String }, // Optional
+			cover: {
+				key: { type: String, default: "" },
+				link: { type: String, default: "" },
+			}, // Optional
 			location: {
 				city: { type: String },
 				country: { type: String },
@@ -77,7 +80,10 @@ const projectSchema = new Schema(
 		goal: { type: String, required: true, trim: true },
 		summary: { type: String, required: true, trim: true },
 		description: { type: String, required: true },
-		cover: { type: String }, // Optional
+		cover: {
+			key: { type: String, default: "" },
+			link: { type: String, default: "" },
+		}, // Optional
 		crush: { type: Boolean, default: false }, // Optional
 		likes: { type: Number, default: 0 }, // Optional
 		category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
@@ -138,6 +144,7 @@ const projectSchema = new Schema(
 			required: true,
 			default: DateTime.now().toHTTP(),
 		},
+		createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
 		members: [memberSchema], // Optional
 	},
 	{

@@ -52,7 +52,6 @@ const createProject = async (projectData) => {
 			goal: projectData.goal,
 			summary: projectData.summary,
 			description: projectData.description,
-			cover: projectData.cover,
 			category: objectIdCategoryId,
 			subCategory: projectData.subCategory,
 			statusInfo: projectStatus,
@@ -61,6 +60,7 @@ const createProject = async (projectData) => {
 			startDate: projectData.startDate !== "" ? projectData.startDate : undefined,
 			creatorMotivation: projectData.creatorMotivation,
 			visibility: projectData.visibility,
+			createdBy: objectIdCreatorId,
 			updatedBy: objectIdCreatorId,
 			tags: projectData.tags,
 			members: [{ user: objectIdCreatorId, role: "owner" }],
@@ -121,6 +121,16 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 			return { status: "error", message: "Project not found." };
 		}
 
+		// Check if the user updater is the creator of project
+		if (project.createdBy.toString() !== objectIdUserIdUpdater.toString()) {
+			return { status: "error", message: "Only the creator of the project can update it." };
+		}
+
+		// Check if the project status is draft
+		if (project.statusInfo.currentStatus !== "draft") {
+			return { status: "error", message: "Project status is not DRAFT. You can only update draft project." };
+		}
+
 		// Verify that title does not already exists in the database
 		if (updatedData.title) {
 			const titleCapitalized = updatedData.title.toUpperCase();
@@ -138,7 +148,6 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 			goal: "goal",
 			summary: "summary",
 			description: "description",
-			cover: "cover",
 			subCategory: "subCategory",
 			locationCity: "location.city",
 			locationCountry: "location.country",
@@ -170,19 +179,10 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 				{ path: "members.user", select: "username profilePicture userId" },
 			]);
 
-		projectOutput = updatedProject.toObject();
-
-		for (let member of projectOutput.members) {
-			if (member.user.profilePicture.privacy !== "public") {
-				member.user.profilePicture = undefined;
-			}
-			member._id = undefined;
-		}
-
-		logger.info(`Project updated successfully. Project ID: ${projectId} - Project status: ${projectOutput.statusInfo.currentStatus}`);
+		logger.info(`Project updated successfully. Project ID: ${projectId} - Project status: ${updatedProject.statusInfo.currentStatus}`);
 		return {
 			status: "success",
-			message: `Project updated successfully. Project status: ${projectOutput.statusInfo.currentStatus}`,
+			message: `Project updated successfully. Project status: ${updatedProject.statusInfo.currentStatus}`,
 			project: updatedProject,
 		};
 	} catch (error) {
@@ -328,7 +328,8 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 			goal: "goal",
 			summary: "summary",
 			description: "description",
-			cover: "cover",
+			coverKey: "cover.key",
+			coverLink: "cover.link",
 			startDate: "startDate",
 			phase: "privateData.phase",
 			creatorMotivation: "creatorMotivation",
@@ -411,7 +412,6 @@ const updateProjectDraftSection = async (projectId, updatedData, userIdUpdater) 
 			goal: "draft.goal",
 			summary: "draft.summary",
 			description: "draft.description",
-			cover: "draft.cover",
 			locationCity: "draft.location.city",
 			locationCountry: "draft.location.country",
 			locationOnlineOnly: "draft.location.onlineOnly",
