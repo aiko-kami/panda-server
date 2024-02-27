@@ -189,13 +189,13 @@ Don't let your ideas and talents go to waste – join Sheepy now!
   - [x] Filter on updateProjectDraft service
 - [x] Upload images
 - [x] Update user profile picture
+- [x] Add createdBy field when creating a project
 
 ---
 
 ### ❤ Last required improvements
 
-- [ ] Update project cover ❤
-- [x] Add createdBy field when creating a project ❤
+- [x] Update project cover ❤
 - [ ] Upload project documents ❤
 - [ ] Refactor admin (profile picture) ❤
 

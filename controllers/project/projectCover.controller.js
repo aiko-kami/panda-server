@@ -18,52 +18,16 @@ const updateCover = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
 		}
 
-		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
+		// Verify that user can update the project cover
+		const canUpdateResult = await projectService.canUpdateProject(projectId, userId, ["cover"]);
+		if (canUpdateResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, canUpdateResult.message);
+		}
+		if (canUpdateResult.userCanEditCover !== true) {
+			return apiResponse.unauthorizedResponse(res, canUpdateResult.message);
 		}
 
-		//Verify that user (project creator) exists in the database
-		const existingCreator = await userService.retrieveUserById(userId, ["-_id"]);
-		if (existingCreator.status !== "success") {
-			return apiResponse.clientErrorResponse(res, existingCreator.message);
-		}
-
-		// Retrieve the updated project
-		const projectRetrieved = await projectService.retrieveProjectById(projectId, ["-_id", "cover", "statusInfo", "createdBy"]);
-		if (projectRetrieved.status !== "success") {
-			return apiResponse.serverErrorResponse(res, projectRetrieved.message);
-		}
-
-		if (projectRetrieved.project.statusInfo.currentStatus === "submitted") {
-			return apiResponse.serverErrorResponse(res, "You cannot update a project for which status is SUBMITTED.");
-		}
-		if (projectRetrieved.project.statusInfo.currentStatus === "draft") {
-			if (projectRetrieved.project.createdBy.toString() !== objectIdUserIdUpdater.toString()) {
-				return apiResponse.serverErrorResponse(res, "Only the creator of the project can update it.");
-			} else {
-				//upload project cover
-				//
-			}
-		}
-
-		//
-		// Create function in service to check if user can update the cover of the project
-		//Either due to the status of the project or due to user rights
-		//
-
-		// Retrieve Project Rights of the user
-		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userId);
-		if (rightsCheckResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
-		}
-
-		// Check if the user has canEditCover permission
-		if (!rightsCheckResult.projectRights.permissions.canEditCover) {
-			return apiResponse.unauthorizedResponse(res, "You do not have permission to update cover for this project.");
-		}
-
-		const formerCover = projectRetrieved.project.cover.key;
+		const formerCover = canUpdateResult.project.cover.key;
 		const isFormerCoverPresent = formerCover !== "" && formerCover !== undefined;
 
 		// Verify that query contains an input file

@@ -1,5 +1,6 @@
 const { Project, Category } = require("../../models");
 const { logger, encryptTools } = require("../../utils");
+const userRightsService = require("./userRights.service");
 const { DateTime } = require("luxon");
 
 /**
@@ -220,7 +221,7 @@ const removeProjectDraft = async (projectId, userIdUpdater) => {
 			return { status: "error", message: "Only the creator of the project can remove the draft of the project." };
 		}
 
-		// Check if the project status
+		// Check the project status
 		if (project.statusInfo.currentStatus !== "draft") {
 			return { status: "error", message: "Project status not draft." };
 		}
@@ -309,6 +310,12 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 			return { status: "error", message: "Project not found." };
 		}
 
+		const projectWrongStatus = ["draft", "submitted", "archived", "cancelled", "rejected"];
+		// Check the project status
+		if (projectWrongStatus.includes(project.statusInfo.currentStatus)) {
+			return { status: "error", message: `Project in status ${project.statusInfo.currentStatus.toUpperCase()} cannot be updated.` };
+		}
+
 		// In case of title update, verify that title does not already exists in the database
 		if (updatedData.title) {
 			const titleCapitalized = updatedData.title.toUpperCase();
@@ -391,6 +398,12 @@ const updateProjectDraftSection = async (projectId, updatedData, userIdUpdater) 
 		// Check if the project exists
 		if (!project) {
 			return { status: "error", message: "Project not found." };
+		}
+
+		const projectWrongStatus = ["draft", "submitted", "archived", "cancelled", "rejected"];
+		// Check the project status
+		if (projectWrongStatus.includes(project.statusInfo.currentStatus)) {
+			return { status: "error", message: `Project in status ${project.statusInfo.currentStatus.toUpperCase()} cannot be updated.` };
 		}
 
 		// In case of title update, verify that title does not already exists in the database
@@ -663,6 +676,61 @@ const countNumberProjectsPerCategory = async () => {
 	}
 };
 
+const canUpdateProject = async (projectId, userId, fields) => {
+	try {
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserIdUpdater.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdater.message };
+		}
+
+		// Retrieve the updated project
+		const projectRetrieved = await retrieveProjectById(projectId, ["-_id", "cover", "statusInfo", "createdBy"]);
+		if (projectRetrieved.status !== "success") {
+			return { status: "error", message: projectRetrieved.message };
+		}
+
+		const projectStatus = projectRetrieved.project.statusInfo.currentStatus;
+		const projectWrongStatus = ["submitted", "archived", "cancelled", "rejected"];
+		// Check the project status
+		if (projectWrongStatus.includes(projectStatus)) {
+			return { status: "success", message: `Project in status ${projectStatus.toUpperCase()} cannot be updated.`, userCanEditCover: false };
+		}
+
+		if (projectStatus === "draft") {
+			if (projectRetrieved.project.createdBy.toString() !== objectIdUserIdUpdater.toString()) {
+				return { status: "success", message: "Only the creator of the project can update it.", userCanEditCover: false };
+			} else {
+				return { status: "success", message: "User can edit the project.", userCanEditCover: true, project: projectRetrieved.project };
+			}
+		}
+
+		// Retrieve Project Rights of the user
+		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userId);
+		if (rightsCheckResult.status !== "success") {
+			return { status: "error", message: rightsCheckResult.message };
+		}
+
+		// Check if the user has canEditCover permission
+		if (!rightsCheckResult.projectRights.permissions.canEditCover) {
+			return { status: "success", message: "You do not have permission to update cover for this project.", userCanEditCover: false };
+		}
+
+		logger.info(`User can edit the project.`);
+		return { status: "success", message: "User can edit the project.", userCanEditCover: true, project: projectRetrieved.project };
+	} catch (error) {
+		logger.error("Error while while checking if the user can update the project: ", error);
+		return {
+			status: "error",
+			message: "An error occurred while checking if the user can update the project.",
+		};
+	}
+};
+
 module.exports = {
 	createProject,
 	updateProjectDraft,
@@ -674,4 +742,5 @@ module.exports = {
 	retrieveProjects,
 	countNumberProjects,
 	countNumberProjectsPerCategory,
+	canUpdateProject,
 };

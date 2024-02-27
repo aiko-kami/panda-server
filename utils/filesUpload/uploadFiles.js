@@ -96,7 +96,7 @@ const deleteFile = async (objectKey) => {
 		const command = new DeleteObjectCommand(params);
 		const output = await s3.send(command);
 
-		logger.info(`File ${objectKey} deleted successfully`);
+		logger.info(`File ${objectKey} deleted successfully.`);
 		return { status: "success", message: `File ${objectKey} deleted successfully.` };
 	} catch (error) {
 		logger.error(`Error while deleting file ${objectKey}:`, error);
