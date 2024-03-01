@@ -44,6 +44,19 @@ const QASchema = new Schema({
 	published: { type: Boolean, default: false },
 });
 
+const attachmentSchema = new Schema({
+	_id: false,
+	title: { type: String, required: true, unique: true, trim: true },
+	filename: { type: String, required: true, unique: true, trim: true },
+	size: { type: String },
+	extension: { type: String },
+	mimetype: { type: String },
+	key: { type: String, default: "" },
+	link: { type: String, default: "" },
+	createdAt: { type: Date, default: DateTime.now().toHTTP() },
+	updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
+});
+
 const projectSchema = new Schema(
 	{
 		projectId: { type: String, unique: true },
@@ -52,10 +65,6 @@ const projectSchema = new Schema(
 			goal: { type: String, trim: true },
 			summary: { type: String, trim: true },
 			description: { type: String },
-			cover: {
-				key: { type: String, default: "" },
-				link: { type: String, default: "" },
-			}, // Optional
 			location: {
 				city: { type: String },
 				country: { type: String },
@@ -137,7 +146,7 @@ const projectSchema = new Schema(
 		},
 		privateData: {
 			phase: String, // Optional
-			attachments: [String], // Array of file URLs - Optional
+			attachments: [attachmentSchema], // Optional
 		},
 		createdAt: {
 			type: Date,

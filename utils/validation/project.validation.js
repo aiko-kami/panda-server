@@ -239,6 +239,21 @@ const validateProjectDraftInputs = (projectData) => {
 	return { status: "success", message: "All project inputs are valid." };
 };
 
+const validateAttachmentTitle = (attachmentTitle) => {
+	//Types validation
+	if (typeof attachmentTitle !== "string") {
+		return { status: "error", message: "Invalid type of data." };
+	}
+
+	// Check if required fields are present
+	if (!attachmentTitle) {
+		return { status: "error", message: "Attachment title is required." };
+	}
+
+	// If all validations passed
+	return { status: "success", message: "Attachment title is valid." };
+};
+
 module.exports = {
 	validateDraftProjectInputs,
 	validateSubmittedProjectInputs,
@@ -246,4 +261,5 @@ module.exports = {
 	validateProjectIdAndUserId,
 	validateProjectApproval,
 	validateProjectDraftInputs,
+	validateAttachmentTitle,
 };

@@ -347,6 +347,14 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 			locationCity: "location.city",
 			locationCountry: "location.country",
 			locationOnlineOnly: "location.onlineOnly",
+			//will not work as privateData.attachments is an array
+			attachmentTitle: "privateData.attachments.title",
+			attachmentSize: "privateData.attachments.size",
+			attachmentExtension: "privateData.attachments.extension",
+			attachmentMimetype: "privateData.attachments.mimetype",
+			attachmentKey: "privateData.attachments.key",
+			attachmentLink: "privateData.attachments.link",
+			attachmentUpdatedBy: "privateData.attachments.updatedBy",
 		};
 
 		// Iterate through the fieldMapping and check if the field exists in updatedData
@@ -676,7 +684,7 @@ const countNumberProjectsPerCategory = async () => {
 	}
 };
 
-const canUpdateProject = async (projectId, userId, fields) => {
+const canUpdateProject = async (projectId, userId, permission) => {
 	try {
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
 		if (objectIdProjectId.status == "error") {

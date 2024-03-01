@@ -20,7 +20,6 @@ const { verifyAccess, verifyAdminAccess } = require("../middlewares/verifyAccess
 
 // Project cover
 projectExtendedRoute.post("/updateProjectCover/:projectId", verifyAccess, projectCoverController.updateCover);
-projectExtendedRoute.post("/updateProjectCoverDraft/:projectId", verifyAccess, projectCoverController.updateCoverDraft);
 
 // Project crush
 projectExtendedRoute.patch("/addProjectCrush", verifyAdminAccess, projectCrushController.addCrush);
@@ -73,6 +72,8 @@ projectExtendedRoute.patch("/projectStatus/:projectId", verifyAccess, projectSta
 projectExtendedRoute.get("/projectStatus/:projectId", verifyAccess, projectStatusController.retrieveProjectStatusInfo);
 
 // Project attachments
-projectExtendedRoute.patch("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.updateProjectAttachments);
+projectExtendedRoute.post("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.updateProjectAttachment);
+projectExtendedRoute.delete("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.deleteProjectAttachment);
+projectExtendedRoute.get("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.retrieveProjectAttachments);
 
 module.exports = projectExtendedRoute;

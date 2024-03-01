@@ -731,7 +731,6 @@ const retrieveProjectData = async (req, res) => {
 
 		// Convert id to ObjectId
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-
 		if (objectIdUserId.status == "error") {
 			return apiResponse.serverErrorResponse(res, objectIdUserId.message);
 		}

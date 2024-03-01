@@ -33,7 +33,7 @@ function sanitizeFile(file, cb) {
 	}
 }
 
-const fileUpload = (req, destinationPath, name) => {
+const fileUpload = (req, destinationPath, name, fileType) => {
 	return multer({
 		storage: multerS3({
 			s3,

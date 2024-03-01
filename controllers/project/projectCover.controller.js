@@ -1,11 +1,11 @@
-const { projectService, userService, userRightsService, uploadService } = require("../../services");
-const { apiResponse, projectValidation, encryptTools, uploadFiles } = require("../../utils");
+const { projectService, uploadService } = require("../../services");
+const { apiResponse, projectValidation, uploadFiles } = require("../../utils");
 
 /**
- * Create new project draft controller.
+ * Project cover controller.
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
- * @returns {Object} - The response containing the created project or an error message.
+ * @returns {Object} - The response containing the updated project or an error message.
  */
 const updateCover = async (req, res) => {
 	try {
@@ -19,7 +19,7 @@ const updateCover = async (req, res) => {
 		}
 
 		// Verify that user can update the project cover
-		const canUpdateResult = await projectService.canUpdateProject(projectId, userId, ["cover"]);
+		const canUpdateResult = await projectService.canUpdateProject(projectId, userId, ["canEditCover"]);
 		if (canUpdateResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, canUpdateResult.message);
 		}
@@ -75,20 +75,6 @@ const updateCover = async (req, res) => {
 	}
 };
 
-/**
- * Update a project for which status is draft controller.
- * @param {Object} req - The HTTP request object.
- * @param {Object} res - The HTTP response object.
- * @returns {Object} - The response containing the created project or an error message.
- */
-const updateCoverDraft = async (req, res) => {
-	try {
-	} catch (error) {
-		return apiResponse.serverErrorResponse(res, error.message);
-	}
-};
-
 module.exports = {
 	updateCover,
-	updateCoverDraft,
 };

@@ -32,13 +32,6 @@ const filterProjectFieldsToUpdate = (projectData) => {
 				filteredInputs.description = projectData.description;
 			}
 		}
-		if (projectData.cover) {
-			if (projectData.cover === "@--empty--string") {
-				filteredInputs.cover = "";
-			} else {
-				filteredInputs.cover = projectData.cover;
-			}
-		}
 		if (projectData.categoryId) {
 			if (projectData.categoryId === "@--empty--string") {
 				filteredInputs.categoryId = "";

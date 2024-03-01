@@ -58,7 +58,37 @@ const uploadCover = async (req, res, projectId) => {
 	});
 };
 
+const uploadFile = async (req, res, projectId, fileTitle) => {
+	return new Promise((resolve, reject) => {
+		try {
+			const fileName = "__projectAttachments__" + projectId + fileTitle;
+
+			const singleUpload = uploadFiles.fileUpload(req, "project_attachments/", fileName, ["document", "image"]).single("file");
+
+			singleUpload(req, res, function (error) {
+				if (error) {
+					logger.error("Error uploading file:", error);
+
+					return reject({
+						status: "error",
+						message: "File Upload Error",
+						detail: error.message,
+						error: error,
+					});
+				}
+
+				logger.info("Project attachment uploaded successfully.");
+				resolve({ status: "success", message: "Project attachment uploaded successfully." });
+			});
+		} catch (error) {
+			logger.error("Error uploading project attachment:", error);
+			return { status: "error", message: "An error occurred while uploading project attachment." };
+		}
+	});
+};
+
 module.exports = {
 	uploadProfilePicture,
 	uploadCover,
+	uploadFile,
 };

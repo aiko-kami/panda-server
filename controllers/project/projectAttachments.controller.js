@@ -1,66 +1,223 @@
-const { projectService, categoryService, userService, userRightsService } = require("../../services");
-const { apiResponse, projectValidation } = require("../../utils");
+const { projectService, uploadService } = require("../../services");
+const { apiResponse, projectValidation, uploadFiles } = require("../../utils");
+const path = require("path");
 
 /**
- * Update project attachments.
+ * Project attachments controller.
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
- * @returns {Object} - The response containing the updated attachments or an error message.
+ * @returns {Object} - The response containing the updated project or an error message.
  */
-const updateProjectAttachments = async (req, res) => {
+const updateProjectAttachment = async (req, res) => {
 	try {
-		const userIdUpdater = req.userId;
 		const { projectId = "" } = req.params;
-		const { newStatus = "" } = req.body;
+		const userId = req.userId;
+		const attachmentTitle = req.body.attachmentTitle || "";
 
-		// Validate input data for updating a project member
-		const validationResult = memberValidation.validateMemberInputs(userIdUpdater, projectId, newStatus);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
+		// Validate Ids
+		const validationIdsResult = projectValidation.validateProjectIdAndUserId(projectId, userId, "mandatory");
+		if (validationIdsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
 		}
 
-		// Retrieve Project Rights of the updater
-		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userIdUpdater);
-		if (rightsCheckResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
+		// Validate Ids
+		const validationTitleResult = projectValidation.validateAttachmentTitle(attachmentTitle);
+		if (validationTitleResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationTitleResult.message);
 		}
 
-		// Check if the user has canEditAttachments permission
-		if (!rightsCheckResult.projectRights.permissions.canEditAttachments) {
-			return apiResponse.unauthorizedResponse(res, "You do not have permission to update attachments for this project.");
+		// Verify that query contains an input file
+		const inputFileCheckResult = uploadFiles.checkInputFile(req);
+		if (inputFileCheckResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, inputFileCheckResult.message);
+		}
+		if (!inputFileCheckResult.isFile) {
+			return apiResponse.clientErrorResponse(res, inputFileCheckResult.message);
 		}
 
-		// In case of update of member's role
-		if (newRole) {
-			const updateRoleResult = await memberService.updateMemberRole(projectId, memberId, newRole);
-			if (updateRoleResult.status !== "success") {
-				return apiResponse.serverErrorResponse(res, updateRoleResult.message);
+		// Verify that user can update the project attachments
+		const canUpdateResult = await projectService.canUpdateProject(projectId, userId, ["canEditAttachments"]);
+		if (canUpdateResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, canUpdateResult.message);
+		}
+		if (canUpdateResult.canEditAttachments !== true) {
+			return apiResponse.unauthorizedResponse(res, canUpdateResult.message);
+		}
+
+		// If new file is present in the request, upload new file to AWS
+		const uploadFileResult = await uploadService.uploadFile(req, res, projectId, attachmentTitle);
+		if (uploadFileResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, uploadFileResult.message);
+		}
+
+		// Convert id to ObjectId
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserId.status == "error") {
+			return apiResponse.serverErrorResponse(res, objectIdUserId.message);
+		}
+
+		const attachmentExtension = path.extname(req.file.key).slice(1) || "";
+		//Set new cover link in the data to update the database
+		const updatedProjectData = {
+			attachmentTitle,
+			attachmentSize: req.file.size || "",
+			attachmentExtension,
+			attachmentMimetype: req.file.contentType || "",
+			attachmentKey: req.file.key || "",
+			attachmentLink: req.file.location || "",
+			attachmentUpdatedBy: objectIdUserId,
+		};
+
+		// Add new cover link to database (replace with new link or simply remove the former one if there is no new input)
+		const updateAttachmentResult = await projectService.updateProject(projectId, updatedProjectData, userId);
+		if (updateAttachmentResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateAttachmentResult.message);
+		}
+
+		return apiResponse.successResponseWithData(res, "Project attachment updated successfully.", attachmentLink);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const deleteProjectAttachment = async (req, res) => {
+	try {
+		const { projectId = "" } = req.params;
+		const userId = req.userId;
+
+		// Validate Ids
+		const validationIdsResult = projectValidation.validateProjectIdAndUserId(projectId, userId, "mandatory");
+		if (validationIdsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
+		}
+
+		// Verify that user can update the project attachments
+		const canUpdateResult = await projectService.canUpdateProjectCover(projectId, userId, ["cover"]);
+		if (canUpdateResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, canUpdateResult.message);
+		}
+		if (canUpdateResult.userCanEditCover !== true) {
+			return apiResponse.unauthorizedResponse(res, canUpdateResult.message);
+		}
+
+		const formerCover = canUpdateResult.project.cover.key;
+		const isFormerCoverPresent = formerCover !== "" && formerCover !== undefined;
+
+		// Verify that query contains an input file
+		const inputFileCheckResult = uploadFiles.checkInputFile(req);
+		if (inputFileCheckResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, inputFileCheckResult.message);
+		}
+
+		const isNewCoverPresent = inputFileCheckResult.isFile;
+
+		// If new cover is present in the request, upload new cover to AWS
+		if (isNewCoverPresent) {
+			const uploadCoverResult = await uploadService.uploadCover(req, res, projectId);
+			if (uploadCoverResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, uploadCoverResult.message);
 			}
+		}
 
-			// Update users's project rights
-			// If new role is "owner" ==> Set owner rights
-			if (newRole === "owner") {
-				const setRightsResult = await userRightsService.updateUserProjectRights(projectId, memberId, "owner", userIdUpdater);
-				if (setRightsResult.status !== "success") {
-					return apiResponse.serverErrorResponse(res, setRightsResult.message);
-				}
-			}
-
-			// If new role is "member" ==> Set member rights
-			else if (newRole === "member") {
-				const setRightsResult = await userRightsService.updateUserProjectRights(projectId, memberId, "member", userIdUpdater);
-				if (setRightsResult.status !== "success") {
-					return apiResponse.serverErrorResponse(res, setRightsResult.message);
-				}
+		// Remove former cover from AWS
+		if (isFormerCoverPresent) {
+			const deleteCoverResult = await uploadFiles.deleteFile(formerCover);
+			if (deleteCoverResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, deleteCoverResult.message);
 			}
 		}
 
-		return apiResponse.successResponse(res, "Attachment updated successfully.");
+		const coverKey = req.file.key || "";
+		const coverLink = req.file.location || "";
+
+		//Set new cover link in the data to update the database
+		const updatedProjectData = {
+			coverKey,
+			coverLink,
+		};
+
+		// Add new cover link to database (replace with new link or simply remove the former one if there is no new input)
+		const updateCoverResult = await projectService.updateProject(projectId, updatedProjectData, userId);
+		if (updateCoverResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateCoverResult.message);
+		}
+
+		return apiResponse.successResponseWithData(res, "Project cover updated successfully.", coverLink);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const retrieveProjectAttachments = async (req, res) => {
+	try {
+		const { projectId = "" } = req.params;
+		const userId = req.userId;
+
+		// Validate Ids
+		const validationIdsResult = projectValidation.validateProjectIdAndUserId(projectId, userId, "mandatory");
+		if (validationIdsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
+		}
+
+		// Verify that user can update the project attachments
+		const canUpdateResult = await projectService.canUpdateProjectCover(projectId, userId, ["cover"]);
+		if (canUpdateResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, canUpdateResult.message);
+		}
+		if (canUpdateResult.userCanEditCover !== true) {
+			return apiResponse.unauthorizedResponse(res, canUpdateResult.message);
+		}
+
+		const formerCover = canUpdateResult.project.cover.key;
+		const isFormerCoverPresent = formerCover !== "" && formerCover !== undefined;
+
+		// Verify that query contains an input file
+		const inputFileCheckResult = uploadFiles.checkInputFile(req);
+		if (inputFileCheckResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, inputFileCheckResult.message);
+		}
+
+		const isNewCoverPresent = inputFileCheckResult.isFile;
+
+		// If new cover is present in the request, upload new cover to AWS
+		if (isNewCoverPresent) {
+			const uploadCoverResult = await uploadService.uploadCover(req, res, projectId);
+			if (uploadCoverResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, uploadCoverResult.message);
+			}
+		}
+
+		// Remove former cover from AWS
+		if (isFormerCoverPresent) {
+			const deleteCoverResult = await uploadFiles.deleteFile(formerCover);
+			if (deleteCoverResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, deleteCoverResult.message);
+			}
+		}
+
+		const coverKey = req.file.key || "";
+		const coverLink = req.file.location || "";
+
+		//Set new cover link in the data to update the database
+		const updatedProjectData = {
+			coverKey,
+			coverLink,
+		};
+
+		// Add new cover link to database (replace with new link or simply remove the former one if there is no new input)
+		const updateCoverResult = await projectService.updateProject(projectId, updatedProjectData, userId);
+		if (updateCoverResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateCoverResult.message);
+		}
+
+		return apiResponse.successResponseWithData(res, "Project cover updated successfully.", coverLink);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
 module.exports = {
-	updateProjectAttachments,
+	updateProjectAttachment,
+	deleteProjectAttachment,
+	retrieveProjectAttachments,
 };
