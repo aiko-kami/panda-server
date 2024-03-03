@@ -684,8 +684,10 @@ const countNumberProjectsPerCategory = async () => {
 	}
 };
 
-const canUpdateProject = async (projectId, userId, permission) => {
+const canUpdateProject = async (projectId, userId, permission, projectWrongStatus) => {
 	try {
+		const update = permission.substring(7).toLowerCase();
+
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
 		if (objectIdProjectId.status == "error") {
 			return { status: "error", message: objectIdProjectId.message };
@@ -697,23 +699,22 @@ const canUpdateProject = async (projectId, userId, permission) => {
 		}
 
 		// Retrieve the updated project
-		const projectRetrieved = await retrieveProjectById(projectId, ["-_id", "cover", "statusInfo", "createdBy"]);
+		const projectRetrieved = await retrieveProjectById(projectId, ["-_id", "cover", "statusInfo", "createdBy", "privateData.attachments"]);
 		if (projectRetrieved.status !== "success") {
 			return { status: "error", message: projectRetrieved.message };
 		}
 
-		const projectStatus = projectRetrieved.project.statusInfo.currentStatus;
-		const projectWrongStatus = ["submitted", "archived", "cancelled", "rejected"];
 		// Check the project status
+		const projectStatus = projectRetrieved.project.statusInfo.currentStatus;
 		if (projectWrongStatus.includes(projectStatus)) {
-			return { status: "success", message: `Project in status ${projectStatus.toUpperCase()} cannot be updated.`, userCanEditCover: false };
+			return { status: "success", message: `Project in status ${projectStatus.toUpperCase()} cannot be updated.`, userCanEdit: false };
 		}
 
-		if (projectStatus === "draft") {
+		if (permission === "canEditCover" && projectStatus === "draft") {
 			if (projectRetrieved.project.createdBy.toString() !== objectIdUserIdUpdater.toString()) {
-				return { status: "success", message: "Only the creator of the project can update it.", userCanEditCover: false };
+				return { status: "success", message: "Only the creator of the project can update it.", userCanEdit: false };
 			} else {
-				return { status: "success", message: "User can edit the project.", userCanEditCover: true, project: projectRetrieved.project };
+				return { status: "success", message: `User can edit the ${update} of the project.`, userCanEdit: true, project: projectRetrieved.project };
 			}
 		}
 
@@ -724,12 +725,12 @@ const canUpdateProject = async (projectId, userId, permission) => {
 		}
 
 		// Check if the user has canEditCover permission
-		if (!rightsCheckResult.projectRights.permissions.canEditCover) {
-			return { status: "success", message: "You do not have permission to update cover for this project.", userCanEditCover: false };
+		if (!rightsCheckResult.projectRights.permissions[permission]) {
+			return { status: "success", message: `You do not have permission to update the ${update} for this project.`, userCanEdit: false };
 		}
 
-		logger.info(`User can edit the project.`);
-		return { status: "success", message: "User can edit the project.", userCanEditCover: true, project: projectRetrieved.project };
+		logger.info(`User can edit the ${update} of the project.`);
+		return { status: "success", message: `User can edit the ${update} of the project.`, userCanEdit: true, project: projectRetrieved.project };
 	} catch (error) {
 		logger.error("Error while while checking if the user can update the project: ", error);
 		return {

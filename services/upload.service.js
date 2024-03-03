@@ -34,7 +34,7 @@ const uploadCover = async (req, res, projectId) => {
 		try {
 			const fileName = "__projectCover__" + projectId;
 
-			const singleUpload = uploadFiles.fileUpload(req, "project_covers/", fileName).single("image");
+			const singleUpload = uploadFiles.fileUpload(req, "project_covers/", fileName, ["image"]).single("image");
 
 			singleUpload(req, res, function (error) {
 				if (error) {

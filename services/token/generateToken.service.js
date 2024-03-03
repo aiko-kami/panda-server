@@ -1,6 +1,6 @@
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
-const { v4: uuidv4 } = require("uuid").v4;
+const { v4: uuidv4 } = require("uuid");
 const { logger } = require("../../utils");
 
 function generateAccessToken(userId, expires = process.env.ACCESS_TOKEN_EXPIRATION) {

@@ -12,7 +12,7 @@ const updateProjectAttachment = async (req, res) => {
 	try {
 		const { projectId = "" } = req.params;
 		const userId = req.userId;
-		const attachmentTitle = req.body.attachmentTitle || "";
+		const attachmentTitle = req.body.attachmentTitle || "default_title";
 
 		// Validate Ids
 		const validationIdsResult = projectValidation.validateProjectIdAndUserId(projectId, userId, "mandatory");
@@ -36,11 +36,12 @@ const updateProjectAttachment = async (req, res) => {
 		}
 
 		// Verify that user can update the project attachments
-		const canUpdateResult = await projectService.canUpdateProject(projectId, userId, ["canEditAttachments"]);
+		const projectWrongStatus = ["submitted", "archived", "cancelled", "rejected"];
+		const canUpdateResult = await projectService.canUpdateProject(projectId, userId, "canEditAttachments", projectWrongStatus);
 		if (canUpdateResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, canUpdateResult.message);
 		}
-		if (canUpdateResult.canEditAttachments !== true) {
+		if (canUpdateResult.userCanEdit !== true) {
 			return apiResponse.unauthorizedResponse(res, canUpdateResult.message);
 		}
 

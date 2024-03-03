@@ -13,7 +13,7 @@ MainRouter.use("/users", require("./users"));
 
 // Projects routes
 MainRouter.use("/projects", require("./projectCore"));
-MainRouter.use("/projectsExtended", require("./projectExtended"));
+MainRouter.use("/projectsExtended", require("./projectsExtended"));
 
 // Categories routes
 MainRouter.use("/cat", require("./categories"));
