@@ -1,5 +1,5 @@
-const { projectService, uploadService } = require("../../services");
-const { apiResponse, projectValidation, uploadFiles } = require("../../utils");
+const { projectService, uploadService, attachmentService } = require("../../services");
+const { apiResponse, projectValidation, uploadFiles, encryptTools } = require("../../utils");
 const path = require("path");
 
 /**
@@ -58,6 +58,7 @@ const updateProjectAttachment = async (req, res) => {
 		}
 
 		const attachmentExtension = path.extname(req.file.key).slice(1) || "";
+
 		//Set new cover link in the data to update the database
 		const updatedProjectData = {
 			attachmentTitle,
@@ -70,12 +71,12 @@ const updateProjectAttachment = async (req, res) => {
 		};
 
 		// Add new cover link to database (replace with new link or simply remove the former one if there is no new input)
-		const updateAttachmentResult = await projectService.updateProject(projectId, updatedProjectData, userId);
+		const updateAttachmentResult = await attachmentService.updateAttachment(projectId, updatedProjectData, userId);
 		if (updateAttachmentResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updateAttachmentResult.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Project attachment updated successfully.", attachmentLink);
+		return apiResponse.successResponseWithData(res, "Project attachment updated successfully.", updatedProjectData.attachmentLink);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}

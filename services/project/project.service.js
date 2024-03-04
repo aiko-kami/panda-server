@@ -347,14 +347,6 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 			locationCity: "location.city",
 			locationCountry: "location.country",
 			locationOnlineOnly: "location.onlineOnly",
-			//will not work as privateData.attachments is an array
-			attachmentTitle: "privateData.attachments.title",
-			attachmentSize: "privateData.attachments.size",
-			attachmentExtension: "privateData.attachments.extension",
-			attachmentMimetype: "privateData.attachments.mimetype",
-			attachmentKey: "privateData.attachments.key",
-			attachmentLink: "privateData.attachments.link",
-			attachmentUpdatedBy: "privateData.attachments.updatedBy",
 		};
 
 		// Iterate through the fieldMapping and check if the field exists in updatedData
@@ -511,19 +503,19 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 		}
 		let project = projectRetrieved.toObject();
 		if (!fields.includes("category")) {
-			project.category = undefined;
+			delete project.category;
 		}
 		if (!fields.includes("updatedBy")) {
-			project.updatedBy = undefined;
+			delete project.updatedBy;
 		}
 		if (!fields.includes("steps")) {
-			project.steps = undefined;
+			delete project.steps;
 		}
 		if (!fields.includes("members")) {
-			project.members = undefined;
+			delete project.members;
 		}
 		if (!fields.includes("statusInfo")) {
-			project.statusInfo = undefined;
+			delete project.statusInfo;
 		}
 		return {
 			status: "success",
@@ -565,19 +557,19 @@ const retrieveProjects = async (fields, conditions, limit) => {
 			let modifiedProject = project.toObject();
 
 			if (!fields.includes("category")) {
-				modifiedProject.category = undefined;
+				delete modifiedProject.category;
 			}
 			if (!fields.includes("updatedBy")) {
-				modifiedProject.updatedBy = undefined;
+				delete modifiedProject.updatedBy;
 			}
 			if (!fields.includes("steps")) {
-				modifiedProject.steps = undefined;
+				delete modifiedProject.steps;
 			}
 			if (!fields.includes("members")) {
-				modifiedProject.members = undefined;
+				delete modifiedProject.members;
 			}
 			if (!fields.includes("statusInfo")) {
-				modifiedProject.statusInfo = undefined;
+				delete modifiedProject.statusInfo;
 			}
 
 			return modifiedProject;
@@ -700,6 +692,9 @@ const canUpdateProject = async (projectId, userId, permission, projectWrongStatu
 
 		// Retrieve the updated project
 		const projectRetrieved = await retrieveProjectById(projectId, ["-_id", "cover", "statusInfo", "createdBy", "privateData.attachments"]);
+
+		console.log("🚀 ~ canUpdateProject ~ projectRetrieved:", projectRetrieved);
+
 		if (projectRetrieved.status !== "success") {
 			return { status: "error", message: projectRetrieved.message };
 		}

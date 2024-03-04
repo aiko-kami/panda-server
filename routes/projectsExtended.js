@@ -21,6 +21,11 @@ const { verifyAccess, verifyAdminAccess } = require("../middlewares/verifyAccess
 // Project cover
 projectExtendedRoute.post("/updateProjectCover/:projectId", verifyAccess, projectCoverController.updateCover);
 
+// Project attachments
+projectExtendedRoute.post("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.updateProjectAttachment);
+projectExtendedRoute.delete("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.deleteProjectAttachment);
+projectExtendedRoute.get("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.retrieveProjectAttachments);
+
 // Project crush
 projectExtendedRoute.patch("/addProjectCrush", verifyAdminAccess, projectCrushController.addCrush);
 projectExtendedRoute.patch("/removeProjectCrush", verifyAdminAccess, projectCrushController.removeCrush);
@@ -70,10 +75,5 @@ projectExtendedRoute.delete("/projectMembers/remove/:projectId", verifyAccess, m
 // Project status
 projectExtendedRoute.patch("/projectStatus/:projectId", verifyAccess, projectStatusController.updateProjectStatus);
 projectExtendedRoute.get("/projectStatus/:projectId", verifyAccess, projectStatusController.retrieveProjectStatusInfo);
-
-// Project attachments
-projectExtendedRoute.post("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.updateProjectAttachment);
-projectExtendedRoute.delete("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.deleteProjectAttachment);
-projectExtendedRoute.get("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.retrieveProjectAttachments);
 
 module.exports = projectExtendedRoute;

@@ -17,23 +17,44 @@ let s3 = new S3Client({
 });
 
 // function to sanitize files and send error for unsupported files
-function sanitizeFile(file, cb) {
+function sanitizeFile(file, allowedFileTypes, cb) {
 	// Define the allowed extension
-	const fileExts = [".png", ".jpg", ".jpeg", ".gif"];
+	const fileTypes = {
+		document: {
+			extensions: [".pdf", ".doc", ".docx"],
+			mimeTypes: ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"],
+		},
+		image: {
+			extensions: [".png", ".jpg", ".jpeg", ".gif"],
+			mimeTypes: ["image/jpeg", "image/png"],
+		},
+	};
 
-	// Check allowed extensions and Mime type
-	const isAllowedExt = fileExts.includes(path.extname(file.originalname.toLowerCase()));
-	const isAllowedMimeType = file.mimetype === "image/jpeg" || file.mimetype === "image/png";
+	const fileExt = path.extname(file.originalname.toLowerCase());
+	const fileMimeType = file.mimetype;
 
-	if (isAllowedExt && isAllowedMimeType) {
-		return cb(null, true); // no errors
+	let validType = false;
+	// Iterate over allowed file types
+	allowedFileTypes.forEach((type) => {
+		const fileTypeData = fileTypes[type];
+
+		if (fileTypeData) {
+			const isAllowedExt = fileTypeData.extensions.includes(fileExt);
+			const isAllowedMimeType = fileTypeData.mimeTypes.includes(fileMimeType);
+			if (isAllowedExt && isAllowedMimeType) {
+				validType = true;
+			}
+		}
+	});
+
+	if (!validType) {
+		cb(`File type not allowed.`);
 	} else {
-		// pass error msg to callback, which can be displaye in frontend
-		cb("Error: File type not allowed.");
+		cb(null, true); // no errors
 	}
 }
 
-const fileUpload = (req, destinationPath, name, fileType) => {
+const fileUpload = (req, destinationPath, name, fileTypes) => {
 	return multer({
 		storage: multerS3({
 			s3,
@@ -50,8 +71,9 @@ const fileUpload = (req, destinationPath, name, fileType) => {
 			contentType: multerS3.AUTO_CONTENT_TYPE,
 		}),
 		fileFilter: (req, file, callback) => {
-			sanitizeFile(file, callback);
+			sanitizeFile(file, fileTypes, callback);
 		},
+
 		limits: {
 			fileSize: 1024 * 1024 * 2, // 2mb file size
 		},

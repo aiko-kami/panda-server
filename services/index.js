@@ -21,6 +21,7 @@ module.exports.categoryService = require("./project/category.service");
 module.exports.projectService = require("./project/project.service");
 module.exports.userRightsService = require("./project/userRights.service");
 module.exports.memberService = require("./project/member.service");
+module.exports.attachmentService = require("./project/attachment.service");
 module.exports.joinProjectService = require("./project/joinProject.service");
 module.exports.statusService = require("./project/status.service");
 module.exports.crushService = require("./project/crush.service");

@@ -5,16 +5,14 @@ const uploadProfilePicture = async (req, res, userId) => {
 		try {
 			const fileName = "__profilePicture__" + userId;
 
-			const singleUpload = uploadFiles.fileUpload(req, "user_profile_pictures/", fileName).single("image");
+			const singleUpload = uploadFiles.fileUpload(req, "user_profile_pictures/", fileName, ["image"]).single("image");
 
 			singleUpload(req, res, function (error) {
 				if (error) {
-					logger.error("Error uploading file:", error);
-
+					logger.error(`Error uploading file: ${error}`);
 					return reject({
 						status: "error",
-						message: "Image Upload Error",
-						detail: error.message,
+						message: `File Upload Error: ${error}`,
 						error: error,
 					});
 				}
@@ -38,12 +36,10 @@ const uploadCover = async (req, res, projectId) => {
 
 			singleUpload(req, res, function (error) {
 				if (error) {
-					logger.error("Error uploading file:", error);
-
+					logger.error(`Error uploading file: ${error}`);
 					return reject({
 						status: "error",
-						message: "Image Upload Error",
-						detail: error.message,
+						message: `File Upload Error: ${error}`,
 						error: error,
 					});
 				}
@@ -67,12 +63,10 @@ const uploadFile = async (req, res, projectId, fileTitle) => {
 
 			singleUpload(req, res, function (error) {
 				if (error) {
-					logger.error("Error uploading file:", error);
-
+					logger.error(`Error uploading file: ${error}`);
 					return reject({
 						status: "error",
-						message: "File Upload Error",
-						detail: error.message,
+						message: `File Upload Error: ${error}`,
 						error: error,
 					});
 				}

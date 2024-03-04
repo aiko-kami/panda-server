@@ -126,19 +126,19 @@ const retrieveCrushProjects = async (fields, conditions, limit) => {
 			let modifiedProject = project.toObject();
 
 			if (!fields.includes("category")) {
-				modifiedProject.category = undefined;
+				delete modifiedProject.category;
 			}
 			if (!fields.includes("updatedBy")) {
-				modifiedProject.updatedBy = undefined;
+				delete modifiedProject.updatedBy;
 			}
 			if (!fields.includes("steps")) {
-				modifiedProject.steps = undefined;
+				delete modifiedProject.steps;
 			}
 			if (!fields.includes("members")) {
-				modifiedProject.members = undefined;
+				delete modifiedProject.members;
 			}
 			if (!fields.includes("statusInfo")) {
-				modifiedProject.statusInfo = undefined;
+				delete modifiedProject.statusInfo;
 			}
 			return modifiedProject;
 		});

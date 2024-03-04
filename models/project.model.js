@@ -47,11 +47,10 @@ const QASchema = new Schema({
 const attachmentSchema = new Schema({
 	_id: false,
 	title: { type: String, required: true, unique: true, trim: true },
-	filename: { type: String, required: true, unique: true, trim: true },
+	filename: { type: String, required: true, unique: true },
 	size: { type: String },
 	extension: { type: String },
 	mimetype: { type: String },
-	key: { type: String, default: "" },
 	link: { type: String, default: "" },
 	createdAt: { type: Date, default: DateTime.now().toHTTP() },
 	updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
