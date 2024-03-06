@@ -9,7 +9,7 @@ const { DateTime } = require("luxon");
  * @returns {Promise} - A promise that resolves with the created project or rejects with an error.
  */
 
-const updateAttachment = async (projectId, updatedData, userIdUpdater) => {
+const addAttachment = async (projectId, updatedData, userIdUpdater) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
@@ -67,5 +67,5 @@ const updateAttachment = async (projectId, updatedData, userIdUpdater) => {
 };
 
 module.exports = {
-	updateAttachment,
+	addAttachment,
 };

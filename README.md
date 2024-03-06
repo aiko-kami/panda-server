@@ -191,12 +191,18 @@ Don't let your ideas and talents go to waste – join Sheepy now!
 - [x] Update user profile picture
 - [x] Add createdBy field when creating a project
 - [x] Update project cover
+- [x] Upload project attachments
+  - [x] Verify that title is available
 
 ---
 
 ### ❤ Last required improvements
 
-- [ ] Upload project documents ❤
+- [ ] Update project attachments ❤
+- [ ] Delete project attachments ❤
+- [ ] Retrieve project attachments ❤
+- [ ] Retrieve one project attachment ❤
+
 - [ ] Refactor admin (profile picture) ❤
 
 ---

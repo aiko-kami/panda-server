@@ -57,7 +57,7 @@ const uploadCover = async (req, res, projectId) => {
 const uploadFile = async (req, res, projectId, fileTitle) => {
 	return new Promise((resolve, reject) => {
 		try {
-			const fileName = "__projectAttachments__" + projectId + fileTitle;
+			const fileName = "__projectAttachments__" + projectId + "__" + fileTitle;
 
 			const singleUpload = uploadFiles.fileUpload(req, "project_attachments/", fileName, ["document", "image"]).single("file");
 

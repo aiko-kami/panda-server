@@ -676,7 +676,7 @@ const countNumberProjectsPerCategory = async () => {
 	}
 };
 
-const canUpdateProject = async (projectId, userId, permission, projectWrongStatus) => {
+const canUpdateProject = async (projectId, userId, permission, projectWrongStatus, attachmentTitle) => {
 	try {
 		const update = permission.substring(7).toLowerCase();
 
@@ -692,9 +692,6 @@ const canUpdateProject = async (projectId, userId, permission, projectWrongStatu
 
 		// Retrieve the updated project
 		const projectRetrieved = await retrieveProjectById(projectId, ["-_id", "cover", "statusInfo", "createdBy", "privateData.attachments"]);
-
-		console.log("🚀 ~ canUpdateProject ~ projectRetrieved:", projectRetrieved);
-
 		if (projectRetrieved.status !== "success") {
 			return { status: "error", message: projectRetrieved.message };
 		}
@@ -722,6 +719,17 @@ const canUpdateProject = async (projectId, userId, permission, projectWrongStatu
 		// Check if the user has canEditCover permission
 		if (!rightsCheckResult.projectRights.permissions[permission]) {
 			return { status: "success", message: `You do not have permission to update the ${update} for this project.`, userCanEdit: false };
+		}
+
+		// Verify that attachment title does not already exists in the list of attachments
+		if (attachmentTitle) {
+			const newTitleCapitalized = attachmentTitle.toUpperCase();
+			const isTitleAlreadyPresent = projectRetrieved.project.privateData.attachments.findIndex((element) => {
+				return element.title.toUpperCase() === newTitleCapitalized;
+			});
+			if (isTitleAlreadyPresent !== -1) {
+				return { status: "success", message: "Attachment title is not available.", userCanEdit: false };
+			}
 		}
 
 		logger.info(`User can edit the ${update} of the project.`);
