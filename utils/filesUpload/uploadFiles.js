@@ -1,4 +1,4 @@
-const { S3Client, DeleteObjectCommand, PutObjectTaggingCommand } = require("@aws-sdk/client-s3");
+const { S3Client, CopyObjectCommand, GetObjectCommand, DeleteObjectCommand, PutObjectTaggingCommand } = require("@aws-sdk/client-s3");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const path = require("path");
@@ -80,6 +80,52 @@ const fileUpload = (req, destinationPath, name, fileTypes) => {
 	});
 };
 
+const renameFile = async (projectId, fileKey, attachmentNewTitle) => {
+	try {
+		const fileNewKey = "project_attachments/" + Date.now() + "__projectAttachments__" + projectId + "__" + attachmentNewTitle + path.extname(fileKey.toLowerCase());
+
+		// Copy file with new title
+		const paramsCopy = {
+			CopySource: `${process.env.AWS_BUCKET}/${fileKey}`,
+			Bucket: process.env.AWS_BUCKET,
+			Key: fileNewKey,
+			MetadataDirective: "COPY",
+		};
+		const commandCopy = new CopyObjectCommand(paramsCopy);
+		const outputCopy = await s3.send(commandCopy);
+
+		// Delete former file
+		const paramsDelete = { Bucket: process.env.AWS_BUCKET, Key: fileKey };
+		const commandDelete = new DeleteObjectCommand(paramsDelete);
+		const outputDelete = await s3.send(commandDelete);
+
+		// Retrieve new file data
+		const commandGetObject = new GetObjectCommand({
+			Bucket: process.env.AWS_BUCKET,
+			Key: fileNewKey,
+		});
+		const outputGetObject = await s3.send(commandGetObject);
+
+		// Generate new file Url
+		const url = `https://${outputGetObject.Body.socket.servername}/${fileNewKey}`;
+
+		// Gather new file data to be returned
+		const file = {
+			key: fileNewKey,
+			size: outputGetObject.ContentLength,
+			extension: path.extname(fileNewKey.toLowerCase()).slice(1),
+			mimetype: outputGetObject.ContentType,
+			link: url,
+		};
+
+		logger.info(`File ${fileNewKey} renamed successfully.`);
+		return { status: "success", message: `File ${fileNewKey} renamed successfully.`, file };
+	} catch (error) {
+		logger.error(`Error while renaming file:`, error);
+		return { status: "error", message: `Error while renaming file: ${error.message}` };
+	}
+};
+
 const applyObjectTags = async (objectKey, tags) => {
 	console.log("🚀 ~ applyObjectTags ~ tags:", tags);
 
@@ -128,6 +174,7 @@ const deleteFile = async (objectKey) => {
 
 module.exports = {
 	fileUpload,
+	renameFile,
 	applyObjectTags,
 	checkInputFile,
 	deleteFile,

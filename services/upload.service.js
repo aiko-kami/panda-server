@@ -54,12 +54,12 @@ const uploadCover = async (req, res, projectId) => {
 	});
 };
 
-const uploadFile = async (req, res, projectId, fileTitle) => {
+const uploadAttachment = async (req, res, projectId, attachmentTitle) => {
 	return new Promise((resolve, reject) => {
 		try {
-			const fileName = "__projectAttachments__" + projectId + "__" + fileTitle;
+			const fileName = "__projectAttachments__" + projectId + "__" + attachmentTitle;
 
-			const singleUpload = uploadFiles.fileUpload(req, "project_attachments/", fileName, ["document", "image"]).single("file");
+			const singleUpload = uploadFiles.fileUpload(req, `project_attachments/${projectId}`, fileName, ["document", "image"]).single("file");
 
 			singleUpload(req, res, function (error) {
 				if (error) {
@@ -84,5 +84,5 @@ const uploadFile = async (req, res, projectId, fileTitle) => {
 module.exports = {
 	uploadProfilePicture,
 	uploadCover,
-	uploadFile,
+	uploadAttachment,
 };

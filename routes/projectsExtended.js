@@ -23,9 +23,10 @@ projectExtendedRoute.post("/updateProjectCover/:projectId", verifyAccess, projec
 
 // Project attachments
 projectExtendedRoute.post("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.addProjectAttachment);
-projectExtendedRoute.patch("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.updateProjectAttachment);
+projectExtendedRoute.patch("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.RenameProjectAttachment);
 projectExtendedRoute.delete("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.deleteProjectAttachment);
 projectExtendedRoute.get("/projectAttachments/:projectId", verifyAccess, projectAttachmentsController.retrieveProjectAttachments);
+projectExtendedRoute.get("/projectAttachment/:projectId", verifyAccess, projectAttachmentsController.retrieveProjectAttachment);
 
 // Project crush
 projectExtendedRoute.patch("/addProjectCrush", verifyAdminAccess, projectCrushController.addCrush);

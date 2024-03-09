@@ -193,12 +193,12 @@ Don't let your ideas and talents go to waste – join Sheepy now!
 - [x] Update project cover
 - [x] Upload project attachments
   - [x] Verify that title is available
+- [x] Update project attachments
 
 ---
 
 ### ❤ Last required improvements
 
-- [ ] Update project attachments ❤
 - [ ] Delete project attachments ❤
 - [ ] Retrieve project attachments ❤
 - [ ] Retrieve one project attachment ❤

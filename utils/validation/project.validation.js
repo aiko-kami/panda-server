@@ -254,6 +254,24 @@ const validateAttachmentTitle = (attachmentTitle) => {
 	return { status: "success", message: "Attachment title is valid." };
 };
 
+const validateAttachmentKeyAndTitle = (attachmentKey, attachmentTitle) => {
+	//Types validation
+	if (typeof attachmentKey !== "string" || typeof attachmentTitle !== "string") {
+		return { status: "error", message: "Invalid type of data." };
+	}
+
+	// Check if required fields are present
+	if (!attachmentKey) {
+		return { status: "error", message: "Attachment key is required." };
+	}
+	if (!attachmentTitle) {
+		return { status: "error", message: "Attachment title is required." };
+	}
+
+	// If all validations passed
+	return { status: "success", message: "Attachment key and title are valid." };
+};
+
 module.exports = {
 	validateDraftProjectInputs,
 	validateSubmittedProjectInputs,
@@ -262,4 +280,5 @@ module.exports = {
 	validateProjectApproval,
 	validateProjectDraftInputs,
 	validateAttachmentTitle,
+	validateAttachmentKeyAndTitle,
 };

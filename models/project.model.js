@@ -47,7 +47,7 @@ const QASchema = new Schema({
 const attachmentSchema = new Schema({
 	_id: false,
 	title: { type: String, required: true, unique: true, trim: true },
-	filename: { type: String, required: true, unique: true },
+	key: { type: String, required: true, unique: true },
 	size: { type: String },
 	extension: { type: String },
 	mimetype: { type: String },

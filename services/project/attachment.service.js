@@ -41,7 +41,7 @@ const addAttachment = async (projectId, updatedData, userIdUpdater) => {
 			size: updatedData.attachmentSize,
 			extension: updatedData.attachmentExtension,
 			mimetype: updatedData.attachmentMimetype,
-			filename: updatedData.attachmentKey,
+			key: updatedData.attachmentKey,
 			link: updatedData.attachmentLink,
 			updatedBy: updatedData.attachmentUpdatedBy,
 		};
@@ -66,6 +66,70 @@ const addAttachment = async (projectId, updatedData, userIdUpdater) => {
 	}
 };
 
+const UpdateAttachment = async (projectId, attachmentFormerKey, updatedData, userIdUpdater) => {
+	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+		if (objectIdUserIdUpdater.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdater.message };
+		}
+
+		// Find the project by projectId
+		const project = await Project.findOne({ _id: objectIdProjectId });
+
+		// Check if the project exists
+		if (!project) {
+			return { status: "error", message: "Project not found." };
+		}
+
+		const projectWrongStatus = ["draft", "submitted", "archived", "cancelled", "rejected"];
+		// Check the project status
+		if (projectWrongStatus.includes(project.statusInfo.currentStatus)) {
+			return { status: "error", message: `Project in status ${project.statusInfo.currentStatus.toUpperCase()} cannot be updated.` };
+		}
+
+		// Find the index of the attachment with the attachmentFormerKey
+		const attachmentIndex = project.privateData.attachments.findIndex((attachment) => attachment.key === attachmentFormerKey);
+
+		// Check if attachment with the former key exists
+		if (attachmentIndex === -1) {
+			return { status: "error", message: "Attachment not found." };
+		}
+
+		// Update the attachment with updatedAttachment data
+		project.privateData.attachments[attachmentIndex] = {
+			title: updatedData.attachmentTitle,
+			size: updatedData.attachmentSize,
+			extension: updatedData.attachmentExtension,
+			mimetype: updatedData.attachmentMimetype,
+			key: updatedData.attachmentKey,
+			link: updatedData.attachmentLink,
+			updatedBy: updatedData.attachmentUpdatedBy,
+		};
+
+		// Save the updated project
+		const updatedProject = await project.save();
+		logger.info(`Project attachment updated successfully. Project ID: ${projectId}`);
+		return {
+			status: "success",
+			message: "Project attachment updated successfully.",
+			updatedProject,
+		};
+	} catch (error) {
+		logger.error("Error while updating the project attachment: ", error);
+
+		return {
+			status: "error",
+			message: "An error occurred while updating the project attachment.",
+		};
+	}
+};
+
 module.exports = {
 	addAttachment,
+	UpdateAttachment,
 };
