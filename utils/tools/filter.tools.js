@@ -263,6 +263,13 @@ const handleProjectFiltering = (project, userIdViewer) => {
 				}
 			}
 		}
+		if (project.privateData && project.privateData.attachments) {
+			for (let attachment of project.privateData.attachments) {
+				if (attachment.updatedBy) {
+					attachment.updatedBy = filterUserOutputFields(attachment.updatedBy, userIdViewer).user;
+				}
+			}
+		}
 		return project;
 	} catch (error) {
 		return { status: "error", message: error.message };

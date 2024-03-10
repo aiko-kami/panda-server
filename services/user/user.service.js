@@ -12,7 +12,6 @@ const retrieveUserById = async (userId, fields) => {
 		const fieldsString = fields.join(" ");
 
 		const user = await User.findOne({ _id: ObjectIdUserId }).select(fieldsString);
-
 		if (!user) {
 			return { status: "error", message: "User not found." };
 		}
@@ -35,7 +34,6 @@ const retrieveLatestUsers = async (fields, conditions, limit) => {
 		const fieldsString = fields.join(" ");
 
 		const users = await User.find(conditions).sort({ createdAt: -1 }).limit(limit).select(fieldsString);
-
 		if (!users || users.length === 0) {
 			logger.info(`No user found.`);
 			return { status: "success", message: "No user found." };
@@ -62,16 +60,15 @@ const retrieveUserByEmail = async (email, fields) => {
 		const fieldsString = fields.join(" ");
 
 		const user = await User.findOne({ email }).select(fieldsString);
-
 		if (!user) {
-			logger.error("An error occurred while retrieving the user: No user found.");
+			logger.error("An error occurred while retrieving the user: User not found.");
 			return {
 				status: "error",
-				message: "No user found.",
+				message: "User not found.",
 			};
 		}
 
-		return { status: "success", message: "User retrieved successfully", user };
+		return { status: "success", message: "User retrieved successfully.", user };
 	} catch (error) {
 		logger.error("Error while retrieving user: ", error);
 		return {
@@ -91,8 +88,6 @@ const updateUser = async (userId, updatedData) => {
 
 		// Find the user by userId
 		const user = await User.findOne({ _id: ObjectIdUserId });
-
-		// Check if the user exists
 		if (!user) {
 			return { status: "error", message: "User not found." };
 		}
@@ -154,8 +149,6 @@ const updateUserPrivacy = async (userId, updatedData) => {
 
 		// Find the user by userId
 		const user = await User.findOne({ _id: ObjectIdUserId });
-
-		// Check if the user exists
 		if (!user) {
 			return { status: "error", message: "User not found." };
 		}
@@ -221,6 +214,9 @@ const updateUserPassword = async (userId, oldPassword, newPassword) => {
 
 		// Retrieve the user from the database
 		const user = await User.findById(ObjectIdUserId);
+		if (!user) {
+			return { status: "error", message: "User not found." };
+		}
 
 		// Check if the old password matches the stored hashed password
 		const isPasswordValid = await bcrypt.compare(oldPassword, user.password);

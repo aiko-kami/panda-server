@@ -352,7 +352,7 @@ const processProjectApproval = async (req, res) => {
 
 		const projectLink = `${process.env.WEBSITE_URL}/project/${projectId}`;
 
-		// Send email notification to admin that new project has been submitted
+		// Send email notification to project creator that project approval has been processed
 		const emailInputs = {
 			usernameCapitalized,
 			projectCreatorEmail,
@@ -363,7 +363,6 @@ const processProjectApproval = async (req, res) => {
 			emailTitle,
 		};
 
-		// Send notification email that project approval has been processed
 		const projectApprovalEmailSent = await emailService.sendProjectApprovalEmail(emailInputs);
 		if (projectApprovalEmailSent.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectApprovalEmailSent.message);
@@ -691,7 +690,7 @@ const retrieveProjectData = async (req, res) => {
 		const { projectId = "" } = req.params;
 		const userId = req.userId;
 
-		// Validate input data for creating a project
+		// Validate input data
 		const validationResult = projectValidation.validateProjectIdAndUserId(projectId, userId, "mandatory");
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);

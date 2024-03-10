@@ -12,10 +12,10 @@ const retrieveUserById = async (userId, fields) => {
 		const fieldsString = fields.join(" ");
 
 		const user = await AdminUser.findOne({ _id: ObjectIdUserId }).select(fieldsString);
-
 		if (!user) {
 			return { status: "error", message: "User not found." };
 		}
+
 		return {
 			status: "success",
 			message: "User retrieved successfully",
@@ -37,14 +37,14 @@ const retrieveUserByEmail = async (email, fields) => {
 		const user = await AdminUser.findOne({ email }).select(fieldsString);
 
 		if (!user) {
-			logger.error("An error occurred while retrieving the user: No user found.");
+			logger.error("An error occurred while retrieving the user: User not found.");
 			return {
 				status: "error",
-				message: "No user found.",
+				message: "User not found.",
 			};
 		}
 
-		return { status: "success", message: "User retrieved successfully", user };
+		return { status: "success", message: "User retrieved successfully.", user };
 	} catch (error) {
 		logger.error("Error while retrieving user: ", error);
 		return {
@@ -64,8 +64,6 @@ const updateUser = async (userId, updatedData) => {
 
 		// Find the user by userId
 		const user = await AdminUser.findOne({ _id: ObjectIdUserId });
-
-		// Check if the user exists
 		if (!user) {
 			return { status: "error", message: "User not found." };
 		}
@@ -76,14 +74,11 @@ const updateUser = async (userId, updatedData) => {
 		// Define a mapping of fields between the updatedData object and the project object
 		const fieldMapping = {
 			email: "email",
-			profilePicture: "profilePicture.data",
 			locationCity: "location.city.data",
 			locationCountry: "location.country.data",
-			company: "company.data",
 			description: "description",
 			bio: "bio.data",
 			languages: "languages.data",
-			website: "website.data",
 		};
 
 		// Iterate through the fieldMapping and check if the field exists in updatedData
@@ -132,10 +127,12 @@ const updateUserPassword = async (userId, oldPassword, newPassword) => {
 
 		// Retrieve the user from the database
 		const user = await AdminUser.findById(ObjectIdUserId);
+		if (!user) {
+			return { status: "error", message: "User not found." };
+		}
 
 		// Check if the old password matches the stored hashed password
 		const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
-
 		if (!isPasswordValid) {
 			logger.error("Error while updating user password: Old password is incorrect");
 			return { status: "error", message: "Old password is incorrect." };
@@ -148,7 +145,6 @@ const updateUserPassword = async (userId, oldPassword, newPassword) => {
 		await AdminUser.findOneAndUpdate({ _id: ObjectIdUserId }, { password: hashedPassword });
 
 		logger.info(`User password updated successfully. userId: ${userId}`);
-
 		return {
 			status: "success",
 			message: "Password updated successfully.",

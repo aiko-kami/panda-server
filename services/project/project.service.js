@@ -493,6 +493,7 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 				{ path: "steps.updatedBy", select: "username profilePicture userId" },
 				{ path: "members.user", select: "username profilePicture userId" },
 				{ path: "statusInfo.statusHistory.updatedBy", select: "username profilePicture userId" },
+				{ path: "privateData.attachments.updatedBy", select: "username profilePicture userId" },
 			]); // Populate fields
 
 		if (!projectRetrieved) {
@@ -516,6 +517,9 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 		}
 		if (!fields.includes("statusInfo")) {
 			delete project.statusInfo;
+		}
+		if (!fields.includes("privateData")) {
+			delete project.privateData;
 		}
 		return {
 			status: "success",
@@ -676,14 +680,10 @@ const countNumberProjectsPerCategory = async () => {
 	}
 };
 
-const canUpdateProject = async (projectId, userId, permission, projectWrongStatus, attachmentTitle) => {
+const canUpdateProject = async (projectData) => {
 	try {
+		const { projectId, userId, permission, projectWrongStatus, attachmentTitle, attachmentKey } = projectData;
 		const update = permission.substring(7).toLowerCase();
-
-		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userId);
 		if (objectIdUserIdUpdater.status == "error") {
@@ -729,6 +729,16 @@ const canUpdateProject = async (projectId, userId, permission, projectWrongStatu
 			});
 			if (isTitleAlreadyPresent !== -1) {
 				return { status: "success", message: "Attachment title is not available.", userCanEdit: false };
+			}
+		}
+
+		// Verify that attachment title does not already exists in the list of attachments
+		if (attachmentKey) {
+			const isKeyPresent = projectRetrieved.project.privateData.attachments.findIndex((element) => {
+				return element.key === attachmentKey;
+			});
+			if (isKeyPresent === -1) {
+				return { status: "success", message: "Attachment not found.", userCanEdit: false };
 			}
 		}
 

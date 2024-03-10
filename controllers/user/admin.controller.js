@@ -5,7 +5,7 @@ const retrieveMyUserData = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		const userData = await adminService.retrieveUserById(userId, ["-_id", "username", "email", "createdAt", "profilePicture", "location", "description", "bio", "languages", "website"]);
+		const userData = await adminService.retrieveUserById(userId, ["-_id", "username", "email", "createdAt", "location", "description", "bio", "languages"]);
 
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);
@@ -37,7 +37,6 @@ const updateUser = async (req, res) => {
 			description: req.body.userNewData.description || "",
 			bio: req.body.userNewData.bio || "",
 			languages: req.body.userNewData.languages || [],
-			website: req.body.userNewData.website || "",
 		};
 
 		// Validate input data for updating a user

@@ -59,7 +59,7 @@ const uploadAttachment = async (req, res, projectId, attachmentTitle) => {
 		try {
 			const fileName = "__projectAttachments__" + projectId + "__" + attachmentTitle;
 
-			const singleUpload = uploadFiles.fileUpload(req, `project_attachments/${projectId}`, fileName, ["document", "image"]).single("file");
+			const singleUpload = uploadFiles.fileUpload(req, `project_attachments/${projectId}/`, fileName, ["document", "image"]).single("file");
 
 			singleUpload(req, res, function (error) {
 				if (error) {

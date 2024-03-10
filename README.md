@@ -194,14 +194,13 @@ Don't let your ideas and talents go to waste – join Sheepy now!
 - [x] Upload project attachments
   - [x] Verify that title is available
 - [x] Update project attachments
+- [x] Delete project attachments
+- [x] Retrieve project attachments
+- [x] Retrieve one project attachment ❤
 
 ---
 
 ### ❤ Last required improvements
-
-- [ ] Delete project attachments ❤
-- [ ] Retrieve project attachments ❤
-- [ ] Retrieve one project attachment ❤
 
 - [ ] Refactor admin (profile picture) ❤
 

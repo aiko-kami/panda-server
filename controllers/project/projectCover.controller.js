@@ -20,7 +20,7 @@ const updateCover = async (req, res) => {
 
 		// Verify that user can update the project cover
 		const projectWrongStatus = ["submitted", "archived", "cancelled", "rejected"];
-		const canUpdateResult = await projectService.canUpdateProject(projectId, userId, "canEditCover", projectWrongStatus);
+		const canUpdateResult = await projectService.canUpdateProject({ projectId, userId, permission: "canEditCover", projectWrongStatus });
 		if (canUpdateResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, canUpdateResult.message);
 		}

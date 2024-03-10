@@ -12,12 +12,10 @@ const adminUserSchema = new Schema(
 		password: { type: String, required: true, trim: true },
 		createdAt: { type: Date, default: DateTime.now().toHTTP(), required: true },
 		lastConnection: { type: Date },
-		profilePicture: { type: String },
 		location: { city: { type: String }, country: { type: String } },
 		description: { type: String },
 		bio: { type: String },
 		languages: [{ type: String }],
-		website: { type: String },
 	},
 	{
 		collection: "admins",

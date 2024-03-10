@@ -82,7 +82,8 @@ const fileUpload = (req, destinationPath, name, fileTypes) => {
 
 const renameFile = async (projectId, fileKey, attachmentNewTitle) => {
 	try {
-		const fileNewKey = "project_attachments/" + Date.now() + "__projectAttachments__" + projectId + "__" + attachmentNewTitle + path.extname(fileKey.toLowerCase());
+		const filePath = `project_attachments/${projectId}/`;
+		const fileNewKey = filePath + Date.now() + "__projectAttachments__" + projectId + "__" + attachmentNewTitle + path.extname(fileKey.toLowerCase());
 
 		// Copy file with new title
 		const paramsCopy = {
@@ -165,7 +166,7 @@ const deleteFile = async (objectKey) => {
 		const output = await s3.send(command);
 
 		logger.info(`File ${objectKey} deleted successfully.`);
-		return { status: "success", message: `File ${objectKey} deleted successfully.` };
+		return { status: "success", message: `File deleted successfully.` };
 	} catch (error) {
 		logger.error(`Error while deleting file ${objectKey}:`, error);
 		return { status: "error", message: `Error while deleting file ${objectKey}: ${error.message}` };
