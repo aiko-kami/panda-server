@@ -79,7 +79,7 @@ const retrieveCrushProjects = async (req, res) => {
 		if (projectFiltered.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectFiltered.message);
 		}
-		return apiResponse.successResponseWithData(res, crushProjects.message, { projecsts: projectFiltered.projects });
+		return apiResponse.successResponseWithData(res, crushProjects.message, { projects: projectFiltered.projects });
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
