@@ -8,7 +8,7 @@ const setTokensInCookies = (res, accessToken, refreshToken) => {
 
 	console.log("🚀 ~ setTokensInCookies ~ process.env.NODE_ENV:", process.env.NODE_ENV);
 
-	console.log("🚀 ~ setTokensInCookies ~ isDevelopment:", isDevelopment);
+	console.log("🚀 ~ setTokensInCookies ~ isProduction:", isProduction);
 
 	res.cookie("access_token", accessToken, {
 		httpOnly: isProduction, // Set httpOnly to true in production and to false in development
