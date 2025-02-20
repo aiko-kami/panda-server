@@ -5,6 +5,8 @@ const { logger, encryptTools } = require("../../utils");
 const setTokensInCookies = (res, accessToken, refreshToken) => {
 	const isDevelopment = process.env.NODE_ENV === "development";
 
+	console.log("🚀 ~ setTokensInCookies ~ process.env.NODE_ENV:", process.env.NODE_ENV);
+
 	console.log("🚀 ~ setTokensInCookies ~ isDevelopment:", isDevelopment);
 
 	res.cookie("access_token", accessToken, {
