@@ -5,6 +5,8 @@ const { logger, encryptTools } = require("../../utils");
 const setTokensInCookies = (res, accessToken, refreshToken) => {
 	const isDevelopment = process.env.NODE_ENV === "development";
 
+	console.log("🚀 ~ setTokensInCookies ~ isDevelopment:", isDevelopment);
+
 	res.cookie("access_token", accessToken, {
 		httpOnly: isDevelopment, // Set httpOnly to true in production and to false in development
 		secure: isDevelopment, // Set secure to true in production and to false in development
