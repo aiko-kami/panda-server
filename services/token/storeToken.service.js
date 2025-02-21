@@ -11,8 +11,8 @@ const setTokensInCookies = (res, accessToken, refreshToken) => {
 	console.log("🚀 ~ setTokensInCookies ~ isProduction:", isProduction);
 
 	res.cookie("access_token", accessToken, {
-		httpOnly: isProduction, // Set httpOnly to true in production and to false in development
-		secure: isProduction, // Set secure to true in production and to false in development
+		httpOnly: true, // Set httpOnly to true in production and to false in development
+		secure: true, // Set secure to true in production and to false in development
 		sameSite: "None",
 		maxAge: 1000 * parseInt(process.env.ACCESS_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
 	});
