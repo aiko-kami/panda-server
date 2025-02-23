@@ -34,13 +34,6 @@ app.use(express.json());
 // Parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(
-	cookieSession({
-		name: "panda01-session",
-		secret: process.env.COOKIE_SECRET, // should use as secret environment variable
-		httpOnly: !isDevelopment, // Set httpOnly to true in production and to false in development
-	})
-);
 
 // All routes
 app.use(require("./routes"));
