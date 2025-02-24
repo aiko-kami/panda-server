@@ -20,10 +20,24 @@ app.use(morganMiddleware);
 const isDevelopment = process.env.NODE_ENV === "development";
 
 //Setting up CORS to allow frontend to target backend
+const allowedOrigins = ["https://sheepy.vercel.app", "https://www.neutroneer.com/", "https://neutroneer.com/", "https://www.sheeepy.neutroneer.com/", "https://sheeepy.neutroneer.com/"];
+
+// CORS options
 const corsOptions = {
-	//Domain and port from frontend allowed to access the server
-	origin: true,
-	credentials: true,
+	origin: function (origin, callback) {
+		if (isDevelopment) {
+			// Allow all origins in development
+			callback(null, true);
+		} else {
+			// Only allow specific origins in production
+			if (!origin || allowedOrigins.includes(origin)) {
+				callback(null, true);
+			} else {
+				callback(new Error("Not allowed by CORS"));
+			}
+		}
+	},
+	credentials: true, // Allow credentials (cookies, auth headers)
 };
 
 app.use(cors(corsOptions));
@@ -34,6 +48,13 @@ app.use(express.json());
 // Parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(
+	cookieSession({
+		name: "panda01-session",
+		secret: process.env.COOKIE_SECRET, // should use as secret environment variable
+		httpOnly: !isDevelopment, // Set httpOnly to true in production and to false in development
+	})
+);
 
 // All routes
 app.use(require("./routes"));

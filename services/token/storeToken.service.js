@@ -8,13 +8,15 @@ const setTokensInCookies = (res, accessToken, refreshToken) => {
 
 	console.log("🚀 ~ setTokensInCookies ~ process.env.NODE_ENV:", process.env.NODE_ENV);
 
+	console.log("🚀 ~ setTokensInCookies ~ isDevelopment:", isDevelopment);
 	console.log("🚀 ~ setTokensInCookies ~ isProduction:", isProduction);
 
 	res.cookie("access_token", accessToken, {
 		httpOnly: true, // Set httpOnly to true in production and to false in development
 		secure: !isDevelopment, // Set secure to true in production and to false in development
 		sameSite: isDevelopment ? "Lax" : "None",
-		partitioned: !isDevelopment, // Set secure to true in production and to false in development
+		partitioned: !isDevelopment,
+		path: "/",
 		maxAge: 1000 * parseInt(process.env.ACCESS_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
 	});
 
@@ -22,6 +24,8 @@ const setTokensInCookies = (res, accessToken, refreshToken) => {
 		httpOnly: isProduction, // Set httpOnly to true in production and to false in development
 		secure: isProduction, // Set secure to true in production and to false in development
 		sameSite: "None",
+		partitioned: !isDevelopment,
+		path: "/",
 		maxAge: 1000 * parseInt(process.env.REFRESH_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
 	});
 };
