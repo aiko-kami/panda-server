@@ -7,7 +7,7 @@ const setTokensInCookies = (res, accessToken, refreshToken) => {
 	const isProduction = process.env.NODE_ENV === "production";
 
 	res.cookie("access_token", accessToken, {
-		httpOnly: true, // Set httpOnly to true in production and to false in development
+		httpOnly: false, // Set httpOnly to true in production and to false in development
 		secure: !isDevelopment, // Set secure to true in production and to false in development
 		sameSite: isDevelopment ? "Lax" : "None",
 		partitioned: !isDevelopment,
@@ -16,7 +16,7 @@ const setTokensInCookies = (res, accessToken, refreshToken) => {
 	});
 
 	res.cookie("refresh_token", refreshToken, {
-		httpOnly: true, // Set httpOnly to true in production and to false in development
+		httpOnly: false, // Set httpOnly to true in production and to false in development
 		secure: !isDevelopment, // Set secure to true in production and to false in development
 		sameSite: isDevelopment ? "Lax" : "None",
 		partitioned: !isDevelopment,
