@@ -38,6 +38,7 @@ const corsOptions = {
 		}
 	},
 	credentials: true, // Allow credentials (cookies, auth headers)
+	exposedHeaders: ["set-cookie"],
 };
 
 app.use(cors(corsOptions));
