@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
 const colors = require("colors");
@@ -17,6 +18,29 @@ const { logger } = require("./utils");
 app.use(morganMiddleware);
 
 const isDevelopment = process.env.NODE_ENV === "development";
+
+//Setting up CORS to allow frontend to target backend
+const allowedOrigins = ["https://sheepy.vercel.app", "https://www.neutroneer.com/", "https://neutroneer.com/", "https://www.sheeepy.neutroneer.com/", "https://sheeepy.neutroneer.com/"];
+
+// CORS options
+const corsOptions = {
+	origin: function (origin, callback) {
+		if (isDevelopment) {
+			// Allow all origins in development
+			callback(null, true);
+		} else {
+			// Only allow specific origins in production
+			if (!origin || allowedOrigins.includes(origin)) {
+				callback(null, true);
+			} else {
+				callback(new Error("Not allowed by CORS"));
+			}
+		}
+	},
+	credentials: true, // Allow credentials (cookies, auth headers)
+};
+
+app.use(cors(corsOptions));
 
 // Parse requests of content-type - application/json
 app.use(express.json());
