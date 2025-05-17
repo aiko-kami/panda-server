@@ -9,8 +9,9 @@ const setTokensInCookies = (res, accessToken, refreshToken) => {
 	res.cookie("access_token", accessToken, {
 		httpOnly: true, // Set httpOnly to true in production and to false in development
 		secure: !isDevelopment, // Set secure to true in production and to false in development
+		domain: ".neutroneer.com",
 		sameSite: isDevelopment ? "Lax" : "Strict",
-		Path: "/",
+		path: "/",
 		maxAge: 1000 * parseInt(process.env.ACCESS_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
 	});
 
