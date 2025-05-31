@@ -161,7 +161,7 @@ const sendPasswordResetEmail = async (email, username, resetPasswordToken) => {
 	const usernameCapitalized = username.charAt(0).toUpperCase() + username.slice(1);
 	try {
 		// Construct the reset password link
-		const resetLink = `${process.env.WEBSITE_URL}/forgotPassword/${resetPasswordToken}`;
+		const resetLink = `${process.env.WEBSITE_URL}/forgot-password/${resetPasswordToken}`;
 
 		const emailInputs = {
 			usernameCapitalized,

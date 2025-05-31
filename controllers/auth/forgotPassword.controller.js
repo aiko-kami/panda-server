@@ -48,7 +48,8 @@ const forgotPassword = async (req, res) => {
 
 const resetPassword = async (req, res) => {
 	try {
-		const { newPassword = "", confirmPassword = "", resetToken = "" } = req.body;
+		const { newPassword = "", confirmPassword = "" } = req.body;
+		const resetToken = req.params.resetPasswordId;
 
 		// Validate password and password confirmation input data
 		const passwordValidation = authValidation.validatePassword(newPassword, confirmPassword);
