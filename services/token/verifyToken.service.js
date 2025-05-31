@@ -1,4 +1,5 @@
 const { ResetPasswordToken } = require("../../models");
+const { encryptTools } = require("../../utils");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
 
@@ -57,8 +58,11 @@ const verifyRefreshToken = (refreshToken) => {
 
 const verifyResetPasswordToken = async (resetToken) => {
 	try {
+		// Decode the token
+		const decodedToken = decodeURIComponent(resetToken);
+
 		// Decrypt link
-		const bytes = CryptoJS.AES.decrypt(decodeURIComponent(resetToken), process.env.RESET_PASSWORD_TOKEN_SECRET);
+		const bytes = CryptoJS.AES.decrypt(decodedToken, process.env.RESET_PASSWORD_TOKEN_SECRET);
 		const toDecrypt = bytes.toString(CryptoJS.enc.Utf8);
 
 		if (!toDecrypt) {
@@ -77,13 +81,14 @@ const verifyResetPasswordToken = async (resetToken) => {
 
 		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userIdDecrypted);
+
 		if (ObjectIdUserId.status == "error") {
 			return { status: "error", message: ObjectIdUserId.message };
 		}
 
 		const existingToken = await ResetPasswordToken.findOne({
 			user: ObjectIdUserId,
-			token: resetToken,
+			token: decodedToken,
 		});
 
 		if (existingToken) {

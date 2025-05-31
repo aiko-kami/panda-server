@@ -37,10 +37,15 @@ function generateResetPasswordToken(userId) {
 	// Encrypt
 	const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(dataToEncrypt), process.env.RESET_PASSWORD_TOKEN_SECRET).toString();
 
-	//Transform encrypted data into a valid token for URL
+	// Save raw encrypted token to DB
+	// (return the encoded one for URL use)
 	const resetPasswordToken = encodeURIComponent(encryptedData);
-	logger.info(`reset password token generated: ${resetPasswordToken}`);
-	return resetPasswordToken;
+
+	logger.info(`reset password token generated (for URL): ${resetPasswordToken}`);
+	return {
+		rawToken: encryptedData, // rawToken to be saved in DB
+		encodedToken: resetPasswordToken, // encodedToken to be used in the URL
+	};
 }
 
 module.exports = {

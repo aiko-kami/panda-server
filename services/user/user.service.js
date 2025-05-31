@@ -201,6 +201,7 @@ const updateUserPrivacy = async (userId, updatedData) => {
 /**
  * Update user's password in the database.
  * @param {string} userId - The ID of the user whose password needs to be updated.
+ * @param {string} oldPassword - The old password of the user.
  * @param {string} newPassword - The new password to set for the user.
  * @returns {Object} - An object with a status and message indicating the result.
  */
@@ -224,6 +225,50 @@ const updateUserPassword = async (userId, oldPassword, newPassword) => {
 		if (!isPasswordValid) {
 			logger.error("Error while updating user password: Old password is incorrect");
 			return { status: "error", message: "Old password is incorrect." };
+		}
+
+		// Hash the new password
+		const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+		console.log("🚀 ~ updateUserPassword ~ hashedPassword:", hashedPassword);
+
+		// Update the password in the database for the user with userId
+		await User.findOneAndUpdate({ _id: ObjectIdUserId }, { password: hashedPassword });
+
+		logger.info(`User password updated successfully. userId: ${userId}`);
+
+		return {
+			status: "success",
+			message: "Password updated successfully.",
+		};
+	} catch (error) {
+		logger.error(`Error while updating user password: ${error}`);
+
+		return {
+			status: "error",
+			message: "An error occurred while updating the user password.",
+		};
+	}
+};
+
+/**
+ * Update user's password in the database.
+ * @param {string} userId - The ID of the user whose password needs to be updated.
+ * @param {string} newPassword - The new password to set for the user.
+ * @returns {Object} - An object with a status and message indicating the result.
+ */
+const updateUserPasswordForgot = async (userId, newPassword) => {
+	try {
+		// Convert id to ObjectId
+		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (ObjectIdUserId.status == "error") {
+			return { status: "error", message: ObjectIdUserId.message };
+		}
+
+		// Retrieve the user from the database
+		const user = await User.findById(ObjectIdUserId);
+		if (!user) {
+			return { status: "error", message: "User not found." };
 		}
 
 		// Hash the new password
@@ -283,5 +328,6 @@ module.exports = {
 	updateUser,
 	updateUserPrivacy,
 	updateUserPassword,
+	updateUserPasswordForgot,
 	verifyEmailAvailability,
 };
