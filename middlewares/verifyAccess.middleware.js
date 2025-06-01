@@ -2,7 +2,6 @@ const { apiResponse } = require("../utils");
 const { verifyTokenService } = require("../services");
 
 const verifyAccess = (req, res, next) => {
-	console.log("🚀 ~ verifyAccess ~ req.cookies:", req.cookies);
 	const accessToken = req.cookies.access_token;
 
 	if (!accessToken) {

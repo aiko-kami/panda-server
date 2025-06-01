@@ -29,7 +29,7 @@ MainRouter.use("/auth", require("./auth"));
 MainRouter.use("/atlas", require("./atlas"));
 
 // throw 404 if URL not found
-MainRouter.all("*", function (req, res) {
+MainRouter.all("/*splat", function (req, res) {
 	return apiResponse.notFoundResponse(res, "Page not found");
 });
 

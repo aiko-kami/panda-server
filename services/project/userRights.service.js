@@ -364,7 +364,7 @@ const removeUserProjectRights = async (projectId, userId) => {
 		}
 
 		// Find the project rights document for the specified project and user
-		const projectRights = await ProjectRights.findOneAndRemove({
+		const projectRights = await ProjectRights.findOneAndDelete({
 			project: objectIdProjectId,
 			user: objectIdUserId,
 		});

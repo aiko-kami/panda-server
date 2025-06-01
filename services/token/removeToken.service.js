@@ -22,7 +22,7 @@ const deleteAllTokens = async () => {
 const removeRefreshTokenFromDatabase = async (refreshToken) => {
 	try {
 		// Find and remove the refresh token associated with the given user ID
-		const removeResult = await RefreshToken.findOneAndRemove(refreshToken);
+		const removeResult = await RefreshToken.findOneAndDelete(refreshToken);
 
 		if (!removeResult) {
 			return { status: "error", message: "Refresh token not found." };
@@ -48,7 +48,7 @@ const removeResetPasswordTokenFromDatabase = async (userId, resetToken) => {
 		}
 
 		// Find and remove the reset password token associated with the given user ID
-		const removeResult = await ResetPasswordToken.findOneAndRemove({ user: ObjectIdUserId, token: resetToken });
+		const removeResult = await ResetPasswordToken.findOneAndDelete({ user: ObjectIdUserId, token: resetToken });
 
 		if (!removeResult) {
 			return { status: "error", message: "Reset password token not found." };
