@@ -90,8 +90,8 @@ const verifyEmailValidationId = async (validationId) => {
 		// Decrypt link
 		const bytes = CryptoJS.AES.decrypt(decodeURIComponent(validationId), process.env.ENCRYPT_KEY);
 
+		const toDecrypt = bytes.toString(CryptoJS.enc.Utf8);
 		try {
-			const toDecrypt = bytes.toString(CryptoJS.enc.Utf8);
 			if (!toDecrypt) {
 				// Invalid or missing decrypted data
 				throw new Error("Invalid validation link.");
