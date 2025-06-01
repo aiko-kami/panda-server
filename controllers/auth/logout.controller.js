@@ -12,8 +12,20 @@ const logout = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, removeRefreshTokenResult.message);
 		}
 		// Clear the access and refresh tokens from cookies
-		res.clearCookie("access_token");
-		res.clearCookie("refresh_token");
+
+		const isDevelopment = process.env.NODE_ENV === "development";
+		const isProduction = process.env.NODE_ENV === "production";
+
+		const cookieOptions = {
+			httpOnly: true,
+			secure: !isDevelopment,
+			sameSite: isDevelopment ? "Lax" : "None",
+			path: "/",
+			...(isProduction && { domain: ".neutroneer.com" }),
+		};
+
+		res.clearCookie("access_token", cookieOptions);
+		res.clearCookie("refresh_token", cookieOptions);
 
 		return apiResponse.successResponse(res, "User successfully logged out.");
 	} catch (error) {
