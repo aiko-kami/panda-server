@@ -161,6 +161,11 @@ const handleUserFiltering = (user, userIdViewer) => {
 				userCopy.profilePicture = undefined;
 			}
 		}
+		if (userCopy.backgroundPicture) {
+			if (userCopy.backgroundPicture.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
+				userCopy.backgroundPicture = undefined;
+			}
+		}
 		if (userCopy.location && userCopy.location.city) {
 			if (userCopy.location.city.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.location.city = undefined;

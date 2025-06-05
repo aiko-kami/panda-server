@@ -23,6 +23,7 @@ const retrieveMyUserData = async (req, res) => {
 			"languages",
 			"website",
 			"profilePicture",
+			"backgroundPicture",
 			"talents",
 			"notifications",
 		]);
