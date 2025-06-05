@@ -230,8 +230,6 @@ const updateUserPassword = async (userId, oldPassword, newPassword) => {
 		// Hash the new password
 		const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-		console.log("🚀 ~ updateUserPassword ~ hashedPassword:", hashedPassword);
-
 		// Update the password in the database for the user with userId
 		await User.findOneAndUpdate({ _id: ObjectIdUserId }, { password: hashedPassword });
 

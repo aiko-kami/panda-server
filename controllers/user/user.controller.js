@@ -24,6 +24,7 @@ const retrieveMyUserData = async (req, res) => {
 			"website",
 			"profilePicture",
 			"talents",
+			"notifications",
 		]);
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);
