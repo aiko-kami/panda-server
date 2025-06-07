@@ -1,6 +1,6 @@
 const validateSteps = (steps) => {
 	//String type validation
-	if (!Array.isArray(steps) || steps.length === 0) {
+	if (!Array.isArray(steps) || !steps.every((step) => typeof step === "string") || steps.length === 0) {
 		return { status: "error", message: "Invalid type of data." };
 	}
 	// Check every element
@@ -48,7 +48,7 @@ const validateStepTitle = (stepTitle) => {
 
 const validateQAs = (QAs) => {
 	//String type validation
-	if (!Array.isArray(QAs) || QAs.length === 0) {
+	if (!Array.isArray(QAs) || !QAs((qa) => typeof qa === "string") || QAs.length === 0) {
 		return { status: "error", message: "Invalid type of data." };
 	}
 	// Check every element

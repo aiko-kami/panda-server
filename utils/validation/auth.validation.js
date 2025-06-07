@@ -1,5 +1,13 @@
 const validator = require("validator");
 
+const config = require("../../config");
+const userEmailMinLength = config.user_email_min_length;
+const userEmailMaxLength = config.user_email_max_length;
+const userUsernameMinLength = config.user_username_min_length;
+const userUsernameMaxLength = config.user_username_max_length;
+const userPasswordMinLength = config.user_password_min_length;
+const userPasswordMaxLength = config.user_password_max_length;
+
 const validatePasswordChange = (oldPassword, newPassword, confirmNewPassword) => {
 	// Validate password
 	if (!oldPassword) {
@@ -11,8 +19,8 @@ const validatePasswordChange = (oldPassword, newPassword, confirmNewPassword) =>
 	if (!confirmNewPassword) {
 		return { status: "error", message: "Password confirmation required." };
 	}
-	if (!validator.isLength(newPassword, { min: 1, max: 125 })) {
-		return { status: "error", message: "Password can contain up to 125 characters." };
+	if (!validator.isLength(newPassword, { min: 1, max: userPasswordMaxLength })) {
+		return { status: "error", message: `Password can contain up to ${userPasswordMaxLength} characters.` };
 	}
 	if (newPassword === oldPassword) {
 		return { status: "error", message: "Old password and new password must be different." };
@@ -21,7 +29,7 @@ const validatePasswordChange = (oldPassword, newPassword, confirmNewPassword) =>
 		return { status: "error", message: "Password and confirmation don't match." };
 	}
 	const strongPassword = validator.isStrongPassword(newPassword, {
-		minLength: 8,
+		minLength: userPasswordMinLength,
 		minLowercase: 1,
 		minUppercase: 1,
 		minNumbers: 1,
@@ -30,7 +38,7 @@ const validatePasswordChange = (oldPassword, newPassword, confirmNewPassword) =>
 	if (!strongPassword) {
 		return {
 			status: "error",
-			message: "Password must contain at least 8 characters, a lowercase letter, an uppercase letter, a number, and a special character.",
+			message: `Password must contain at least ${userPasswordMinLength} characters, a lowercase letter, an uppercase letter, a number, and a special character.`,
 		};
 	}
 	return { status: "success" };
@@ -44,14 +52,14 @@ const validatePassword = (password, confirmPassword) => {
 	if (!confirmPassword) {
 		return { status: "error", message: "Password confirmation required." };
 	}
-	if (!validator.isLength(password, { min: 1, max: 125 })) {
-		return { status: "error", message: "Password can contain up to 125 characters." };
+	if (!validator.isLength(password, { min: 1, max: userPasswordMaxLength })) {
+		return { status: "error", message: `Password can contain up to ${userPasswordMaxLength} characters.` };
 	}
 	if (password !== confirmPassword) {
 		return { status: "error", message: "Password and confirmation don't match." };
 	}
 	const strongPassword = validator.isStrongPassword(password, {
-		minLength: 8,
+		minLength: userPasswordMinLength,
 		minLowercase: 1,
 		minUppercase: 1,
 		minNumbers: 1,
@@ -60,7 +68,7 @@ const validatePassword = (password, confirmPassword) => {
 	if (!strongPassword) {
 		return {
 			status: "error",
-			message: "Password must contain at least 8 characters, a lowercase letter, an uppercase letter, a number, and a special character.",
+			message: `Password must contain at least ${userPasswordMinLength} characters, a lowercase letter, an uppercase letter, a number, and a special character.`,
 		};
 	}
 	return { status: "success" };
@@ -85,11 +93,11 @@ const validateRegistrationInputs = (username, email, password, confirmPassword) 
 			message: "Username can contain letters, numbers, dashes and underscores.",
 		};
 	}
-	if (!validator.isLength(username, { min: 3, max: 32 })) {
-		return { status: "error", message: "Username can be 3-32 characters." };
+	if (!validator.isLength(username, { min: userUsernameMinLength, max: userUsernameMaxLength })) {
+		return { status: "error", message: `Username can be ${userUsernameMinLength}-${userUsernameMaxLength} characters.` };
 	}
-	if (!validator.isLength(email, { min: 1, max: 255 })) {
-		return { status: "error", message: "Email can contain up to 255 characters." };
+	if (!validator.isLength(email, { min: userEmailMinLength, max: userEmailMaxLength })) {
+		return { status: "error", message: `Email can contain up to ${userEmailMaxLength} characters.` };
 	}
 	if (!validator.isEmail(email)) {
 		return { status: "error", message: "Email wrongly formatted." };
