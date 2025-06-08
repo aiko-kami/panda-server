@@ -10,6 +10,7 @@ const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 // Me
 usersRoute.get("/myData", verifyAccess, userController.retrieveMyUserData);
 usersRoute.patch("/updateMyData", verifyAccess, userController.updateUser);
+usersRoute.patch("/updateMyBioDescription", verifyAccess, userController.updateUserBioDescription);
 usersRoute.post("/updateMyPicture", verifyAccess, userController.updateUserPicture);
 
 // Talents

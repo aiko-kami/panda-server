@@ -149,6 +149,43 @@ const updateUser = async (req, res) => {
 	}
 };
 
+const updateUserBioDescription = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		//Retrieve and initialize user data
+		const updatedUserInputs = {
+			description: req.body.userNewData.description || "",
+			bio: req.body.userNewData.bio || "",
+		};
+
+		// Validate user ID
+		const idValidationResult = userValidation.validateUserId(userId);
+		if (idValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, idValidationResult.message);
+		}
+
+		// Validate input data for updating a user
+		const validationResult = userValidation.validateUpdatedUserInputs(updatedUserInputs);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Filter on the fields that the user wants to update
+		const filterUserInputs = filterTools.filterUserFieldsToUpdate(updatedUserInputs);
+
+		// Update the user in the database
+		const updateUserResult = await userService.updateUser(userId, filterUserInputs);
+		if (updateUserResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateUserResult.message);
+		}
+
+		return apiResponse.successResponse(res, updateUserResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 const updateUserPicture = async (req, res) => {
 	try {
 		const userId = req.userId;
@@ -309,6 +346,7 @@ module.exports = {
 	retrieveMyUserData,
 	retrieveNewUsers,
 	updateUser,
+	updateUserBioDescription,
 	updateUserPicture,
 	updateUserPassword,
 	retrieveUserOverview,
