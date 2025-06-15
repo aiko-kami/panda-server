@@ -39,7 +39,7 @@ const corsOptions = {
 	},
 	credentials: true, // Allow credentials (cookies, auth headers)
 	exposedHeaders: ["set-cookie"],
-	methods: ["GET", "POST", "PUT", "DELETE"],
+	methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
 	allowedHeaders: ["Content-Type", "Authorization"],
 };
 app.options("*splat", cors(corsOptions));

@@ -41,6 +41,40 @@ const validateUpdatedUserInputs = (userData) => {
 	return { status: "success", message: "All user inputs are valid." };
 };
 
+const validateUpdatedUserBioDescription = (userData) => {
+	//String type validation
+	const invalidType = typeof userData.description !== "string" || typeof userData.bio !== "string";
+	if (invalidType) {
+		return { status: "error", message: "Invalid type of data." };
+	}
+	// Validate specific field constraints
+	if (userData.description && !validator.isLength(userData.description, { max: userDescriptionMaxLength })) {
+		return { status: "error", message: `User description can contain up to ${userDescriptionMaxLength} characters.` };
+	}
+	// Validate specific field constraints
+	if (userData.bio && !validator.isLength(userData.bio, { max: userBioMaxLength })) {
+		return { status: "error", message: `User bio can contain up to ${userBioMaxLength} characters.` };
+	}
+	// If all validations passed
+	return { status: "success", message: "All user inputs are valid." };
+};
+
+const validateUpdatedUserDetails = (userData) => {
+	//String type validation
+	const invalidType =
+		typeof userData.locationCountry !== "string" ||
+		typeof userData.locationCity !== "string" ||
+		typeof userData.company !== "string" ||
+		typeof userData.website !== "string" ||
+		!Array.isArray(userData.languages) ||
+		!userData.languages.every((lang) => typeof lang === "string");
+	if (invalidType) {
+		return { status: "error", message: "Invalid type of data." };
+	}
+	// If all validations passed
+	return { status: "success", message: "All user inputs are valid." };
+};
+
 const validateUpdatedUserPrivacyInputs = (userPrivacyData) => {
 	// Iterate over each key in userPrivacyData
 	for (let key in userPrivacyData) {
@@ -71,6 +105,8 @@ const validateUserId = (userId) => {
 
 module.exports = {
 	validateUpdatedUserInputs,
+	validateUpdatedUserBioDescription,
+	validateUpdatedUserDetails,
 	validateUpdatedUserPrivacyInputs,
 	validateUserId,
 };

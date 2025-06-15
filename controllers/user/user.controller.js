@@ -1,5 +1,5 @@
 const { apiResponse, userValidation, authValidation, filterTools, uploadFiles } = require("../../utils");
-const { userService, uploadService } = require("../../services");
+const { userService, uploadService, emailService } = require("../../services");
 
 const retrieveMyUserData = async (req, res) => {
 	try {
@@ -166,7 +166,7 @@ const updateUserBioDescription = async (req, res) => {
 		}
 
 		// Validate input data for updating a user
-		const validationResult = userValidation.validateUpdatedUserInputs(updatedUserInputs);
+		const validationResult = userValidation.validateUpdatedUserBioDescription(updatedUserInputs);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
@@ -181,6 +181,107 @@ const updateUserBioDescription = async (req, res) => {
 		}
 
 		return apiResponse.successResponse(res, updateUserResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const updateUserDetails = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		//Retrieve and initialize user data
+		const updatedUserInputs = {
+			locationCountry: req.body.userNewData.locationCountry || "",
+			locationCity: req.body.userNewData.locationCity || "",
+			company: req.body.userNewData.company || "",
+			languages: req.body.userNewData.languages || [],
+			website: req.body.userNewData.website || "",
+		};
+
+		// Validate user ID
+		const idValidationResult = userValidation.validateUserId(userId);
+		if (idValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, idValidationResult.message);
+		}
+
+		// Validate input data for updating a user
+		const validationResult = userValidation.validateUpdatedUserDetails(updatedUserInputs);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Filter on the fields that the user wants to update
+		const filterUserInputs = filterTools.filterUserFieldsToUpdate(updatedUserInputs);
+
+		// Update the user in the database
+		const updateUserResult = await userService.updateUser(userId, filterUserInputs);
+		if (updateUserResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateUserResult.message);
+		}
+
+		return apiResponse.successResponse(res, updateUserResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const updateUserEmail = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		//Retrieve and initialize user data
+		const newEmail = req.body.userNewData.email || "";
+
+		// Validate user ID
+		const idValidationResult = userValidation.validateUserId(userId);
+		if (idValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, idValidationResult.message);
+		}
+
+		// Validate input data for updating a user
+		const validationResult = authValidation.validateEmail(newEmail);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		//Verify that the email is available
+		const emailVerification = await userService.verifyEmailAvailability(newEmail);
+		if (emailVerification.status !== "success") {
+			return apiResponse.serverErrorResponse(res, emailVerification.message);
+		}
+
+		// Update the user in the database
+		const updateUserResult = await userService.updateUserEmail(userId, newEmail);
+		if (updateUserResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateUserResult.message);
+		}
+
+		//Send validation email to confirm new email address
+		const validationEmailSent = await emailService.sendVerificationEmailChangeEmail(userId);
+		if (validationEmailSent.status !== "success") {
+			return apiResponse.serverErrorResponse(res, validationEmailSent.message);
+		}
+
+		return apiResponse.successResponse(res, updateUserResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+// Verify the email address via the personalized link sent to the user
+const verifyEmailChangeLink = async (req, res) => {
+	try {
+		const emailChangeValidationId = req.params.emailChangeValidationId;
+
+		const emailVerified = await emailService.verifyEmailChangeValidationId(emailChangeValidationId);
+		if (emailVerified.status !== "success") {
+			return apiResponse.serverErrorResponse(res, emailVerified.message);
+		}
+
+		return apiResponse.successResponse(res, emailVerified.message);
+
+		//catch error if occurred during email verification link
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -261,7 +362,8 @@ const updateUserPassword = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		const { oldPassword = "", newPassword = "", confirmNewPassword = "" } = req.body;
+		//Retrieve and initialize user data
+		const { oldPassword = "", newPassword = "", confirmNewPassword = "" } = req.body.userNewData;
 
 		// Validate user ID
 		const idValidationResult = userValidation.validateUserId(userId);
@@ -347,6 +449,9 @@ module.exports = {
 	retrieveNewUsers,
 	updateUser,
 	updateUserBioDescription,
+	updateUserDetails,
+	updateUserEmail,
+	verifyEmailChangeLink,
 	updateUserPicture,
 	updateUserPassword,
 	retrieveUserOverview,

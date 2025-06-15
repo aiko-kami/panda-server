@@ -97,7 +97,6 @@ const updateUser = async (userId, updatedData) => {
 
 		// Define a mapping of fields between the updatedData object and the project object
 		const fieldMapping = {
-			email: "email",
 			profilePictureKey: "profilePicture.key",
 			profilePictureLink: "profilePicture.link",
 			locationCity: "location.city.data",
@@ -135,6 +134,42 @@ const updateUser = async (userId, updatedData) => {
 		return {
 			status: "error",
 			message: "An error occurred while updating the user.",
+		};
+	}
+};
+
+const updateUserEmail = async (userId, newEmail) => {
+	try {
+		// Convert id to ObjectId
+		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (ObjectIdUserId.status == "error") {
+			return { status: "error", message: ObjectIdUserId.message };
+		}
+
+		// Find the user by userId
+		const user = await User.findOne({ _id: ObjectIdUserId });
+		if (!user) {
+			return { status: "error", message: "User not found." };
+		}
+
+		// Update the changeEmailVerified.newEmail field
+		user.changeEmailVerified.newEmail = newEmail;
+		user.changeEmailVerified.verified = false;
+
+		// Save the user
+		const updatedUser = await user.save();
+		logger.info(`User email updated successfully. User ID: ${userId}`);
+		return {
+			status: "success",
+			message: "User email updated successfully.",
+			updatedUser,
+		};
+	} catch (error) {
+		logger.error("Error while updating the user email: ", error);
+
+		return {
+			status: "error",
+			message: "An error occurred while updating the user email.",
 		};
 	}
 };
@@ -324,6 +359,7 @@ module.exports = {
 	retrieveLatestUsers,
 	retrieveUserByEmail,
 	updateUser,
+	updateUserEmail,
 	updateUserPrivacy,
 	updateUserPassword,
 	updateUserPasswordForgot,

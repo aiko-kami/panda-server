@@ -16,6 +16,15 @@ const useResetPasswordTemplate = (emailInputs) => {
 	return emailContent;
 };
 
+const useChangeEmailAddressVerificationTemplate = (emailInputs) => {
+	const usernameCapitalized = emailInputs.usernameCapitalized || "username";
+	const verificationLink = emailInputs.verificationLink || "verification link";
+
+	const emailContent = `<table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f4f4f4"><tbody><tr><td><table style="max-width:600px;margin:auto;background-color:#fff;padding:20px" border="0" width="100%" cellspacing="0" cellpadding="0" align="center"><tbody><tr><td style="text-align:center;padding:10px"><h2>You changed your email address!</h2></td></tr><tr><td style="padding:20px"><p>Hello <strong>${usernameCapitalized}</strong>,</p><p>To complete your email change, please click the link below:</p><p>&nbsp;</p><p style="text-align:center"><a style="display:inline-block;padding:10px 20px;background-color:#007bff;color:#fff;text-decoration:none;border-radius:5px" href="${verificationLink}">Validate my new email</a></p><p>&nbsp;</p><p>If you didn’t initiate this email change on Sheepy, reach out to our support team.</p><p>&nbsp;</p><p>See you soon.</p><p style="text-align:right"><br>Sheppy team</p></td></tr></tbody></table></td></tr></tbody></table>`;
+
+	return emailContent;
+};
+
 const useProjectSubmittedTemplate = (emailInputs) => {
 	const usernameCapitalized = emailInputs.usernameCapitalized || "project creator username";
 	const projectTitle = emailInputs.projectTitle || "project title";
@@ -50,6 +59,7 @@ const useProjectApprovalTemplate = (emailInputs) => {
 
 module.exports = {
 	useEmailAddressVerificationTemplate,
+	useChangeEmailAddressVerificationTemplate,
 	useResetPasswordTemplate,
 	useProjectSubmittedTemplate,
 	useProjectApprovalTemplate,

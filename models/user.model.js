@@ -36,6 +36,12 @@ const userSchema = new Schema(
 			emailId: { type: String },
 			expirationTimestamp: { type: Number },
 		},
+		changeEmailVerified: {
+			newEmail: { type: String },
+			verified: { type: Boolean, required: true },
+			emailId: { type: String },
+			expirationTimestamp: { type: Number },
+		},
 		description: { type: String },
 		profilePicture: {
 			key: { type: String },
