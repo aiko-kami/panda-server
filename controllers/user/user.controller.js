@@ -323,6 +323,7 @@ const updateUserPicture = async (req, res) => {
 		}
 
 		// Remove former profile picture from AWS
+
 		if (isFormerPicturePresent) {
 			const deletePictureResult = await uploadFiles.deleteFile(formerProfilePicture);
 			if (deletePictureResult.status !== "success") {
