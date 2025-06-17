@@ -54,6 +54,17 @@ const userSchema = new Schema(
 				message: "The value {VALUE} is not valid.",
 			},
 		},
+		backgroundPicture: {
+			key: { type: String },
+			link: { type: String },
+			privacy: {
+				type: String,
+				required: true,
+				default: userVisibility[0],
+				enum: userVisibility,
+				message: "The value {VALUE} is not valid.",
+			},
+		},
 		location: {
 			city: privacyString,
 			country: privacyString,
@@ -89,6 +100,48 @@ const userSchema = new Schema(
 				certifications: { type: String },
 			},
 		],
+		notifications: {
+			globalNotif: {
+				type: Number,
+				required: true,
+				default: 0,
+			},
+			myProfileNotif: {
+				type: Number,
+				required: true,
+				default: 0,
+			},
+			myProjectsNotif: {
+				type: Number,
+				required: true,
+				default: 0,
+			},
+			myMessagesNotif: {
+				type: Number,
+				required: true,
+				default: 0,
+			},
+			mySettingsNotif: {
+				type: Number,
+				required: true,
+				default: 0,
+			},
+			helpNotif: {
+				type: Number,
+				required: true,
+				default: 0,
+			},
+			invitationsNotif: {
+				type: Number,
+				required: true,
+				default: 0,
+			},
+			requestsNotif: {
+				type: Number,
+				required: true,
+				default: 0,
+			},
+		},
 	},
 	{
 		collection: "users",

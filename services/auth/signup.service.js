@@ -29,7 +29,14 @@ const signupUser = async (username, email, password) => {
 				verified: false,
 				emailId: "",
 			},
+			changeEmailVerified: {
+				verified: false,
+				newEmail: "",
+				emailId: "",
+			},
+
 			profilePicture: { key: "", link: "" },
+			backgroundPicture: { key: "", link: "" },
 			location: {
 				city: { data: "" },
 				country: { data: "" },
@@ -39,6 +46,16 @@ const signupUser = async (username, email, password) => {
 			bio: { data: "" },
 			languages: { data: [] },
 			website: { data: "" },
+			notifications: {
+				globalNotif: 0,
+				myProfileNotif: 0,
+				myProjectsNotif: 0,
+				myMessagesNotif: 0,
+				mySettingsNotif: 0,
+				helpNotif: 0,
+				invitationsNotif: 0,
+				requestsNotif: 0,
+			},
 		});
 
 		// Save the user to the database

@@ -13,6 +13,7 @@ usersRoute.patch("/updateMyData", verifyAccess, userController.updateUser);
 usersRoute.patch("/updateMyBioDescription", verifyAccess, userController.updateUserBioDescription);
 usersRoute.patch("/updateMyDetails", verifyAccess, userController.updateUserDetails);
 usersRoute.post("/updateMyPicture", verifyAccess, userController.updateUserPicture);
+usersRoute.post("/updateMyBackgroundPicture", verifyAccess, userController.updateUserBackgroundPicture);
 
 // Talents
 usersRoute.post("/talent/add", verifyAccess, talentController.createTalent);

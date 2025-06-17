@@ -27,6 +27,33 @@ const uploadProfilePicture = async (req, res, userId) => {
 	});
 };
 
+const uploadBackgroundPicture = async (req, res, userId) => {
+	return new Promise((resolve, reject) => {
+		try {
+			const fileName = "__backgroundPicture__" + userId;
+
+			const singleUpload = uploadFiles.fileUpload(req, "user_background_pictures/", fileName, ["image"]).single("image");
+
+			singleUpload(req, res, function (error) {
+				if (error) {
+					logger.error(`Error uploading file: ${error}`);
+					return reject({
+						status: "error",
+						message: `File Upload Error: ${error}`,
+						error: error,
+					});
+				}
+
+				logger.info("User background picture uploaded successfully.");
+				resolve({ status: "success", message: "User background picture uploaded successfully." }); // Resolve with req.file object
+			});
+		} catch (error) {
+			logger.error("Error uploading user background picture:", error);
+			return { status: "error", message: "An error occurred while uploading user background picture." };
+		}
+	});
+};
+
 const uploadCover = async (req, res, projectId) => {
 	return new Promise((resolve, reject) => {
 		try {
@@ -83,6 +110,7 @@ const uploadAttachment = async (req, res, projectId, attachmentTitle) => {
 
 module.exports = {
 	uploadProfilePicture,
+	uploadBackgroundPicture,
 	uploadCover,
 	uploadAttachment,
 };

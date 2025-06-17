@@ -351,6 +351,70 @@ const updateUserPicture = async (req, res) => {
 	}
 };
 
+const updateUserBackgroundPicture = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		// Validate user ID
+		const idValidationResult = userValidation.validateUserId(userId);
+		if (idValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, idValidationResult.message);
+		}
+
+		// Verify user exists, retrieve former background picture
+		const userData = await userService.retrieveUserById(userId, ["username", "backgroundPicture"]);
+		if (userData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userData.message);
+		}
+
+		const formerBackgroundPicture = userData.user.backgroundPicture.key;
+		const isFormerBackgroundPicturePresent = formerBackgroundPicture !== "";
+
+		//Verify that query contains an input file
+		const inputFileCheckResult = uploadFiles.checkInputFile(req);
+		if (inputFileCheckResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, inputFileCheckResult.message);
+		}
+
+		const isNewBackgroundPicturePresent = inputFileCheckResult.isFile;
+
+		// If new picture is present in the request, upload new background picture to AWS
+		if (isNewBackgroundPicturePresent) {
+			const uploadPictureResult = await uploadService.uploadBackgroundPicture(req, res, userId);
+			if (uploadPictureResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, uploadPictureResult.message);
+			}
+		}
+
+		// Remove former background picture from AWS
+		if (isFormerBackgroundPicturePresent) {
+			const deleteBackgroundPictureResult = await uploadFiles.deleteFile(formerBackgroundPicture);
+			if (deleteBackgroundPictureResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, deleteBackgroundPictureResult.message);
+			}
+		}
+
+		const backgroundPictureKey = req.file.key || "";
+		const backgroundPictureLink = req.file.location || "";
+
+		//Set new background picture link in the data to update the database
+		const updatedUserData = {
+			backgroundPictureKey,
+			backgroundPictureLink,
+		};
+
+		// Add new background picture link to database (replace with new link or simply remove the former one if there is no new input)
+		const updateUserResult = await userService.updateUser(userId, updatedUserData);
+		if (updateUserResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateUserResult.message);
+		}
+
+		return apiResponse.successResponseWithData(res, "User background picture updated successfully.", backgroundPictureLink);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 /**
  * Change User's password Controller
  * This controller handles the update of user's password.
@@ -453,6 +517,7 @@ module.exports = {
 	updateUserEmail,
 	verifyEmailChangeLink,
 	updateUserPicture,
+	updateUserBackgroundPicture,
 	updateUserPassword,
 	retrieveUserOverview,
 	retrieveUserPublicData,

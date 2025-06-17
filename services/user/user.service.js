@@ -99,6 +99,8 @@ const updateUser = async (userId, updatedData) => {
 		const fieldMapping = {
 			profilePictureKey: "profilePicture.key",
 			profilePictureLink: "profilePicture.link",
+			backgroundPictureKey: "backgroundPicture.key",
+			backgroundPictureLink: "backgroundPicture.link",
 			locationCity: "location.city.data",
 			locationCountry: "location.country.data",
 			company: "company.data",
@@ -194,6 +196,7 @@ const updateUserPrivacy = async (userId, updatedData) => {
 		// Define a mapping of fields between the updatedData object and the project object
 		const fieldMapping = {
 			profilePicture: "profilePicture.privacy",
+			backgroundPicture: "backgroundPicture.privacy",
 			locationCountry: "location.country.privacy",
 			locationCity: "location.city.privacy",
 			company: "company.privacy",
