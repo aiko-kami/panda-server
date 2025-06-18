@@ -12,8 +12,12 @@ usersRoute.get("/myData", verifyAccess, userController.retrieveMyUserData);
 usersRoute.patch("/updateMyData", verifyAccess, userController.updateUser);
 usersRoute.patch("/updateMyBioDescription", verifyAccess, userController.updateUserBioDescription);
 usersRoute.patch("/updateMyDetails", verifyAccess, userController.updateUserDetails);
+
+// User profile picture and background picture
 usersRoute.post("/updateMyPicture", verifyAccess, userController.updateUserPicture);
 usersRoute.post("/updateMyBackgroundPicture", verifyAccess, userController.updateUserBackgroundPicture);
+usersRoute.delete("/removeMyPicture", verifyAccess, userController.removeUserPicture);
+usersRoute.delete("/removeMyBackgroundPicture", verifyAccess, userController.removeUserBackgroundPicture);
 
 // Talents
 usersRoute.post("/talent/add", verifyAccess, talentController.createTalent);

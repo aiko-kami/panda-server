@@ -416,6 +416,94 @@ const updateUserBackgroundPicture = async (req, res) => {
 	}
 };
 
+const removeUserPicture = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		// Validate user ID
+		const idValidationResult = userValidation.validateUserId(userId);
+		if (idValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, idValidationResult.message);
+		}
+
+		// Verify user exists, retrieve former profile picture
+		const userData = await userService.retrieveUserById(userId, ["username", "profilePicture"]);
+		if (userData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userData.message);
+		}
+
+		const formerProfilePicture = userData.user.profilePicture.key;
+		const isFormerPicturePresent = formerProfilePicture !== "";
+
+		// Remove former profile picture from AWS
+		if (isFormerPicturePresent) {
+			const deletePictureResult = await uploadFiles.deleteFile(formerProfilePicture);
+			if (deletePictureResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, deletePictureResult.message);
+			}
+		}
+
+		//Set empty profile picture data to update the database
+		const updatedUserData = {
+			profilePictureKey: "",
+			profilePictureLink: "",
+		};
+
+		// Update profile picture with empty data in database (remove the former picture)
+		const updateUserResult = await userService.updateUser(userId, updatedUserData);
+		if (updateUserResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateUserResult.message);
+		}
+
+		return apiResponse.successResponse(res, "User profile picture removed successfully.");
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const removeUserBackgroundPicture = async (req, res) => {
+	try {
+		const userId = req.userId;
+		// Validate user ID
+		const idValidationResult = userValidation.validateUserId(userId);
+		if (idValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, idValidationResult.message);
+		}
+
+		// Verify user exists, retrieve former background picture
+		const userData = await userService.retrieveUserById(userId, ["username", "backgroundPicture"]);
+		if (userData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userData.message);
+		}
+
+		const formerBackgroundPicture = userData.user.backgroundPicture.key;
+		const isFormerBackgroundPicturePresent = formerBackgroundPicture !== "";
+
+		// Remove former background picture from AWS
+		if (isFormerBackgroundPicturePresent) {
+			const deleteBackgroundPictureResult = await uploadFiles.deleteFile(formerBackgroundPicture);
+			if (deleteBackgroundPictureResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, deleteBackgroundPictureResult.message);
+			}
+		}
+
+		//Set empty background picture data to update the database
+		const updatedUserData = {
+			backgroundPictureKey: "",
+			backgroundPictureLink: "",
+		};
+		// Update background picture with empty data in database (remove the former background picture)
+		const updateUserResult = await userService.updateUser(userId, updatedUserData);
+		if (updateUserResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateUserResult.message);
+		}
+
+		return apiResponse.successResponse(res, "User background picture removed successfully.");
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 /**
  * Change User's password Controller
  * This controller handles the update of user's password.
@@ -519,6 +607,8 @@ module.exports = {
 	verifyEmailChangeLink,
 	updateUserPicture,
 	updateUserBackgroundPicture,
+	removeUserPicture,
+	removeUserBackgroundPicture,
 	updateUserPassword,
 	retrieveUserOverview,
 	retrieveUserPublicData,
