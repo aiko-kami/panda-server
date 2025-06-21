@@ -44,6 +44,80 @@ const retrieveMyUserData = async (req, res) => {
 	}
 };
 
+const retrieveMyUserSettings = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		// Validate user ID
+		const validationResult = userValidation.validateUserId(userId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		const userData = await userService.retrieveUserById(userId, ["profilePicture", "backgroundPicture", "bio", "location", "company", "languages", "website", "projectLikePrivacy", "settings"]);
+		if (userData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userData.message);
+		}
+
+		const user = userData.user;
+
+		//Filter user data from user
+		const privacyFiltered = filterTools.filterUserPrivacyFields(user, userId);
+		if (privacyFiltered.status !== "success") {
+			return apiResponse.serverErrorResponse(res, privacyFiltered.message);
+		}
+
+		if (!user.settings) {
+			return apiResponse.serverErrorResponse(res, "User settings not found.");
+		}
+		const responseSettings = {
+			privacySettings: privacyFiltered.privacySettings,
+			displayMode: user.settings.displayMode,
+			appearance: user.settings.appearance,
+			language: user.settings.language,
+			notificationNewsletter: user.settings.communicationNotifications.newsletter,
+			notificationProjects: user.settings.communicationNotifications.projects,
+			notificationMessages: user.settings.communicationNotifications.messages,
+			notificationComments: user.settings.communicationNotifications.comments,
+		};
+
+		return apiResponse.successResponseWithData(res, "User settings retrieved successfully.", {
+			userSettings: responseSettings,
+		});
+	} catch (error) {
+		// Throw error in json response with status 500.
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const retrieveMyUserPrivacySettings = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		// Validate user ID
+		const validationResult = userValidation.validateUserId(userId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		const userData = await userService.retrieveUserById(userId, ["profilePicture", "backgroundPicture", "bio", "location", "company", "languages", "website", "projectLikePrivacy"]);
+		if (userData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userData.message);
+		}
+
+		//Filter user data from user
+		const userFiltered = filterTools.filterUserPrivacyFields(userData.user, userId);
+		if (userFiltered.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userFiltered.message);
+		}
+
+		return apiResponse.successResponseWithData(res, userData.message, userFiltered);
+	} catch (error) {
+		// Throw error in json response with status 500.
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 // Retrieve 4 new users
 const retrieveNewUsers = async (req, res) => {
 	try {
@@ -599,6 +673,8 @@ const retrieveUserPublicData = async (req, res) => {
 
 module.exports = {
 	retrieveMyUserData,
+	retrieveMyUserSettings,
+	retrieveMyUserPrivacySettings,
 	retrieveNewUsers,
 	updateUser,
 	updateUserBioDescription,

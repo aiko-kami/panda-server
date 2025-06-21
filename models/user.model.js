@@ -5,6 +5,9 @@ const { DateTime } = require("luxon");
 const config = require("../config");
 
 const userVisibility = config.user_visibility;
+const websiteDisplayMode = config.website_display_mode;
+const websiteAppearance = config.website_appearance;
+const websiteLanguage = config.website_language;
 
 const privacyString = new Schema({
 	_id: false,
@@ -100,6 +103,32 @@ const userSchema = new Schema(
 				certifications: { type: String },
 			},
 		],
+		settings: {
+			displayMode: {
+				type: String,
+				required: true,
+				default: websiteDisplayMode[0],
+				enum: websiteDisplayMode,
+			},
+			appearance: {
+				type: String,
+				required: true,
+				default: websiteAppearance[0],
+				enum: websiteAppearance,
+			},
+			language: {
+				type: String,
+				required: true,
+				default: websiteLanguage[0],
+				enum: websiteLanguage,
+			},
+			communicationNotifications: {
+				newsletter: { type: Boolean, required: true, default: false },
+				projects: { type: Boolean, required: true, default: true },
+				messages: { type: Boolean, required: true, default: true },
+				comments: { type: Boolean, required: true, default: true },
+			},
+		},
 		notifications: {
 			globalNotif: {
 				type: Number,

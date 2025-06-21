@@ -214,6 +214,42 @@ const filterUserOutputFields = (user, userIdViewer) => {
 	}
 };
 
+const filterUserPrivacyFields = (user) => {
+	try {
+		if (!user) {
+			throw new Error("User not found or invalid.");
+		}
+
+		const privacySettings = {
+			privacyProfilePicture: user.profilePicture?.privacy || null,
+			privacyBio: user.bio?.privacy || null,
+			privacyLocationCity: user.location?.city?.privacy || null,
+			privacyLocationCountry: user.location?.country?.privacy || null,
+			privacyCompany: user.company?.privacy || null,
+			privacyLanguages: user.languages?.privacy || null,
+			privacyWebsite: user.website?.privacy || null,
+			privacyProjectLike: user.projectLikePrivacy || null,
+		};
+
+		// Optionally check if everything is null
+		const allEmpty = Object.values(privacySettings).every((value) => value === null);
+		if (allEmpty) {
+			throw new Error("No privacy settings found for user.");
+		}
+
+		return {
+			status: "success",
+			message: "Privacy settings retrieved successfully.",
+			privacySettings,
+		};
+	} catch (error) {
+		return {
+			status: "error",
+			message: error.message,
+		};
+	}
+};
+
 const filterUsersOutputFields = (users, userIdViewer) => {
 	try {
 		const filteredUsers = users.map((user) => handleUserFiltering(user, userIdViewer));
@@ -288,6 +324,7 @@ module.exports = {
 	filterProjectFieldsToUpdate,
 	filterUserFieldsToUpdate,
 	filterUserOutputFields,
+	filterUserPrivacyFields,
 	filterUsersOutputFields,
 	filterProjectsOutputFields,
 	filterProjectOutputFields,

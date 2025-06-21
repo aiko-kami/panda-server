@@ -16,6 +16,18 @@ const config = {
 	// Note: the first value is used for default value
 	user_visibility: ["public", "private", "friends"],
 
+	// Website display mode possible values
+	// Note: the first value is used for default value
+	website_display_mode: ["table", "cards"],
+
+	// Website appearance possible values
+	// Note: the first value is used for default value
+	website_appearance: ["night", "dark", "light", "unreal"],
+
+	// Website language possible values
+	// Note: the first value is used for default value
+	website_language: ["English", "French", "Español"],
+
 	// User email min and max length
 	user_email_min_length: 1,
 	user_email_max_length: 255,

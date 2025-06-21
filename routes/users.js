@@ -9,6 +9,8 @@ const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Me
 usersRoute.get("/myData", verifyAccess, userController.retrieveMyUserData);
+usersRoute.get("/mySettings", verifyAccess, userController.retrieveMyUserSettings);
+usersRoute.get("/myPrivacySettings", verifyAccess, userController.retrieveMyUserPrivacySettings);
 usersRoute.patch("/updateMyData", verifyAccess, userController.updateUser);
 usersRoute.patch("/updateMyBioDescription", verifyAccess, userController.updateUserBioDescription);
 usersRoute.patch("/updateMyDetails", verifyAccess, userController.updateUserDetails);
