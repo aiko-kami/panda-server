@@ -108,6 +108,13 @@ const updateUser = async (userId, updatedData) => {
 			bio: "bio.data",
 			languages: "languages.data",
 			website: "website.data",
+			displayMode: "settings.displayMode",
+			appearance: "settings.appearance",
+			language: "settings.language",
+			notificationsNewsletter: "settings.communicationNotifications.newsletter",
+			notificationsProjects: "settings.communicationNotifications.projects",
+			notificationsMessages: "settings.communicationNotifications.messages",
+			notificationsComments: "settings.communicationNotifications.comments",
 		};
 
 		// Iterate through the fieldMapping and check if the field exists in updatedData

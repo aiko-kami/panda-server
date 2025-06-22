@@ -14,6 +14,10 @@ usersRoute.get("/myPrivacySettings", verifyAccess, userController.retrieveMyUser
 usersRoute.patch("/updateMyData", verifyAccess, userController.updateUser);
 usersRoute.patch("/updateMyBioDescription", verifyAccess, userController.updateUserBioDescription);
 usersRoute.patch("/updateMyDetails", verifyAccess, userController.updateUserDetails);
+usersRoute.patch("/updateMySettingsPrivacy", verifyAccess, userController.updateUserSettingsPrivacy);
+usersRoute.patch("/updateMySettingsAppearance", verifyAccess, userController.updateUserSettingsAppearance);
+usersRoute.patch("/updateMySettingsLanguage", verifyAccess, userController.updateUserSettingsLanguage);
+usersRoute.patch("/updateMySettingsNotifications", verifyAccess, userController.updateUserSettingsNotifications);
 
 // User profile picture and background picture
 usersRoute.post("/updateMyPicture", verifyAccess, userController.updateUserPicture);

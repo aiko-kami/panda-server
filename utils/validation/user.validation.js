@@ -1,12 +1,15 @@
 const validator = require("validator");
 const config = require("../../config");
 const userVisibility = config.user_visibility;
+const websiteDisplayMode = config.website_display_mode;
+const websiteAppearance = config.website_appearance;
+const websiteLanguage = config.website_language;
 const userEmailMinLength = config.user_email_min_length;
 const userEmailMaxLength = config.user_email_max_length;
 const userDescriptionMaxLength = config.user_description_max_length;
 const userBioMaxLength = config.user_bio_max_length;
 
-const validateUpdatedUserInputs = (userData) => {
+const validateUserInputs = (userData) => {
 	//String type validation
 	const invalidType =
 		typeof userData.email !== "string" ||
@@ -41,7 +44,7 @@ const validateUpdatedUserInputs = (userData) => {
 	return { status: "success", message: "All user inputs are valid." };
 };
 
-const validateUpdatedUserBioDescription = (userData) => {
+const validateUserBioDescription = (userData) => {
 	//String type validation
 	const invalidType = typeof userData.description !== "string" || typeof userData.bio !== "string";
 	if (invalidType) {
@@ -59,7 +62,7 @@ const validateUpdatedUserBioDescription = (userData) => {
 	return { status: "success", message: "All user inputs are valid." };
 };
 
-const validateUpdatedUserDetails = (userData) => {
+const validateUserDetails = (userData) => {
 	//String type validation
 	const invalidType =
 		typeof userData.locationCountry !== "string" ||
@@ -75,7 +78,7 @@ const validateUpdatedUserDetails = (userData) => {
 	return { status: "success", message: "All user inputs are valid." };
 };
 
-const validateUpdatedUserPrivacyInputs = (userPrivacyData) => {
+const validateUserPrivacyInputs = (userPrivacyData) => {
 	// Iterate over each key in userPrivacyData
 	for (let key in userPrivacyData) {
 		if (Object.prototype.hasOwnProperty.call(userPrivacyData, key)) {
@@ -94,6 +97,72 @@ const validateUpdatedUserPrivacyInputs = (userPrivacyData) => {
 	return { status: "success", message: "All user privacy inputs are valid." };
 };
 
+const validateDisplayModeSettingsInputs = (displayModeSettingsData) => {
+	//String type validation
+	const invalidType = typeof displayModeSettingsData.displayMode !== "string";
+	if (invalidType) {
+		return { status: "error", message: "Invalid type of data." };
+	}
+
+	// Validate language
+	if (!validator.isIn(displayModeSettingsData.displayMode, websiteDisplayMode)) {
+		return { status: "error", message: `Invalid value for display mode.` };
+	}
+
+	// If all validations passed
+	return { status: "success", message: "All user inputs are valid." };
+};
+
+const validateAppearanceSettingsInputs = (AppearanceSettingsData) => {
+	//String type validation
+	const invalidType = typeof AppearanceSettingsData.appearance !== "string";
+	if (invalidType) {
+		return { status: "error", message: "Invalid type of data." };
+	}
+
+	// Validate language
+	if (!validator.isIn(AppearanceSettingsData.appearance, websiteAppearance)) {
+		return { status: "error", message: `Invalid value for appearance.` };
+	}
+
+	// If all validations passed
+	return { status: "success", message: "All user inputs are valid." };
+};
+
+const validateLanguageSettingsInputs = (languageSettingsData) => {
+	//String type validation
+	const invalidType = typeof languageSettingsData.language !== "string";
+
+	console.log("🚀 ~ validateLanguageSettingsInputs ~ languageSettingsData:", languageSettingsData);
+
+	if (invalidType) {
+		return { status: "error", message: "Invalid type of data." };
+	}
+
+	// Validate language
+	if (!validator.isIn(languageSettingsData.language, websiteLanguage)) {
+		return { status: "error", message: `Invalid value for language.` };
+	}
+
+	// If all validations passed
+	return { status: "success", message: "All user inputs are valid." };
+};
+
+const validateNotificationsInputs = (notificationsData) => {
+	// Iterate over each key in notificationsData
+	for (let key in notificationsData) {
+		if (Object.prototype.hasOwnProperty.call(notificationsData, key)) {
+			// Validate type
+			if (typeof notificationsData[key] !== "boolean") {
+				return { status: "error", message: "Invalid type of data." };
+			}
+		}
+	}
+
+	// If all validations passed
+	return { status: "success", message: "All user inputs are valid." };
+};
+
 const validateUserId = (userId) => {
 	//String type validation
 	if (typeof userId !== "string") {
@@ -104,9 +173,13 @@ const validateUserId = (userId) => {
 };
 
 module.exports = {
-	validateUpdatedUserInputs,
-	validateUpdatedUserBioDescription,
-	validateUpdatedUserDetails,
-	validateUpdatedUserPrivacyInputs,
+	validateUserInputs,
+	validateUserBioDescription,
+	validateUserDetails,
+	validateUserPrivacyInputs,
+	validateDisplayModeSettingsInputs,
+	validateAppearanceSettingsInputs,
+	validateLanguageSettingsInputs,
+	validateNotificationsInputs,
 	validateUserId,
 };

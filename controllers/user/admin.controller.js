@@ -40,7 +40,7 @@ const updateUser = async (req, res) => {
 		};
 
 		// Validate input data for updating a user
-		const validationResult = userValidation.validateUpdatedUserInputs(updatedUserInputs);
+		const validationResult = userValidation.validateUserInputs(updatedUserInputs);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}

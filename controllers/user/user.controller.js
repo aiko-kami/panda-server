@@ -75,10 +75,12 @@ const retrieveMyUserSettings = async (req, res) => {
 			displayMode: user.settings.displayMode,
 			appearance: user.settings.appearance,
 			language: user.settings.language,
-			notificationNewsletter: user.settings.communicationNotifications.newsletter,
-			notificationProjects: user.settings.communicationNotifications.projects,
-			notificationMessages: user.settings.communicationNotifications.messages,
-			notificationComments: user.settings.communicationNotifications.comments,
+			notifications: {
+				notificationsNewsletter: user.settings.communicationNotifications.newsletter,
+				notificationsProjects: user.settings.communicationNotifications.projects,
+				notificationsMessages: user.settings.communicationNotifications.messages,
+				notificationsComments: user.settings.communicationNotifications.comments,
+			},
 		};
 
 		return apiResponse.successResponseWithData(res, "User settings retrieved successfully.", {
@@ -183,13 +185,13 @@ const updateUser = async (req, res) => {
 		}
 
 		// Validate input data for updating a user
-		const validationResult = userValidation.validateUpdatedUserInputs(updatedUserInputs);
+		const validationResult = userValidation.validateUserInputs(updatedUserInputs);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
 		// Validate privacy data for updating a user
-		const validationPrivacyResult = userValidation.validateUpdatedUserPrivacyInputs(updatedPrivacyInputs);
+		const validationPrivacyResult = userValidation.validateUserPrivacyInputs(updatedPrivacyInputs);
 		if (validationPrivacyResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationPrivacyResult.message);
 		}
@@ -240,7 +242,7 @@ const updateUserBioDescription = async (req, res) => {
 		}
 
 		// Validate input data for updating a user
-		const validationResult = userValidation.validateUpdatedUserBioDescription(updatedUserInputs);
+		const validationResult = userValidation.validateUserBioDescription(updatedUserInputs);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
@@ -280,7 +282,7 @@ const updateUserDetails = async (req, res) => {
 		}
 
 		// Validate input data for updating a user
-		const validationResult = userValidation.validateUpdatedUserDetails(updatedUserInputs);
+		const validationResult = userValidation.validateUserDetails(updatedUserInputs);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
@@ -290,6 +292,150 @@ const updateUserDetails = async (req, res) => {
 
 		// Update the user in the database
 		const updateUserResult = await userService.updateUser(userId, filterUserInputs);
+		if (updateUserResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateUserResult.message);
+		}
+
+		return apiResponse.successResponse(res, updateUserResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const updateUserSettingsPrivacy = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		//Retrieve and initialize user privacy data
+		const updatedPrivacyInputs = {
+			profilePicture: req.body.userNewData.privacyProfilePicture || "",
+			bio: req.body.userNewData.privacyBio || "",
+			locationCity: req.body.userNewData.privacyLocationCity || "",
+			locationCountry: req.body.userNewData.privacyLocationCountry || "",
+			company: req.body.userNewData.privacyCompany || "",
+			languages: req.body.userNewData.privacyLanguages || "",
+			website: req.body.userNewData.privacyWebsite || "",
+			projectLike: req.body.userNewData.privacyProjectLike || "",
+		};
+
+		// Validate user ID
+		const idValidationResult = userValidation.validateUserId(userId);
+		if (idValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, idValidationResult.message);
+		}
+
+		// Validate input data for updating a user
+		const validationPrivacyResult = userValidation.validateUserPrivacyInputs(updatedPrivacyInputs);
+		if (validationPrivacyResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationPrivacyResult.message);
+		}
+
+		// Update user privacy in the database
+		const updateUserResult = await userService.updateUserPrivacy(userId, updatedPrivacyInputs);
+		if (updateUserResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateUserResult.message);
+		}
+
+		return apiResponse.successResponse(res, updateUserResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const updateUserSettingsAppearance = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		const updatedsettingsInputs = {
+			appearance: req.body.userNewData.appearance || "",
+		};
+
+		// Validate user ID
+		const idValidationResult = userValidation.validateUserId(userId);
+		if (idValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, idValidationResult.message);
+		}
+
+		// Validate input data for updating a user
+		const validationWebsiteSettingsResult = userValidation.validateAppearanceSettingsInputs(updatedsettingsInputs);
+		if (validationWebsiteSettingsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationWebsiteSettingsResult.message);
+		}
+
+		// Update the user appearamce settings in the database
+		const updateUserResult = await userService.updateUser(userId, updatedsettingsInputs);
+		if (updateUserResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateUserResult.message);
+		}
+
+		return apiResponse.successResponse(res, updateUserResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const updateUserSettingsLanguage = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		const updatedLanguageInputs = {
+			language: req.body.userNewData.language || "",
+		};
+
+		// Validate user ID
+		const idValidationResult = userValidation.validateUserId(userId);
+		if (idValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, idValidationResult.message);
+		}
+
+		// Validate input data for updating a user
+		const validationWebsiteSettingsResult = userValidation.validateLanguageSettingsInputs(updatedLanguageInputs);
+
+		console.log("🚀 ~ updateUserSettingsLanguage ~ validationWebsiteSettingsResult:", validationWebsiteSettingsResult);
+
+		if (validationWebsiteSettingsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationWebsiteSettingsResult.message);
+		}
+
+		// Update the user language settings in the database
+		const updateUserResult = await userService.updateUser(userId, updatedLanguageInputs);
+		if (updateUserResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateUserResult.message);
+		}
+
+		return apiResponse.successResponse(res, updateUserResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const updateUserSettingsNotifications = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		//Retrieve and initialize user privacy data
+
+		const updatedNotificationsInputs = {
+			notificationsNewsletter: req.body.userNewData.notificationsNewsletter ?? "",
+			notificationsProjects: req.body.userNewData.notificationsProjects ?? "",
+			notificationsMessages: req.body.userNewData.notificationsMessages ?? "",
+			notificationsComments: req.body.userNewData.notificationsComments ?? "",
+		};
+
+		// Validate user ID
+		const idValidationResult = userValidation.validateUserId(userId);
+		if (idValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, idValidationResult.message);
+		}
+
+		// Validate input data for updating a user
+		const validationNotificationsResult = userValidation.validateNotificationsInputs(updatedNotificationsInputs);
+		if (validationNotificationsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationNotificationsResult.message);
+		}
+
+		// Update the user notifications settings in the database
+		const updateUserResult = await userService.updateUser(userId, updatedNotificationsInputs);
 		if (updateUserResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updateUserResult.message);
 		}
@@ -679,6 +825,10 @@ module.exports = {
 	updateUser,
 	updateUserBioDescription,
 	updateUserDetails,
+	updateUserSettingsPrivacy,
+	updateUserSettingsAppearance,
+	updateUserSettingsLanguage,
+	updateUserSettingsNotifications,
 	updateUserEmail,
 	verifyEmailChangeLink,
 	updateUserPicture,
