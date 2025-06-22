@@ -26,7 +26,7 @@ const config = {
 
 	// Website language possible values
 	// Note: the first value is used for default value
-	website_language: ["English", "French", "Español"],
+	website_language: ["English", "Français", "Español"],
 
 	// User email min and max length
 	user_email_min_length: 1,
