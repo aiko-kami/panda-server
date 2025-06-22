@@ -390,9 +390,6 @@ const updateUserSettingsLanguage = async (req, res) => {
 
 		// Validate input data for updating a user
 		const validationWebsiteSettingsResult = userValidation.validateLanguageSettingsInputs(updatedLanguageInputs);
-
-		console.log("🚀 ~ updateUserSettingsLanguage ~ validationWebsiteSettingsResult:", validationWebsiteSettingsResult);
-
 		if (validationWebsiteSettingsResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationWebsiteSettingsResult.message);
 		}

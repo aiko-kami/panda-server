@@ -133,8 +133,6 @@ const validateLanguageSettingsInputs = (languageSettingsData) => {
 	//String type validation
 	const invalidType = typeof languageSettingsData.language !== "string";
 
-	console.log("🚀 ~ validateLanguageSettingsInputs ~ languageSettingsData:", languageSettingsData);
-
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
 	}
