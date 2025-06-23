@@ -1,19 +1,25 @@
 const { logger, uploadFiles } = require("../utils");
+const { FILE_SIZE_LIMITS, FILE_SIZE_ERRORS, ALLOWED_FILE_TYPES, UPLOAD_PATHS } = require("../config/uploadConfig");
 
 const uploadProfilePicture = async (req, res, userId) => {
 	return new Promise((resolve, reject) => {
 		try {
 			const fileName = "__profilePicture__" + userId;
 
-			const singleUpload = uploadFiles.fileUpload(req, "user_profile_pictures/", fileName, ["image"]).single("image");
+			const singleUpload = uploadFiles.fileUpload(req, UPLOAD_PATHS.profilePicture, fileName, ALLOWED_FILE_TYPES.profilePicture, FILE_SIZE_LIMITS.profilePicture).single("image");
 
 			singleUpload(req, res, function (error) {
 				if (error) {
-					logger.error(`Error uploading file: ${error}`);
+					if (error.code === "LIMIT_FILE_SIZE") {
+						return reject({
+							status: "error",
+							message: FILE_SIZE_ERRORS.profilePicture,
+						});
+					}
+
 					return reject({
 						status: "error",
-						message: `File Upload Error: ${error}`,
-						error: error,
+						message: `File upload failed: ${error.message}`,
 					});
 				}
 
@@ -32,15 +38,20 @@ const uploadBackgroundPicture = async (req, res, userId) => {
 		try {
 			const fileName = "__backgroundPicture__" + userId;
 
-			const singleUpload = uploadFiles.fileUpload(req, "user_background_pictures/", fileName, ["image"]).single("image");
+			const singleUpload = uploadFiles.fileUpload(req, UPLOAD_PATHS.backgroundPicture, fileName, ALLOWED_FILE_TYPES.backgroundPicture, FILE_SIZE_LIMITS.backgroundPicture).single("image");
 
 			singleUpload(req, res, function (error) {
 				if (error) {
-					logger.error(`Error uploading file: ${error}`);
+					if (error.code === "LIMIT_FILE_SIZE") {
+						return reject({
+							status: "error",
+							message: FILE_SIZE_ERRORS.backgroundPicture,
+						});
+					}
+
 					return reject({
 						status: "error",
-						message: `File Upload Error: ${error}`,
-						error: error,
+						message: `File upload failed: ${error.message}`,
 					});
 				}
 
@@ -59,15 +70,20 @@ const uploadCover = async (req, res, projectId) => {
 		try {
 			const fileName = "__projectCover__" + projectId;
 
-			const singleUpload = uploadFiles.fileUpload(req, "project_covers/", fileName, ["image"]).single("image");
+			const singleUpload = uploadFiles.fileUpload(req, UPLOAD_PATHS.cover, fileName, ALLOWED_FILE_TYPES.cover, FILE_SIZE_LIMITS.cover).single("image");
 
 			singleUpload(req, res, function (error) {
 				if (error) {
-					logger.error(`Error uploading file: ${error}`);
+					if (error.code === "LIMIT_FILE_SIZE") {
+						return reject({
+							status: "error",
+							message: FILE_SIZE_ERRORS.cover,
+						});
+					}
+
 					return reject({
 						status: "error",
-						message: `File Upload Error: ${error}`,
-						error: error,
+						message: `File upload failed: ${error.message}`,
 					});
 				}
 
@@ -86,15 +102,20 @@ const uploadAttachment = async (req, res, projectId, attachmentTitle) => {
 		try {
 			const fileName = "__projectAttachments__" + projectId + "__" + attachmentTitle;
 
-			const singleUpload = uploadFiles.fileUpload(req, `project_attachments/${projectId}/`, fileName, ["document", "image"]).single("file");
+			const singleUpload = uploadFiles.fileUpload(req, UPLOAD_PATHS.attachment(projectId), fileName, ALLOWED_FILE_TYPES.attachment, FILE_SIZE_LIMITS.attachment).single("file");
 
 			singleUpload(req, res, function (error) {
 				if (error) {
-					logger.error(`Error uploading file: ${error}`);
+					if (error.code === "LIMIT_FILE_SIZE") {
+						return reject({
+							status: "error",
+							message: FILE_SIZE_ERRORS.attachment,
+						});
+					}
+
 					return reject({
 						status: "error",
-						message: `File Upload Error: ${error}`,
-						error: error,
+						message: `File upload failed: ${error.message}`,
 					});
 				}
 

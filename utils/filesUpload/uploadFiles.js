@@ -54,7 +54,7 @@ function sanitizeFile(file, allowedFileTypes, cb) {
 	}
 }
 
-const fileUpload = (req, destinationPath, name, fileTypes) => {
+const fileUpload = (req, destinationPath, name, fileTypes, maxFileSize = 1024 * 1024 * 2) => {
 	return multer({
 		storage: multerS3({
 			s3,
@@ -75,7 +75,7 @@ const fileUpload = (req, destinationPath, name, fileTypes) => {
 		},
 
 		limits: {
-			fileSize: 1024 * 1024 * 2, // 2mb file size
+			fileSize: maxFileSize,
 		},
 	});
 };
