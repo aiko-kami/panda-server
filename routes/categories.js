@@ -8,7 +8,8 @@ const { categoryController } = require("../controllers");
 const { verifyAdminAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Categories
-categoriesRoute.get("/category", categoryController.retrieveCategory);
+categoriesRoute.get("/category/id/:categoryId", categoryController.retrieveCategoryWithId);
+categoriesRoute.get("/category/link/:categoryLink", categoryController.retrieveCategoryWithLink);
 categoriesRoute.get("/categories", categoryController.retrieveCategories);
 categoriesRoute.post("/category", verifyAdminAccess, categoryController.createCategory);
 categoriesRoute.patch("/category", verifyAdminAccess, categoryController.updateCategory);

@@ -6,7 +6,7 @@ const { logger, encryptTools } = require("../../utils");
  * @param {string} name - The name of the category.
  * @returns {Promise} - A promise that resolves with the created category or rejects with an error.
  */
-const createCategory = async (categoryName, subCategories) => {
+const createCategory = async (categoryName, description, colors, coverLink, coverTextLink, subCategories) => {
 	try {
 		// Check if a category with the same name already exists
 		const existingCategory = await Category.findOne({ name: categoryName });
@@ -15,12 +15,28 @@ const createCategory = async (categoryName, subCategories) => {
 			return { status: "error", message: "Category already exists." };
 		}
 		// Filter out empty strings from the subCategories array
-		const filteredSubCategories = subCategories.filter((subCategory) => subCategory.trim() !== "");
+		const filteredSubCategories = subCategories.filter((subCategory) => subCategory.name.trim() !== "");
+
+		// Converts the categoryName into a URL-friendly format by replacing '&' with '-', removing spaces and setting to lowercase
+		const categoryLink = categoryName.replace(/\s&\s/g, "-").replace(/\s+/g, "-").toLowerCase();
+
+		// Prepare formatted subcategories
+		const formattedSubCategories = filteredSubCategories.map((subCategory) => ({
+			name: subCategory.name,
+			link: subCategory.name.replace(/&/g, "-").replace(/\s&\s/g, "-").replace(/\s+/g, "-").toLowerCase(),
+			symbol: subCategory.symbol || "",
+			colors: subCategory.colors,
+		}));
 
 		// Create a new category document
 		const newCategory = new Category({
 			name: categoryName,
-			subCategories: filteredSubCategories,
+			description: description,
+			link: categoryLink,
+			colors: colors,
+			cover: { link: coverLink },
+			coverText: { link: coverTextLink },
+			subCategories: formattedSubCategories,
 		});
 
 		// Save the category to the database
@@ -291,13 +307,34 @@ const retrieveCategoryById = async (categoryId, fields) => {
 			query = query.select(fieldsString);
 		}
 
-		const existingCategory = await query;
+		const category = await query;
 
-		if (!existingCategory) {
+		if (!category) {
 			return { status: "error", message: "Category not found." };
 		}
 
-		return { status: "success", existingCategory };
+		return { status: "success", category };
+	} catch (error) {
+		logger.error(`Error while retrieving the category: ${error}`);
+		return { status: "error", message: "An error occurred while retrieving the category." };
+	}
+};
+
+const retrieveCategoryByLink = async (categoryLink, fields) => {
+	try {
+		let query = Category.findOne({ link: categoryLink });
+		if (fields) {
+			const fieldsString = fields.join(" ");
+			query = query.select(fieldsString);
+		}
+
+		const category = await query;
+
+		if (!category) {
+			return { status: "error", message: "Category not found." };
+		}
+
+		return { status: "success", category };
 	} catch (error) {
 		logger.error(`Error while retrieving the category: ${error}`);
 		return { status: "error", message: "An error occurred while retrieving the category." };
@@ -328,5 +365,6 @@ module.exports = {
 	removeSubCategory,
 	verifyCategoryAndSubCategoryExist,
 	retrieveCategoryById,
+	retrieveCategoryByLink,
 	retrieveAllCategories,
 };

@@ -9,16 +9,32 @@ const { apiResponse, categoryValidation } = require("../../utils");
  */
 const createCategory = async (req, res) => {
 	try {
-		const { categoryName = "", subCategories = [] } = req.body;
+		const { categoryName = "", description = "", colors = {}, cover = "", coverText = "", subCategories = [] } = req.body;
 
 		// Validate input data for creating a category
-		const validationResult = categoryValidation.validateCategoryNameAndSubCategories(categoryName, subCategories);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
+		const validationInputsResult = categoryValidation.validateCategoryInputs(categoryName, description, cover, coverText);
+		if (validationInputsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationInputsResult.message);
+		}
+		const validationColorsResult = categoryValidation.validateCategoryColors(colors);
+		if (validationColorsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationColorsResult.message);
+		}
+		for (const subCat of subCategories) {
+			const validationSubCatInputsResult = categoryValidation.validateSubCategoryInputs(subCat.name, subCat.symbol);
+			if (validationSubCatInputsResult.status !== "success") {
+				return apiResponse.clientErrorResponse(res, validationSubCatInputsResult.message);
+			}
+			const validationSubCatColorsResult = categoryValidation.validateCategoryColors(subCat.colors);
+			if (validationSubCatColorsResult.status !== "success") {
+				return apiResponse.clientErrorResponse(res, validationSubCatColorsResult.message);
+			}
 		}
 
 		// Call the service to create the category
-		const createdCategory = await categoryService.createCategory(categoryName, subCategories);
+		const createdCategory = await categoryService.createCategory(categoryName, description, colors, cover, coverText, subCategories);
+
+		console.log("🚀 ~ createCategory ~ createdCategory:", createdCategory);
 
 		if (createdCategory.status !== "success") {
 			return apiResponse.serverErrorResponse(res, createdCategory.message);
@@ -175,9 +191,9 @@ const removeSubCategory = async (req, res) => {
 	}
 };
 
-const retrieveCategory = async (req, res) => {
+const retrieveCategoryWithId = async (req, res) => {
 	try {
-		const { categoryId = "" } = req.body;
+		const { categoryId } = req.params;
 
 		// Validate input data for creating a category
 		const validationResult = categoryValidation.validateCategoryId(categoryId);
@@ -187,6 +203,43 @@ const retrieveCategory = async (req, res) => {
 
 		// Call the service to retrieve the category
 		const retrievedCategory = await categoryService.retrieveCategoryById(categoryId, ["-_id", "name", "subCategories", "categoryId", "createdAt", "updatedAt"]);
+		if (retrievedCategory.status !== "success") {
+			return apiResponse.serverErrorResponse(res, retrievedCategory.message);
+		}
+
+		return apiResponse.successResponseWithData(res, retrievedCategory.message, retrievedCategory);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const retrieveCategoryWithLink = async (req, res) => {
+	try {
+		const { categoryLink } = req.params;
+
+		// Validate input data for creating a category
+		const validationResult = categoryValidation.validateCategoryId(categoryLink);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Call the service to retrieve the category
+		const retrievedCategory = await categoryService.retrieveCategoryByLink(categoryLink, [
+			"-_id",
+			"name",
+			"description",
+			"link",
+			"cover",
+			"coverText",
+			"colors",
+			"subCategories",
+			"categoryId",
+			"createdAt",
+			"updatedAt",
+		]);
+
+		console.log("🚀 ~ retrieveCategoryWithLink ~ retrievedCategory:", retrievedCategory);
+
 		if (retrievedCategory.status !== "success") {
 			return apiResponse.serverErrorResponse(res, retrievedCategory.message);
 		}
@@ -218,6 +271,7 @@ module.exports = {
 	addSubCategory,
 	updateSubCategory,
 	removeSubCategory,
-	retrieveCategory,
+	retrieveCategoryWithId,
+	retrieveCategoryWithLink,
 	retrieveCategories,
 };

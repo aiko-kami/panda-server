@@ -11,13 +11,13 @@ const userPasswordMaxLength = config.user_password_max_length;
 const validatePasswordChange = (oldPassword, newPassword, confirmNewPassword) => {
 	// Validate password
 	if (!oldPassword) {
-		return { status: "error", message: "Old password required." };
+		return { status: "error", message: "Old password is required." };
 	}
 	if (!newPassword) {
-		return { status: "error", message: "New password required." };
+		return { status: "error", message: "New password is required." };
 	}
 	if (!confirmNewPassword) {
-		return { status: "error", message: "Password confirmation required." };
+		return { status: "error", message: "Password confirmation is required." };
 	}
 	if (!validator.isLength(newPassword, { min: 1, max: userPasswordMaxLength })) {
 		return { status: "error", message: `Password can contain up to ${userPasswordMaxLength} characters.` };
@@ -47,10 +47,10 @@ const validatePasswordChange = (oldPassword, newPassword, confirmNewPassword) =>
 const validatePassword = (password, confirmPassword) => {
 	// Validate password
 	if (!password) {
-		return { status: "error", message: "Password required." };
+		return { status: "error", message: "Password is required." };
 	}
 	if (!confirmPassword) {
-		return { status: "error", message: "Password confirmation required." };
+		return { status: "error", message: "Password confirmation is required." };
 	}
 	if (!validator.isLength(password, { min: 1, max: userPasswordMaxLength })) {
 		return { status: "error", message: `Password can contain up to ${userPasswordMaxLength} characters.` };
@@ -82,10 +82,10 @@ const validateRegistrationInputs = (username, email, password, confirmPassword) 
 		return { status: "error", message: "Invalid type of data." };
 	}
 	if (!username) {
-		return { status: "error", message: "Username required." };
+		return { status: "error", message: "Username is required." };
 	}
 	if (!email) {
-		return { status: "error", message: "Email required." };
+		return { status: "error", message: "Email is required." };
 	}
 	if (!validator.isAlphanumeric(username, "en-US", { ignore: "_-" })) {
 		return {
@@ -100,7 +100,7 @@ const validateRegistrationInputs = (username, email, password, confirmPassword) 
 		return { status: "error", message: `Email can contain up to ${userEmailMaxLength} characters.` };
 	}
 	if (!validator.isEmail(email)) {
-		return { status: "error", message: "Email wrongly formatted." };
+		return { status: "error", message: "Email is wrongly formatted." };
 	}
 	// Validate password
 	const passwordValidationResult = validatePassword(password, confirmPassword);
@@ -133,11 +133,11 @@ const validateEmail = (email) => {
 		return { status: "error", message: "Invalid type of data." };
 	}
 	if (!email) {
-		return { status: "error", message: "Email required." };
+		return { status: "error", message: "Email is required." };
 	}
 	//Check email validity
 	if (!validator.isEmail(email)) {
-		return { status: "error", message: "Email wrongly formatted." };
+		return { status: "error", message: "Email is wrongly formatted." };
 	}
 	return { status: "success" };
 };

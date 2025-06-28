@@ -8,7 +8,7 @@ const validateSteps = (steps) => {
 		if (!step.title) {
 			return {
 				status: "error",
-				message: "Step title required.",
+				message: "Step title is required.",
 			};
 		}
 		if (typeof step.title !== "string") {
@@ -40,7 +40,7 @@ const validateStepTitle = (stepTitle) => {
 		return { status: "error", message: "Invalid type of data." };
 	}
 	if (!stepTitle) {
-		return { status: "error", message: "Step title required." };
+		return { status: "error", message: "Step title is required." };
 	}
 	// If all validations passed
 	return { status: "success" };
@@ -88,7 +88,7 @@ const validateQAQuestion = (QAQuestion) => {
 		return { status: "error", message: "Invalid type of data." };
 	}
 	if (!QAQuestion) {
-		return { status: "error", message: "Q&A question required." };
+		return { status: "error", message: "Q&A question is required." };
 	}
 	// If all validations passed
 	return { status: "success" };
@@ -100,7 +100,7 @@ const validateComment = (commentContent) => {
 		return { status: "error", message: "Invalid type of data." };
 	}
 	if (!commentContent) {
-		return { status: "error", message: "Comment content required." };
+		return { status: "error", message: "Comment content is required." };
 	}
 	// If all validations passed
 	return { status: "success" };

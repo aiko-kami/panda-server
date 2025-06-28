@@ -39,6 +39,7 @@ const categorySchema = new Schema(
 		link: {
 			type: String,
 			required: true,
+			unique: true,
 			trim: true,
 		},
 		cover: {
