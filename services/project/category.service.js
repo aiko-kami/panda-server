@@ -282,7 +282,7 @@ const verifyCategoryAndSubCategoryExist = async (categoryId, subCategoryName) =>
 			return { status: "error", message: "Category not found." };
 		}
 
-		if (subCategoryName && !existingCategory.subCategories.includes(subCategoryName)) {
+		if (subCategoryName && !existingCategory.subCategories.some((sub) => sub.name === subCategoryName)) {
 			return { status: "error", message: "Sub-category not found." };
 		}
 

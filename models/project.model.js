@@ -85,9 +85,9 @@ const projectSchema = new Schema(
 		},
 		title: { type: String, required: true, unique: true, trim: true },
 		titleCapitalized: { type: String, required: true, unique: true, trim: true },
-		goal: { type: String, required: true, trim: true },
-		summary: { type: String, required: true, trim: true },
-		description: { type: String, required: true },
+		goal: { type: String, trim: true },
+		summary: { type: String, trim: true },
+		description: { type: String },
 		cover: {
 			key: { type: String, default: "" },
 			link: { type: String, default: "" },

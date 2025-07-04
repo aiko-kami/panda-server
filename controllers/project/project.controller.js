@@ -10,23 +10,24 @@ const { apiResponse, projectValidation, filterTools, encryptTools, idsValidation
 const createProjectDraft = async (req, res) => {
 	try {
 		const userId = req.userId;
+
 		//Retrieve and initialize project data
 		const projectData = {
 			title: req.body.projectInputs.title || "",
-			goal: req.body.projectInputs.goal || "",
-			summary: req.body.projectInputs.summary || "",
-			description: req.body.projectInputs.description || "",
 			categoryId: req.body.projectInputs.categoryId || "",
 			subCategory: req.body.projectInputs.subCategory || "",
+			summary: req.body.projectInputs.summary || "",
+			goal: req.body.projectInputs.goal || "",
+			description: req.body.projectInputs.description || "",
+			creatorMotivation: req.body.projectInputs.creatorMotivation || "",
+			objectives: req.body.projectInputs.objectives || [],
 			locationCountry: req.body.projectInputs.locationCountry || "",
 			locationCity: req.body.projectInputs.locationCity || "",
 			locationOnlineOnly: Boolean(req.body.projectInputs.locationOnlineOnly) || false,
-			startDate: req.body.projectInputs.startDate || "",
-			creatorMotivation: req.body.projectInputs.creatorMotivation || "",
 			visibility: req.body.projectInputs.visibility || "public",
+			startDate: req.body.projectInputs.startDate || "",
 			tags: req.body.projectInputs.tags || [],
 			talentsNeeded: req.body.projectInputs.talentsNeeded || [],
-			objectives: req.body.projectInputs.objectives || [],
 			status: "draft",
 			statusReason: "project creation",
 		};
@@ -267,7 +268,6 @@ const submitProject = async (req, res) => {
 
 		// Set project status to Submitted
 		const projectSubmittedResult = await statusService.updateStatus(projectUpdatedResult.project.projectId, userId, "submitted", "Project creation and submission");
-
 		if (projectSubmittedResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectSubmittedResult.message);
 		}

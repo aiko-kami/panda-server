@@ -38,23 +38,23 @@ const validateDraftProjectInputs = (projectData) => {
 
 	// Check if required fields are present
 	if (!projectData.title) {
-		return { status: "error", message: "Title is required." };
+		return { status: "error", message: "Project title is required." };
 	}
 	if (!projectData.categoryId) {
-		return { status: "error", message: "Category is required." };
+		return { status: "error", message: "Project category is required." };
 	}
 	// Validate specific field constraints
 	if (!validator.isLength(projectData.title, { min: projectTitleMinLength, max: projectTitleMaxLength })) {
-		return { status: "error", message: `Title must be ${projectTitleMinLength}-${projectTitleMaxLength} characters.` };
+		return { status: "error", message: `Project title must be ${projectTitleMinLength}-${projectTitleMaxLength} characters.` };
 	}
 	if (projectData.goal && !validator.isLength(projectData.goal, { min: projectGoalMinLength, max: projectGoalMaxLength })) {
-		return { status: "error", message: `Goal must be ${projectGoalMinLength}-${projectGoalMaxLength} characters.` };
+		return { status: "error", message: `Project goal must be ${projectGoalMinLength}-${projectGoalMaxLength} characters.` };
 	}
 	if (projectData.summary && !validator.isLength(projectData.summary, { min: projectSummaryMinLength, max: projectSummaryMaxLength })) {
-		return { status: "error", message: `Summary must be ${projectSummaryMinLength}-${projectSummaryMaxLength} characters.` };
+		return { status: "error", message: `Project summary must be ${projectSummaryMinLength}-${projectSummaryMaxLength} characters.` };
 	}
 	if (projectData.description && !validator.isLength(projectData.description, { min: projectDescriptionMinLength, max: projectDescriptionMaxLength })) {
-		return { status: "error", message: `Description must be ${projectDescriptionMinLength}-${projectDescriptionMaxLength} characters.` };
+		return { status: "error", message: `Project description must be ${projectDescriptionMinLength}-${projectDescriptionMaxLength} characters.` };
 	}
 	if (projectData.visibility && !validator.isIn(projectData.visibility, projectVisibility)) {
 		return { status: "error", message: "Invalid project visibility." };
@@ -92,38 +92,38 @@ const validateSubmittedProjectInputs = (projectData) => {
 
 	// Check if required fields are present
 	if (!projectData.title) {
-		return { status: "error", message: "Title is required." };
+		return { status: "error", message: "Project title is required." };
 	}
 	if (!projectData.goal) {
-		return { status: "error", message: "Goal is required." };
+		return { status: "error", message: "Project goal is required." };
 	}
 	if (!projectData.summary) {
-		return { status: "error", message: "Summary is required." };
+		return { status: "error", message: "Project summary is required." };
 	}
 	if (!projectData.description) {
-		return { status: "error", message: "Description is required." };
+		return { status: "error", message: "Project description is required." };
 	}
 	if (!projectData.categoryId) {
-		return { status: "error", message: "Category is required." };
+		return { status: "error", message: "Project category is required." };
 	}
 	if (projectData.talentsNeeded.length == 0) {
 		return { status: "error", message: "Talents needed are required." };
 	}
 	if (!projectData.visibility) {
-		return { status: "error", message: "Visibility is required." };
+		return { status: "error", message: "Project visibility is required." };
 	}
 	// Validate specific field constraints
 	if (!validator.isLength(projectData.title, { min: projectTitleMinLength, max: projectTitleMaxLength })) {
-		return { status: "error", message: `Title must be ${projectTitleMinLength}-${projectTitleMaxLength} characters.` };
+		return { status: "error", message: `Project title must be ${projectTitleMinLength}-${projectTitleMaxLength} characters.` };
 	}
 	if (!validator.isLength(projectData.goal, { min: projectGoalMinLength, max: projectGoalMaxLength })) {
-		return { status: "error", message: `Goal must be ${projectGoalMinLength}-${projectGoalMaxLength} characters.` };
+		return { status: "error", message: `Project goal must be ${projectGoalMinLength}-${projectGoalMaxLength} characters.` };
 	}
 	if (!validator.isLength(projectData.summary, { min: projectSummaryMinLength, max: projectSummaryMaxLength })) {
-		return { status: "error", message: `Summary must be ${projectSummaryMinLength}-${projectSummaryMaxLength} characters.` };
+		return { status: "error", message: `Project summary must be ${projectSummaryMinLength}-${projectSummaryMaxLength} characters.` };
 	}
 	if (!validator.isLength(projectData.description, { min: projectDescriptionMinLength, max: projectDescriptionMaxLength })) {
-		return { status: "error", message: `Description must be ${projectDescriptionMinLength}-${projectDescriptionMaxLength} characters.` };
+		return { status: "error", message: `Project description must be ${projectDescriptionMinLength}-${projectDescriptionMaxLength} characters.` };
 	}
 	if (!validator.isIn(projectData.visibility, projectVisibility)) {
 		return { status: "error", message: "Invalid project visibility." };
@@ -159,16 +159,16 @@ const validateUpdatedProjectInputs = (projectData) => {
 	}
 	// Validate specific field constraints
 	if (projectData.title && !validator.isLength(projectData.title, { min: projectTitleMinLength, max: projectTitleMaxLength })) {
-		return { status: "error", message: `Title must be ${projectTitleMinLength}-${projectTitleMaxLength} characters.` };
+		return { status: "error", message: `Project title must be ${projectTitleMinLength}-${projectTitleMaxLength} characters.` };
 	}
 	if (projectData.goal && !validator.isLength(projectData.goal, { min: projectGoalMinLength, max: projectGoalMaxLength })) {
-		return { status: "error", message: `Goal must be ${projectGoalMinLength}-${projectGoalMaxLength} characters.` };
+		return { status: "error", message: `Project goal must be ${projectGoalMinLength}-${projectGoalMaxLength} characters.` };
 	}
 	if (projectData.summary && !validator.isLength(projectData.summary, { min: projectSummaryMinLength, max: projectSummaryMaxLength })) {
-		return { status: "error", message: `Summary must be ${projectSummaryMinLength}-${projectSummaryMaxLength} characters.` };
+		return { status: "error", message: `Project summary must be ${projectSummaryMinLength}-${projectSummaryMaxLength} characters.` };
 	}
 	if (projectData.description && !validator.isLength(projectData.description, { min: projectDescriptionMinLength, max: projectDescriptionMaxLength })) {
-		return { status: "error", message: `Description must be ${projectDescriptionMinLength}-${projectDescriptionMaxLength} characters.` };
+		return { status: "error", message: `Project description must be ${projectDescriptionMinLength}-${projectDescriptionMaxLength} characters.` };
 	}
 	if (projectData.visibility && !validator.isIn(projectData.visibility, projectVisibility)) {
 		return { status: "error", message: "Invalid project visibility." };
@@ -243,16 +243,16 @@ const validateProjectDraftInputs = (projectData) => {
 
 	// Validate specific field constraints
 	if (projectData.title && !validator.isLength(projectData.title, { min: projectTitleMinLength, max: projectTitleMaxLength })) {
-		return { status: "error", message: `Title must be ${projectTitleMinLength}-${projectTitleMaxLength} characters.` };
+		return { status: "error", message: `Project title must be ${projectTitleMinLength}-${projectTitleMaxLength} characters.` };
 	}
 	if (projectData.goal && !validator.isLength(projectData.goal, { min: projectGoalMinLength, max: projectGoalMaxLength })) {
-		return { status: "error", message: `Goal must be ${projectGoalMinLength}-${projectGoalMaxLength} characters.` };
+		return { status: "error", message: `Project goal must be ${projectGoalMinLength}-${projectGoalMaxLength} characters.` };
 	}
 	if (projectData.summary && !validator.isLength(projectData.summary, { min: projectSummaryMinLength, max: projectSummaryMaxLength })) {
-		return { status: "error", message: `Summary must be ${projectSummaryMinLength}-${projectSummaryMaxLength} characters.` };
+		return { status: "error", message: `Project summary must be ${projectSummaryMinLength}-${projectSummaryMaxLength} characters.` };
 	}
 	if (projectData.description && !validator.isLength(projectData.description, { min: projectDescriptionMinLength, max: projectDescriptionMaxLength })) {
-		return { status: "error", message: `Description must be ${projectDescriptionMinLength}-${projectDescriptionMaxLength} characters.` };
+		return { status: "error", message: `Project description must be ${projectDescriptionMinLength}-${projectDescriptionMaxLength} characters.` };
 	}
 	if (projectData.visibility && !validator.isIn(projectData.visibility, projectVisibility)) {
 		return { status: "error", message: "Invalid project visibility." };

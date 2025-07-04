@@ -57,7 +57,7 @@ const updateStatus = async (projectId, userIdUpdater, newStatus, reason) => {
 		const updatedProject = await project.save();
 
 		logger.info(`Project status updated successfully. Project ID: ${projectId} - Updater user ID: ${userIdUpdater} - Former project status: ${formerStatus} - New project status: ${newStatus}`);
-		return { status: "success", message: "Project status updated successfully." };
+		return { status: "success", message: "Project status updated successfully.", project: updatedProject };
 	} catch (error) {
 		return { status: "error", message: error.message };
 	}
