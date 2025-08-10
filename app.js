@@ -42,7 +42,6 @@ const corsOptions = {
 	methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
 	allowedHeaders: ["Content-Type", "Authorization"],
 };
-app.options("*splat", cors(corsOptions));
 app.use(cors(corsOptions));
 
 // Parse requests of content-type - application/json

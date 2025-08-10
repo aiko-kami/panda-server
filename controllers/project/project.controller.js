@@ -73,6 +73,9 @@ const createProjectDraft = async (req, res) => {
 const updateProjectDraft = async (req, res) => {
 	try {
 		const { projectId = "" } = req.params;
+
+		console.log("🚀 ~ updateProjectDraft ~ projectId:", projectId);
+
 		const userId = req.userId;
 		//Retrieve and initialize project data
 		const projectDataToUpdate = {
