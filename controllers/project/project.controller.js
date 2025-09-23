@@ -571,6 +571,7 @@ const retrieveProjectPublicData = async (req, res) => {
 				"subCategory",
 				"location",
 				"startDate",
+				"members",
 				"creatorMotivation",
 				"tags",
 				"talentsNeeded",
@@ -580,6 +581,9 @@ const retrieveProjectPublicData = async (req, res) => {
 			],
 			{ visibility: "public" }
 		);
+
+		console.log("🚀 ~ retrieveProjectPublicData ~ projectData:", projectData);
+
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
 		}
@@ -589,7 +593,7 @@ const retrieveProjectPublicData = async (req, res) => {
 		if (projectFiltered.status !== "success") {
 			return apiResponse.clientErrorResponse(res, projectFiltered.message);
 		}
-		return apiResponse.successResponseWithData(res, projectData.message, projectFiltered.project);
+		return apiResponse.successResponseWithData(res, projectData.message, { project: projectFiltered.project });
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -750,7 +754,7 @@ const retrieveProjectData = async (req, res) => {
 		if (projectFiltered.status !== "success") {
 			return apiResponse.clientErrorResponse(res, projectFiltered.message);
 		}
-		return apiResponse.successResponseWithData(res, projectData.message, projectFiltered.project);
+		return apiResponse.successResponseWithData(res, projectData.message, { project: projectFiltered.project });
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}

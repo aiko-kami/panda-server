@@ -1,4 +1,4 @@
-const { Project } = require("../../models");
+const { Project, ProjectStepConfig } = require("../../models");
 const { logger, encryptTools, filterTools } = require("../../utils");
 const { DateTime } = require("luxon");
 
@@ -12,12 +12,12 @@ const { DateTime } = require("luxon");
 
 const editSteps = async (projectId, userIdUpdater, steps, actionType) => {
 	try {
-		// Convert id to ObjectId
+		// Convert project id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
 		if (objectIdProjectId.status == "error") {
 			return { status: "error", message: objectIdProjectId.message };
 		}
-		// Convert id to ObjectId
+		// Convert user id to ObjectId
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
 		if (objectIdUserIdUpdater.status == "error") {
 			return { status: "error", message: objectIdUserIdUpdater.message };
@@ -42,6 +42,7 @@ const editSteps = async (projectId, userIdUpdater, steps, actionType) => {
 					title: step.title,
 					details: step.details || "",
 					published: step.published ? true : false,
+					status: step.details || "not started",
 				};
 				project.steps.stepsList.push(newStep);
 			}
@@ -60,11 +61,6 @@ const editSteps = async (projectId, userIdUpdater, steps, actionType) => {
 		}
 
 		if (actionType === "update") {
-			// Check if there are already steps
-			if (!project.steps.stepsList || project.steps.stepsList.length === 0) {
-				return { status: "error", message: "No steps found for this project." };
-			}
-
 			// Update all steps with the provided data
 			project.steps.stepsList = steps.map((updatedStep) => ({
 				title: updatedStep.title,
@@ -175,8 +171,34 @@ const retrieveProjectSteps = async (projectId, actionType) => {
 
 			const stepsList = projectSteps.steps.stepsList;
 
+			// --- Enrich steps with data (colors) from ProjectStepConfig ---
+			// 1) collect unique statuses from stored steps
+			const statuses = [...new Set(stepsList.map((s) => (s && s.status ? String(s.status) : "")).filter(Boolean))];
+
+			// 2) fetch configs for these statuses in one query
+			const configs = statuses.length ? await ProjectStepConfig.find({ status: { $in: statuses } }).lean() : [];
+
+			// 3) build a map: status -> colors
+			const configMap = configs.reduce((acc, cfg) => {
+				if (cfg && cfg.status) acc[cfg.status] = cfg.colors || { colorBase: "", bgColor: "", bgColorHover: "" };
+				return acc;
+			}, {});
+
+			// 4) create enriched steps list
+			const enrichedStepsList = stepsList.map((s) => {
+				// convert to plain object if it's a mongoose doc/subdoc
+				const plain = typeof s.toObject === "function" ? s.toObject() : JSON.parse(JSON.stringify(s));
+
+				// prefer colors already stored on the step, otherwise use configMap
+				const colorsFromStep = plain.colors && typeof plain.colors === "object" ? plain.colors : null;
+				const colorsFromConfig = configMap[plain.status] || { colorBase: "", bgColor: "", bgColorHover: "" };
+
+				plain.colors = colorsFromStep || colorsFromConfig;
+				return plain;
+			});
+
 			const stepsOutput = {
-				stepsList: stepsList,
+				stepsList: enrichedStepsList,
 				createdAt: projectSteps.steps.createdAt,
 				updatedAt: projectSteps.steps.updatedAt,
 				updatedBy: updater,
@@ -201,8 +223,34 @@ const retrieveProjectSteps = async (projectId, actionType) => {
 			// Filter steps that are set to published
 			const publishedSteps = stepsList.filter((step) => step.published);
 
+			// --- Enrich steps with data (colors) from ProjectStepConfig ---
+			// 1) collect unique statuses from stored steps
+			const statuses = [...new Set(publishedSteps.map((s) => (s && s.status ? String(s.status) : "")).filter(Boolean))];
+
+			// 2) fetch configs for these statuses in one query
+			const configs = statuses.length ? await ProjectStepConfig.find({ status: { $in: statuses } }).lean() : [];
+
+			// 3) build a map: status -> colors
+			const configMap = configs.reduce((acc, cfg) => {
+				if (cfg && cfg.status) acc[cfg.status] = cfg.colors || { colorBase: "", bgColor: "", bgColorHover: "" };
+				return acc;
+			}, {});
+
+			// 4) create enriched steps list
+			const enrichedStepsList = publishedSteps.map((s) => {
+				// convert to plain object if it's a mongoose doc/subdoc
+				const plain = typeof s.toObject === "function" ? s.toObject() : JSON.parse(JSON.stringify(s));
+
+				// prefer colors already stored on the step, otherwise use configMap
+				const colorsFromStep = plain.colors && typeof plain.colors === "object" ? plain.colors : null;
+				const colorsFromConfig = configMap[plain.status] || { colorBase: "", bgColor: "", bgColorHover: "" };
+
+				plain.colors = colorsFromStep || colorsFromConfig;
+				return plain;
+			});
+
 			const stepsOutput = {
-				stepsList: publishedSteps,
+				stepsList: enrichedStepsList,
 				createdAt: projectSteps.steps.createdAt,
 				updatedAt: projectSteps.steps.updatedAt,
 			};

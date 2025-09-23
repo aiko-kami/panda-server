@@ -7,6 +7,7 @@ const config = {
 	project_visibility: ["public", "private"],
 	project_members_roles: ["owner", "member"],
 	project_approval: ["approved", "rejected"],
+	project_step_status: ["not started", "in progress", "completed"],
 
 	// Join Project possible values
 	// Note: the first value is used for default value

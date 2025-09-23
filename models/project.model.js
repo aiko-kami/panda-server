@@ -7,6 +7,7 @@ const config = require("../config");
 const projectStatus = config.project_status;
 const projectVisibility = config.project_visibility;
 const projectMembersRoles = config.project_members_roles;
+const projectStepStatus = config.project_step_status;
 
 const memberSchema = new Schema({
 	_id: false,
@@ -35,6 +36,12 @@ const stepSchema = new Schema({
 	title: { type: String, required: true, unique: true, trim: true },
 	details: { type: String },
 	published: { type: Boolean, default: false },
+	status: {
+		type: String,
+		required: true,
+		default: projectStepStatus[0],
+		enum: projectStepStatus,
+	},
 });
 
 const QASchema = new Schema({

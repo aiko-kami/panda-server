@@ -11,7 +11,7 @@ const addSteps = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		const { projectId = "", steps = [{ title: "", details: "", published: false }] } = req.body;
+		const { projectId = "", steps } = req.body;
 
 		const ids = {
 			userId,
@@ -45,7 +45,7 @@ const addSteps = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, stepResult.message);
 		}
 
-		return apiResponse.successResponse(res, stepResult.message);
+		return apiResponse.successResponseWithData(res, stepResult.message, stepResult.stepsOutput);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -55,7 +55,7 @@ const editSteps = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		const { projectId = "", steps = [] } = req.body;
+		const { projectId = "", steps } = req.body;
 
 		const ids = {
 			userId,
@@ -138,6 +138,7 @@ const publishStep = async (req, res) => {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
+
 const unpublishStep = async (req, res) => {
 	try {
 		const userId = req.userId;
