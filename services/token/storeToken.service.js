@@ -12,7 +12,7 @@ const setTokensInCookies = (res, accessToken, refreshToken) => {
 		sameSite: isDevelopment ? "Lax" : "None",
 		path: "/",
 		maxAge: 1000 * parseInt(process.env.ACCESS_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
-		...(isProduction && { domain: ".neutroneer.com" }),
+		...(isProduction && { domain: ".makeit-lab.com" }),
 	});
 
 	res.cookie("refresh_token", refreshToken, {
@@ -21,7 +21,7 @@ const setTokensInCookies = (res, accessToken, refreshToken) => {
 		sameSite: isDevelopment ? "Lax" : "None",
 		path: "/",
 		maxAge: 1000 * parseInt(process.env.REFRESH_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
-		...(isProduction && { domain: ".neutroneer.com" }),
+		...(isProduction && { domain: ".makeit-lab.com" }),
 	});
 };
 

@@ -20,7 +20,7 @@ app.use(morganMiddleware);
 const isDevelopment = process.env.NODE_ENV === "development";
 
 //Setting up CORS to allow frontend to target backend
-const allowedOrigins = ["https://sheepy.vercel.app", "https://www.neutroneer.com", "https://neutroneer.com", "https://www.sheepy.neutroneer.com", "https://sheepy.neutroneer.com"];
+const allowedOrigins = ["https://sheepy.vercel.app", "https://www.makeit-lab.com", "https://makeit-lab.com", "https://www.sheepy.makeit-lab.com", "https://sheepy.makeit-lab.com"];
 
 // CORS options
 const corsOptions = {

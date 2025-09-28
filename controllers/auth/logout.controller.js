@@ -21,7 +21,7 @@ const logout = async (req, res) => {
 			secure: !isDevelopment,
 			sameSite: isDevelopment ? "Lax" : "None",
 			path: "/",
-			...(isProduction && { domain: ".neutroneer.com" }),
+			...(isProduction && { domain: ".makeit-lab.com" }),
 		};
 
 		res.clearCookie("access_token", cookieOptions);

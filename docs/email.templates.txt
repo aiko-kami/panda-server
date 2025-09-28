@@ -17,7 +17,7 @@ To Email:
 {{email_to}}
 
 From Name:
-Neutroneer Inc.
+Make It Inc.
 
 Content:
 <table border="0" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f4f4f4">

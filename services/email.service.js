@@ -34,7 +34,7 @@ const sendVerificationEmail = async (userId) => {
 		const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(dataToEncrypt), process.env.ENCRYPT_KEY).toString();
 
 		//Transform encrypted data into a valid link
-		//Example https://www.neutroneer.com/sign-up/xxxxxxxxxxxxxxxxxxx
+		//Example https://www.makeit-lab.com/sign-up/xxxxxxxxxxxxxxxxxxx
 		const verificationLink = `${process.env.WEBSITE_URL}/sign-up/${encodeURIComponent(encryptedData)}`;
 
 		const emailInputs = {
@@ -310,7 +310,7 @@ const sendVerificationEmailChangeEmail = async (userId) => {
 		const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(dataToEncrypt), process.env.ENCRYPT_KEY).toString();
 
 		//Transform encrypted data into a valid link
-		//Example https://www.neutroneer.com/sign-up/xxxxxxxxxxxxxxxxxxx
+		//Example https://www.makeit-lab.com/sign-up/xxxxxxxxxxxxxxxxxxx
 		const verificationLink = `${process.env.WEBSITE_URL}/users/my-profile/email-change/${encodeURIComponent(encryptedData)}`;
 
 		const emailInputs = {

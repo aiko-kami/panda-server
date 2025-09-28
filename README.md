@@ -471,7 +471,7 @@ Please contact neutroneer100@gmail.com
 
 ## 🌮 Demo
 
-NextJS version: [Sheepy](https://www.neutroneer.com/)
+NextJS version: [Sheepy](https://www.makeit-lab.com/)
 
 ## 🧗‍♂️ Status
 
