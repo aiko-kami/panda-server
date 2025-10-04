@@ -18,7 +18,7 @@ const logout = async (req, res) => {
 
 		const cookieOptions = {
 			httpOnly: true,
-			secure: !isDevelopment,
+			secure: isProduction,
 			sameSite: isDevelopment ? "Lax" : "None",
 			path: "/",
 			...(isProduction && { domain: ".makeit-lab.com" }),

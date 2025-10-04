@@ -8,7 +8,7 @@ const setTokensInCookies = (res, accessToken, refreshToken) => {
 
 	res.cookie("access_token", accessToken, {
 		httpOnly: true, // Set httpOnly to true in production and to false in development
-		secure: !isDevelopment, // Set secure to true in production and to false in development
+		secure: isProduction, // Set secure to true in production and to false in development
 		sameSite: isDevelopment ? "Lax" : "None",
 		path: "/",
 		maxAge: 1000 * parseInt(process.env.ACCESS_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds
@@ -17,7 +17,7 @@ const setTokensInCookies = (res, accessToken, refreshToken) => {
 
 	res.cookie("refresh_token", refreshToken, {
 		httpOnly: true, // Set httpOnly to true in production and to false in development
-		secure: !isDevelopment, // Set secure to true in production and to false in development
+		secure: isProduction, // Set secure to true in production and to false in development
 		sameSite: isDevelopment ? "Lax" : "None",
 		path: "/",
 		maxAge: 1000 * parseInt(process.env.REFRESH_TOKEN_EXPIRATION_SECONDS), // Cookie validity duration in milliseconds

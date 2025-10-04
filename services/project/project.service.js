@@ -491,7 +491,10 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 				{ path: "category", select: "-_id name categoryId" },
 				{ path: "updatedBy", select: "username profilePicture userId" },
 				{ path: "steps.updatedBy", select: "username profilePicture userId" },
+				{ path: "steps.stepsList.status", select: "-_id status colors" },
 				{ path: "members.user", select: "username profilePicture userId" },
+				{ path: "statusInfo.currentStatus", select: "-_id status colors" },
+				{ path: "statusInfo.statusHistory.status", select: "-_id status colors" },
 				{ path: "statusInfo.statusHistory.updatedBy", select: "username profilePicture userId" },
 				{ path: "privateData.attachments.updatedBy", select: "username profilePicture userId" },
 			]); // Populate fields

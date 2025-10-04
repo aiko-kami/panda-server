@@ -4,10 +4,8 @@ const { dbConnectionPrivate } = require("../config/db.config");
 const { DateTime } = require("luxon");
 const config = require("../config");
 
-const projectStatus = config.project_status;
 const projectVisibility = config.project_visibility;
 const projectMembersRoles = config.project_members_roles;
-const projectStepStatus = config.project_step_status;
 
 const memberSchema = new Schema({
 	_id: false,
@@ -25,7 +23,7 @@ const memberSchema = new Schema({
 
 const statusChangeSchema = new Schema({
 	_id: false,
-	status: { type: String, required: true },
+	status: { type: Schema.Types.ObjectId, ref: "ProjectStatusConfig", required: true },
 	reason: { type: String },
 	updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
 	timestamp: { type: Date, default: DateTime.now().toHTTP() },
@@ -36,12 +34,7 @@ const stepSchema = new Schema({
 	title: { type: String, required: true, unique: true, trim: true },
 	details: { type: String },
 	published: { type: Boolean, default: false },
-	status: {
-		type: String,
-		required: true,
-		default: projectStepStatus[0],
-		enum: projectStepStatus,
-	},
+	status: { type: Schema.Types.ObjectId, ref: "ProjectStepConfig", required: true },
 });
 
 const QASchema = new Schema({
@@ -141,11 +134,9 @@ const projectSchema = new Schema(
 		},
 		statusInfo: {
 			currentStatus: {
-				type: String,
+				type: Schema.Types.ObjectId,
+				ref: "ProjectStatusConfig",
 				required: true,
-				default: projectStatus[0],
-				enum: projectStatus,
-				message: "The value {VALUE} is not valid.",
 			},
 			reason: { type: String },
 			statusHistory: [statusChangeSchema],

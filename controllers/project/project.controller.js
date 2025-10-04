@@ -574,6 +574,7 @@ const retrieveProjectPublicData = async (req, res) => {
 				"members",
 				"creatorMotivation",
 				"tags",
+				"steps",
 				"talentsNeeded",
 				"objectives",
 				"statusInfo",
@@ -581,8 +582,6 @@ const retrieveProjectPublicData = async (req, res) => {
 			],
 			{ visibility: "public" }
 		);
-
-		console.log("🚀 ~ retrieveProjectPublicData ~ projectData:", projectData);
 
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
