@@ -1,19 +1,18 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const { dbConnectionPrivate } = require("../config/db.config");
-const config = require("../config");
 
-const projectStatus = config.project_status;
-
-const projectStatusConfigSchema = new Schema(
+const projectStatusSchema = new Schema(
 	{
+		projectStatusId: { type: String, unique: true },
 		status: {
 			type: String,
 			required: true,
 			unique: true,
-			default: projectStatus[0],
-			enum: projectStatus,
-			message: "The value {VALUE} is not valid.",
+		},
+		description: {
+			type: String,
+			required: true,
 		},
 		colors: {
 			colorBase: { type: String, required: true, default: "" },
@@ -22,11 +21,11 @@ const projectStatusConfigSchema = new Schema(
 		},
 	},
 	{
-		collection: "projectStatusConfigs",
+		collection: "projectStatuses",
 		timestamps: true,
 	}
 );
 
-const ProjectStatusConfig = dbConnectionPrivate.model("ProjectStatusConfig", projectStatusConfigSchema);
+const ProjectStatus = dbConnectionPrivate.model("ProjectStatus", projectStatusSchema);
 
-module.exports = ProjectStatusConfig;
+module.exports = ProjectStatus;

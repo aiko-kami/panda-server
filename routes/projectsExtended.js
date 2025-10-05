@@ -78,4 +78,12 @@ projectExtendedRoute.delete("/projectMembers/remove/:projectId", verifyAccess, m
 projectExtendedRoute.patch("/projectStatus/:projectId", verifyAccess, projectStatusController.updateProjectStatus);
 projectExtendedRoute.get("/projectStatus/:projectId", verifyAccess, projectStatusController.retrieveProjectStatusInfo);
 
+// Project status admin
+projectExtendedRoute.get("/projectStatusAdmin/statusById/:projectStatusId", projectStatusController.retrieveProjectStatusWithId);
+projectExtendedRoute.get("/projectStatusAdmin/statusByName/:projectStatusName", projectStatusController.retrieveProjectStatusWithName);
+projectExtendedRoute.get("/projectStatusAdmin/projectStatuses", projectStatusController.retrieveProjectStatuses);
+projectExtendedRoute.post("/projectStatusAdmin/projectStatus", verifyAdminAccess, projectStatusController.createProjectStatus);
+projectExtendedRoute.patch("/projectStatusAdmin/:projectStatusId", verifyAdminAccess, projectStatusController.editProjectStatus);
+projectExtendedRoute.delete("/projectStatusAdmin/:projectStatusId", verifyAdminAccess, projectStatusController.removeProjectStatus);
+
 module.exports = projectExtendedRoute;

@@ -2,26 +2,29 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const { dbConnectionPrivate } = require("../config/db.config");
 
-const subCategorySchema = new Schema({
-	name: {
-		type: String,
-		required: true,
-		trim: true,
+const subCategorySchema = new Schema(
+	{
+		name: {
+			type: String,
+			required: true,
+			trim: true,
+		},
+		link: {
+			type: String,
+			required: true,
+			trim: true,
+		},
+		symbol: {
+			type: String,
+		},
+		colors: {
+			colorBase: { type: String, required: true, default: "" },
+			bgColor: { type: String, required: true, default: "" },
+			bgColorHover: { type: String, required: true, default: "" },
+		},
 	},
-	link: {
-		type: String,
-		required: true,
-		trim: true,
-	},
-	symbol: {
-		type: String,
-	},
-	colors: {
-		colorBase: { type: String, required: true, default: "" },
-		bgColor: { type: String, required: true, default: "" },
-		bgColorHover: { type: String, required: true, default: "" },
-	},
-});
+	{ _id: false }
+);
 
 const categorySchema = new Schema(
 	{

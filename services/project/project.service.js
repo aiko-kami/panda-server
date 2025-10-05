@@ -484,16 +484,15 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 		const fieldsString = fields.join(" ");
 
 		const search = { _id: objectIdProjectId, ...conditions };
-		// Use your Project model to find the project by ID
 		const projectRetrieved = await Project.findOne(search)
 			.select(fieldsString)
 			.populate([
-				{ path: "category", select: "-_id name categoryId" },
+				{ path: "category", select: "-_id categoryId name link colors subCategories" },
 				{ path: "updatedBy", select: "username profilePicture userId" },
 				{ path: "steps.updatedBy", select: "username profilePicture userId" },
 				{ path: "steps.stepsList.status", select: "-_id status colors" },
 				{ path: "members.user", select: "username profilePicture userId" },
-				{ path: "statusInfo.currentStatus", select: "-_id status colors" },
+				{ path: "statusInfo.currentStatus", select: "-_id status colors description" },
 				{ path: "statusInfo.statusHistory.status", select: "-_id status colors" },
 				{ path: "statusInfo.statusHistory.updatedBy", select: "username profilePicture userId" },
 				{ path: "privateData.attachments.updatedBy", select: "username profilePicture userId" },
@@ -506,6 +505,7 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 			};
 		}
 		let project = projectRetrieved.toObject();
+
 		if (!fields.includes("category")) {
 			delete project.category;
 		}
@@ -524,6 +524,16 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 		if (!fields.includes("privateData")) {
 			delete project.privateData;
 		}
+
+		if (fields.includes("subCategory") && project.subCategory && project.category && Array.isArray(project.category.subCategories)) {
+			const subCategoryName = project.subCategory;
+			const matchedSub = project.category.subCategories.find((sc) => sc.name === subCategoryName);
+
+			project.subCategoryDetails = matchedSub || null;
+
+			delete project.category.subCategories;
+		}
+
 		return {
 			status: "success",
 			message: "Project retrieved successfully.",

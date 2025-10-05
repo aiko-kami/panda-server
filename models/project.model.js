@@ -23,7 +23,7 @@ const memberSchema = new Schema({
 
 const statusChangeSchema = new Schema({
 	_id: false,
-	status: { type: Schema.Types.ObjectId, ref: "ProjectStatusConfig", required: true },
+	status: { type: Schema.Types.ObjectId, ref: "ProjectStatus", required: true },
 	reason: { type: String },
 	updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
 	timestamp: { type: Date, default: DateTime.now().toHTTP() },
@@ -135,7 +135,7 @@ const projectSchema = new Schema(
 		statusInfo: {
 			currentStatus: {
 				type: Schema.Types.ObjectId,
-				ref: "ProjectStatusConfig",
+				ref: "ProjectStatus",
 				required: true,
 			},
 			reason: { type: String },

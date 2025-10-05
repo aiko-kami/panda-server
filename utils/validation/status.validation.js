@@ -29,6 +29,51 @@ const validateStatusInputs = (userIdUpdater, projectId, newStatus, reason) => {
 	return { status: "success", message: "All project inputs are valid." };
 };
 
+const validateStatusId = (statusId) => {
+	//String type validation
+	if (!statusId) {
+		return { status: "error", message: "Status ID is required." };
+	}
+	if (typeof statusId !== "string") {
+		return { status: "error", message: "Invalid type of data." };
+	}
+	// If all validations passed
+	return { status: "success" };
+};
+
+const validateStatusName = (statusName) => {
+	//String type validation
+	if (!statusName) {
+		return { status: "error", message: "Status name is required." };
+	}
+	if (typeof statusName !== "string") {
+		return { status: "error", message: "Invalid type of data." };
+	}
+	// If all validations passed
+	return { status: "success" };
+};
+
+const validateStatusNameAndDescription = (statusName, statusDescription) => {
+	//String type validation
+	if (!statusName) {
+		return { status: "error", message: "Status name is required." };
+	}
+	if (typeof statusName !== "string") {
+		return { status: "error", message: "Invalid type of data." };
+	}
+	if (!statusDescription) {
+		return { status: "error", message: "Status description is required." };
+	}
+	if (typeof statusDescription !== "string") {
+		return { status: "error", message: "Invalid type of data." };
+	}
+	// If all validations passed
+	return { status: "success" };
+};
+
 module.exports = {
 	validateStatusInputs,
+	validateStatusId,
+	validateStatusName,
+	validateStatusNameAndDescription,
 };

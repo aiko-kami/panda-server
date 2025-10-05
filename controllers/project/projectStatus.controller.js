@@ -1,5 +1,5 @@
 const { statusService, userRightsService, projectService } = require("../../services");
-const { apiResponse, statusValidation, projectValidation, filterTools, encryptTools } = require("../../utils");
+const { apiResponse, statusValidation, projectValidation, commonValidation, filterTools, encryptTools } = require("../../utils");
 
 /**
  * Update project status controller.
@@ -80,7 +80,7 @@ const retrieveProjectStatusInfo = async (req, res) => {
 		const userId = req.userId;
 		const { projectId = "" } = req.params;
 
-		// Validate input data for creating a project
+		// Validate input data for retrieving a project status
 		const validationResult = projectValidation.validateProjectIdAndUserId(projectId, userId, "mandatory");
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
@@ -122,7 +122,150 @@ const retrieveProjectStatusInfo = async (req, res) => {
 	}
 };
 
+const retrieveProjectStatusWithId = async (req, res) => {
+	try {
+		const { projectStatusId = "" } = req.params;
+
+		// Validate input data for retrieving a project status
+		const validationResult = statusValidation.validateStatusId(projectStatusId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		//Retrieve status data
+		const projectStatusData = await statusService.retrieveStatusById(projectStatusId, ["-_id", "status", "description", "colors"]);
+		if (projectStatusData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectStatusData.message);
+		}
+
+		return apiResponse.successResponseWithData(res, projectStatusData.message, projectStatusData.projectStatus);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const retrieveProjectStatusWithName = async (req, res) => {
+	try {
+		const { projectStatusName = "" } = req.params;
+
+		// Validate input data for retrieving a project status
+		const validationResult = statusValidation.validateStatusName(projectStatusName);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		//Retrieve status data
+		const projectStatusData = await statusService.retrieveStatusByName(projectStatusName, ["-_id", "status", "description", "colors"]);
+		if (projectStatusData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectStatusData.message);
+		}
+
+		return apiResponse.successResponseWithData(res, projectStatusData.message, projectStatusData.projectStatus);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const retrieveProjectStatuses = async (req, res) => {
+	try {
+		//Retrieve status data
+		const projectStatusData = await statusService.retrieveAllStatuses(["-_id", "status", "description", "colors"]);
+		if (projectStatusData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectStatusData.message);
+		}
+
+		return apiResponse.successResponseWithData(res, projectStatusData.message, projectStatusData.projectStatuses);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const createProjectStatus = async (req, res) => {
+	try {
+		const { projectStatusName = "", projectStatusDescription = "", projectStatusColors = {} } = req.body;
+
+		// Validate input data for creating a project status
+		const validationInputsResult = statusValidation.validateStatusNameAndDescription(projectStatusName, projectStatusDescription);
+		if (validationInputsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationInputsResult.message);
+		}
+		const validationColorsResult = commonValidation.validateColors(projectStatusColors);
+		if (validationColorsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationColorsResult.message);
+		}
+
+		// Call the service to create the project status
+		const createdProjectStatus = await statusService.createStatus(projectStatusName, projectStatusDescription, projectStatusColors);
+		if (createdProjectStatus.status !== "success") {
+			return apiResponse.serverErrorResponse(res, createdProjectStatus.message);
+		}
+
+		return apiResponse.successResponseWithData(res, createdProjectStatus.message, createdProjectStatus);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const editProjectStatus = async (req, res) => {
+	try {
+		const { projectStatusId = "", projectStatusNewName = "", projectStatusNewDescription = "", projectStatusNewColors = {} } = req.body;
+
+		// Validate input data for updating a project status
+		const validationIdResult = statusValidation.validateStatusId(projectStatusId);
+		if (validationIdResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationIdResult.message);
+		}
+
+		const validationInputsResult = statusValidation.validateStatusNameAndDescription(projectStatusNewName, projectStatusNewDescription);
+		if (validationInputsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationInputsResult.message);
+		}
+		const validationColorsResult = commonValidation.validateColors(projectStatusNewColors);
+		if (validationColorsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationColorsResult.message);
+		}
+
+		// Call the service to edit the project status
+		const editedProjectStatus = await statusService.editStatus(projectStatusId, projectStatusNewName, projectStatusNewDescription, projectStatusNewColors);
+		if (editedProjectStatus.status !== "success") {
+			return apiResponse.serverErrorResponse(res, editedProjectStatus.message);
+		}
+
+		return apiResponse.successResponseWithData(res, editedProjectStatus.message, editedProjectStatus);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const removeProjectStatus = async (req, res) => {
+	try {
+		const { projectStatusId = "" } = req.body;
+
+		// Validate input data for removing a project status
+		const validationResult = statusValidation.validateStatusId(projectStatusId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Call the service to remove the project status
+		const removedProjectStatus = await statusService.removeStatus(projectStatusId);
+		if (removedProjectStatus.status !== "success") {
+			return apiResponse.serverErrorResponse(res, removedProjectStatus.message);
+		}
+
+		return apiResponse.successResponseWithData(res, removedProjectStatus.message, removedProjectStatus);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 module.exports = {
 	updateProjectStatus,
 	retrieveProjectStatusInfo,
+	retrieveProjectStatusWithId,
+	retrieveProjectStatusWithName,
+	retrieveProjectStatuses,
+	createProjectStatus,
+	editProjectStatus,
+	removeProjectStatus,
 };

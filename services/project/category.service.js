@@ -17,13 +17,13 @@ const createCategory = async (categoryName, description, colors, coverLink, cove
 		// Filter out empty strings from the subCategories array
 		const filteredSubCategories = subCategories.filter((subCategory) => subCategory.name.trim() !== "");
 
-		// Converts the categoryName into a URL-friendly format by replacing '&' with '-', removing spaces and setting to lowercase
-		const categoryLink = categoryName.replace(/\s&\s/g, "-").replace(/\s+/g, "-").toLowerCase();
+		// Converts the categoryName into a URL-friendly format by replacing '&' and '/' with '-', removing spaces and setting to lowercase
+		const categoryLink = categoryName.replace(/\s&\s/g, "-").replace(/\//g, "-").replace(/\s+/g, "-").toLowerCase();
 
 		// Prepare formatted subcategories
 		const formattedSubCategories = filteredSubCategories.map((subCategory) => ({
 			name: subCategory.name,
-			link: subCategory.name.replace(/&/g, "-").replace(/\s&\s/g, "-").replace(/\s+/g, "-").toLowerCase(),
+			link: subCategory.name.replace(/&/g, "-").replace(/\s&\s/g, "-").replace(/\//g, "-").replace(/\s+/g, "-").toLowerCase(),
 			symbol: subCategory.symbol || "",
 			colors: subCategory.colors,
 		}));
@@ -60,7 +60,7 @@ const createCategory = async (categoryName, description, colors, coverLink, cove
 	}
 };
 
-const updateCategory = async (categoryId, newName) => {
+const updateCategory = async (categoryId, newName, newDescription, newColors) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdCategoryId = encryptTools.convertIdToObjectId(categoryId);
@@ -75,21 +75,27 @@ const updateCategory = async (categoryId, newName) => {
 			return { status: "error", message: "Category not found." };
 		}
 
-		// Check if the new name is the same as the existing name (no change needed)
-		if (newName === existingCategory.name) {
-			logger.error("Error while updating the category: Category name is unchanged.");
-			return { status: "error", message: "Category name is unchanged." };
-		}
-
 		// Check if the new name already exists for another category in the collection (must be unique)
-		const nameExists = await Category.findOne({ name: newName });
-		if (nameExists) {
-			logger.error("Error while updating the category: Category name already exists.");
-			return { status: "error", message: "Category name already exists." };
+		if (newName !== existingCategory.name) {
+			const nameExists = await Category.findOne({
+				name: newName,
+				_id: { $ne: existingCategory._id }, // exclude the current category document
+			});
+
+			if (nameExists) {
+				logger.error("Error while updating the category: Category name already exists.");
+				return { status: "error", message: "Category name already exists." };
+			}
 		}
 
-		// Update the category's name
+		// Converts the newName into a URL-friendly format by replacing '&' and '/' with '-', removing spaces and setting to lowercase
+		const newLink = newName.replace(/\s&\s/g, "-").replace(/\//g, "-").replace(/\s+/g, "-").toLowerCase();
+
+		// Update the category data
 		existingCategory.name = newName;
+		existingCategory.link = newLink;
+		existingCategory.description = newDescription;
+		existingCategory.colors = newColors;
 		await existingCategory.save();
 
 		logger.info(`Category updated successfully. categoryId: ${categoryId}`);

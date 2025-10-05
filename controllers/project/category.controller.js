@@ -1,12 +1,6 @@
 const { categoryService } = require("../../services");
-const { apiResponse, categoryValidation } = require("../../utils");
+const { apiResponse, categoryValidation, commonValidation } = require("../../utils");
 
-/**
- * Create new project category controller.
- * @param {Object} req - The HTTP request object.
- * @param {Object} res - The HTTP response object.
- * @returns {Object} - The response containing the created category or an error message.
- */
 const createCategory = async (req, res) => {
 	try {
 		const { categoryName = "", description = "", colors = {}, cover = "", coverText = "", subCategories = [] } = req.body;
@@ -16,16 +10,18 @@ const createCategory = async (req, res) => {
 		if (validationInputsResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationInputsResult.message);
 		}
-		const validationColorsResult = categoryValidation.validateCategoryColors(colors);
+
+		const validationColorsResult = commonValidation.validateColors(colors);
 		if (validationColorsResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationColorsResult.message);
 		}
+
 		for (const subCat of subCategories) {
 			const validationSubCatInputsResult = categoryValidation.validateSubCategoryInputs(subCat.name, subCat.symbol);
 			if (validationSubCatInputsResult.status !== "success") {
 				return apiResponse.clientErrorResponse(res, validationSubCatInputsResult.message);
 			}
-			const validationSubCatColorsResult = categoryValidation.validateCategoryColors(subCat.colors);
+			const validationSubCatColorsResult = commonValidation.validateColors(subCat.colors);
 			if (validationSubCatColorsResult.status !== "success") {
 				return apiResponse.clientErrorResponse(res, validationSubCatColorsResult.message);
 			}
@@ -33,9 +29,6 @@ const createCategory = async (req, res) => {
 
 		// Call the service to create the category
 		const createdCategory = await categoryService.createCategory(categoryName, description, colors, cover, coverText, subCategories);
-
-		console.log("🚀 ~ createCategory ~ createdCategory:", createdCategory);
-
 		if (createdCategory.status !== "success") {
 			return apiResponse.serverErrorResponse(res, createdCategory.message);
 		}
@@ -46,25 +39,28 @@ const createCategory = async (req, res) => {
 	}
 };
 
-/**
- * Update project category controller.
- * @param {Object} req - The HTTP request object.
- * @param {Object} res - The HTTP response object.
- * @returns {Object} - The response containing the updated category or an error message.
- */
 const updateCategory = async (req, res) => {
 	try {
-		const { categoryId = "", categoryNewName = "" } = req.body;
+		const { categoryId = "", categoryNewName = "", categoryNewDescription = "", categoryNewColors = {} } = req.body;
 
-		// Validate input data for creating a category
-		const validationResult = categoryValidation.validateCategoryIdAndCategoryName(categoryId, categoryNewName);
+		// Validate input data for updating a category
+		const validationIdResult = categoryValidation.validateCategoryId(categoryId);
+		if (validationIdResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationIdResult.message);
+		}
+
+		const validationResult = categoryValidation.validateCategoryNameAndCategoryDescription(categoryNewName, categoryNewDescription);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		// Call the service to create the category
-		const updatedCategory = await categoryService.updateCategory(categoryId, categoryNewName);
+		const validationColorsResult = commonValidation.validateColors(categoryNewColors);
+		if (validationColorsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationColorsResult.message);
+		}
 
+		// Call the service to update the category
+		const updatedCategory = await categoryService.updateCategory(categoryId, categoryNewName, categoryNewDescription, categoryNewColors);
 		if (updatedCategory.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updatedCategory.message);
 		}
@@ -75,25 +71,18 @@ const updateCategory = async (req, res) => {
 	}
 };
 
-/**
- * Remove project category controller.
- * @param {Object} req - The HTTP request object.
- * @param {Object} res - The HTTP response object.
- * @returns {Object} - The response containing the removed category or an error message.
- */
 const removeCategory = async (req, res) => {
 	try {
 		const { categoryId = "" } = req.body;
 
-		// Validate input data for creating a category
+		// Validate input data for removing a category
 		const validationResult = categoryValidation.validateCategoryId(categoryId);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		// Call the service to create the category
+		// Call the service to remove the category
 		const removedCategory = await categoryService.removeCategory(categoryId);
-
 		if (removedCategory.status !== "success") {
 			return apiResponse.serverErrorResponse(res, removedCategory.message);
 		}
@@ -104,12 +93,6 @@ const removeCategory = async (req, res) => {
 	}
 };
 
-/**
- * Add sub-category controller.
- * @param {Object} req - The HTTP request object.
- * @param {Object} res - The HTTP response object.
- * @returns {Object} - The response containing the added sub-category or an error message.
- */
 const addSubCategory = async (req, res) => {
 	try {
 		const { categoryId = "", subCategoryName = "" } = req.body;
@@ -122,7 +105,6 @@ const addSubCategory = async (req, res) => {
 
 		// Call the service to add the sub-category
 		const addedSubCategory = await categoryService.addSubCategory(categoryId, subCategoryName);
-
 		if (addedSubCategory.status !== "success") {
 			return apiResponse.serverErrorResponse(res, addedSubCategory.message);
 		}
@@ -133,12 +115,6 @@ const addSubCategory = async (req, res) => {
 	}
 };
 
-/**
- * Update sub-category controller.
- * @param {Object} req - The HTTP request object.
- * @param {Object} res - The HTTP response object.
- * @returns {Object} - The response containing the updated sub-category or an error message.
- */
 const updateSubCategory = async (req, res) => {
 	try {
 		const { categoryId = "", subCategoryOldName = "", subCategoryNewName = "" } = req.body;
@@ -151,7 +127,6 @@ const updateSubCategory = async (req, res) => {
 
 		// Call the service to update the sub-category
 		const updatedSubCategory = await categoryService.updateSubCategory(categoryId, subCategoryOldName, subCategoryNewName);
-
 		if (updatedSubCategory.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updatedSubCategory.message);
 		}
@@ -162,12 +137,6 @@ const updateSubCategory = async (req, res) => {
 	}
 };
 
-/**
- * Remove sub-category controller.
- * @param {Object} req - The HTTP request object.
- * @param {Object} res - The HTTP response object.
- * @returns {Object} - The response containing the removed sub-category or an error message.
- */
 const removeSubCategory = async (req, res) => {
 	try {
 		const { categoryId = "", subCategoryName = "" } = req.body;
@@ -180,7 +149,6 @@ const removeSubCategory = async (req, res) => {
 
 		// Call the service to remove the sub-category
 		const removedSubCategory = await categoryService.removeSubCategory(categoryId, subCategoryName);
-
 		if (removedSubCategory.status !== "success") {
 			return apiResponse.serverErrorResponse(res, removedSubCategory.message);
 		}
@@ -237,9 +205,6 @@ const retrieveCategoryWithLink = async (req, res) => {
 			"createdAt",
 			"updatedAt",
 		]);
-
-		console.log("🚀 ~ retrieveCategoryWithLink ~ retrievedCategory:", retrievedCategory);
-
 		if (retrievedCategory.status !== "success") {
 			return apiResponse.serverErrorResponse(res, retrievedCategory.message);
 		}
