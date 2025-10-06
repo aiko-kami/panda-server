@@ -478,7 +478,7 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
 		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
+			return { status: "error", message: "Project not found." };
 		}
 
 		const fieldsString = fields.join(" ");
