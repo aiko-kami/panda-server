@@ -79,7 +79,12 @@ const projectSchema = new Schema(
 				message: "The value {VALUE} is not valid.",
 			}, // Optional
 			tags: { type: [String] }, // Optional
-			talentsNeeded: { type: [String] }, // Array of talents needed
+			talentsNeeded: [
+				{
+					talent: { type: String, required: true },
+					description: { type: String },
+				},
+			], // Array of talents needed
 			objectives: { type: [String] }, // Optional
 			updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
 		},
@@ -122,7 +127,15 @@ const projectSchema = new Schema(
 			},
 			required: false,
 		}, // Optional
-		talentsNeeded: { type: [String], required: true },
+		talentsNeeded: {
+			type: [
+				{
+					talent: { type: String, required: true },
+					description: { type: String, default: "" },
+				},
+			],
+			required: true,
+		},
 		objectives: { type: [String] }, // Optional
 		updatedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
 		visibility: {

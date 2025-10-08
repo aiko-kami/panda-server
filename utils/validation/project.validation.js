@@ -30,8 +30,7 @@ const validateDraftProjectInputs = (projectData) => {
 		!Array.isArray(projectData.talentsNeeded) ||
 		!Array.isArray(projectData.objectives) ||
 		!projectData.tags.every((tag) => typeof tag === "string") ||
-		!projectData.talentsNeeded.every((tal) => typeof tal === "string") ||
-		!projectData.objectives.every((obj) => typeof obj === "string");
+		!projectData.talentsNeeded.every((t) => t && typeof t === "object" && typeof t.talent === "string" && typeof t.description === "string");
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
 	}
@@ -83,8 +82,8 @@ const validateSubmittedProjectInputs = (projectData) => {
 		!Array.isArray(projectData.talentsNeeded) ||
 		!Array.isArray(projectData.objectives) ||
 		!projectData.tags.every((tag) => typeof tag === "string") ||
-		!projectData.talentsNeeded.every((tal) => typeof tal === "string") ||
-		!projectData.objectives.every((obj) => typeof obj === "string");
+		!projectData.objectives.every((obj) => typeof obj === "string") ||
+		!projectData.talentsNeeded.every((t) => t && typeof t === "object" && typeof t.talent === "string" && typeof t.description === "string");
 
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
@@ -151,8 +150,8 @@ const validateUpdatedProjectInputs = (projectData) => {
 		!Array.isArray(projectData.talentsNeeded) ||
 		!Array.isArray(projectData.objectives) ||
 		!projectData.tags.every((tag) => typeof tag === "string") ||
-		!projectData.talentsNeeded.every((tal) => typeof tal === "string") ||
-		!projectData.objectives.every((obj) => typeof obj === "string");
+		!projectData.objectives.every((obj) => typeof obj === "string") ||
+		!projectData.talentsNeeded.every((t) => t && typeof t === "object" && typeof t.talent === "string" && typeof t.description === "string");
 
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
@@ -234,8 +233,8 @@ const validateProjectDraftInputs = (projectData) => {
 		!Array.isArray(projectData.talentsNeeded) ||
 		!Array.isArray(projectData.objectives) ||
 		!projectData.tags.every((tag) => typeof tag === "string") ||
-		!projectData.talentsNeeded.every((tal) => typeof tal === "string") ||
-		!projectData.objectives.every((obj) => typeof obj === "string");
+		!projectData.objectives.every((obj) => typeof obj === "string") ||
+		!projectData.talentsNeeded.every((t) => t && typeof t === "object" && typeof t.talent === "string" && typeof t.description === "string");
 
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
