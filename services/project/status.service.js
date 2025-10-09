@@ -11,12 +11,17 @@ const { DateTime } = require("luxon");
  */
 //Possible status: draft, submitted, active, on hold, completed, archived, cancelled
 
-const updateStatus = async (projectId, userIdUpdater, newStatus, reason) => {
+const updateStatus = async (projectId, userIdUpdater, newStatusId, reason) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
 		if (objectIdProjectId.status == "error") {
 			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const objectIdNewStatusId = encryptTools.convertIdToObjectId(newStatusId);
+		if (objectIdNewStatusId.status == "error") {
+			return { status: "error", message: objectIdNewStatusId.message };
 		}
 
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
@@ -28,27 +33,34 @@ const updateStatus = async (projectId, userIdUpdater, newStatus, reason) => {
 		const project = await Project.findOne({ _id: objectIdProjectId }).populate([
 			{ path: "members.user", select: "username profilePicture userId" },
 			{ path: "category", select: "-_id name categoryId" },
+			{ path: "category", select: "-_id name categoryId" },
+			{ path: "statusInfo.currentStatus", select: "-_id status" },
 		]);
-
 		if (!project) {
 			return { status: "error", message: "Project not found." };
 		}
 
-		// Update project status
-		const formerStatus = project.statusInfo.currentStatus;
+		// Retrieve status from newStatusId
+		const newStatus = await ProjectStatus.findOne({ _id: objectIdNewStatusId });
+		if (!newStatus) {
+			return { status: "error", message: "newStatus not found." };
+		}
 
-		const statusUpdateValidated = statusTools.validateStatusUpdate(newStatus, formerStatus);
+		// Update project status
+		const formerStatus = project.statusInfo.currentStatus.status;
+
+		const statusUpdateValidated = statusTools.validateStatusUpdate(newStatus.status, formerStatus);
 		if (statusUpdateValidated.status == "error") {
 			return { status: "error", message: statusUpdateValidated.message };
 		}
 
 		// Update current status and reason
-		project.statusInfo.currentStatus = newStatus;
+		project.statusInfo.currentStatus = objectIdNewStatusId;
 		project.statusInfo.reason = reason;
 
 		// Add the status change to the history
 		project.statusInfo.statusHistory.push({
-			status: newStatus,
+			status: objectIdNewStatusId,
 			updatedBy: objectIdUserIdUpdater,
 			reason: reason,
 			timestamp: DateTime.now().toHTTP(),
@@ -56,7 +68,7 @@ const updateStatus = async (projectId, userIdUpdater, newStatus, reason) => {
 
 		const updatedProject = await project.save();
 
-		logger.info(`Project status updated successfully. Project ID: ${projectId} - Updater user ID: ${userIdUpdater} - Former project status: ${formerStatus} - New project status: ${newStatus}`);
+		logger.info(`Project status updated successfully. Project ID: ${projectId} - Updater user ID: ${userIdUpdater} - Former project status: ${formerStatus} - New project status: ${newStatus.status}`);
 		return { status: "success", message: "Project status updated successfully.", project: updatedProject };
 	} catch (error) {
 		return { status: "error", message: error.message };

@@ -1,4 +1,4 @@
-const { Project, Category } = require("../../models");
+const { Project, Category, ProjectStatus } = require("../../models");
 const { logger, encryptTools } = require("../../utils");
 const userRightsService = require("./userRights.service");
 const { DateTime } = require("luxon");
@@ -15,6 +15,11 @@ const createProject = async (projectData) => {
 			return { status: "error", message: objectIdCategoryId.message };
 		}
 
+		const objectIdStatusId = encryptTools.convertIdToObjectId(projectData.statusId);
+		if (objectIdStatusId.status == "error") {
+			return { status: "error", message: objectIdStatusId.message };
+		}
+
 		const objectIdCreatorId = encryptTools.convertIdToObjectId(projectData.creatorId);
 		if (objectIdCreatorId.status == "error") {
 			return { status: "error", message: objectIdCreatorId.message };
@@ -27,11 +32,11 @@ const createProject = async (projectData) => {
 		};
 
 		const projectStatus = {
-			currentStatus: projectData.status,
+			currentStatus: objectIdStatusId,
 			reason: projectData.statusReason,
 			statusHistory: [
 				{
-					status: projectData.status,
+					status: objectIdStatusId,
 					reason: projectData.statusReason,
 					updatedBy: objectIdCreatorId,
 					timestamp: DateTime.now().toHTTP(),
@@ -82,10 +87,10 @@ const createProject = async (projectData) => {
 
 		projectOutput = project.toObject();
 
-		logger.info(`New project created successfully. Project ID: ${project.projectId} - Project status: ${projectData.status}`);
+		logger.info(`New project created successfully. Project ID: ${project.projectId}`);
 		return {
 			status: "success",
-			message: `New project created successfully. Project status: ${projectData.status}`,
+			message: `New project created successfully.`,
 			project: projectOutput,
 		};
 	} catch (error) {

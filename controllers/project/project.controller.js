@@ -74,8 +74,6 @@ const updateProjectDraft = async (req, res) => {
 	try {
 		const { projectId = "" } = req.params;
 
-		console.log("🚀 ~ updateProjectDraft ~ projectId:", projectId);
-
 		const userId = req.userId;
 		//Retrieve and initialize project data
 		const projectDataToUpdate = {
@@ -251,7 +249,9 @@ const submitProject = async (req, res) => {
 
 		let projectUpdatedResult;
 		if (!projectId) {
-			projectData.status = "draft";
+			//statusId for draft
+			const draftStatusId = "f35d3b4736351487c6dc8bb91d3a3e49-096c4c807f04ae84bc10ce1f77dd02c987c8ca7b7697d627";
+			projectData.statusId = draftStatusId;
 			projectData.statusReason = "Project creation before submission";
 			// Create the project and set project status to submitted
 			projectUpdatedResult = await projectService.createProject(projectData, userId);
@@ -269,8 +269,10 @@ const submitProject = async (req, res) => {
 			}
 		}
 
+		//statusId for draft
+		const submittedStatusId = "8604d9b894e43af309a2bed4012a2f8b-724f6359c7506df92da8fc41c915f8eaa528407503c15eaf";
 		// Set project status to Submitted
-		const projectSubmittedResult = await statusService.updateStatus(projectUpdatedResult.project.projectId, userId, "submitted", "Project creation and submission");
+		const projectSubmittedResult = await statusService.updateStatus(projectUpdatedResult.project.projectId, userId, submittedStatusId, "Project submission after creation");
 		if (projectSubmittedResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectSubmittedResult.message);
 		}
