@@ -25,6 +25,9 @@ const createProject = async (projectData) => {
 			return { status: "error", message: objectIdCreatorId.message };
 		}
 
+		// Converts the project title into a URL-friendly format by replacing '&' and '/' with '-', removing spaces and setting to lowercase
+		const projectLink = projectData.title.replace(/\s&\s/g, "-").replace(/\//g, "-").replace(/\s+/g, "-").toLowerCase();
+
 		const projectLocation = {
 			city: projectData.locationCountry,
 			country: projectData.locationCity,
@@ -55,6 +58,7 @@ const createProject = async (projectData) => {
 		const newProject = new Project({
 			title: projectData.title,
 			titleCapitalized: titleCapitalized,
+			link: projectLink,
 			goal: projectData.goal,
 			summary: projectData.summary,
 			description: projectData.description,
@@ -71,6 +75,9 @@ const createProject = async (projectData) => {
 			tags: projectData.tags,
 			members: [{ user: objectIdCreatorId, role: "owner" }],
 			talentsNeeded: projectData.talentsNeeded,
+			objectives: projectData.objectives,
+			steps: { stepsList: [] },
+			QAs: { QAsList: [] },
 			objectives: projectData.objectives,
 			createdAt: DateTime.now().toHTTP(),
 		});
@@ -141,10 +148,12 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 		if (updatedData.title) {
 			const titleCapitalized = updatedData.title.toUpperCase();
 			const existingTitle = await Project.findOne({ $and: [{ projectId: { $ne: projectId } }, { titleCapitalized }] });
+
 			if (existingTitle) {
 				return { status: "error", message: "Project title is not available." };
 			}
 		}
+
 		// Define an object to store the fields that need to be updated
 		const updateFields = {};
 
@@ -163,7 +172,7 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 			visibility: "visibility",
 			tags: "tags",
 			talentsNeeded: "talentsNeeded",
-			objectIdProjectId: "updatedBy",
+			objectIdUserIdUpdater: "updatedBy",
 		};
 
 		// Iterate through the fieldMapping and check if the field exists in updatedData
@@ -176,6 +185,13 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 		}
 		// Add the field in the list to update
 		updateFields.category = objectIdCategoryId;
+
+		if (updatedData.title) {
+			// Converts the project title into a URL-friendly format by replacing '&' and '/' with '-', removing spaces and setting to lowercase
+			const projectLink = updatedData.title.replace(/\s&\s/g, "-").replace(/\//g, "-").replace(/\s+/g, "-").toLowerCase();
+			updateFields.link = projectLink;
+			updateFields.titleCapitalized = updatedData.title.toUpperCase();
+		}
 
 		// Save the updated project
 		const updatedProject = await Project.findOneAndUpdate({ _id: objectIdProjectId }, { $set: updateFields }, { new: true })
@@ -308,8 +324,7 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 		}
 
 		// Find the project by projectId
-		const project = await Project.findOne({ _id: objectIdProjectId });
-
+		const project = await Project.findOne({ _id: objectIdProjectId }).populate([{ path: "statusInfo.currentStatus", select: "-_id status colors description" }]);
 		// Check if the project exists
 		if (!project) {
 			return { status: "error", message: "Project not found." };
@@ -317,14 +332,13 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 
 		const projectWrongStatus = ["draft", "submitted", "archived", "cancelled", "rejected"];
 		// Check the project status
-		if (projectWrongStatus.includes(project.statusInfo.currentStatus)) {
+		if (projectWrongStatus.includes(project.statusInfo.currentStatus.status)) {
 			return { status: "error", message: `Project in status ${project.statusInfo.currentStatus.toUpperCase()} cannot be updated.` };
 		}
 
 		// In case of title update, verify that title does not already exists in the database
 		if (updatedData.title) {
 			const titleCapitalized = updatedData.title.toUpperCase();
-
 			const existingTitle = await Project.findOne({ $and: [{ projectId: { $ne: projectId } }, { titleCapitalized }] });
 			if (existingTitle) {
 				return { status: "error", message: "Project title is not available." };
@@ -361,6 +375,13 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 				// If the field exists in updatedData, update the corresponding field in updateFields
 				updateFields[projectField] = updatedData[key];
 			}
+		}
+
+		if (updatedData.title) {
+			// Converts the project title into a URL-friendly format by replacing '&' and '/' with '-', removing spaces and setting to lowercase
+			const projectLink = updatedData.title.replace(/\s&\s/g, "-").replace(/\//g, "-").replace(/\s+/g, "-").toLowerCase();
+			updateFields.link = projectLink;
+			updateFields.titleCapitalized = updatedData.title.toUpperCase();
 		}
 
 		// Update the project properties
@@ -553,6 +574,75 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 	}
 };
 
+const retrieveProjectByLink = async (projectLink, fields, conditions) => {
+	try {
+		const fieldsString = fields.join(" ");
+
+		const search = { link: projectLink, ...conditions };
+		const projectRetrieved = await Project.findOne(search)
+			.select(fieldsString)
+			.populate([
+				{ path: "category", select: "-_id categoryId name link colors subCategories" },
+				{ path: "updatedBy", select: "username profilePicture userId" },
+				{ path: "steps.updatedBy", select: "username profilePicture userId" },
+				{ path: "steps.stepsList.status", select: "-_id status colors" },
+				{ path: "members.user", select: "username profilePicture userId" },
+				{ path: "statusInfo.currentStatus", select: "-_id status colors description" },
+				{ path: "statusInfo.statusHistory.status", select: "-_id status colors" },
+				{ path: "statusInfo.statusHistory.updatedBy", select: "username profilePicture userId" },
+				{ path: "privateData.attachments.updatedBy", select: "username profilePicture userId" },
+			]); // Populate fields
+
+		if (!projectRetrieved) {
+			return {
+				status: "error",
+				message: "Project not found.",
+			};
+		}
+		let project = projectRetrieved.toObject();
+
+		if (!fields.includes("category")) {
+			delete project.category;
+		}
+		if (!fields.includes("updatedBy")) {
+			delete project.updatedBy;
+		}
+		if (!fields.includes("steps")) {
+			delete project.steps;
+		}
+		if (!fields.includes("members")) {
+			delete project.members;
+		}
+		if (!fields.includes("statusInfo")) {
+			delete project.statusInfo;
+		}
+		if (!fields.includes("privateData")) {
+			delete project.privateData;
+		}
+
+		if (fields.includes("subCategory") && project.subCategory && project.category && Array.isArray(project.category.subCategories)) {
+			const subCategoryName = project.subCategory;
+			const matchedSub = project.category.subCategories.find((sc) => sc.name === subCategoryName);
+
+			project.subCategoryDetails = matchedSub || null;
+
+			delete project.category.subCategories;
+		}
+
+		return {
+			status: "success",
+			message: "Project retrieved successfully.",
+			project,
+		};
+	} catch (error) {
+		logger.error("Error while retrieving project from the database:", error);
+		return {
+			status: "error",
+			message: "An error occurred while retrieving the project.",
+		};
+	}
+};
+
 const retrieveProjects = async (fields, conditions, limit) => {
 	try {
 		let query = Project.find(conditions).sort({ createdAt: -1 }).limit(limit);
@@ -564,6 +654,7 @@ const retrieveProjects = async (fields, conditions, limit) => {
 				{ path: "updatedBy", select: "username profilePicture userId" },
 				{ path: "steps.updatedBy", select: "username profilePicture userId" },
 				{ path: "members.user", select: "username profilePicture userId" },
+				{ path: "statusInfo.currentStatus", select: "-_id status colors description" },
 				{ path: "statusInfo.statusHistory.updatedBy", select: "username profilePicture userId" },
 			]); // Populate fields
 		}
@@ -779,6 +870,7 @@ module.exports = {
 	updateProject,
 	updateProjectDraftSection,
 	retrieveProjectById,
+	retrieveProjectByLink,
 	retrieveProjects,
 	countNumberProjects,
 	countNumberProjectsPerCategory,

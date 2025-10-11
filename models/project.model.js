@@ -31,7 +31,7 @@ const statusChangeSchema = new Schema({
 
 const stepSchema = new Schema({
 	_id: false,
-	title: { type: String, required: true, unique: true, trim: true },
+	title: { type: String, required: true, trim: true },
 	details: { type: String },
 	published: { type: Boolean, default: false },
 	status: { type: Schema.Types.ObjectId, ref: "ProjectStepConfig", required: true },
@@ -39,7 +39,7 @@ const stepSchema = new Schema({
 
 const QASchema = new Schema({
 	_id: false,
-	question: { type: String, required: true, unique: true, trim: true },
+	question: { type: String, required: true, trim: true },
 	response: { type: String },
 	published: { type: Boolean, default: false },
 });
@@ -90,6 +90,7 @@ const projectSchema = new Schema(
 		},
 		title: { type: String, required: true, unique: true, trim: true },
 		titleCapitalized: { type: String, required: true, unique: true, trim: true },
+		link: { type: String, required: true, unique: true, trim: true },
 		goal: { type: String, trim: true },
 		summary: { type: String, trim: true },
 		description: { type: String },
@@ -112,18 +113,18 @@ const projectSchema = new Schema(
 		steps: {
 			type: {
 				stepsList: [stepSchema],
-				updatedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
-				createdAt: { type: Date, required: true, default: DateTime.now().toHTTP() },
-				updatedAt: { type: Date, required: true },
+				updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
+				createdAt: { type: Date, default: DateTime.now().toHTTP() },
+				updatedAt: { type: Date },
 			},
 			required: false,
 		}, // Optional
 		QAs: {
 			type: {
 				QAsList: [QASchema],
-				updatedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
-				createdAt: { type: Date, required: true, default: DateTime.now().toHTTP() },
-				updatedAt: { type: Date, required: true },
+				updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
+				createdAt: { type: Date, default: DateTime.now().toHTTP() },
+				updatedAt: { type: Date },
 			},
 			required: false,
 		}, // Optional

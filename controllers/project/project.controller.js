@@ -556,7 +556,7 @@ const updateProjectDraftSection = async (req, res) => {
 	}
 };
 
-const retrieveProjectPublicData = async (req, res) => {
+const retrieveProjectPublicDataWithId = async (req, res) => {
 	try {
 		const { projectId = "" } = req.params;
 
@@ -591,6 +591,56 @@ const retrieveProjectPublicData = async (req, res) => {
 		//Filter users public data from project
 		projectData.project.statusInfo.statusHistory = undefined;
 		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project, "unknown");
+		if (projectFiltered.status !== "success") {
+			return apiResponse.clientErrorResponse(res, projectFiltered.message);
+		}
+		return apiResponse.successResponseWithData(res, projectData.message, { project: projectFiltered.project });
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const retrieveProjectPublicDataWithLink = async (req, res) => {
+	try {
+		const { projectLink = "" } = req.params;
+
+		const projectData = await projectService.retrieveProjectByLink(
+			projectLink,
+			[
+				"-_id",
+				"title",
+				"goal",
+				"summary",
+				"description",
+				"cover",
+				"category",
+				"subCategory",
+				"location",
+				"startDate",
+				"members",
+				"creatorMotivation",
+				"tags",
+				"steps",
+				"talentsNeeded",
+				"objectives",
+				"statusInfo",
+				"projectId",
+				"link",
+			],
+			{ visibility: "public" }
+		);
+
+		console.log("🚀 ~ retrieveProjectPublicDataWithLink ~ projectData:", projectData);
+
+		if (projectData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectData.message);
+		}
+		//Filter users public data from project
+		projectData.project.statusInfo.statusHistory = undefined;
+		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project, "unknown");
+
+		console.log("🚀 ~ retrieveProjectPublicDataWithLink ~ projectFiltered:", projectFiltered.project);
+
 		if (projectFiltered.status !== "success") {
 			return apiResponse.clientErrorResponse(res, projectFiltered.message);
 		}
@@ -797,7 +847,8 @@ module.exports = {
 	processProjectApproval,
 	updateProject,
 	updateProjectDraftSection,
-	retrieveProjectPublicData,
+	retrieveProjectPublicDataWithId,
+	retrieveProjectPublicDataWithLink,
 	retrieveNewProjects,
 	retrieveSubmittedProjects,
 	retrieveProjectOverview,

@@ -23,7 +23,8 @@ projectRoute.patch("/updateProjectDraftSection/:projectId", verifyAccess, projec
 // Retrieve project data
 projectRoute.get("/projectData/:projectId", verifyAccess, projectController.retrieveProjectData);
 projectRoute.get("/projectOverview/:projectId", projectController.retrieveProjectOverview);
-projectRoute.get("/projectPublic/:projectId", projectController.retrieveProjectPublicData);
+projectRoute.get("/projectPublic/id/:projectId", projectController.retrieveProjectPublicDataWithId);
+projectRoute.get("/projectPublic/link/:projectLink", projectController.retrieveProjectPublicDataWithLink);
 projectRoute.get("/lastProjectsOverview", projectController.retrieveNewProjects);
 projectRoute.get("/submittedProjects", verifyAdminAccess, projectController.retrieveSubmittedProjects);
 
