@@ -103,10 +103,11 @@ const retrieveCrushProjects = async (fields, conditions, limit) => {
 			.sort({ createdAt: -1 })
 			.limit(limit)
 			.populate([
-				{ path: "category", select: "-_id name categoryId" },
+				{ path: "category", select: "-_id categoryId name link colors subCategories" },
 				{ path: "updatedBy", select: "username profilePicture" },
 				{ path: "steps.updatedBy", select: "username profilePicture" },
 				{ path: "members.user", select: "username profilePicture userId" },
+				{ path: "statusInfo.currentStatus", select: "-_id status colors description" },
 				{ path: "statusInfo.statusHistory.updatedBy", select: "username profilePicture userId" },
 			]);
 		if (fields) {

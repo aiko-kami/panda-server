@@ -29,8 +29,8 @@ const createProject = async (projectData) => {
 		const projectLink = projectData.title.replace(/\s&\s/g, "-").replace(/\//g, "-").replace(/\s+/g, "-").toLowerCase();
 
 		const projectLocation = {
-			city: projectData.locationCountry,
-			country: projectData.locationCity,
+			city: projectData.locationCity,
+			country: projectData.locationCountry,
 			onlineOnly: projectData.locationOnlineOnly,
 		};
 

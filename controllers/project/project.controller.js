@@ -630,17 +630,12 @@ const retrieveProjectPublicDataWithLink = async (req, res) => {
 			{ visibility: "public" }
 		);
 
-		console.log("🚀 ~ retrieveProjectPublicDataWithLink ~ projectData:", projectData);
-
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
 		}
 		//Filter users public data from project
 		projectData.project.statusInfo.statusHistory = undefined;
 		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project, "unknown");
-
-		console.log("🚀 ~ retrieveProjectPublicDataWithLink ~ projectFiltered:", projectFiltered.project);
-
 		if (projectFiltered.status !== "success") {
 			return apiResponse.clientErrorResponse(res, projectFiltered.message);
 		}

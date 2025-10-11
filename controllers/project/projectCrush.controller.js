@@ -65,7 +65,7 @@ const removeCrush = async (req, res) => {
 
 const retrieveCrushProjects = async (req, res) => {
 	try {
-		const crushProjects = await crushService.retrieveCrushProjects(["-_id", "title", "summary", "cover", "category", "subCategory", "tags"], { crush: true, visibility: "public" }, 99);
+		const crushProjects = await crushService.retrieveCrushProjects(["-_id", "title", "link", "summary", "cover", "category", "subCategory", "tags"], { crush: true, visibility: "public" }, 9);
 		if (crushProjects.status !== "success") {
 			return apiResponse.serverErrorResponse(res, crushProjects.message);
 		}
