@@ -9,7 +9,7 @@ Reset_password
 
 
 Subject:
-[Sheepy] Password change request
+[Make It] Password change request
 
 Content>>
 

@@ -279,7 +279,7 @@ const submitProject = async (req, res) => {
 
 		const username = projectSubmittedResult.project.members[0].user.username;
 		const usernameCapitalized = username.charAt(0).toUpperCase() + username.slice(1);
-		const emailTitle = "[Sheepy - Admin] New Project Submitted - Approval Required";
+		const emailTitle = "[Make It - Admin] New Project Submitted - Approval Required";
 
 		// Send email notification to admin that new project has been submitted
 		const emailInputs = {
@@ -353,7 +353,7 @@ const processProjectApproval = async (req, res) => {
 		const username = approvalResult.project.members[0].user.username;
 		const usernameCapitalized = username.charAt(0).toUpperCase() + username.slice(1);
 		const projectCreatorEmail = approvalResult.project.members[0].user.email;
-		const emailTitle = "[Sheepy] Your project has been processed";
+		const emailTitle = "[Make It] Your project has been processed";
 
 		const projectLink = `${process.env.WEBSITE_URL}/project/${projectId}`;
 
@@ -581,6 +581,8 @@ const retrieveProjectPublicDataWithId = async (req, res) => {
 				"objectives",
 				"statusInfo",
 				"projectId",
+				"link",
+				"likes",
 			],
 			{ visibility: "public" }
 		);
@@ -626,6 +628,7 @@ const retrieveProjectPublicDataWithLink = async (req, res) => {
 				"statusInfo",
 				"projectId",
 				"link",
+				"likes",
 			],
 			{ visibility: "public" }
 		);

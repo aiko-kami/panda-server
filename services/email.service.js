@@ -40,7 +40,7 @@ const sendVerificationEmail = async (userId) => {
 		const emailInputs = {
 			usernameCapitalized,
 			verificationLink,
-			emailTitle: "[Sheepy] please confirm your email",
+			emailTitle: "[Make It] please confirm your email",
 		};
 		//Put data in email template
 		const emailContent = emailTemplates.useEmailAddressVerificationTemplate(emailInputs);
@@ -241,7 +241,7 @@ const sendPasswordResetEmail = async (email, username, resetPasswordToken) => {
 		const emailInputs = {
 			usernameCapitalized,
 			resetLink,
-			emailTitle: "[Sheepy] Password change request",
+			emailTitle: "[Make It] Password change request",
 		};
 		//Put data in email template
 		const emailContent = emailTemplates.useResetPasswordTemplate(emailInputs);
@@ -316,7 +316,7 @@ const sendVerificationEmailChangeEmail = async (userId) => {
 		const emailInputs = {
 			usernameCapitalized,
 			verificationLink,
-			emailTitle: "[Sheepy] please confirm your new email",
+			emailTitle: "[Make It] please confirm your new email",
 		};
 		//Put data in email template
 		const emailContent = emailTemplates.useChangeEmailAddressVerificationTemplate(emailInputs);

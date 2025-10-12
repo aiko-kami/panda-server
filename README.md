@@ -13,15 +13,15 @@
 
 ## 🐣 Presentation
 
-Panda Server is the backend part of Sheepy, a collaborative platform for projects creation and tracking.
+Panda Server is the backend part of Make It, a collaborative platform for projects creation and tracking.
 
 ![Logo](https://github.com/aiko-kami/panda-server/blob/master/docs/logo%20New_Panda_server_Sheepy_blue.png?raw=true)
 
-Our mission in Sheepy: Help you bring your projects to life!
+Our mission in Make It: Help you bring your projects to life!
 
 You have brilliant project ideas but don't know where to find the right talents to bring it to life? Or perhaps you're a skilled individual eager to contribute to exciting projects but struggle to find the right opportunities?
 
-Sheepy is designed to connect passionate skilled individuals with groundbreaking project ideas. Whether you're a creative artist, a tech wizard, a culinary enthusiast, an aspiring entrepreneur, or a seasoned professional in any field, Sheepy provides you with the community and tools you need to turn your vision into reality.
+Make It is designed to connect passionate skilled individuals with groundbreaking project ideas. Whether you're a creative artist, a tech wizard, a culinary enthusiast, an aspiring entrepreneur, or a seasoned professional in any field, Make It provides you with the community and tools you need to turn your vision into reality.
 
 **What is a project?**
 
@@ -29,9 +29,9 @@ You have an idea and a goal? You want to accomplish something meaningful? You ha
 
 **Main Features:**
 
-- **<ins>Project Proposals:</ins>** You have an inspiring project idea but need specific talents to make it happen? Post your project proposal on Sheepy! Describe your project's goal and the skills you're seeking. Watch your idea come to life as talented individuals from around the world express their interest in joining your project.
+- **<ins>Project Proposals:</ins>** You have an inspiring project idea but need specific talents to make it happen? Post your project proposal on Make It! Describe your project's goal and the skills you're seeking. Watch your idea come to life as talented individuals from around the world express their interest in joining your project.
 
-- **<ins>Talent Showcase:</ins>** Are you a designer, developer, musician, writer, or have any other amazing talent to share? Sheepy enables you to create a stunning talent profile showcasing your expertise and experience. Share your portfolio and talents, making it easy for project creators to find and invite you to collaborate.
+- **<ins>Talent Showcase:</ins>** Are you a designer, developer, musician, writer, or have any other amazing talent to share? Make It enables you to create a stunning talent profile showcasing your expertise and experience. Share your portfolio and talents, making it easy for project creators to find and invite you to collaborate.
 
 <br>
 
@@ -44,7 +44,7 @@ You have an idea and a goal? You want to accomplish something meaningful? You ha
 
 <br>
 
-Don't let your ideas and talents go to waste – join Sheepy now!
+Don't let your ideas and talents go to waste – join Make It now!
 
 ## Table of Contents
 
@@ -471,7 +471,7 @@ Please contact neutroneer100@gmail.com
 
 ## 🌮 Demo
 
-NextJS version: [Sheepy](https://www.makeit-lab.com/)
+NextJS version: [Make It](https://www.makeit-lab.com/)
 
 ## 🧗‍♂️ Status
 
