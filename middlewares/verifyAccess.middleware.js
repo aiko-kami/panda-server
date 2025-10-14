@@ -3,7 +3,6 @@ const { verifyTokenService } = require("../services");
 
 const verifyAccess = (req, res, next) => {
 	const accessToken = req.cookies.access_token;
-
 	if (!accessToken) {
 		return apiResponse.unauthorizedResponse(res, "Access denied.");
 	} else {

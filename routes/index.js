@@ -14,6 +14,7 @@ MainRouter.use("/users", require("./users"));
 // Projects routes
 MainRouter.use("/projects", require("./projectCore"));
 MainRouter.use("/projectsExtended", require("./projectsExtended"));
+MainRouter.use("/projectEdition", require("./projectEdition"));
 
 // Categories routes
 MainRouter.use("/cat", require("./categories"));
