@@ -197,6 +197,26 @@ const validateProjectIdAndUserId = (projectId, userId, requiredStatus) => {
 	return { status: "success", message: "Project ID and user ID are valid." };
 };
 
+const validateProjectLinkAndUserId = (projectLink, userId, requiredStatus) => {
+	//Types validation
+	const invalidType = typeof projectLink !== "string" || typeof userId !== "string";
+	if (invalidType) {
+		return { status: "error", message: "Invalid type of data." };
+	}
+
+	// Check if required fields are present
+	if (!projectLink && requiredStatus === "mandatory") {
+		return { status: "error", message: "Project link is required." };
+	}
+
+	if (!userId) {
+		return { status: "error", message: "User ID is required." };
+	}
+
+	// If all validations passed
+	return { status: "success", message: "Project link and user ID are valid." };
+};
+
 const validateProjectApproval = (projectApproval) => {
 	//Type validation
 	if (typeof projectApproval.approval !== "string" || typeof projectApproval.reason !== "string") {
@@ -314,6 +334,7 @@ module.exports = {
 	validateSubmittedProjectInputs,
 	validateUpdatedProjectInputs,
 	validateProjectIdAndUserId,
+	validateProjectLinkAndUserId,
 	validateProjectApproval,
 	validateProjectDraftInputs,
 	validateAttachmentTitle,
