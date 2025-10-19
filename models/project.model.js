@@ -78,7 +78,10 @@ const projectSchema = new Schema(
 				enum: projectVisibility,
 				message: "The value {VALUE} is not valid.",
 			}, // Optional
-			tags: { type: [String] }, // Optional
+			tags: {
+				type: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
+				default: [],
+			}, // Optional
 			talentsNeeded: [
 				{
 					talent: { type: String, required: true },
@@ -109,7 +112,10 @@ const projectSchema = new Schema(
 		}, // Optional
 		startDate: Date, // Optional
 		creatorMotivation: String, // Optional
-		tags: [String], // Optional
+		tags: {
+			type: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
+			default: [],
+		}, // Optional
 		steps: {
 			type: {
 				stepsList: [stepSchema],
@@ -117,6 +123,7 @@ const projectSchema = new Schema(
 				createdAt: { type: Date, default: DateTime.now().toHTTP() },
 				updatedAt: { type: Date },
 			},
+			default: [],
 			required: false,
 		}, // Optional
 		QAs: {
@@ -126,6 +133,7 @@ const projectSchema = new Schema(
 				createdAt: { type: Date, default: DateTime.now().toHTTP() },
 				updatedAt: { type: Date },
 			},
+			default: [],
 			required: false,
 		}, // Optional
 		talentsNeeded: {
@@ -135,9 +143,10 @@ const projectSchema = new Schema(
 					description: { type: String, default: "" },
 				},
 			],
+			default: [],
 			required: true,
 		},
-		objectives: { type: [String] }, // Optional
+		objectives: { type: [String], default: [] }, // Optional
 		updatedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
 		visibility: {
 			type: String,

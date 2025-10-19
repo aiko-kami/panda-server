@@ -18,6 +18,7 @@ module.exports.emailService = require("./email.service");
 
 // Project related services
 module.exports.categoryService = require("./project/category.service");
+module.exports.tagService = require("./project/tag.service");
 module.exports.projectService = require("./project/project.service");
 module.exports.userRightsService = require("./project/userRights.service");
 module.exports.memberService = require("./project/member.service");

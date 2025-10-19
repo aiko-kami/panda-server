@@ -19,6 +19,9 @@ MainRouter.use("/projectEdition", require("./projectEdition"));
 // Categories routes
 MainRouter.use("/cat", require("./categories"));
 
+// Tags routes
+MainRouter.use("/tags", require("./tags"));
+
 // Join project routes
 MainRouter.use("/joinProject/request", require("./joinProjectRequest"));
 MainRouter.use("/joinProject/invitation", require("./joinProjectInvitation"));

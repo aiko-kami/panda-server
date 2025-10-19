@@ -1,6 +1,7 @@
 // Validation
 module.exports.authValidation = require("./validation/auth.validation");
 module.exports.categoryValidation = require("./validation/category.validation");
+module.exports.tagValidation = require("./validation/tag.validation");
 module.exports.commonValidation = require("./validation/common.validation");
 module.exports.projectValidation = require("./validation/project.validation");
 module.exports.memberValidation = require("./validation/member.validation");

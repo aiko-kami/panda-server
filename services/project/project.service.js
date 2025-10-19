@@ -275,6 +275,7 @@ const processProjectApproval = async (projectId, projectApproval, adminUserId) =
 			.select("-__v -draft -privateData -crush -likes -updatedBy")
 			.populate([
 				{ path: "category", select: "-_id name categoryId" },
+				{ path: "tags", select: "-_id tagId name description link" },
 				{ path: "members.user", select: "username profilePicture userId email" },
 			]);
 
@@ -514,6 +515,7 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 			.select(fieldsString)
 			.populate([
 				{ path: "category", select: "-_id categoryId name link colors subCategories" },
+				{ path: "tags", select: "-_id tagId name description link" },
 				{ path: "updatedBy", select: "username profilePicture userId" },
 				{ path: "steps.updatedBy", select: "username profilePicture userId" },
 				{ path: "steps.stepsList.status", select: "-_id status colors" },
@@ -583,6 +585,7 @@ const retrieveProjectByLink = async (projectLink, fields, conditions) => {
 			.select(fieldsString)
 			.populate([
 				{ path: "category", select: "-_id categoryId name link colors subCategories" },
+				{ path: "tags", select: "-_id tagId name description link" },
 				{ path: "updatedBy", select: "username profilePicture userId" },
 				{ path: "steps.updatedBy", select: "username profilePicture userId" },
 				{ path: "steps.stepsList.status", select: "-_id status colors" },
@@ -603,6 +606,9 @@ const retrieveProjectByLink = async (projectLink, fields, conditions) => {
 
 		if (!fields.includes("category")) {
 			delete project.category;
+		}
+		if (!fields.includes("tags")) {
+			delete project.tags;
 		}
 		if (!fields.includes("updatedBy")) {
 			delete project.updatedBy;
@@ -651,6 +657,7 @@ const retrieveProjects = async (fields, conditions, limit) => {
 
 			query = query.select(fieldsString).populate([
 				{ path: "category", select: "-_id name categoryId" },
+				{ path: "tags", select: "-_id tagId name description link" },
 				{ path: "updatedBy", select: "username profilePicture userId" },
 				{ path: "steps.updatedBy", select: "username profilePicture userId" },
 				{ path: "members.user", select: "username profilePicture userId" },
@@ -671,6 +678,9 @@ const retrieveProjects = async (fields, conditions, limit) => {
 
 			if (!fields.includes("category")) {
 				delete modifiedProject.category;
+			}
+			if (!fields.includes("tags")) {
+				delete modifiedProject.tags;
 			}
 			if (!fields.includes("updatedBy")) {
 				delete modifiedProject.updatedBy;

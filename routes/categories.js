@@ -13,9 +13,9 @@ categoriesRoute.get("/category/link/:categoryLink", categoryController.retrieveC
 categoriesRoute.get("/categories", categoryController.retrieveCategories);
 
 // Categories admin
-categoriesRoute.post("/category", categoryController.createCategory);
-categoriesRoute.patch("/category", categoryController.updateCategory);
-categoriesRoute.delete("/category", categoryController.removeCategory);
+categoriesRoute.post("/category", verifyAdminAccess, categoryController.createCategory);
+categoriesRoute.patch("/category", verifyAdminAccess, categoryController.updateCategory);
+categoriesRoute.delete("/category", verifyAdminAccess, categoryController.removeCategory);
 
 // Sub-categories admin
 categoriesRoute.post("/subCategory", verifyAdminAccess, categoryController.addSubCategory);

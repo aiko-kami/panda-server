@@ -20,6 +20,7 @@ module.exports.projectQAController = require("./project/projectQA.controller");
 module.exports.commentController = require("./project/comment.controller");
 module.exports.projectAttachmentsController = require("./project/projectAttachments.controller");
 module.exports.categoryController = require("./project/category.controller");
+module.exports.tagController = require("./project/tag.controller");
 module.exports.memberController = require("./project/member.controller");
 module.exports.joinProjectRequestController = require("./project/joinProjectRequest.controller");
 module.exports.joinProjectInvitationController = require("./project/joinProjectInvitation.controller");

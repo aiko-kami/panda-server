@@ -8,7 +8,7 @@ const { projectEditionController } = require("../controllers");
 const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Retrieve project data
-// projectRoute.get("/general/:projectId", verifyAccess, projectEditionController.retrieveProjectGeneral);
+projectRoute.get("/general/:projectLink", verifyAccess, projectEditionController.retrieveProjectGeneral);
 // projectRoute.get("/members/:projectId", verifyAccess, projectEditionController.retrieveProjectMembers);
 // projectRoute.get("/rights/:projectId", verifyAccess, projectEditionController.retrieveProjectRights);
 projectRoute.get("/status/:projectLink", verifyAccess, projectEditionController.retrieveProjectStatus);
