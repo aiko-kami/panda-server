@@ -27,22 +27,14 @@ const createTags = async (req, res) => {
 	try {
 		const { tags } = req.body;
 
-		console.log("🚀 ~ createTags ~ tags:", tags);
-
 		// Validate input data for creating a tag
 		const validationInputsResult = tagValidation.validateTagsInputs(tags);
-
-		console.log("🚀 ~ createTags ~ validationInputsResult:", validationInputsResult);
-
 		if (validationInputsResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationInputsResult.message);
 		}
 
 		// Call the service to create the tag
 		const createdTags = await tagService.createTags(tags);
-
-		console.log("🚀 ~ createTags ~ createdTags:", createdTags);
-
 		if (createdTags.status !== "success") {
 			return apiResponse.serverErrorResponse(res, createdTags.message);
 		}
