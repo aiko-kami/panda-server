@@ -37,17 +37,22 @@ const retrieveProjectHandler = (requestedFields = []) => {
 				return apiResponse.unauthorizedResponse(res, "Data only available for the members of the project.");
 			}
 
-			let retrievedTags = null;
-			// If the project tags are to part of the edit, retrieve all available tags for edition
+			// Build the base response
+			const responseData = { project };
+
+			// If the project tags are part of the edit, retrieve all available tags for edition
 			if (requestedFields.includes("tags")) {
-				// Call the service to retrieve the tags
-				retrievedTags = await tagService.retrieveAllTags();
+				const retrievedTags = await tagService.retrieveAllTags();
 				if (retrievedTags.status !== "success") {
 					return apiResponse.serverErrorResponse(res, retrievedTags.message);
 				}
+
+				// Only add tagsList if successfully retrieved
+				responseData.tagsList = retrievedTags.tags;
 			}
 
-			return apiResponse.successResponseWithData(res, projectData.message, { project, tagsList: retrievedTags.tags });
+			// Return the final success response
+			return apiResponse.successResponseWithData(res, projectData.message, responseData);
 		} catch (error) {
 			return apiResponse.serverErrorResponse(res, error.message);
 		}
@@ -72,10 +77,12 @@ const retrieveProjectGeneral = retrieveProjectHandler([
 	"objectives",
 ]);
 const retrieveProjectStatus = retrieveProjectHandler(["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "startDate", "visibility"]);
-const retrieveProjectLocation = retrieveProjectHandler(["-_id", "projectLink", "title", "projectLink", "members", "statusInfo", "location"]);
+const retrieveProjectLocation = retrieveProjectHandler(["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "location"]);
+const retrieveProjectSteps = retrieveProjectHandler(["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "steps"]);
 
 module.exports = {
 	retrieveProjectGeneral,
 	retrieveProjectLocation,
 	retrieveProjectStatus,
+	retrieveProjectSteps,
 };
