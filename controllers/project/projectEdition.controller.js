@@ -79,10 +79,12 @@ const retrieveProjectGeneral = retrieveProjectHandler([
 const retrieveProjectStatus = retrieveProjectHandler(["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "startDate", "visibility"]);
 const retrieveProjectLocation = retrieveProjectHandler(["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "location"]);
 const retrieveProjectSteps = retrieveProjectHandler(["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "steps"]);
+const retrieveProjectQAs = retrieveProjectHandler(["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "QAs"]);
 
 module.exports = {
 	retrieveProjectGeneral,
 	retrieveProjectLocation,
 	retrieveProjectStatus,
 	retrieveProjectSteps,
+	retrieveProjectQAs,
 };

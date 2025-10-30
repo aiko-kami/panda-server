@@ -15,7 +15,7 @@ projectRoute.get("/status/:projectLink", verifyAccess, projectEditionController.
 projectRoute.get("/location/:projectLink", verifyAccess, projectEditionController.retrieveProjectLocation);
 // projectRoute.get("/attachements/:projectLink", verifyAccess, projectEditionController.retrieveProjectAttachements);
 projectRoute.get("/steps/:projectLink", verifyAccess, projectEditionController.retrieveProjectSteps);
-// projectRoute.get("/QAs/:projectLink", verifyAccess, projectEditionController.retrieveProjectQAs);
+projectRoute.get("/QAs/:projectLink", verifyAccess, projectEditionController.retrieveProjectQAs);
 // projectRoute.get("/details/:projectLink", verifyAccess, projectEditionController.retrieveProjectDetails);
 
 // Project update
