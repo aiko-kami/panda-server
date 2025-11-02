@@ -590,13 +590,15 @@ const retrieveProjectByLink = async (projectLink, fields, conditions) => {
 				{ path: "steps.updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "QAs.updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "steps.stepsList.status", select: "-_id status colors" },
-				{ path: "members.user", select: "username profilePicture userId" },
+				{ path: "members.user", select: "-_id username profilePicture userId" },
 				{ path: "statusInfo.currentStatus", select: "-_id status colors description" },
 				{ path: "statusInfo.statusHistory.status", select: "-_id status colors" },
 				{ path: "statusInfo.statusHistory.updatedBy", select: "username profilePicture userId" },
 				{ path: "privateData.attachments.updatedBy", select: "username profilePicture userId" },
 			])
 			.lean();
+
+		console.log("🚀 ~ retrieveProjectByLink ~ project:", project);
 
 		if (!project) {
 			return {
@@ -638,6 +640,10 @@ const retrieveProjectByLink = async (projectLink, fields, conditions) => {
 
 		if (fields.includes("QAs") && project.QAs) {
 			delete project.QAs._id;
+		}
+
+		if (fields.includes("talentsNeeded") && project.talentsNeeded) {
+			delete project.talentsNeeded._id;
 		}
 
 		return {

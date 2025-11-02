@@ -76,15 +76,23 @@ const retrieveProjectGeneral = retrieveProjectHandler([
 	"creatorMotivation",
 	"objectives",
 ]);
+const retrieveProjectMembers = retrieveProjectHandler(["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "talentsNeeded"]);
+const retrieveProjectRights = retrieveProjectHandler(["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "startDate", "visibility"]);
 const retrieveProjectStatus = retrieveProjectHandler(["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "startDate", "visibility"]);
 const retrieveProjectLocation = retrieveProjectHandler(["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "location"]);
+const retrieveProjectAttachments = retrieveProjectHandler(["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "privateData"]);
 const retrieveProjectSteps = retrieveProjectHandler(["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "steps"]);
 const retrieveProjectQAs = retrieveProjectHandler(["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "QAs"]);
+const retrieveProjectDetails = retrieveProjectHandler(["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "createdAt", "updatedAt", "updatedBy", "likes", "crush"]);
 
 module.exports = {
 	retrieveProjectGeneral,
-	retrieveProjectLocation,
+	retrieveProjectMembers,
+	retrieveProjectRights,
 	retrieveProjectStatus,
+	retrieveProjectLocation,
+	retrieveProjectAttachments,
 	retrieveProjectSteps,
 	retrieveProjectQAs,
+	retrieveProjectDetails,
 };
