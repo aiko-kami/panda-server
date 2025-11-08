@@ -1,4 +1,4 @@
-const { ProjectRights } = require("../../models");
+const { Project, ProjectRights } = require("../../models");
 const { logger, encryptTools } = require("../../utils");
 
 /**
@@ -41,13 +41,22 @@ const setProjectOwnerRights = async (projectId, userId) => {
 				canEditVisibility: true,
 				canEditAttachments: true,
 				canEditSteps: true,
-				canEditQA: true,
+				canEditQAs: true,
 				canSeeJoinProjectRequests: true,
 				canAnswerJoinProjectRequests: true,
 				canSendJoinProjectInvitations: true,
 				canEditMembers: true,
 				canRemoveMembers: true,
 				canEditRights: true,
+				canEditSectionGeneral: true,
+				canEditSectionMembers: true,
+				canEditSectionRights: true,
+				canEditSectionStatus: true,
+				canEditSectionLocation: true,
+				canEditSectionAttachments: true,
+				canEditSectionSteps: true,
+				canEditSectionQAs: true,
+				canEditSectionDetails: true,
 			},
 			updatedBy: objectIdUserId,
 		});
@@ -112,13 +121,22 @@ const setProjectNewMemberRights = async (userId, projectId, userIdUpdater) => {
 				canEditVisibility: false,
 				canEditAttachments: false,
 				canEditSteps: false,
-				canEditQA: false,
+				canEditQAs: false,
 				canSeeJoinProjectRequests: false,
 				canAnswerJoinProjectRequests: false,
 				canSendJoinProjectInvitations: false,
 				canEditMembers: false,
 				canRemoveMembers: false,
 				canEditRights: false,
+				canEditSectionGeneral: false,
+				canEditSectionMembers: false,
+				canEditSectionRights: false,
+				canEditSectionStatus: false,
+				canEditSectionLocation: false,
+				canEditSectionAttachments: false,
+				canEditSectionSteps: false,
+				canEditSectionQAs: false,
+				canEditSectionDetails: false,
 			},
 			updatedBy: objectIdUserIdUpdater,
 		});
@@ -250,11 +268,61 @@ const retrieveProjectRights = async (projectId, userId) => {
 				message: "An error occurred while retrieving user's project rights: Project rights not found for this user and project.",
 			};
 		}
-		logger.info(`Project rights found successfully. Project ID: ${projectId} - User ID: ${userId}`);
+		logger.info(`Project rights retrieved successfully. Project ID: ${projectId} - User ID: ${userId}`);
 		return {
 			status: "success",
-			message: "Project rights found successfully.",
+			message: "Project rights retrieved successfully.",
 			projectRights: projectRights,
+		};
+	} catch (error) {
+		logger.error(`Error while retrieving user's project rights: ${error}`);
+		return {
+			status: "error",
+			message: "An error occurred while retrieving user's project rights.",
+		};
+	}
+};
+
+const retrieveProjectRightsByLink = async (projectLink, userId) => {
+	try {
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserId.status === "error") {
+			return { status: "error", message: objectIdUserId.message };
+		}
+
+		const project = await Project.findOne({ link: projectLink })
+			.select("_id statusInfo")
+			.populate([
+				{ path: "statusInfo.currentStatus", select: "-_id status colors description" },
+				{ path: "statusInfo.statusHistory.status", select: "-_id status colors" },
+				{ path: "statusInfo.statusHistory.updatedBy", select: "username profilePicture userId" },
+				{ path: "privateData.attachments.updatedBy", select: "username profilePicture userId" },
+			]);
+		if (!project) {
+			return {
+				status: "error",
+				message: "Project not found.",
+			};
+		}
+
+		const projectRights = await ProjectRights.findOne({
+			project: project._id,
+			user: objectIdUserId,
+		}).select("-_id -__v -project -user -updatedBy -createdAt -updatedAt");
+
+		if (!projectRights) {
+			logger.error("An error occurred while retrieving user's project rights: Project rights not found for this user and project.");
+			return {
+				status: "error",
+				message: "An error occurred while retrieving user's project rights: Project rights not found for this user and project.",
+			};
+		}
+		logger.info(`Project rights retrieved successfully. Project link: ${projectLink} - User ID: ${userId}`);
+		return {
+			status: "success",
+			message: "Project rights retrieved successfully.",
+			projectRights: projectRights,
+			projectStatus: project.statusInfo?.currentStatus ?? null,
 		};
 	} catch (error) {
 		logger.error(`Error while retrieving user's project rights: ${error}`);
@@ -396,6 +464,7 @@ module.exports = {
 	setProjectNewMemberRights,
 	validateUserRights,
 	retrieveProjectRights,
+	retrieveProjectRightsByLink,
 	updateUserProjectRights,
 	removeUserProjectRights,
 };

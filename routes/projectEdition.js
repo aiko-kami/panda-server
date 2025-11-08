@@ -4,8 +4,11 @@
 
 const projectRoute = require("express").Router();
 
-const { projectEditionController } = require("../controllers");
+const { projectEditionController, projectRightsController } = require("../controllers");
 const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
+
+// Retrieve user rights for the project
+projectRoute.get("/userRights/:projectLink", verifyAccess, projectRightsController.retrieveUserProjectRights);
 
 // Retrieve project data
 projectRoute.get("/general/:projectLink", verifyAccess, projectEditionController.retrieveProjectGeneral);

@@ -35,8 +35,8 @@ const addQAs = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
 		}
 
-		// Check if the user has canEditQA permission
-		if (!rightsCheckResult.projectRights.permissions.canEditQA) {
+		// Check if the user has canEditQAs permission
+		if (!rightsCheckResult.projectRights.permissions.canEditQAs) {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to update Q&A for this project.");
 		}
 
@@ -79,8 +79,8 @@ const editQAs = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
 		}
 
-		// Check if the user has canEditQA permission
-		if (!rightsCheckResult.projectRights.permissions.canEditQA) {
+		// Check if the user has canEditQAs permission
+		if (!rightsCheckResult.projectRights.permissions.canEditQAs) {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to update Q&A for this project.");
 		}
 
@@ -123,8 +123,8 @@ const publishQA = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
 		}
 
-		// Check if the user has canEditQA permission
-		if (!rightsCheckResult.projectRights.permissions.canEditQA) {
+		// Check if the user has canEditQAs permission
+		if (!rightsCheckResult.projectRights.permissions.canEditQAs) {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to update Q&A for this project.");
 		}
 
@@ -167,8 +167,8 @@ const unpublishQA = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
 		}
 
-		// Check if the user has canEditQA permission
-		if (!rightsCheckResult.projectRights.permissions.canEditQA) {
+		// Check if the user has canEditQAs permission
+		if (!rightsCheckResult.projectRights.permissions.canEditQAs) {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to update Q&A for this project.");
 		}
 
@@ -212,8 +212,8 @@ const removeQA = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
 		}
 
-		// Check if the user has canEditQA permission
-		if (!rightsCheckResult.projectRights.permissions.canEditQA) {
+		// Check if the user has canEditQAs permission
+		if (!rightsCheckResult.projectRights.permissions.canEditQAs) {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to update Q&A for this project.");
 		}
 
@@ -274,8 +274,8 @@ const retrieveProjectQAsAll = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
 		}
 
-		// Check if the user has canEditQA permission
-		if (!rightsCheckResult.projectRights.permissions.canEditQA) {
+		// Check if the user has canEditQAs permission
+		if (!rightsCheckResult.projectRights.permissions.canEditQAs) {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to update Q&A for this project.");
 		}
 

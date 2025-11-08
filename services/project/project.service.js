@@ -598,8 +598,6 @@ const retrieveProjectByLink = async (projectLink, fields, conditions) => {
 			])
 			.lean();
 
-		console.log("🚀 ~ retrieveProjectByLink ~ project:", project);
-
 		if (!project) {
 			return {
 				status: "error",

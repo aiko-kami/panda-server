@@ -1,5 +1,5 @@
 const { userRightsService, projectService } = require("../../services");
-const { apiResponse, projectRightsValidation, encryptTools } = require("../../utils");
+const { apiResponse, projectRightsValidation, projectValidation, encryptTools } = require("../../utils");
 
 /**
  * Edit user's right to update a project controller.
@@ -73,6 +73,33 @@ const updateUserProjectRights = async (req, res) => {
 	}
 };
 
+const retrieveUserProjectRights = async (req, res) => {
+	try {
+		const userId = req.userId;
+		const { projectLink = "" } = req.params;
+
+		// Validate Ids for retrieving user project rights
+		const validationResult = projectValidation.validateProjectLinkAndUserId(projectLink, userId, "mandatory");
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Retrieve Project Rights of the updater
+		const UserProjectRightsResult = await userRightsService.retrieveProjectRightsByLink(projectLink, userId);
+		if (UserProjectRightsResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, UserProjectRightsResult.message);
+		}
+
+		return apiResponse.successResponseWithData(res, UserProjectRightsResult.message, {
+			projectRights: UserProjectRightsResult.projectRights,
+			projectStatus: UserProjectRightsResult.projectStatus,
+		});
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 module.exports = {
 	updateUserProjectRights,
+	retrieveUserProjectRights,
 };
