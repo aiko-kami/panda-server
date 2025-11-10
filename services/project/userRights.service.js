@@ -26,28 +26,35 @@ const setProjectOwnerRights = async (projectId, userId) => {
 			user: objectIdUserId,
 			permissions: {
 				canEditTitle: true,
-				canEditGoal: true,
+				canEditCategory: true,
+				canEditSubCategory: true,
 				canEditSummary: true,
 				canEditDescription: true,
+				canEditGoal: true,
 				canEditCover: true,
 				canEditTags: true,
-				canEditLocation: true,
-				canEditTalentsNeeded: true,
-				canEditStartDate: true,
 				canEditStatus: true,
+				canEditVisibility: true,
+				canEditLocation: true,
+				canEditSteps: true,
+				canEditQAs: true,
+				canEditRights: true,
+				canEditMembers: true,
+				canRemoveMembers: true,
+				canEditTalentsNeeded: true,
+				canViewJoinProjectRequests: true,
+				canEditJoinProjectRequests: true,
+				canViewJoinProjectInvitations: true,
+				canEditJoinProjectInvitations: true,
+				canViewAttachments: true,
+				canAddAttachments: true,
+				canEditAttachments: true,
+				canRemoveAttachments: true,
+				canEditStartDate: true,
 				canEditPhase: true,
 				canEditObjectives: true,
 				canEditCreatorMotivation: true,
-				canEditVisibility: true,
-				canEditAttachments: true,
-				canEditSteps: true,
-				canEditQAs: true,
-				canSeeJoinProjectRequests: true,
-				canAnswerJoinProjectRequests: true,
-				canSendJoinProjectInvitations: true,
-				canEditMembers: true,
-				canRemoveMembers: true,
-				canEditRights: true,
+
 				canEditSectionGeneral: true,
 				canEditSectionMembers: true,
 				canEditSectionRights: true,
@@ -105,38 +112,45 @@ const setProjectNewMemberRights = async (userId, projectId, userIdUpdater) => {
 			project: objectIdProjectId,
 			user: objectIdUserId,
 			permissions: {
-				canEditTitle: false,
-				canEditGoal: false,
-				canEditSummary: false,
-				canEditDescription: false,
-				canEditCover: false,
-				canEditTags: false,
-				canEditLocation: false,
-				canEditTalentsNeeded: false,
-				canEditStartDate: false,
-				canEditStatus: false,
-				canEditPhase: false,
-				canEditObjectives: false,
-				canEditCreatorMotivation: false,
-				canEditVisibility: false,
-				canEditAttachments: false,
-				canEditSteps: false,
-				canEditQAs: false,
-				canSeeJoinProjectRequests: false,
-				canAnswerJoinProjectRequests: false,
-				canSendJoinProjectInvitations: false,
-				canEditMembers: false,
-				canRemoveMembers: false,
-				canEditRights: false,
-				canEditSectionGeneral: false,
-				canEditSectionMembers: false,
-				canEditSectionRights: false,
-				canEditSectionStatus: false,
-				canEditSectionLocation: false,
-				canEditSectionAttachments: false,
-				canEditSectionSteps: false,
-				canEditSectionQAs: false,
-				canEditSectionDetails: false,
+				canEditTitle: true,
+				canEditCategory: true,
+				canEditSubCategory: true,
+				canEditSummary: true,
+				canEditDescription: true,
+				canEditGoal: true,
+				canEditCover: true,
+				canEditTags: true,
+				canEditStatus: true,
+				canEditVisibility: true,
+				canEditLocation: true,
+				canEditSteps: true,
+				canEditQAs: true,
+				canEditRights: true,
+				canEditMembers: true,
+				canRemoveMembers: true,
+				canEditTalentsNeeded: true,
+				canViewJoinProjectRequests: true,
+				canEditJoinProjectRequests: true,
+				canViewJoinProjectInvitations: true,
+				canEditJoinProjectInvitations: true,
+				canViewAttachments: true,
+				canAddAttachments: true,
+				canEditAttachments: true,
+				canRemoveAttachments: true,
+				canEditStartDate: true,
+				canEditPhase: true,
+				canEditObjectives: true,
+				canEditCreatorMotivation: true,
+
+				canEditSectionGeneral: true,
+				canEditSectionMembers: true,
+				canEditSectionRights: true,
+				canEditSectionStatus: true,
+				canEditSectionLocation: true,
+				canEditSectionAttachments: true,
+				canEditSectionSteps: true,
+				canEditSectionQAs: true,
+				canEditSectionDetails: true,
 			},
 			updatedBy: objectIdUserIdUpdater,
 		});
@@ -333,6 +347,56 @@ const retrieveProjectRightsByLink = async (projectLink, userId) => {
 	}
 };
 
+const retrieveMembersProjectRights = async (projectId, members = []) => {
+	try {
+		// Convert projectId to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		// Convert members userId to ObjectId
+		const userIdStrings = members.map((m) => m.user?.userId);
+		const memberObjectIds = [];
+		for (const userId of userIdStrings) {
+			const objectIdMemberId = encryptTools.convertIdToObjectId(userId);
+			if (objectIdMemberId.status === "error") {
+				return { status: "error", message: objectIdMemberId.message };
+			}
+			memberObjectIds.push(objectIdMemberId);
+		}
+
+		// retrieve the members rights using previous array
+		const membersProjectRights = await ProjectRights.find({
+			project: objectIdProjectId,
+			user: { $in: memberObjectIds },
+		})
+			.select("-_id user permissions")
+			.populate([{ path: "user", select: "-_id username profilePicture userId" }])
+			.lean();
+
+		if (!membersProjectRights) {
+			logger.error("An error occurred while retrieving user's project rights: Project rights not found for these users and project.");
+			return {
+				status: "error",
+				message: "An error occurred while retrieving user's project rights: Project rights not found for these users and project.",
+			};
+		}
+		logger.info(`Members project rights retrieved successfully. Project ID: ${projectId}`);
+		return {
+			status: "success",
+			message: "Members project rights retrieved successfully.",
+			membersProjectRights: membersProjectRights,
+		};
+	} catch (error) {
+		logger.error(`Error while retrieving members's project rights: ${error}`);
+		return {
+			status: "error",
+			message: "An error occurred while retrieving members's project rights.",
+		};
+	}
+};
+
 /**
  * Update user project rights service.
  * @param {string} projectId - The ID of the project.
@@ -465,6 +529,7 @@ module.exports = {
 	validateUserRights,
 	retrieveProjectRights,
 	retrieveProjectRightsByLink,
+	retrieveMembersProjectRights,
 	updateUserProjectRights,
 	removeUserProjectRights,
 };
