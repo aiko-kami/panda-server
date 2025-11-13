@@ -594,7 +594,7 @@ const retrieveProjectByLink = async (projectLink, fields, conditions) => {
 				{ path: "statusInfo.currentStatus", select: "-_id status colors description" },
 				{ path: "statusInfo.statusHistory.status", select: "-_id status colors" },
 				{ path: "statusInfo.statusHistory.updatedBy", select: "username profilePicture userId" },
-				{ path: "privateData.attachments.updatedBy", select: "username profilePicture userId" },
+				{ path: "privateData.attachments.updatedBy", select: "-_id username profilePicture userId" },
 			])
 			.lean();
 

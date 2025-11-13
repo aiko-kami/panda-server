@@ -20,7 +20,8 @@ const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => 
 			}
 
 			// Check the user's permission dynamically
-			const hasPermission = UserProjectRightsResult.projectRights.permissions[`canEdit${projectSectionEdition}`];
+			const userPermissions = UserProjectRightsResult.projectRights.permissions;
+			const hasPermission = userPermissions[`canEdit${projectSectionEdition}`];
 			if (!hasPermission) {
 				return apiResponse.serverErrorResponse(res, "User does not have permission to update this section of the project.");
 			}
@@ -50,7 +51,7 @@ const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => 
 			}
 
 			// Build the base response
-			const responseData = { project };
+			const responseData = { project, userPermissions };
 
 			// If the project tags are part of the edit, retrieve all available tags for edition
 			if (requestedFields.includes("tags")) {
