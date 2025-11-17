@@ -586,14 +586,15 @@ const retrieveProjectByLink = async (projectLink, fields, conditions) => {
 			.populate([
 				{ path: "category", select: "-_id categoryId name link colors subCategories" },
 				{ path: "tags", select: "-_id tagId name description link" },
-				{ path: "updatedBy", select: "username profilePicture userId" },
+				{ path: "createdBy", select: "-_id username profilePicture userId" },
+				{ path: "updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "steps.updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "QAs.updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "steps.stepsList.status", select: "-_id status colors" },
 				{ path: "members.user", select: "-_id username profilePicture userId" },
 				{ path: "statusInfo.currentStatus", select: "-_id status colors description" },
 				{ path: "statusInfo.statusHistory.status", select: "-_id status colors" },
-				{ path: "statusInfo.statusHistory.updatedBy", select: "username profilePicture userId" },
+				{ path: "statusInfo.statusHistory.updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "privateData.attachments.updatedBy", select: "-_id username profilePicture userId" },
 			])
 			.lean();
@@ -617,6 +618,10 @@ const retrieveProjectByLink = async (projectLink, fields, conditions) => {
 		if (!fields.includes("steps")) {
 			delete project.steps;
 		}
+		if (!fields.includes("QAs")) {
+			delete project.QAs;
+		}
+
 		if (!fields.includes("members")) {
 			delete project.members;
 		}

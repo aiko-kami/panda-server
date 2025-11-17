@@ -65,7 +65,7 @@ const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => 
 				responseData.tagsList = retrievedTags.tags;
 			}
 
-			// For the section Members, retrieve all available tags for edition
+			// For the section Members, retrieve joinProject requests and invitations
 			if (projectSectionEdition === "SectionMembers") {
 				responseData.joinProject = {};
 				// Check the user's permission to see join project requests
@@ -94,6 +94,12 @@ const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => 
 				if (Object.keys(responseData.joinProject).length === 0) {
 					delete responseData.joinProject;
 				}
+			}
+
+			// For the section Details, retrieve project owners
+			if (projectSectionEdition === "SectionDetails") {
+				responseData.project.owners = project.members.filter((member) => member.role === "owner");
+				delete responseData.project.members;
 			}
 
 			// Return the final success response
@@ -127,19 +133,7 @@ const retrieveProjectLocation = retrieveProjectHandler("SectionLocation", ["-_id
 const retrieveProjectAttachments = retrieveProjectHandler("SectionAttachments", ["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "privateData"]);
 const retrieveProjectSteps = retrieveProjectHandler("SectionSteps", ["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "steps"]);
 const retrieveProjectQAs = retrieveProjectHandler("SectionQAs", ["-_id", "projectId", "title", "projectLink", "members", "statusInfo", "QAs"]);
-const retrieveProjectDetails = retrieveProjectHandler("SectionDetails", [
-	"-_id",
-	"projectId",
-	"title",
-	"projectLink",
-	"members",
-	"statusInfo",
-	"createdAt",
-	"updatedAt",
-	"updatedBy",
-	"likes",
-	"crush",
-]);
+const retrieveProjectDetails = retrieveProjectHandler("SectionDetails", ["-_id", "projectId", "title", "projectLink", "members", "createdAt", "createdBy", "updatedAt", "updatedBy", "likes", "crush"]);
 
 const retrieveProjectRights = async (req, res) => {
 	try {
@@ -195,8 +189,16 @@ const retrieveProjectRights = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, membersProjectRightsResult.message);
 		}
 
+		const enrichedMembers = membersProjectRightsResult.membersProjectRights.map((memberRights) => {
+			const correspondingMember = projectMembers.find((m) => m.user.userId === memberRights.user.userId);
+			return {
+				...memberRights,
+				role: correspondingMember?.role || null,
+			};
+		});
+
 		// Build the base response
-		const responseData = { projectId: projectId, membersProjectRights: membersProjectRightsResult.membersProjectRights };
+		const responseData = { projectId: projectId, membersProjectRights: enrichedMembers };
 
 		// Return the final success response
 		return apiResponse.successResponseWithData(res, projectData.message, responseData);
