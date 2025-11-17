@@ -1,4 +1,4 @@
-const { Project, ProjectStatus } = require("../../models");
+const { Project, Status } = require("../../models");
 const { logger, encryptTools, statusTools } = require("../../utils");
 const { DateTime } = require("luxon");
 
@@ -11,7 +11,7 @@ const { DateTime } = require("luxon");
  */
 //Possible status: draft, submitted, active, on hold, completed, archived, cancelled
 
-const updateStatus = async (projectId, userIdUpdater, newStatusId, reason) => {
+const updateProjectStatus = async (projectId, userIdUpdater, newStatusId, reason) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
@@ -41,7 +41,7 @@ const updateStatus = async (projectId, userIdUpdater, newStatusId, reason) => {
 		}
 
 		// Retrieve status from newStatusId
-		const newStatus = await ProjectStatus.findOne({ _id: objectIdNewStatusId });
+		const newStatus = await Status.findOne({ _id: objectIdNewStatusId });
 		if (!newStatus) {
 			return { status: "error", message: "newStatus not found." };
 		}
@@ -75,206 +75,210 @@ const updateStatus = async (projectId, userIdUpdater, newStatusId, reason) => {
 	}
 };
 
-const retrieveStatusById = async (projectStatusId, fields) => {
+const retrieveStatusById = async (statusId, statusType, fields) => {
 	try {
 		// Convert id to ObjectId
-		const objectIdStatusId = encryptTools.convertIdToObjectId(projectStatusId);
+		const objectIdStatusId = encryptTools.convertIdToObjectId(statusId);
 		if (objectIdStatusId.status == "error") {
 			return { status: "error", message: objectIdStatusId.message };
 		}
 
 		const fieldsString = fields.join(" ");
 
-		const search = { _id: objectIdStatusId };
-		const projectStatusRetrieved = await ProjectStatus.findOne(search).select(fieldsString);
-		if (!projectStatusRetrieved) {
+		const search = { _id: objectIdStatusId, type: statusType };
+		const statusRetrieved = await Status.findOne(search).select(fieldsString);
+		if (!statusRetrieved) {
 			return {
 				status: "error",
-				message: "Project status not found.",
+				message: "Status not found.",
 			};
 		}
-		let projectStatus = projectStatusRetrieved.toObject();
+		let status = statusRetrieved.toObject();
 		return {
 			status: "success",
-			message: "Project status retrieved successfully.",
-			projectStatus,
+			message: "Status retrieved successfully.",
+			status,
 		};
 	} catch (error) {
-		logger.error("Error while retrieving project status from the database:", error);
+		logger.error("Error while retrieving status from the database:", error);
 		return {
 			status: "error",
-			message: "An error occurred while retrieving the project status.",
+			message: "An error occurred while retrieving the status.",
 		};
 	}
 };
 
-const retrieveStatusByName = async (projectStatusName, fields) => {
+const retrieveStatusByName = async (statusName, statusType, fields) => {
 	try {
 		const fieldsString = fields.join(" ");
 
-		const search = { status: projectStatusName };
-		const projectStatusRetrieved = await ProjectStatus.findOne(search).select(fieldsString);
-		if (!projectStatusRetrieved) {
+		const search = { status: statusName, type: statusType };
+		const statusRetrieved = await Status.findOne(search).select(fieldsString);
+		if (!statusRetrieved) {
 			return {
 				status: "error",
-				message: "Project status not found.",
+				message: "Status not found.",
 			};
 		}
-		let projectStatus = projectStatusRetrieved.toObject();
+		let status = statusRetrieved.toObject();
 		return {
 			status: "success",
-			message: "Project status retrieved successfully.",
-			projectStatus,
+			message: "Status retrieved successfully.",
+			status,
 		};
 	} catch (error) {
-		logger.error("Error while retrieving project status from the database:", error);
+		logger.error("Error while retrieving status from the database:", error);
 		return {
 			status: "error",
-			message: "An error occurred while retrieving the project status.",
+			message: "An error occurred while retrieving the status.",
 		};
 	}
 };
 
-const retrieveAllStatuses = async (fields) => {
+const retrieveAllStatuses = async (statusType, fields) => {
 	try {
 		const fieldsString = fields.join(" ");
 
-		const projectStatuses = await ProjectStatus.find().sort({ name: 1 }).select(fieldsString);
-		if (!projectStatuses) {
-			return { status: "error", message: "No project status found." };
+		const statuses = await Status.find({ type: statusType }).sort({ name: 1 }).select(fieldsString);
+		if (!statuses) {
+			return { status: "error", message: "No status found." };
 		}
 
-		return { status: "success", projectStatuses };
+		return { status: "success", statuses };
 	} catch (error) {
-		logger.error(`Error while retrieving the project statuses: ${error}`);
-		return { status: "error", message: "An error occurred while retrieving the project statuses." };
+		logger.error(`Error while retrieving the statuses: ${error}`);
+		return { status: "error", message: "An error occurred while retrieving the statuses." };
 	}
 };
 
-const createStatus = async (projectStatusName, projectStatusDescription, projectStatusColors) => {
+const createStatus = async (statusName, statusDescription, statusColors, statusType) => {
 	try {
-		// Check if a project status with the same name already exists
-		const existingProjectStatus = await ProjectStatus.findOne({ status: projectStatusName });
-		if (existingProjectStatus) {
-			logger.error("Error while creating the project status: Project status already exists.");
-			return { status: "error", message: "Project status already exists." };
+		// Check if a status with the same name already exists for this type
+		const existingStatus = await Status.findOne({ status: statusName, type: statusType });
+		if (existingStatus) {
+			logger.error("Error while creating the status: Status already exists.");
+			return { status: "error", message: "Status already exists." };
 		}
 
-		// Create a new project status document
-		const newProjectStatus = new ProjectStatus({
-			status: projectStatusName,
-			description: projectStatusDescription,
-			colors: projectStatusColors,
+		// Create a new status document
+		const newStatus = new Status({
+			status: statusName,
+			description: statusDescription,
+			colors: statusColors,
+			type: statusType,
 		});
 
-		// Save the project status to the database
-		const created = await newProjectStatus.save();
+		// Save the status to the database
+		const created = await newStatus.save();
 		//Add encrypted ID
 		const encryptedId = encryptTools.convertObjectIdToId(created._id.toString());
-		const createdProjectStatus = await ProjectStatus.findOneAndUpdate({ _id: created._id }, { projectStatusId: encryptedId }, { new: true }).select("-_id -__v");
 
-		logger.info(`Project status created successfully. Project status: ${createdProjectStatus}`);
+		const createdStatus = await Status.findOneAndUpdate({ _id: created._id }, { statusId: encryptedId }, { new: true }).select("-_id -__v");
+
+		logger.info(`Status created successfully. Status: ${createdStatus}`);
 		return {
 			status: "success",
-			message: "Project status created successfully.",
-			data: { createdProjectStatus },
+			message: "Status created successfully.",
+			data: { createdStatus },
 		};
 	} catch (error) {
-		logger.error("Error while creating the project status: ", error);
+		logger.error("Error while creating the status: ", error);
 		return {
 			status: "error",
-			message: "An error occurred while creating the project status.",
+			message: "An error occurred while creating the status.",
 		};
 	}
 };
 
-const editStatus = async (projectStatusId, newName, newDescription, newColors) => {
+const editStatus = async (statusId, newName, newDescription, newColors, statusType) => {
 	try {
 		// Convert id to ObjectId
-		const objectIdProjectStatusId = encryptTools.convertIdToObjectId(projectStatusId);
-		if (objectIdProjectStatusId.status == "error") {
-			return { status: "error", message: objectIdProjectStatusId.message };
+		const objectIdStatusId = encryptTools.convertIdToObjectId(statusId);
+		if (objectIdStatusId.status == "error") {
+			return { status: "error", message: objectIdStatusId.message };
 		}
 
-		// Check if a project status with the given projectStatusId exists
-		const existingProjectStatus = await ProjectStatus.findOne({ _id: objectIdProjectStatusId });
-		if (!existingProjectStatus) {
-			logger.error("Error while updating the project status: Project status not found.");
-			return { status: "error", message: "Project status not found." };
+		// Check if a status with the given statusId exists
+		const existingStatus = await Status.findOne({ _id: objectIdStatusId, type: statusType });
+		if (!existingStatus) {
+			logger.error("Error while updating the status: Status not found.");
+			return { status: "error", message: "Status not found." };
 		}
 
-		// Check if the new name already exists for another project status in the collection (must be unique)
-		if (newName !== existingProjectStatus.status) {
-			const nameExists = await ProjectStatus.findOne({
+		// Check if the new name already exists for another status for this type in the collection (must be unique)
+		if (newName !== existingStatus.status) {
+			const nameExists = await Status.findOne({
 				status: newName,
-				_id: { $ne: existingProjectStatus._id }, // exclude the current project status document
+				type: statusType,
+				_id: { $ne: existingStatus._id }, // exclude the current status document
 			});
-
 			if (nameExists) {
-				logger.error("Error while updating the project status: Project status name already exists.");
-				return { status: "error", message: "Project status name already exists." };
+				logger.error("Error while updating the status: Status name already exists.");
+				return { status: "error", message: "Status name already exists." };
 			}
 		}
 
-		// Update the project status data
-		existingProjectStatus.status = newName;
-		existingProjectStatus.description = newDescription;
-		existingProjectStatus.colors = newColors;
-		await existingProjectStatus.save();
+		// Update the status data
+		existingStatus.status = newName;
+		existingStatus.description = newDescription;
+		existingStatus.colors = newColors;
+		await existingStatus.save();
 
-		logger.info(`Project status updated successfully. projectStatusId: ${projectStatusId}`);
+		// Update data before returning it in the response
+		delete existingStatus._id;
+		logger.info(`Status updated successfully. statusId: ${statusId}`);
 
 		return {
 			status: "success",
-			message: "Project status updated successfully.",
-			data: { updatedProjectStatus: existingProjectStatus },
+			message: "Status updated successfully.",
+			data: { updatedStatus: existingStatus },
 		};
 	} catch (error) {
-		logger.error(`Error while updating project status: ${error}`);
+		logger.error(`Error while updating status: ${error}`);
 
 		return {
 			status: "error",
-			message: "An error occurred while updating the project status.",
+			message: "An error occurred while updating the status.",
 		};
 	}
 };
 
-const removeStatus = async (projectStatusId) => {
+const removeStatus = async (statusId, statusType) => {
 	try {
 		// Convert id to ObjectId
-		const objectIdStatusId = encryptTools.convertIdToObjectId(projectStatusId);
+		const objectIdStatusId = encryptTools.convertIdToObjectId(statusId);
 		if (objectIdStatusId.status == "error") {
 			return { status: "error", message: objectIdStatusId.message };
 		}
 
-		// Check if a project status with the given projectStatusId exists
-		const existingProjectStatus = await ProjectStatus.findOne({ _id: objectIdStatusId });
-		if (!existingProjectStatus) {
-			logger.error("Error while removing the project status: Project status not found.");
-			return { status: "error", message: "Project status not found." };
+		// Check if a status with the given statusId and statusType exists
+		const existingStatus = await Status.findOne({ _id: objectIdStatusId, statusType: statusType }, "-_id");
+		if (!existingStatus) {
+			logger.error("Error while removing the status: Status not found.");
+			return { status: "error", message: "Status not found." };
 		}
 
-		// Remove the project status from the database
-		await existingProjectStatus.deleteOne();
+		// Remove the status from the database
+		await existingStatus.deleteOne();
 
-		logger.info(`Project status removed successfully. projectStatusId: ${projectStatusId}`);
+		logger.info(`Status removed successfully. statusId: ${statusId}`);
 
 		return {
 			status: "success",
-			message: "Project status removed successfully.",
-			data: { removedProjectStatus: existingProjectStatus },
+			message: "Status removed successfully.",
+			data: { removedStatus: existingStatus },
 		};
 	} catch (error) {
-		logger.error(`Error while removing the project status: ${error}`);
+		logger.error(`Error while removing the status: ${error}`);
 		return {
 			status: "error",
-			message: "An error occurred while removing the project status.",
+			message: "An error occurred while removing the status.",
 		};
 	}
 };
 
 module.exports = {
-	updateStatus,
+	updateProjectStatus,
 	retrieveStatusById,
 	retrieveStatusByName,
 	retrieveAllStatuses,

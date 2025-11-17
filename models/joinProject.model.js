@@ -2,8 +2,6 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const { dbConnectionPrivate } = require("../config/db.config");
 const { DateTime } = require("luxon");
-const config = require("../config");
-const joinProjectStatus = config.join_project_status;
 
 const joinProjectSchema = new Schema(
 	{
@@ -21,10 +19,9 @@ const joinProjectSchema = new Schema(
 		message: { type: String },
 		updatedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
 		status: {
-			type: String,
+			type: Schema.Types.ObjectId,
+			ref: "Status",
 			required: true,
-			default: joinProjectStatus[0],
-			enum: joinProjectStatus,
 			message: "The value {VALUE} is not valid.",
 		},
 		createdAt: {

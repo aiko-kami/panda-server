@@ -272,7 +272,7 @@ const submitProject = async (req, res) => {
 		//statusId for draft
 		const submittedStatusId = "8604d9b894e43af309a2bed4012a2f8b-724f6359c7506df92da8fc41c915f8eaa528407503c15eaf";
 		// Set project status to Submitted
-		const projectSubmittedResult = await statusService.updateStatus(projectUpdatedResult.project.projectId, userId, submittedStatusId, "Project submission after creation");
+		const projectSubmittedResult = await statusService.updateProjectStatus(projectUpdatedResult.project.projectId, userId, submittedStatusId, "Project submission after creation");
 		if (projectSubmittedResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectSubmittedResult.message);
 		}
@@ -632,7 +632,6 @@ const retrieveProjectPublicDataWithLink = async (req, res) => {
 			],
 			{ visibility: "public" }
 		);
-
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
 		}

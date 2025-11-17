@@ -1,4 +1,4 @@
-const { projectService, tagService, userRightsService } = require("../../services");
+const { projectService, tagService, userRightsService, joinProjectService } = require("../../services");
 const { apiResponse, projectValidation, encryptTools } = require("../../utils");
 
 const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => {
@@ -19,11 +19,11 @@ const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => 
 				return apiResponse.serverErrorResponse(res, UserProjectRightsResult.message);
 			}
 
-			// Check the user's permission dynamically
+			// Check the user's permission depending on the section user wants to access
 			const userPermissions = UserProjectRightsResult.projectRights.permissions;
-			const hasPermission = userPermissions[`canEdit${projectSectionEdition}`];
-			if (!hasPermission) {
-				return apiResponse.serverErrorResponse(res, "User does not have permission to update this section of the project.");
+			const hasPermissionToAccessSection = userPermissions[`canEdit${projectSectionEdition}`];
+			if (!hasPermissionToAccessSection) {
+				return apiResponse.serverErrorResponse(res, "User does not have permission to access this section of the project.");
 			}
 
 			// Retrieve project data with requested fields
@@ -53,15 +53,47 @@ const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => 
 			// Build the base response
 			const responseData = { project, userPermissions };
 
-			// If the project tags are part of the edit, retrieve all available tags for edition
-			if (requestedFields.includes("tags")) {
+			//Add specific data depending on the section
+			// For the section General, retrieve all available tags for edition
+			if (projectSectionEdition === "SectionGeneral") {
 				const retrievedTags = await tagService.retrieveAllTags();
 				if (retrievedTags.status !== "success") {
 					return apiResponse.serverErrorResponse(res, retrievedTags.message);
 				}
 
-				// Only add tagsList if successfully retrieved
+				// Add tagsList if successfully retrieved
 				responseData.tagsList = retrievedTags.tags;
+			}
+
+			// For the section Members, retrieve all available tags for edition
+			if (projectSectionEdition === "SectionMembers") {
+				responseData.joinProject = {};
+				// Check the user's permission to see join project requests
+				const hasPermissionToSeejoinRequests = userPermissions["canViewJoinProjectRequests"];
+				if (hasPermissionToSeejoinRequests) {
+					const joinProjectRequestsResult = await joinProjectService.retrieveProjectJoinProjects("join project request", project.projectId);
+					if (joinProjectRequestsResult.status !== "success") {
+						return apiResponse.serverErrorResponse(res, joinProjectRequestsResult.message);
+					}
+
+					// Add joinRequests and joinInvitations if successfully retrieved
+					responseData.joinProject.joinRequests = joinProjectRequestsResult.joinProjects;
+				}
+
+				// Check the user's permission to see join project invitations
+				const hasPermissionToSeejoinInvitations = userPermissions["canViewJoinProjectInvitations"];
+				if (hasPermissionToSeejoinInvitations) {
+					const joinProjectInvitationsResult = await joinProjectService.retrieveProjectJoinProjects("join project invitation", project.projectId);
+					if (joinProjectInvitationsResult.status !== "success") {
+						return apiResponse.serverErrorResponse(res, joinProjectInvitationsResult.message);
+					}
+
+					// Add joinInvitations if successfully retrieved
+					responseData.joinProject.joinInvitations = joinProjectInvitationsResult.joinProjects;
+				}
+				if (Object.keys(responseData.joinProject).length === 0) {
+					delete responseData.joinProject;
+				}
 			}
 
 			// Return the final success response

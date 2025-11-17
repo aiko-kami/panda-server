@@ -1,4 +1,4 @@
-const { Project, Category, ProjectStatus } = require("../../models");
+const { Project, Category, Status } = require("../../models");
 const { logger, encryptTools } = require("../../utils");
 const userRightsService = require("./userRights.service");
 const { DateTime } = require("luxon");

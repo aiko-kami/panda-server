@@ -8,7 +8,7 @@ const {
 	memberController,
 	projectRightsController,
 	projectAttachmentsController,
-	projectStatusController,
+	statusController,
 	projectCrushController,
 	projectCoverController,
 	projectLikeController,
@@ -75,15 +75,20 @@ projectExtendedRoute.patch("/projectMembers/update/:projectId", verifyAccess, me
 projectExtendedRoute.delete("/projectMembers/remove/:projectId", verifyAccess, memberController.removeProjectMember);
 
 // Project status
-projectExtendedRoute.patch("/projectStatus/:projectId", verifyAccess, projectStatusController.updateProjectStatus);
-projectExtendedRoute.get("/projectStatus/:projectId", verifyAccess, projectStatusController.retrieveProjectStatusInfo);
+projectExtendedRoute.patch("/projectStatus/:projectId", verifyAccess, statusController.updateProjectStatus);
+projectExtendedRoute.get("/projectStatus/projectId/:projectId", verifyAccess, statusController.retrieveProjectStatusInfo);
+projectExtendedRoute.get("/projectStatus/statusById/:projectStatusId", statusController.retrieveProjectStatusWithId);
+projectExtendedRoute.get("/projectStatus/statusByName/:projectStatusName", statusController.retrieveProjectStatusWithName);
+projectExtendedRoute.get("/projectStatus/all/projectStatuses", statusController.retrieveAllProjectStatuses);
 
 // Project status admin
-projectExtendedRoute.get("/projectStatusAdmin/statusById/:projectStatusId", projectStatusController.retrieveProjectStatusWithId);
-projectExtendedRoute.get("/projectStatusAdmin/statusByName/:projectStatusName", projectStatusController.retrieveProjectStatusWithName);
-projectExtendedRoute.get("/projectStatusAdmin/projectStatuses", projectStatusController.retrieveProjectStatuses);
-projectExtendedRoute.post("/projectStatusAdmin/projectStatus", verifyAdminAccess, projectStatusController.createProjectStatus);
-projectExtendedRoute.patch("/projectStatusAdmin/:projectStatusId", verifyAdminAccess, projectStatusController.editProjectStatus);
-projectExtendedRoute.delete("/projectStatusAdmin/:projectStatusId", verifyAdminAccess, projectStatusController.removeProjectStatus);
+projectExtendedRoute.post("/projectStatusAdmin/projectStatus", verifyAdminAccess, statusController.createProjectStatus);
+projectExtendedRoute.patch("/projectStatusAdmin/:projectStatusId", verifyAdminAccess, statusController.editProjectStatus);
+projectExtendedRoute.delete("/projectStatusAdmin/:projectStatusId", verifyAdminAccess, statusController.removeProjectStatus);
+
+// Project status admin
+projectExtendedRoute.post("/joinProjectStatusAdmin/joinProjectStatus", statusController.createJoinProjectStatus);
+projectExtendedRoute.patch("/joinProjectStatusAdmin/:joinProjectStatusId", verifyAdminAccess, statusController.editJoinProjectStatus);
+projectExtendedRoute.delete("/joinProjectStatusAdmin/:joinProjectStatusId", verifyAdminAccess, statusController.removeJoinProjectStatus);
 
 module.exports = projectExtendedRoute;

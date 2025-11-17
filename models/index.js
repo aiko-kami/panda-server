@@ -17,7 +17,7 @@ db.JoinProject = require("./joinProject.model");
 db.LikeProject = require("./likeProject.model");
 db.Project = require("./project.model");
 db.ProjectRights = require("./projectRights.model");
-db.ProjectStatus = require("./projectStatus.model");
+db.Status = require("./status.model");
 db.ProjectStepConfig = require("./projectStepConfig.model");
 db.Tag = require("./tag.model");
 

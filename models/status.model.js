@@ -2,13 +2,17 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const { dbConnectionPrivate } = require("../config/db.config");
 
-const projectStatusSchema = new Schema(
+const statusSchema = new Schema(
 	{
-		projectStatusId: { type: String, unique: true },
+		statusId: { type: String, unique: true },
 		status: {
 			type: String,
 			required: true,
-			unique: true,
+		},
+		// Type of status (project status, join porject status...)
+		type: {
+			type: String,
+			required: true,
 		},
 		description: {
 			type: String,
@@ -21,11 +25,11 @@ const projectStatusSchema = new Schema(
 		},
 	},
 	{
-		collection: "projectStatuses",
+		collection: "statuses",
 		timestamps: true,
 	}
 );
 
-const ProjectStatus = dbConnectionPrivate.model("ProjectStatus", projectStatusSchema);
+const Status = dbConnectionPrivate.model("Status", statusSchema);
 
-module.exports = ProjectStatus;
+module.exports = Status;

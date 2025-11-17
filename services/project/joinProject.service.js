@@ -576,6 +576,37 @@ const retrieveJoinProject = async (requestType, joinProjectId) => {
 	}
 };
 
+const retrieveProjectJoinProjects = async (requestType, projectId) => {
+	try {
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const joinProjects = await JoinProject.find({ project: objectIdProjectId, requestType })
+			.select("-_id -__v -project -requestType")
+			.populate([
+				{ path: "sender", select: "username profilePicture userId" },
+				{ path: "receiver", select: "username profilePicture userId" },
+				{ path: "updatedBy", select: "username profilePicture userId" },
+				{ path: "status", select: "-_id status colors description" },
+			]);
+
+		const nbJoinProject = joinProjects.length;
+
+		if (!joinProjects || nbJoinProject === 0) {
+			logger.info(`No ${requestType} found.`);
+			return { status: "success", message: `No ${requestType} found.`, joinProjects };
+		} else if (nbJoinProject === 1) {
+			logger.info(`${nbJoinProject} ${requestType} retrieved successfully.`);
+			return { status: "success", message: `${nbJoinProject} ${requestType} retrieved successfully.`, joinProjects };
+		} else logger.info(`${nbJoinProject} ${requestType}s retrieved successfully.`);
+		return { status: "success", message: `${nbJoinProject} ${requestType}s retrieved successfully.`, joinProjects };
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
+
 module.exports = {
 	createJoinProject,
 	updateJoinProject,
@@ -584,4 +615,5 @@ module.exports = {
 	retrieveMyJoinProjects,
 	retrieveMyJoinProject,
 	retrieveJoinProject,
+	retrieveProjectJoinProjects,
 };
