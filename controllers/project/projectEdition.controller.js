@@ -198,7 +198,7 @@ const retrieveProjectRights = async (req, res) => {
 		});
 
 		// Build the base response
-		const responseData = { projectId: projectId, membersProjectRights: enrichedMembers };
+		const responseData = { projectId: projectId, membersProjectRights: enrichedMembers, userPermissions: UserProjectRightsResult.projectRights.permissions };
 
 		// Return the final success response
 		return apiResponse.successResponseWithData(res, projectData.message, responseData);
