@@ -127,7 +127,7 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 		}
 
 		// Find the project by projectId
-		const project = await Project.findOne({ _id: objectIdProjectId });
+		const project = await Project.findOne({ _id: objectIdProjectId }).populate([{ path: "statusInfo.currentStatus", select: "-_id status colors description" }]);
 
 		// Check if the project exists
 		if (!project) {
@@ -140,7 +140,7 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 		}
 
 		// Check if the project status is draft
-		if (project.statusInfo.currentStatus !== "draft") {
+		if (project.statusInfo.currentStatus.status !== "draft") {
 			return { status: "error", message: "Project status is not DRAFT. You can only update draft project." };
 		}
 
@@ -199,12 +199,13 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 			.populate([
 				{ path: "category", select: "-_id name categoryId" },
 				{ path: "members.user", select: "username profilePicture userId" },
+				{ path: "statusInfo.currentStatus", select: "-_id status colors description" },
 			]);
 
-		logger.info(`Project updated successfully. Project ID: ${projectId} - Project status: ${updatedProject.statusInfo.currentStatus}`);
+		logger.info(`Project updated successfully. Project ID: ${projectId} - Project status: ${updatedProject.statusInfo.currentStatus.status}`);
 		return {
 			status: "success",
-			message: `Project updated successfully. Project status: ${updatedProject.statusInfo.currentStatus}`,
+			message: `Project updated successfully. Project status: ${updatedProject.statusInfo.currentStatus.status}`,
 			project: updatedProject,
 		};
 	} catch (error) {
@@ -230,7 +231,7 @@ const removeProjectDraft = async (projectId, userIdUpdater) => {
 		}
 
 		// Find the project by projectId
-		const project = await Project.findOne({ _id: objectIdProjectId });
+		const project = await Project.findOne({ _id: objectIdProjectId }).populate([{ path: "statusInfo.currentStatus", select: "-_id status colors description" }]);
 
 		// Check if the project exists
 		if (!project) {
@@ -243,7 +244,7 @@ const removeProjectDraft = async (projectId, userIdUpdater) => {
 		}
 
 		// Check the project status
-		if (project.statusInfo.currentStatus !== "draft") {
+		if (project.statusInfo.currentStatus.status !== "draft") {
 			return { status: "error", message: "Project status not draft." };
 		}
 
@@ -277,6 +278,7 @@ const processProjectApproval = async (projectId, projectApproval, adminUserId) =
 				{ path: "category", select: "-_id name categoryId" },
 				{ path: "tags", select: "-_id tagId name description link" },
 				{ path: "members.user", select: "username profilePicture userId email" },
+				{ path: "statusInfo.currentStatus", select: "-_id status colors description" },
 			]);
 
 		// Check if the project exists
@@ -285,15 +287,15 @@ const processProjectApproval = async (projectId, projectApproval, adminUserId) =
 		}
 
 		// Check if the project status
-		if (project.statusInfo.currentStatus !== "submitted") {
+		if (project.statusInfo.currentStatus.status !== "submitted") {
 			return { status: "error", message: "Project status not submitted." };
 		}
 
 		// Update the project status
 		if (projectApproval.approval === "approved") {
-			project.statusInfo.currentStatus = "active";
+			project.statusInfo.currentStatus.status = "active";
 		} else if (projectApproval.approval === "rejected") {
-			project.statusInfo.currentStatus = "rejected";
+			project.statusInfo.currentStatus.status = "rejected";
 			project.statusInfo.reason = projectApproval.reason;
 		}
 
@@ -326,6 +328,7 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 
 		// Find the project by projectId
 		const project = await Project.findOne({ _id: objectIdProjectId }).populate([{ path: "statusInfo.currentStatus", select: "-_id status colors description" }]);
+
 		// Check if the project exists
 		if (!project) {
 			return { status: "error", message: "Project not found." };
@@ -334,7 +337,7 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 		const projectWrongStatus = ["draft", "submitted", "archived", "cancelled", "rejected"];
 		// Check the project status
 		if (projectWrongStatus.includes(project.statusInfo.currentStatus.status)) {
-			return { status: "error", message: `Project in status ${project.statusInfo.currentStatus.toUpperCase()} cannot be updated.` };
+			return { status: "error", message: `Project in status ${project.statusInfo.currentStatus.status.toUpperCase()} cannot be updated.` };
 		}
 
 		// In case of title update, verify that title does not already exists in the database
@@ -420,7 +423,7 @@ const updateProjectDraftSection = async (projectId, updatedData, userIdUpdater) 
 		}
 
 		// Find the project by projectId
-		const project = await Project.findOne({ _id: objectIdProjectId });
+		const project = await Project.findOne({ _id: objectIdProjectId }).populate([{ path: "statusInfo.currentStatus", select: "-_id status colors description" }]);
 
 		// Check if the project exists
 		if (!project) {
@@ -429,8 +432,8 @@ const updateProjectDraftSection = async (projectId, updatedData, userIdUpdater) 
 
 		const projectWrongStatus = ["draft", "submitted", "archived", "cancelled", "rejected"];
 		// Check the project status
-		if (projectWrongStatus.includes(project.statusInfo.currentStatus)) {
-			return { status: "error", message: `Project in status ${project.statusInfo.currentStatus.toUpperCase()} cannot be updated.` };
+		if (projectWrongStatus.includes(project.statusInfo.currentStatus.status)) {
+			return { status: "error", message: `Project in status ${project.statusInfo.currentStatus.status.toUpperCase()} cannot be updated.` };
 		}
 
 		// In case of title update, verify that title does not already exists in the database
@@ -592,7 +595,7 @@ const retrieveProjectByLink = async (projectLink, fields, conditions) => {
 				{ path: "QAs.updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "steps.stepsList.status", select: "-_id status colors" },
 				{ path: "members.user", select: "-_id username profilePicture userId" },
-				{ path: "statusInfo.currentStatus", select: "-_id status colors description" },
+				{ path: "statusInfo.currentStatus", select: "-_id statusId status colors description" },
 				{ path: "statusInfo.statusHistory.status", select: "-_id status colors" },
 				{ path: "statusInfo.statusHistory.updatedBy", select: "-_id username profilePicture userId" },
 				{ path: "privateData.attachments.updatedBy", select: "-_id username profilePicture userId" },
@@ -830,7 +833,7 @@ const canUpdateProject = async (projectData) => {
 		}
 
 		// Check the project status
-		const projectStatus = projectRetrieved.project.statusInfo.currentStatus;
+		const projectStatus = projectRetrieved.project.statusInfo.currentStatus.status;
 		if (projectWrongStatus.includes(projectStatus)) {
 			return { status: "success", message: `Project in status ${projectStatus.toUpperCase()} cannot be updated.`, userCanEdit: false };
 		}

@@ -1,6 +1,5 @@
 const validator = require("validator");
 const config = require("../../config");
-const projectStatus = config.project_status;
 
 const validateStatusInputs = (userIdUpdater, projectId, newStatus, reason) => {
 	//Types validation
@@ -20,10 +19,6 @@ const validateStatusInputs = (userIdUpdater, projectId, newStatus, reason) => {
 	}
 	if (!reason) {
 		return { status: "error", message: "Reason is required." };
-	}
-	// Verify status is in the standard list
-	if (!validator.isIn(newStatus, projectStatus)) {
-		return { status: "error", message: `Invalid project status: ${newStatus.toUpperCase()}` };
 	}
 	// If all validations passed
 	return { status: "success", message: "All project inputs are valid." };

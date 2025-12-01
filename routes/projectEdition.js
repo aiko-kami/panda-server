@@ -4,7 +4,7 @@
 
 const projectRoute = require("express").Router();
 
-const { projectEditionController, projectRightsController } = require("../controllers");
+const { projectEditionController, projectRightsController, projectController, statusController } = require("../controllers");
 const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Retrieve user rights for the project
@@ -25,8 +25,9 @@ projectRoute.get("/details/:projectLink", verifyAccess, projectEditionController
 // projectRoute.patch("/general/:projectId", verifyAccess, projectEditionController.updateProjectGeneral);
 // projectRoute.patch("/members/:projectId", verifyAccess, projectEditionController.updateProjectMembers);
 // projectRoute.patch("/rights/:projectId", verifyAccess, projectEditionController.updateProjectRights);
-// projectRoute.patch("/status/:projectId", verifyAccess, projectEditionController.updateProjectStatus);
-// projectRoute.patch("/location/:projectId", verifyAccess, projectEditionController.updateProjectLocation);
+projectRoute.patch("/status/:projectId", verifyAccess, statusController.updateProjectStatus);
+projectRoute.patch("/visibility/:projectId", verifyAccess, projectController.updateProject);
+projectRoute.patch("/location/:projectId", verifyAccess, projectController.updateProject);
 // projectRoute.patch("/attachements/:projectId", verifyAccess, projectEditionController.updateProjectAttachements);
 // projectRoute.patch("/steps/:projectId", verifyAccess, projectEditionController.updateProjectSteps);
 // projectRoute.patch("/QAs/:projectId", verifyAccess, projectEditionController.updateProjectQAs);

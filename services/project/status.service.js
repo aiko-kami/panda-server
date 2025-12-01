@@ -55,7 +55,7 @@ const updateProjectStatus = async (projectId, userIdUpdater, newStatusId, reason
 		}
 
 		// Update current status and reason
-		project.statusInfo.currentStatus = objectIdNewStatusId;
+		project.statusInfo.currentStatus.status = objectIdNewStatusId;
 		project.statusInfo.reason = reason;
 
 		// Add the status change to the history

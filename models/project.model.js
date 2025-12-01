@@ -118,22 +118,22 @@ const projectSchema = new Schema(
 		}, // Optional
 		steps: {
 			type: {
-				stepsList: [stepSchema],
+				stepsList: { type: [stepSchema], default: [] },
 				updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
 				createdAt: { type: Date, default: DateTime.now().toHTTP() },
 				updatedAt: { type: Date },
 			},
-			default: [],
+			default: () => ({}),
 			required: false,
 		}, // Optional
 		QAs: {
 			type: {
-				QAsList: [QASchema],
+				QAsList: { type: [QASchema], default: [] },
 				updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
 				createdAt: { type: Date, default: DateTime.now().toHTTP() },
 				updatedAt: { type: Date },
 			},
-			default: [],
+			default: () => ({}),
 			required: false,
 		}, // Optional
 		talentsNeeded: {

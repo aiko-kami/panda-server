@@ -212,7 +212,7 @@ const validateUserRights = async (userId, projectId, updatedFields) => {
 		// Check if the user has permission to edit each field in updatedFields
 		for (const field of updatedFields) {
 			if (field === "locationOnlineOnly" || field === "locationCity" || field === "locationCountry") {
-				continue; // Skip these fields for now
+				continue; // Skip these fields for now - the check is done later below
 			}
 			let canEditField = userRights.permissions[`canEdit${field.charAt(0).toUpperCase() + field.slice(1)}`];
 			if (!canEditField) {
@@ -236,7 +236,6 @@ const validateUserRights = async (userId, projectId, updatedFields) => {
 		}
 
 		// If the loop completes without returning an error, the user has all necessary permissions
-		logger.info("User has permission to edit the specified fields");
 		return {
 			canEdit: true,
 			message: "User has permission to edit the specified fields.",
@@ -282,7 +281,6 @@ const retrieveProjectRights = async (projectId, userId) => {
 				message: "An error occurred while retrieving user's project rights: Project rights not found for this user and project.",
 			};
 		}
-		logger.info(`Project rights retrieved successfully. Project ID: ${projectId} - User ID: ${userId}`);
 		return {
 			status: "success",
 			message: "Project rights retrieved successfully.",

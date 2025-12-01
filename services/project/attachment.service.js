@@ -21,7 +21,7 @@ const addAttachment = async (projectId, userId) => {
 		}
 
 		// Find the project by projectId
-		const project = await Project.findOne({ _id: objectIdProjectId });
+		const project = await Project.findOne({ _id: objectIdProjectId }).populate([{ path: "statusInfo.currentStatus", select: "-_id status colors description" }]);
 
 		// Check if the project exists
 		if (!project) {
@@ -30,8 +30,8 @@ const addAttachment = async (projectId, userId) => {
 
 		const projectWrongStatus = ["draft", "submitted", "archived", "cancelled", "rejected"];
 		// Check the project status
-		if (projectWrongStatus.includes(project.statusInfo.currentStatus)) {
-			return { status: "error", message: `Project in status ${project.statusInfo.currentStatus.toUpperCase()} cannot be updated.` };
+		if (projectWrongStatus.includes(project.statusInfo.currentStatus.status)) {
+			return { status: "error", message: `Project in status ${project.statusInfo.currentStatus.status.toUpperCase()} cannot be updated.` };
 		}
 
 		// Add a new attachment to the project
@@ -78,7 +78,7 @@ const updateAttachment = async (projectId, attachmentFormerKey, updatedData, use
 		}
 
 		// Find the project by projectId
-		const project = await Project.findOne({ _id: objectIdProjectId });
+		const project = await Project.findOne({ _id: objectIdProjectId }).populate([{ path: "statusInfo.currentStatus", select: "-_id status colors description" }]);
 
 		// Check if the project exists
 		if (!project) {
@@ -87,8 +87,8 @@ const updateAttachment = async (projectId, attachmentFormerKey, updatedData, use
 
 		const projectWrongStatus = ["draft", "submitted", "archived", "cancelled", "rejected"];
 		// Check the project status
-		if (projectWrongStatus.includes(project.statusInfo.currentStatus)) {
-			return { status: "error", message: `Project in status ${project.statusInfo.currentStatus.toUpperCase()} cannot be updated.` };
+		if (projectWrongStatus.includes(project.statusInfo.currentStatus.status)) {
+			return { status: "error", message: `Project in status ${project.statusInfo.currentStatus.status.toUpperCase()} cannot be updated.` };
 		}
 
 		// Find the index of the attachment with the attachmentFormerKey
@@ -141,7 +141,7 @@ const deleteAttachment = async (projectId, attachmentKey, userIdUpdater) => {
 		}
 
 		// Find the project by projectId
-		const project = await Project.findOne({ _id: objectIdProjectId });
+		const project = await Project.findOne({ _id: objectIdProjectId }).populate([{ path: "statusInfo.currentStatus", select: "-_id status colors description" }]);
 
 		// Check if the project exists
 		if (!project) {
@@ -150,8 +150,8 @@ const deleteAttachment = async (projectId, attachmentKey, userIdUpdater) => {
 
 		const projectWrongStatus = ["draft", "submitted", "archived", "cancelled", "rejected"];
 		// Check the project status
-		if (projectWrongStatus.includes(project.statusInfo.currentStatus)) {
-			return { status: "error", message: `Project in status ${project.statusInfo.currentStatus.toUpperCase()} cannot be updated.` };
+		if (projectWrongStatus.includes(project.statusInfo.currentStatus.status)) {
+			return { status: "error", message: `Project in status ${project.statusInfo.currentStatus.status.toUpperCase()} cannot be updated.` };
 		}
 
 		// Find the index of the attachment with the attachmentFormerKey

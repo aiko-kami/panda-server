@@ -1,5 +1,5 @@
-const { projectService, tagService, userRightsService, joinProjectService } = require("../../services");
-const { apiResponse, projectValidation, encryptTools } = require("../../utils");
+const { projectService, statusService, tagService, userRightsService, joinProjectService } = require("../../services");
+const { apiResponse, projectValidation, encryptTools, statusTools } = require("../../utils");
 
 const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => {
 	return async (req, res) => {
@@ -63,6 +63,25 @@ const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => 
 
 				// Add tagsList if successfully retrieved
 				responseData.tagsList = retrievedTags.tags;
+			}
+
+			// For the section Status, retrieve all available statues for edition
+			if (projectSectionEdition === "SectionStatus") {
+				const retrievedStatuses = await statusService.retrieveAllStatuses("project", ["-_id", "status", "statusId", "description", "colors"]);
+				if (retrievedStatuses.status !== "success") {
+					return apiResponse.serverErrorResponse(res, retrievedStatuses.message);
+				}
+
+				// Depending on the current status string, return only the available statuses for update
+				const allowedStatuses = statusTools.getAllowedStatuses(retrievedStatuses.statuses, project.statusInfo.currentStatus);
+				responseData.statusesList = allowedStatuses;
+
+				// Map current status to include correct statusId
+				const currentStatus = responseData.project.statusInfo.currentStatus;
+				const matchedStatus = retrievedStatuses.statuses.find((s) => s.status === currentStatus.status);
+				if (matchedStatus) {
+					responseData.project.statusInfo.currentStatus.statusId = matchedStatus.statusId;
+				}
 			}
 
 			// For the section Members, retrieve joinProject requests and invitations

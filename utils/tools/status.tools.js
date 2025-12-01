@@ -1,3 +1,21 @@
+function getAllowedStatuses(statusesList, currentStatus) {
+	if (!currentStatus || !currentStatus.status) return [];
+
+	const transitions = {
+		draft: ["draft", "submitted", "cancelled"],
+		submitted: ["submitted", "active", "rejected", "cancelled"],
+		active: ["active", "on hold", "completed", "cancelled"],
+		"on hold": ["on hold", "active", "completed", "cancelled"],
+		completed: ["completed", "active", "archived"],
+		rejected: ["rejected", "archived", "draft"],
+	};
+
+	const current = currentStatus.status.toLowerCase();
+	const allowed = transitions[current] || [];
+
+	return statusesList.filter((s) => allowed.includes(s.status.toLowerCase()));
+}
+
 const validateStatusUpdate = (newStatus, formerStatus) => {
 	// Check if the new status is different from the current one
 	if (formerStatus === newStatus) {
@@ -25,5 +43,6 @@ const validateStatusUpdate = (newStatus, formerStatus) => {
 };
 
 module.exports = {
+	getAllowedStatuses,
 	validateStatusUpdate,
 };
