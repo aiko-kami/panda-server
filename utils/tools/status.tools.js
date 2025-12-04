@@ -3,7 +3,7 @@ function getAllowedStatuses(statusesList, currentStatus) {
 
 	const transitions = {
 		draft: ["draft", "submitted", "cancelled"],
-		submitted: ["submitted", "active", "rejected", "cancelled"],
+		submitted: ["submitted", "draft", "active", "rejected", "cancelled"],
 		active: ["active", "on hold", "completed", "cancelled"],
 		"on hold": ["on hold", "active", "completed", "cancelled"],
 		completed: ["completed", "active", "archived"],
@@ -37,6 +37,10 @@ const validateStatusUpdate = (newStatus, formerStatus) => {
 
 	if (formerStatus === "archived" || formerStatus === "cancelled") {
 		return { status: "error", message: `Status cannot be updated anymore because project has been ${formerStatus}.` };
+	}
+
+	if (formerStatus === "rejected" && newStatus !== "archived" && newStatus !== "draft") {
+		return { status: "error", message: `Status cannot be updated from ${formerStatus.toUpperCase()} to ${newStatus.toUpperCase()}.` };
 	}
 
 	return { status: "success" };
