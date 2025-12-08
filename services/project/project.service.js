@@ -734,14 +734,14 @@ const retrieveProjects = async (fields, conditions, limit) => {
 const countNumberProjects = async () => {
 	try {
 		const nbPublicProject = await Project.countDocuments({ visibility: "public" }); // Count total number of projects
-		const nbPublicSubmittedProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus": "submitted" }); // Count documents with visibility set to "public" and status set to "submitted"
-		const nbPublicOnHoldProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus": "on hold" }); // Count documents with visibility set to "public" and status set to "on hold"
-		const nbPublicCompletedProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus": "completed" }); // Count documents with visibility set to "public" and status set to "completed"
-		const nbPublicArchivedProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus": "archived" }); // Count documents with visibility set to "public" and status set to "archived"
-		const nbPublicCancelledProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus": "cancelled" }); // Count documents with visibility set to "public" and status set to "cancelled"
+		const nbPublicSubmittedProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus.status": "submitted" }); // Count documents with visibility set to "public" and status set to "submitted"
+		const nbPublicOnHoldProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus.status": "on hold" }); // Count documents with visibility set to "public" and status set to "on hold"
+		const nbPublicCompletedProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus.status": "completed" }); // Count documents with visibility set to "public" and status set to "completed"
+		const nbPublicArchivedProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus.status": "archived" }); // Count documents with visibility set to "public" and status set to "archived"
+		const nbPublicCancelledProject = await Project.countDocuments({ visibility: "public", "statusInfo.currentStatus.status": "cancelled" }); // Count documents with visibility set to "public" and status set to "cancelled"
 		const nbPublicActiveProject = await Project.countDocuments({
 			visibility: "public",
-			"statusInfo.currentStatus": "active",
+			"statusInfo.currentStatus.status": "active",
 		}); // Count documents with visibility set to "public" and status set to "active"
 
 		return {

@@ -653,7 +653,7 @@ const retrieveNewProjects = async (req, res) => {
 			["-_id", "title", "summary", "cover", "category", "subCategory", "tags", "visibility", "projectId"],
 			{
 				visibility: "public",
-				"statusInfo.currentStatus": "active",
+				"statusInfo.currentStatus.status": "active",
 			},
 			4
 		);
@@ -700,7 +700,7 @@ const retrieveSubmittedProjects = async (req, res) => {
 				"projectId",
 			],
 			{
-				"statusInfo.currentStatus": "submitted",
+				"statusInfo.currentStatus.status": "submitted",
 			},
 			999
 		);
