@@ -409,6 +409,8 @@ const updateProject = async (req, res) => {
 			objectives: req.body.objectives ?? [],
 		};
 
+		console.log("🚀 ~ updateProject ~ updatedProjectInputs:", updatedProjectInputs);
+
 		// Validate input data for updating project
 		const validationResult = projectValidation.validateUpdatedProjectInputs(updatedProjectInputs);
 		if (validationResult.status !== "success") {

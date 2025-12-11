@@ -5,10 +5,25 @@ const updateProjectMember = async (req, res) => {
 	try {
 		const userIdUpdater = req.userId;
 		const { projectId = "" } = req.params;
-		const { memberId = "", newRole = "", newStartDate = "", newTalent = "" } = req.body;
+
+		const updatedMemberInputs = {
+			memberId: req.body.memberId ?? "",
+			newRole: req.body.newRole ?? "",
+			newStartDate: req.body.newStartDate ?? "",
+			newTalent: req.body.newTalent ?? "",
+		};
+
+		console.log("🚀 ~ updateProjectMember ~ updatedMemberInputs:", updatedMemberInputs);
 
 		// Validate input data for updating a project member
-		const validationResult = memberValidation.validateMemberInputs(userIdUpdater, projectId, memberId, newRole, newStartDate, newTalent);
+		const validationResult = memberValidation.validateMemberInputs(
+			userIdUpdater,
+			projectId,
+			updatedMemberInputs.memberId,
+			updatedMemberInputs.newRole,
+			updatedMemberInputs.newStartDate,
+			updatedMemberInputs.newTalent
+		);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
@@ -25,41 +40,49 @@ const updateProjectMember = async (req, res) => {
 		}
 
 		// In case of update of member's role
-		if (newRole) {
-			const updateRoleResult = await memberService.updateMemberRole(projectId, memberId, newRole);
+		if (updatedMemberInputs.newRole) {
+			const updateRoleResult = await memberService.updateMemberRole(projectId, updatedMemberInputs.memberId, updatedMemberInputs.newRole);
 			if (updateRoleResult.status !== "success") {
 				return apiResponse.serverErrorResponse(res, updateRoleResult.message);
 			}
 
 			// Update users's project rights
 			// If new role is "owner" ==> Set owner rights
-			if (newRole === "owner") {
-				const setRightsResult = await userRightsService.updateUserProjectRights(projectId, memberId, "owner", userIdUpdater);
+			if (updatedMemberInputs.newRole === "owner") {
+				const setRightsResult = await userRightsService.updateUserProjectRights(projectId, updatedMemberInputs.memberId, "owner", userIdUpdater);
 				if (setRightsResult.status !== "success") {
 					return apiResponse.serverErrorResponse(res, setRightsResult.message);
 				}
 			}
 
 			// If new role is "member" ==> Set member rights
-			else if (newRole === "member") {
-				const setRightsResult = await userRightsService.updateUserProjectRights(projectId, memberId, "member", userIdUpdater);
+			else if (updatedMemberInputs.newRole === "member") {
+				const setRightsResult = await userRightsService.updateUserProjectRights(projectId, updatedMemberInputs.memberId, "member", userIdUpdater);
 				if (setRightsResult.status !== "success") {
 					return apiResponse.serverErrorResponse(res, setRightsResult.message);
 				}
 			}
 		}
 
+		// In case of removal of member's start date
+		if (updatedMemberInputs.newStartDate && updatedMemberInputs.newStartDate === "false") {
+			const removeStartDateResult = await memberService.removeMemberstartDate(projectId, updatedMemberInputs.memberId);
+			if (removeStartDateResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, removeStartDateResult.message);
+			}
+		}
+
 		// In case of update of member's start date
-		if (newStartDate) {
-			const updateStartDateResult = await memberService.updateMemberstartDate(projectId, memberId, newStartDate);
+		if (updatedMemberInputs.newStartDate && updatedMemberInputs.newStartDate !== "false") {
+			const updateStartDateResult = await memberService.updateMemberstartDate(projectId, updatedMemberInputs.memberId, updatedMemberInputs.newStartDate);
 			if (updateStartDateResult.status !== "success") {
 				return apiResponse.serverErrorResponse(res, updateStartDateResult.message);
 			}
 		}
 
 		// In case of update of member's talent
-		if (newTalent) {
-			const updateTalentResult = await memberService.updateMemberTalent(projectId, memberId, newTalent);
+		if (updatedMemberInputs.newTalent) {
+			const updateTalentResult = await memberService.updateMemberTalent(projectId, updatedMemberInputs.memberId, updatedMemberInputs.newTalent);
 			if (updateTalentResult.status !== "success") {
 				return apiResponse.serverErrorResponse(res, updateTalentResult.message);
 			}

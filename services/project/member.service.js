@@ -105,10 +105,6 @@ const updateMemberRole = async (projectId, memberId, newRole) => {
 
 		const formerRole = project.members[existingMemberIndex].role;
 
-		if (formerRole === newRole) {
-			return { status: "error", message: "New role must be different from the former one." };
-		}
-
 		// If member is the only owner of the project, cannot be updated to another role
 		const isOwner = formerRole === "owner";
 		// Count the number of owners in the project
@@ -162,10 +158,6 @@ const updateMemberstartDate = async (projectId, memberId, newStartDate) => {
 
 		let dateObj = new Date(newStartDate);
 
-		if (formerStartDate.toString() === dateObj.toString()) {
-			return { status: "error", message: "New start date must be different from the former one." };
-		}
-
 		// Update the member's start date
 		project.members[existingMemberIndex].startDate = dateObj;
 
@@ -173,6 +165,46 @@ const updateMemberstartDate = async (projectId, memberId, newStartDate) => {
 		await project.save();
 
 		logger.info(`Member's start date updated successfully. Project ID: ${projectId} - Member user ID: ${memberId} - Former start date: ${formerStartDate} - New start date: ${dateObj}`);
+		return { status: "success", message: "Member's start date updated successfully." };
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
+
+const removeMemberstartDate = async (projectId, memberId) => {
+	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const objectIdMemberId = encryptTools.convertIdToObjectId(memberId);
+		if (objectIdMemberId.status == "error") {
+			return { status: "error", message: objectIdMemberId.message };
+		}
+
+		const project = await Project.findOne({ _id: objectIdProjectId });
+
+		if (!project) {
+			return { status: "error", message: "Project not found." };
+		}
+
+		const existingMemberIndex = project.members.findIndex((member) => member.user.toString() === objectIdMemberId.toString());
+
+		if (existingMemberIndex === -1) {
+			return { status: "error", message: "Member not found in the project." };
+		}
+
+		const formerStartDate = project.members[existingMemberIndex].startDate || "No start date defined";
+
+		// Update the member's start date
+		project.members[existingMemberIndex].startDate = null;
+
+		// Save the updated project
+		await project.save();
+
+		logger.info(`Member's start date updated successfully. Project ID: ${projectId} - Member user ID: ${memberId} - Former start date: ${formerStartDate} - New start date: NULL`);
 		return { status: "success", message: "Member's start date updated successfully." };
 	} catch (error) {
 		return { status: "error", message: error.message };
@@ -206,10 +238,6 @@ const updateMemberTalent = async (projectId, memberId, newTalent) => {
 
 		const formerTalent = project.members[existingMemberIndex].talent || "No talent defined";
 
-		if (formerTalent === newTalent) {
-			return { status: "error", message: "New talent must be different from the former one." };
-		}
-
 		// Update the member's talent
 		project.members[existingMemberIndex].talent = newTalent;
 
@@ -227,5 +255,6 @@ module.exports = {
 	updateMemberFromProject,
 	updateMemberRole,
 	updateMemberstartDate,
+	removeMemberstartDate,
 	updateMemberTalent,
 };

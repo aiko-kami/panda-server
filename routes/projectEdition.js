@@ -4,7 +4,7 @@
 
 const projectRoute = require("express").Router();
 
-const { projectEditionController, projectRightsController, projectController, statusController } = require("../controllers");
+const { projectEditionController, projectRightsController, projectController, memberController, statusController } = require("../controllers");
 const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Retrieve user rights for the project
@@ -23,7 +23,7 @@ projectRoute.get("/details/:projectLink", verifyAccess, projectEditionController
 
 // Project update
 // projectRoute.patch("/general/:projectId", verifyAccess, projectEditionController.updateProjectGeneral);
-// projectRoute.patch("/members/:projectId", verifyAccess, projectEditionController.updateProjectMembers);
+projectRoute.patch("/members/:projectId", verifyAccess, memberController.updateProjectMember);
 // projectRoute.patch("/rights/:projectId", verifyAccess, projectEditionController.updateProjectRights);
 projectRoute.patch("/status/:projectId", verifyAccess, statusController.updateProjectStatus);
 projectRoute.patch("/visibility/:projectId", verifyAccess, projectController.updateProject);

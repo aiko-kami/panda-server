@@ -34,8 +34,8 @@ const validateMemberInputs = (userIdUpdater, projectId, memberId, newRole, newSt
 	}
 
 	// Verify date format is correct
-	if (newStartDate) {
-		if (!validator.isDate(newStartDate, { format: "YYYY/MM/DD", strictMode: true })) {
+	if (newStartDate && newStartDate !== "false") {
+		if (!validator.isDate(newStartDate, { format: "YYYY-MM-DD", strictMode: true })) {
 			return { status: "error", message: "Invalid start date format." };
 		}
 	}
