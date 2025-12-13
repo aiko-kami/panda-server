@@ -238,7 +238,7 @@ const acceptRequest = async (req, res) => {
 		}
 
 		//Add new member to the project
-		const addedMember = await memberService.updateMemberFromProject(projectId, newMemeberId, "add", talent);
+		const addedMember = await memberService.updateMemberFromProject(projectId, userIdUpdater, newMemeberId, "add", talent);
 		if (addedMember.status !== "success") {
 			return apiResponse.serverErrorResponse(res, addedMember.message);
 		}

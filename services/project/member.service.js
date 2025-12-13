@@ -8,8 +8,12 @@ const { logger, encryptTools } = require("../../utils");
  * @param {string} action - The action to perform ("update" or "remove").
  * @returns {Object} - The result of the update operation.
  */
-const updateMemberFromProject = async (projectId, userIdUpdated, action, talent) => {
+const updateMemberFromProject = async (projectId, userIdUpdater, userIdUpdated, action, talent) => {
 	try {
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+		if (objectIdUserIdUpdater.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdater.message };
+		}
 		const objectIdUserIdUpdated = encryptTools.convertIdToObjectId(userIdUpdated);
 		if (objectIdUserIdUpdated.status == "error") {
 			return { status: "error", message: objectIdUserIdUpdated.message };
@@ -17,6 +21,10 @@ const updateMemberFromProject = async (projectId, userIdUpdated, action, talent)
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
 		if (objectIdProjectId.status == "error") {
 			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		if (objectIdUserIdUpdater.equals(objectIdUserIdUpdated)) {
+			return { status: "error", message: "You cannot add or remove yourself as a project member." };
 		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
@@ -54,8 +62,7 @@ const updateMemberFromProject = async (projectId, userIdUpdated, action, talent)
 			// If member is the only owner of the project, cannot be removed from the project
 			const isOwner = project.members[existingMemberIndex].role === "owner";
 			// Count the number of owners in the project
-			const ownerCount = project.members.filter((member) => member.role === "owner").length;
-			if (isOwner && ownerCount === 1) {
+			if (isOwner) {
 				return {
 					status: "error",
 					message: "There is no other project owner. The sole project owner cannot be removed from the project.",
@@ -106,10 +113,9 @@ const updateMemberRole = async (projectId, memberId, newRole) => {
 		const formerRole = project.members[existingMemberIndex].role;
 
 		// If member is the only owner of the project, cannot be updated to another role
-		const isOwner = formerRole === "owner";
-		// Count the number of owners in the project
-		const ownerCount = project.members.filter((member) => member.role === "owner").length;
-		if (isOwner && ownerCount === 1) {
+		const isOnlyOwner = formerRole === "owner" && project.members.filter((m) => m.role === "owner").length === 1;
+
+		if (newRole !== "owner" && isOnlyOwner) {
 			return {
 				status: "error",
 				message: "There is no other project owner. The sole project owner cannot be updated to another role.",

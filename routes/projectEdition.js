@@ -24,6 +24,7 @@ projectRoute.get("/details/:projectLink", verifyAccess, projectEditionController
 // Project update
 // projectRoute.patch("/general/:projectId", verifyAccess, projectEditionController.updateProjectGeneral);
 projectRoute.patch("/members/:projectId", verifyAccess, memberController.updateProjectMember);
+projectRoute.delete("/members/:projectId", verifyAccess, memberController.removeProjectMember);
 // projectRoute.patch("/rights/:projectId", verifyAccess, projectEditionController.updateProjectRights);
 projectRoute.patch("/status/:projectId", verifyAccess, statusController.updateProjectStatus);
 projectRoute.patch("/visibility/:projectId", verifyAccess, projectController.updateProject);

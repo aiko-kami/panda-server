@@ -101,7 +101,7 @@ const removeProjectMember = async (req, res) => {
 		const { memberId = "" } = req.body;
 
 		// Validate input data for removing a project member
-		const validationResult = memberValidation.validateMemberInputs(userIdUpdater, projectId, memberId);
+		const validationResult = memberValidation.validateMemberRemoveInputs(userIdUpdater, projectId, memberId);
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
@@ -118,7 +118,7 @@ const removeProjectMember = async (req, res) => {
 		}
 
 		// Remove the member from the project
-		const removeMemberResult = await memberService.updateMemberFromProject(projectId, memberId, "remove");
+		const removeMemberResult = await memberService.updateMemberFromProject(projectId, userIdUpdater, memberId, "remove");
 		if (removeMemberResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, removeMemberResult.message);
 		}
