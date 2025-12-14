@@ -13,8 +13,6 @@ const updateProjectMember = async (req, res) => {
 			newTalent: req.body.newTalent ?? "",
 		};
 
-		console.log("🚀 ~ updateProjectMember ~ updatedMemberInputs:", updatedMemberInputs);
-
 		// Validate input data for updating a project member
 		const validationResult = memberValidation.validateMemberInputs(
 			userIdUpdater,

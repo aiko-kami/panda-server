@@ -22,6 +22,7 @@ module.exports.projectAttachmentsController = require("./project/projectAttachme
 module.exports.categoryController = require("./project/category.controller");
 module.exports.tagController = require("./project/tag.controller");
 module.exports.memberController = require("./project/member.controller");
+module.exports.talentNeededController = require("./project/talentNeeded.controller");
 module.exports.joinProjectRequestController = require("./project/joinProjectRequest.controller");
 module.exports.joinProjectInvitationController = require("./project/joinProjectInvitation.controller");
 

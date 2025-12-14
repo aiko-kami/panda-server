@@ -257,10 +257,80 @@ const updateMemberTalent = async (projectId, memberId, newTalent) => {
 	}
 };
 
+const updateTalentNeeded = async (projectId, userIdUpdater, talentNeeded, action) => {
+	const { talent, description = "" } = talentNeeded;
+	try {
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+		if (objectIdUserIdUpdater.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdater.message };
+		}
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const project = await Project.findOne({ _id: objectIdProjectId });
+
+		if (!project) {
+			return { status: "error", message: "Project not found." };
+		}
+
+		// Verify if talent already exists
+		const existingTalentIndex = project.talentsNeeded.findIndex((t) => t.talent.toLowerCase() === talent.toLowerCase());
+
+		if (action === "add") {
+			if (existingTalentIndex !== -1) {
+				return { status: "error", message: "Talent needed already present in the project." };
+			}
+
+			// Max talents needed limit
+			const MAX_TALENTS_NEEDED = 20;
+
+			if (project.talentsNeeded.length >= MAX_TALENTS_NEEDED) {
+				return {
+					status: "error",
+					message: `You cannot add more than ${MAX_TALENTS_NEEDED} talents needed to a project.`,
+				};
+			}
+
+			// Add new talent needed
+			project.talentsNeeded.push({
+				talent,
+				description,
+			});
+
+			await project.save();
+
+			logger.info(`Talent needed added to the project successfully. Project ID: ${projectId} - Talent: ${talent}`);
+			return { status: "success", message: "Talent needed added successfully." };
+		}
+
+		if (action === "remove") {
+			if (existingTalentIndex === -1) {
+				return { status: "error", message: "Talent needed not found in the project." };
+			}
+
+			// Remove Talent needed from the list
+			project.talentsNeeded.splice(existingTalentIndex, 1);
+
+			// Save the updated project
+			await project.save();
+
+			logger.info(`Talent needed removed from the project successfully. Project ID: ${projectId} - Talent: ${talent}`);
+			return { status: "success", message: "Talent needed removed successfully." };
+		} else {
+			throw new Error("Invalid action specified.");
+		}
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
+
 module.exports = {
 	updateMemberFromProject,
 	updateMemberRole,
 	updateMemberstartDate,
 	removeMemberstartDate,
 	updateMemberTalent,
+	updateTalentNeeded,
 };

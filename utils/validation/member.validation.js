@@ -66,7 +66,56 @@ const validateMemberRemoveInputs = (userIdUpdater, projectId, memberId) => {
 	return { status: "success", message: "All member inputs are valid." };
 };
 
+const validateTalentNeededInputs = (userIdUpdater, projectId, talent, description) => {
+	//Types validation
+	const invalidType = typeof userIdUpdater !== "string" || typeof projectId !== "string" || typeof talent !== "string" || typeof description !== "string";
+	if (invalidType) {
+		return { status: "error", message: "Invalid type of data." };
+	}
+
+	// Check if required fields are present
+	if (!userIdUpdater) {
+		return { status: "error", message: "Updater user ID is required." };
+	}
+	if (!projectId) {
+		return { status: "error", message: "Project ID is required." };
+	}
+	if (!talent) {
+		return { status: "error", message: "Talent is required." };
+	}
+	if (!description) {
+		return { status: "error", message: "Talent description is required." };
+	}
+
+	// If all validations passed
+	return { status: "success", message: "All talent needed inputs are valid." };
+};
+
+const validateTalentNeededRemoveInputs = (userIdUpdater, projectId, talent) => {
+	//Types validation
+	const invalidType = typeof userIdUpdater !== "string" || typeof projectId !== "string" || typeof talent !== "string";
+	if (invalidType) {
+		return { status: "error", message: "Invalid type of data." };
+	}
+
+	// Check if required fields are present
+	if (!userIdUpdater) {
+		return { status: "error", message: "Updater user ID is required." };
+	}
+	if (!projectId) {
+		return { status: "error", message: "Project ID is required." };
+	}
+	if (!talent) {
+		return { status: "error", message: "Talent needed is required." };
+	}
+
+	// If all validations passed
+	return { status: "success", message: "All talent needed inputs are valid." };
+};
+
 module.exports = {
 	validateMemberInputs,
 	validateMemberRemoveInputs,
+	validateTalentNeededInputs,
+	validateTalentNeededRemoveInputs,
 };
