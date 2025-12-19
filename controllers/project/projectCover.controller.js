@@ -28,7 +28,7 @@ const updateCover = async (req, res) => {
 			return apiResponse.unauthorizedResponse(res, canUpdateResult.message);
 		}
 
-		const formerCover = canUpdateResult.project.cover.key;
+		const formerCover = canUpdateResult.project.cover.link;
 		const isFormerCoverPresent = formerCover !== "" && formerCover !== undefined;
 
 		// Verify that query contains an input file
@@ -38,7 +38,6 @@ const updateCover = async (req, res) => {
 		}
 
 		const isNewCoverPresent = inputFileCheckResult.isFile;
-
 		// If new cover is present in the request, upload new cover to AWS
 		if (isNewCoverPresent) {
 			const uploadCoverResult = await uploadService.uploadCover(req, res, projectId);

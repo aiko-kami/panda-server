@@ -4,7 +4,7 @@
 
 const projectRoute = require("express").Router();
 
-const { projectEditionController, projectRightsController, projectController, memberController, talentNeededController, statusController } = require("../controllers");
+const { projectEditionController, projectCoverController, projectRightsController, projectController, memberController, talentNeededController, statusController } = require("../controllers");
 const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Retrieve user rights for the project
@@ -22,8 +22,10 @@ projectRoute.get("/QAs/:projectLink", verifyAccess, projectEditionController.ret
 projectRoute.get("/details/:projectLink", verifyAccess, projectEditionController.retrieveProjectDetails);
 
 // Project update
-// projectRoute.patch("/general/:projectId", verifyAccess, projectEditionController.updateProjectGeneral);
-projectRoute.patch("/members/:projectId", verifyAccess, memberController.updateProjectMember);
+
+projectRoute.patch("/titleCategory/:projectId", verifyAccess, projectController.updateProject);
+projectRoute.patch("/information/:projectId", verifyAccess, projectController.updateProject);
+projectRoute.patch("/cover/:projectId", verifyAccess, projectCoverController.updateCover);
 projectRoute.delete("/members/:projectId", verifyAccess, memberController.removeProjectMember);
 projectRoute.post("/talentNeeded/:projectId", verifyAccess, talentNeededController.addTalentNeeded);
 projectRoute.delete("/talentNeeded/:projectId", verifyAccess, talentNeededController.removeTalentNeeded);
