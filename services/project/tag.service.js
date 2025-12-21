@@ -1,4 +1,4 @@
-const { Tag } = require("../../models");
+const { Project, Tag } = require("../../models");
 const { logger, encryptTools } = require("../../utils");
 
 /**
@@ -191,6 +191,91 @@ const updateTag = async (tagId, newName, newDescription) => {
 	}
 };
 
+const updateTagFromProject = async (projectId, userIdUpdater, tagId, action) => {
+	try {
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+		if (objectIdUserIdUpdater.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdater.message };
+		}
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+		const objectIdTagId = encryptTools.convertIdToObjectId(tagId);
+		if (objectIdTagId.status == "error") {
+			return { status: "error", message: objectIdTagId.message };
+		}
+
+		// Verify if tag exists
+		const existingTag = await Tag.findOne({ _id: objectIdTagId });
+		if (!existingTag) {
+			logger.error("Error while updating tag from project: Tag not found.");
+			return { status: "error", message: "Tag not found." };
+		}
+
+		const project = await Project.findOne({ _id: objectIdProjectId });
+
+		if (!project) {
+			return { status: "error", message: "Project not found." };
+		}
+
+		// Verify if tag already exists on the project
+		const existingTagIndex = project.tags.findIndex((tag) => tag.toString() === objectIdTagId.toString());
+
+		if (action === "add") {
+			if (existingTagIndex !== -1) {
+				return { status: "error", message: "Tag already present in the project." };
+			}
+
+			// Max tags limit
+			const MAX_TAGS = 8;
+
+			if (project.tags.length >= MAX_TAGS) {
+				return {
+					status: "error",
+					message: `You cannot add more than ${MAX_TAGS} tags to a project.`,
+				};
+			}
+
+			// Add new tag
+			project.tags.push(objectIdTagId);
+
+			await project.save();
+			const addedTag = await project
+				.populate([
+					{
+						path: "tags",
+						match: { _id: objectIdTagId },
+						select: "-_id tagId name description link",
+					},
+				])
+				.then((p) => p.tags[0]);
+
+			logger.info(`Tag added to the project successfully. Project ID: ${projectId} - tag: ${tagId}`);
+			return { status: "success", message: "Tag added successfully.", data: { tag: addedTag } };
+		}
+
+		if (action === "remove") {
+			if (existingTagIndex === -1) {
+				return { status: "error", message: "Tag not found in the project." };
+			}
+
+			// Remove Tag from the list
+			project.tags.splice(existingTagIndex, 1);
+
+			// Save the updated project
+			await project.save();
+
+			logger.info(`Tag removed from the project successfully. Project ID: ${projectId} - Tag: ${tagId}`);
+			return { status: "success", message: "Tag removed successfully." };
+		} else {
+			throw new Error("Invalid action specified.");
+		}
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
+
 const removeTag = async (tagId) => {
 	try {
 		// Convert id to ObjectId
@@ -292,6 +377,7 @@ module.exports = {
 	createTag,
 	createTags,
 	updateTag,
+	updateTagFromProject,
 	removeTag,
 	retrieveTagById,
 	retrieveTagByLink,

@@ -889,6 +889,71 @@ const canUpdateProject = async (projectData) => {
 	}
 };
 
+const updateObjective = async (projectId, userIdUpdater, objective, action) => {
+	try {
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+		if (objectIdUserIdUpdater.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdater.message };
+		}
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const project = await Project.findOne({ _id: objectIdProjectId });
+
+		if (!project) {
+			return { status: "error", message: "Project not found." };
+		}
+
+		// Verify if objective already exists
+		const existingObjectiveIndex = project.objectives.findIndex((obj) => obj.toLowerCase() === objective.toLowerCase());
+
+		if (action === "add") {
+			if (existingObjectiveIndex !== -1) {
+				return { status: "error", message: "Objective already present in the project." };
+			}
+
+			// Max objectives limit
+			const MAX_OBJECTIVES = 20;
+
+			if (project.objectives.length >= MAX_OBJECTIVES) {
+				return {
+					status: "error",
+					message: `You cannot add more than ${MAX_OBJECTIVES} objectives to a project.`,
+				};
+			}
+
+			// Add new objective
+			project.objectives.push(objective);
+
+			await project.save();
+
+			logger.info(`Objective added to the project successfully. Project ID: ${projectId} - Objective: ${objective}`);
+			return { status: "success", message: "Objective added successfully." };
+		}
+
+		if (action === "remove") {
+			if (existingObjectiveIndex === -1) {
+				return { status: "error", message: "Objective not found in the project." };
+			}
+
+			// Remove Objective from the list
+			project.objectives.splice(existingObjectiveIndex, 1);
+
+			// Save the updated project
+			await project.save();
+
+			logger.info(`Objective removed from the project successfully. Project ID: ${projectId} - Objective: ${objective}`);
+			return { status: "success", message: "Objective removed successfully." };
+		} else {
+			throw new Error("Invalid action specified.");
+		}
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
+
 module.exports = {
 	createProject,
 	updateProjectDraft,
@@ -902,4 +967,5 @@ module.exports = {
 	countNumberProjects,
 	countNumberProjectsPerCategory,
 	canUpdateProject,
+	updateObjective,
 };

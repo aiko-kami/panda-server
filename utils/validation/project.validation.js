@@ -329,6 +329,28 @@ const validateAttachmentKeyAndTitle = (attachmentKey, attachmentTitle) => {
 	return { status: "success", message: "Attachment key and title are valid." };
 };
 
+const validateObjectiveInputs = (userIdUpdater, projectId, objective) => {
+	//Types validation
+	const invalidType = typeof userIdUpdater !== "string" || typeof projectId !== "string" || typeof objective !== "string";
+	if (invalidType) {
+		return { status: "error", message: "Invalid type of data." };
+	}
+
+	// Check if required fields are present
+	if (!userIdUpdater) {
+		return { status: "error", message: "Updater user ID is required." };
+	}
+	if (!projectId) {
+		return { status: "error", message: "Project ID is required." };
+	}
+	if (!objective) {
+		return { status: "error", message: "Objective is required." };
+	}
+
+	// If all validations passed
+	return { status: "success", message: "All objective inputs are valid." };
+};
+
 module.exports = {
 	validateDraftProjectInputs,
 	validateSubmittedProjectInputs,
@@ -340,4 +362,5 @@ module.exports = {
 	validateAttachmentTitle,
 	validateAttachmentKey,
 	validateAttachmentKeyAndTitle,
+	validateObjectiveInputs,
 };

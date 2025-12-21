@@ -1,4 +1,4 @@
-const { tagService } = require("../../services");
+const { tagService, userRightsService } = require("../../services");
 const { apiResponse, tagValidation } = require("../../utils");
 
 const createTag = async (req, res) => {
@@ -152,6 +152,89 @@ const retrieveTags = async (req, res) => {
 	}
 };
 
+const addTagToProject = async (req, res) => {
+	try {
+		const userIdUpdater = req.userId;
+		const { projectId = "" } = req.params;
+
+		let tagId = typeof req.body.tagId === "string" ? req.body.tagId : undefined;
+		const tagName = typeof req.body.tagName === "string" ? req.body.tagName : undefined;
+
+		// Validate input data for removing a tag
+		const validationResult = tagValidation.validateUpdateTagFromProjectInputs(userIdUpdater, projectId, tagId ?? tagName);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Retrieve Project Rights of the updater
+		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userIdUpdater);
+		if (rightsCheckResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
+		}
+
+		// Check if the user has canEditTags permission
+		if (!rightsCheckResult.projectRights.permissions.canEditTags) {
+			return apiResponse.unauthorizedResponse(res, "You do not have permission to update tags for this project.");
+		}
+
+		if (tagName) {
+			// Create the new tag first
+			const createTagResult = await tagService.createTag(tagName, "");
+			if (createTagResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, createTagResult.message);
+			}
+
+			tagId = createTagResult.data.tag.tagId;
+		}
+
+		// Add the tag to the project
+		const updateTagResult = await tagService.updateTagFromProject(projectId, userIdUpdater, tagId, "add");
+		if (updateTagResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateTagResult.message);
+		}
+
+		return apiResponse.successResponseWithData(res, "Tag added successfully.", { tag: updateTagResult.data.tag });
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const removeTagFromProject = async (req, res) => {
+	try {
+		const userIdUpdater = req.userId;
+		const { projectId = "" } = req.params;
+
+		const tagId = req.body.tagId ?? "";
+
+		// Validate input data for removing a tag
+		const validationResult = tagValidation.validateUpdateTagFromProjectInputs(userIdUpdater, projectId, tagId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Retrieve Project Rights of the updater
+		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userIdUpdater);
+		if (rightsCheckResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
+		}
+
+		// Check if the user has canEditTags permission
+		if (!rightsCheckResult.projectRights.permissions.canEditTags) {
+			return apiResponse.unauthorizedResponse(res, "You do not have permission to update tags for this project.");
+		}
+
+		// Remove the tag from the project
+		const removeTagResult = await tagService.updateTagFromProject(projectId, userIdUpdater, tagId, "remove");
+		if (removeTagResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, removeTagResult.message);
+		}
+
+		return apiResponse.successResponse(res, removeTagResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 module.exports = {
 	createTag,
 	createTags,
@@ -160,4 +243,6 @@ module.exports = {
 	retrieveTagWithId,
 	retrieveTagWithLink,
 	retrieveTags,
+	addTagToProject,
+	removeTagFromProject,
 };

@@ -4,7 +4,17 @@
 
 const projectRoute = require("express").Router();
 
-const { projectEditionController, projectCoverController, projectRightsController, projectController, memberController, talentNeededController, statusController } = require("../controllers");
+const {
+	projectEditionController,
+	projectCoverController,
+	projectRightsController,
+	projectController,
+	memberController,
+	talentNeededController,
+	statusController,
+	tagController,
+	objectiveController,
+} = require("../controllers");
 const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
 // Retrieve user rights for the project
@@ -27,6 +37,10 @@ projectRoute.patch("/titleCategory/:projectId", verifyAccess, projectController.
 projectRoute.patch("/information/:projectId", verifyAccess, projectController.updateProject);
 projectRoute.patch("/cover/:projectId", verifyAccess, projectCoverController.updateCover);
 projectRoute.delete("/members/:projectId", verifyAccess, memberController.removeProjectMember);
+projectRoute.post("/tag/:projectId", verifyAccess, tagController.addTagToProject);
+projectRoute.delete("/tag/:projectId", verifyAccess, tagController.removeTagFromProject);
+projectRoute.post("/objective/:projectId", verifyAccess, objectiveController.addObjective);
+projectRoute.delete("/objective/:projectId", verifyAccess, objectiveController.removeObjective);
 projectRoute.post("/talentNeeded/:projectId", verifyAccess, talentNeededController.addTalentNeeded);
 projectRoute.delete("/talentNeeded/:projectId", verifyAccess, talentNeededController.removeTalentNeeded);
 // projectRoute.patch("/rights/:projectId", verifyAccess, projectEditionController.updateProjectRights);
