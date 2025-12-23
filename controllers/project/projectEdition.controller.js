@@ -1,5 +1,5 @@
 const { projectService, statusService, tagService, userRightsService, joinProjectService } = require("../../services");
-const { apiResponse, projectValidation, encryptTools, statusTools } = require("../../utils");
+const { apiResponse, projectValidation, filterTools, encryptTools, statusTools } = require("../../utils");
 
 const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => {
 	return async (req, res) => {
@@ -50,8 +50,13 @@ const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => 
 				return apiResponse.unauthorizedResponse(res, "Data only available for the members of the project.");
 			}
 
+			const projectFiltered = filterTools.filterProjectOutputFields(project, userId);
+			if (projectFiltered.status !== "success") {
+				return apiResponse.clientErrorResponse(res, projectFiltered.message);
+			}
+
 			// Build the base response
-			const responseData = { project, userPermissions };
+			const responseData = { project: projectFiltered.project, userPermissions };
 
 			//Add specific data depending on the section
 			// For the section General, retrieve all available tags for edition
