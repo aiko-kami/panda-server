@@ -211,7 +211,7 @@ const validateUserRights = async (userId, projectId, updatedFields) => {
 
 		// Check if the user has permission to edit each field in updatedFields
 		for (const field of updatedFields) {
-			if (field === "locationOnlineOnly" || field === "locationCity" || field === "locationCountry") {
+			if (field === "locationOnlineOnly" || field === "locationCity" || field === "locationCountry" || field === "categoryId") {
 				continue; // Skip these fields for now - the check is done later below
 			}
 			let canEditField = userRights.permissions[`canEdit${field.charAt(0).toUpperCase() + field.slice(1)}`];
@@ -227,7 +227,8 @@ const validateUserRights = async (userId, projectId, updatedFields) => {
 		if (
 			(updatedFields.includes("locationOnlineOnly") && !userRights.permissions.canEditLocation) ||
 			(updatedFields.includes("locationCity") && !userRights.permissions.canEditLocation) ||
-			(updatedFields.includes("locationCountry") && !userRights.permissions.canEditLocation)
+			(updatedFields.includes("locationCountry") && !userRights.permissions.canEditLocation) ||
+			(updatedFields.includes("categoryId") && !userRights.permissions.canEditCategory)
 		) {
 			return {
 				canEdit: false,

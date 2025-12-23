@@ -139,11 +139,12 @@ const validateUpdatedProjectInputs = (projectData) => {
 		typeof projectData.goal !== "string" ||
 		typeof projectData.summary !== "string" ||
 		typeof projectData.description !== "string" ||
+		typeof projectData.categoryId !== "string" ||
+		typeof projectData.subCategory !== "string" ||
 		typeof projectData.locationCountry !== "string" ||
 		typeof projectData.locationCity !== "string" ||
 		(typeof projectData.locationOnlineOnly !== "boolean" && projectData.locationOnlineOnly !== "no value passed") ||
 		typeof projectData.startDate !== "string" ||
-		typeof projectData.phase !== "string" ||
 		typeof projectData.creatorMotivation !== "string" ||
 		typeof projectData.visibility !== "string" ||
 		!Array.isArray(projectData.tags) ||
@@ -246,7 +247,6 @@ const validateProjectDraftInputs = (projectData) => {
 		typeof projectData.locationCity !== "string" ||
 		(typeof projectData.locationOnlineOnly !== "boolean" && projectData.locationOnlineOnly !== "no value passed") ||
 		typeof projectData.startDate !== "string" ||
-		typeof projectData.phase !== "string" ||
 		typeof projectData.creatorMotivation !== "string" ||
 		typeof projectData.visibility !== "string" ||
 		!Array.isArray(projectData.tags) ||

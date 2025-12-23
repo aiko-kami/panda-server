@@ -38,6 +38,7 @@ const updateCover = async (req, res) => {
 		}
 
 		const isNewCoverPresent = inputFileCheckResult.isFile;
+
 		// If new cover is present in the request, upload new cover to AWS
 		if (isNewCoverPresent) {
 			const uploadCoverResult = await uploadService.uploadCover(req, res, projectId);
@@ -54,8 +55,8 @@ const updateCover = async (req, res) => {
 			}
 		}
 
-		const coverKey = req.file.key || "";
-		const coverLink = req.file.location || "";
+		const coverKey = req.file?.key || "";
+		const coverLink = req.file?.location || "";
 
 		//Set new cover link in the data to update the database
 		const updatedProjectData = {

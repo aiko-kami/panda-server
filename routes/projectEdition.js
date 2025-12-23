@@ -36,6 +36,7 @@ projectRoute.get("/details/:projectLink", verifyAccess, projectEditionController
 projectRoute.patch("/titleCategory/:projectId", verifyAccess, projectController.updateProject);
 projectRoute.patch("/information/:projectId", verifyAccess, projectController.updateProject);
 projectRoute.patch("/cover/:projectId", verifyAccess, projectCoverController.updateCover);
+projectRoute.patch("/members/:projectId", verifyAccess, memberController.updateProjectMember);
 projectRoute.delete("/members/:projectId", verifyAccess, memberController.removeProjectMember);
 projectRoute.post("/tag/:projectId", verifyAccess, tagController.addTagToProject);
 projectRoute.delete("/tag/:projectId", verifyAccess, tagController.removeTagFromProject);

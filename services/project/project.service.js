@@ -410,6 +410,61 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 	}
 };
 
+const updateProjectCategorySubCategory = async (projectId, categoryId, subCategory, userIdUpdater) => {
+	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
+		if (objectIdUserIdUpdater.status == "error") {
+			return { status: "error", message: objectIdUserIdUpdater.message };
+		}
+
+		// Find the project by projectId
+		const project = await Project.findOne({ _id: objectIdProjectId });
+		// Check if the project exists
+		if (!project) {
+			return { status: "error", message: "Project not found." };
+		}
+
+		//If category is updated
+		let objectIdCategoryId = "";
+		if (categoryId) {
+			objectIdCategoryId = encryptTools.convertIdToObjectId(categoryId);
+			if (objectIdCategoryId.status == "error") {
+				return { status: "error", message: objectIdCategoryId.message };
+			}
+
+			project.category = objectIdCategoryId;
+		}
+
+		//If sub-category is updated
+		if (subCategory) {
+			project.subCategory = subCategory;
+		}
+
+		project.updatedBy = objectIdUserIdUpdater;
+
+		// Save the updated project
+		const updatedProject = await project.save();
+		logger.info(`Project updated successfully. Project ID: ${projectId}`);
+		return {
+			status: "success",
+			message: "Project updated successfully.",
+			updatedProject,
+		};
+	} catch (error) {
+		logger.error("Error while updating the project: ", error);
+
+		return {
+			status: "error",
+			message: "An error occurred while updating the project.",
+		};
+	}
+};
+
 const updateProjectDraftSection = async (projectId, updatedData, userIdUpdater) => {
 	try {
 		// Convert id to ObjectId
@@ -960,6 +1015,7 @@ module.exports = {
 	removeProjectDraft,
 	processProjectApproval,
 	updateProject,
+	updateProjectCategorySubCategory,
 	updateProjectDraftSection,
 	retrieveProjectById,
 	retrieveProjectByLink,

@@ -394,6 +394,8 @@ const updateProject = async (req, res) => {
 		//Retrieve and initialize project data
 		const updatedProjectInputs = {
 			title: req.body.title ?? "",
+			categoryId: req.body.categoryId ?? "",
+			subCategory: req.body.subCategory ?? "",
 			goal: req.body.goal ?? "",
 			summary: req.body.summary ?? "",
 			description: req.body.description ?? "",
@@ -401,15 +403,12 @@ const updateProject = async (req, res) => {
 			locationCity: req.body.locationCity ?? "",
 			locationOnlineOnly: req.body.locationOnlineOnly ?? "no value passed",
 			startDate: req.body.startDate ?? "",
-			phase: req.body.phase ?? "",
 			creatorMotivation: req.body.creatorMotivation ?? "",
 			visibility: req.body.visibility ?? "",
 			tags: req.body.tags ?? [],
 			talentsNeeded: req.body.talentsNeeded ?? [],
 			objectives: req.body.objectives ?? [],
 		};
-
-		console.log("🚀 ~ updateProject ~ updatedProjectInputs:", updatedProjectInputs);
 
 		// Validate input data for updating project
 		const validationResult = projectValidation.validateUpdatedProjectInputs(updatedProjectInputs);
@@ -441,10 +440,25 @@ const updateProject = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, updateResult.message);
 		}
 
+		// If category or sub-category are updated, update the project category/sub-category
+		if (filterProjectInputs.categoryId || filterProjectInputs.subCategory) {
+			// Verify that category and sub-category (if sub-category provided) exist in the database
+			const categoryVerified = await categoryService.verifyCategoryAndSubCategoryExist(filterProjectInputs.categoryId, filterProjectInputs.subCategory);
+			if (categoryVerified.status !== "success") {
+				return apiResponse.clientErrorResponse(res, categoryVerified.message);
+			}
+
+			const updateCategoryResult = await projectService.updateProjectCategorySubCategory(projectId, filterProjectInputs.categoryId, filterProjectInputs.subCategory, userId);
+			if (updateCategoryResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, updateCategoryResult.message);
+			}
+		}
+
 		// Retrieve the updated project
 		const updatedProject = await projectService.retrieveProjectById(projectId, [
 			"-_id",
 			"title",
+			"link",
 			"goal",
 			"summary",
 			"description",
