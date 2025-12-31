@@ -36,15 +36,15 @@ projectRoute.get("/details/:projectLink", verifyAccess, projectEditionController
 projectRoute.patch("/titleCategory/:projectId", verifyAccess, projectController.updateProject);
 projectRoute.patch("/information/:projectId", verifyAccess, projectController.updateProject);
 projectRoute.patch("/cover/:projectId", verifyAccess, projectCoverController.updateCover);
-projectRoute.patch("/members/:projectId", verifyAccess, memberController.updateProjectMember);
-projectRoute.delete("/members/:projectId", verifyAccess, memberController.removeProjectMember);
 projectRoute.post("/tag/:projectId", verifyAccess, tagController.addTagToProject);
 projectRoute.delete("/tag/:projectId", verifyAccess, tagController.removeTagFromProject);
 projectRoute.post("/objective/:projectId", verifyAccess, objectiveController.addObjective);
 projectRoute.delete("/objective/:projectId", verifyAccess, objectiveController.removeObjective);
+projectRoute.patch("/members/:projectId", verifyAccess, memberController.updateProjectMember);
+projectRoute.delete("/members/:projectId", verifyAccess, memberController.removeProjectMember);
 projectRoute.post("/talentNeeded/:projectId", verifyAccess, talentNeededController.addTalentNeeded);
 projectRoute.delete("/talentNeeded/:projectId", verifyAccess, talentNeededController.removeTalentNeeded);
-// projectRoute.patch("/rights/:projectId", verifyAccess, projectEditionController.updateProjectRights);
+projectRoute.patch("/rights/:projectId", verifyAccess, projectRightsController.updateUsersProjectRights);
 projectRoute.patch("/status/:projectId", verifyAccess, statusController.updateProjectStatus);
 projectRoute.patch("/visibility/:projectId", verifyAccess, projectController.updateProject);
 projectRoute.patch("/location/:projectId", verifyAccess, projectController.updateProject);

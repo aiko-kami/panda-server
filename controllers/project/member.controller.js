@@ -47,7 +47,7 @@ const updateProjectMember = async (req, res) => {
 			// Update users's project rights
 			// If new role is "owner" ==> Set owner rights
 			if (updatedMemberInputs.newRole === "owner") {
-				const setRightsResult = await userRightsService.updateUserProjectRights(projectId, updatedMemberInputs.memberId, "owner", userIdUpdater);
+				const setRightsResult = await userRightsService.updateUserProjectRights(projectId, { userId: updatedMemberInputs.memberId, permissions: "owner" }, userIdUpdater);
 				if (setRightsResult.status !== "success") {
 					return apiResponse.serverErrorResponse(res, setRightsResult.message);
 				}
@@ -55,7 +55,7 @@ const updateProjectMember = async (req, res) => {
 
 			// If new role is "member" ==> Set member rights
 			else if (updatedMemberInputs.newRole === "member") {
-				const setRightsResult = await userRightsService.updateUserProjectRights(projectId, updatedMemberInputs.memberId, "member", userIdUpdater);
+				const setRightsResult = await userRightsService.updateUserProjectRights(projectId, { userId: updatedMemberInputs.memberId, permissions: "member" }, userIdUpdater);
 				if (setRightsResult.status !== "success") {
 					return apiResponse.serverErrorResponse(res, setRightsResult.message);
 				}

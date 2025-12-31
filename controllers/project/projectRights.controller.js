@@ -10,13 +10,22 @@ const { apiResponse, projectRightsValidation, projectValidation, encryptTools } 
 const updateUserProjectRights = async (req, res) => {
 	try {
 		const userIdUpdater = req.userId;
-		const { updatedPermissions, userIdUpdated } = req.body;
 		const { projectId } = req.params;
 
+		const member = {
+			userId: req.body.userIdUpdated ?? "",
+			permissions: req.body.updatedPermissions ?? {},
+		};
+
 		// Validate input data for updating user's right
-		const validationResult = projectRightsValidation.validateUserProjectRightsInputs(userIdUpdater, userIdUpdated, projectId, updatedPermissions);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
+		const validationIdsResult = projectRightsValidation.validateUserProjectRightsIds(userIdUpdater, projectId);
+		if (validationIdsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
+		}
+
+		const validationInputsResult = projectRightsValidation.validateUserProjectRightsInputs(member);
+		if (validationInputsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationInputsResult.message);
 		}
 
 		// Retrieve Project Rights of the updater
@@ -30,9 +39,8 @@ const updateUserProjectRights = async (req, res) => {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to update project rights.");
 		}
 
-		//Check if the user to be updated is owner of the project
+		// Retrieve Project Members
 		const ProjectMembersResult = await projectService.retrieveProjectById(projectId, ["members"]);
-
 		if (ProjectMembersResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, ProjectMembersResult.message);
 		}
@@ -40,29 +48,28 @@ const updateUserProjectRights = async (req, res) => {
 		const projectMembers = ProjectMembersResult.project.members;
 
 		// Convert id to ObjectId
-		const objectIdUserIdUpdated = encryptTools.convertIdToObjectId(userIdUpdated);
+		const objectIdUserIdUpdated = encryptTools.convertIdToObjectId(member.userIdUpdated);
 		if (objectIdUserIdUpdated.status == "error") {
 			return apiResponse.serverErrorResponse(res, objectIdUserIdUpdated.message);
 		}
 
 		// Find the user to be updated in the project's members
-		const userToBeUpdated = projectMembers.find((member) => member.user.toString() === objectIdUserIdUpdated.toString());
-
+		const userToBeUpdated = projectMembers.find((projectMember) => projectMember.user.toString() === objectIdUserIdUpdated.toString());
 		if (!userToBeUpdated) {
 			// If user to be updated is not member of the project, return error
-			return apiResponse.unauthorizedResponse(res, "Member not found for this project.");
+			return apiResponse.serverErrorResponse(res, "Member not found for this project.");
 		}
-
 		if (userToBeUpdated.role === "owner") {
 			// If user to be updated is the owner of the project, its rights cannot be updated
 			return apiResponse.unauthorizedResponse(res, "The owner of the project cannot have its rights updated.");
 		}
 
 		// Update the user's project rights
-		const updateResult = await userRightsService.updateUserProjectRights(projectId, userIdUpdated, updatedPermissions, userIdUpdater);
+		const updateResult = await userRightsService.updateUserProjectRights(projectId, member, userIdUpdater);
 		if (updateResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updateResult.message);
 		}
+
 		return apiResponse.successResponse(res, updateResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(
@@ -70,6 +77,74 @@ const updateUserProjectRights = async (req, res) => {
 
 			error.message
 		);
+	}
+};
+
+const updateUsersProjectRights = async (req, res) => {
+	try {
+		const userIdUpdater = req.userId;
+		const { projectId } = req.params;
+		const { members } = req.body;
+
+		// Validate input data for updating user's right
+		const validationIdsResult = projectRightsValidation.validateUserProjectRightsIds(userIdUpdater, projectId);
+		if (validationIdsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
+		}
+
+		const validationInputsResult = projectRightsValidation.validateUsersProjectRightsInputs(members);
+		if (validationInputsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationInputsResult.message);
+		}
+
+		// Retrieve Project Rights of the updater
+		const rightsCheckResult = await userRightsService.retrieveProjectRights(projectId, userIdUpdater);
+		if (rightsCheckResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
+		}
+
+		// Check if the user has canEditRights permission
+		if (!rightsCheckResult.projectRights.permissions.canEditRights) {
+			return apiResponse.unauthorizedResponse(res, "You do not have permission to update project rights.");
+		}
+
+		//Retrieve Project Members
+		const ProjectMembersResult = await projectService.retrieveProjectById(projectId, ["members"]);
+		if (ProjectMembersResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, ProjectMembersResult.message);
+		}
+
+		const projectMembers = ProjectMembersResult.project.members;
+
+		// Loop through members to update
+		for (const member of members) {
+			// Convert id to ObjectId
+			const objectIdUserIdUpdated = encryptTools.convertIdToObjectId(member.userId);
+			if (objectIdUserIdUpdated.status == "error") {
+				return apiResponse.serverErrorResponse(res, objectIdUserIdUpdated.message);
+			}
+
+			// Find the user to be updated in the project's members
+			const userToBeUpdated = projectMembers.find((projectMember) => projectMember.user._id.toString() === objectIdUserIdUpdated.toString());
+			if (!userToBeUpdated) {
+				// If user to be updated is not member of the project, return error
+				return apiResponse.serverErrorResponse(res, "Member not found for this project.");
+			}
+
+			if (userToBeUpdated.role === "owner") {
+				// If user to be updated is the owner of the project, its rights cannot be updated - this member is skipped
+				continue;
+			}
+
+			// Update the user's project rights
+			const updateResult = await userRightsService.updateUserProjectRights(projectId, member, userIdUpdater);
+			if (updateResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, updateResult.message);
+			}
+		}
+		return apiResponse.successResponse(res, "Project rights updated successfully");
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
 
@@ -101,5 +176,6 @@ const retrieveUserProjectRights = async (req, res) => {
 
 module.exports = {
 	updateUserProjectRights,
+	updateUsersProjectRights,
 	retrieveUserProjectRights,
 };

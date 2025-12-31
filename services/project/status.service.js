@@ -67,11 +67,7 @@ const updateProjectStatus = async (projectId, userIdUpdater, newStatusId, reason
 			timestamp: DateTime.now().toHTTP(),
 		});
 
-		console.log("🚀 ~ updateProjectStatus ~ project:", project);
 		const updatedProject = await project.save();
-
-		console.log("🚀 ~ updateProjectStatus ~ updatedProject:", updatedProject);
-
 		logger.info(`Project status updated successfully. Project ID: ${projectId} - Updater user ID: ${userIdUpdater} - Former project status: ${formerStatus} - New project status: ${newStatus.status}`);
 		return { status: "success", message: "Project status updated successfully.", project: updatedProject };
 	} catch (error) {
