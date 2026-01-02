@@ -653,10 +653,16 @@ const retrieveProjectPublicDataWithLink = async (req, res) => {
 		}
 		//Filter users public data from project
 		projectData.project.statusInfo.statusHistory = undefined;
+
 		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project, "unknown");
 		if (projectFiltered.status !== "success") {
 			return apiResponse.clientErrorResponse(res, projectFiltered.message);
 		}
+
+		if (projectFiltered.project?.steps?.stepsList) {
+			projectFiltered.project.steps.stepsList = projectFiltered.project.steps.stepsList.filter((step) => step.published === true);
+		}
+
 		return apiResponse.successResponseWithData(res, projectData.message, { project: projectFiltered.project });
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
