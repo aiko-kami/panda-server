@@ -639,6 +639,7 @@ const retrieveProjectPublicDataWithLink = async (req, res) => {
 				"creatorMotivation",
 				"tags",
 				"steps",
+				"QAs",
 				"talentsNeeded",
 				"objectives",
 				"statusInfo",
@@ -661,6 +662,10 @@ const retrieveProjectPublicDataWithLink = async (req, res) => {
 
 		if (projectFiltered.project?.steps?.stepsList) {
 			projectFiltered.project.steps.stepsList = projectFiltered.project.steps.stepsList.filter((step) => step.published === true);
+		}
+
+		if (projectFiltered.project?.QAs?.QAsList) {
+			projectFiltered.project.QAs.QAsList = projectFiltered.project.QAs.QAsList.filter((QA) => QA.published === true);
 		}
 
 		return apiResponse.successResponseWithData(res, projectData.message, { project: projectFiltered.project });

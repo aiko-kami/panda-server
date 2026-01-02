@@ -82,24 +82,36 @@ const validateStepTitle = (stepTitle) => {
 
 const validateQAs = (QAs) => {
 	//String type validation
-	if (!Array.isArray(QAs) || !QAs((qa) => typeof qa === "string") || QAs.length === 0) {
+	if (!Array.isArray(QAs) || QAs.length === 0) {
 		return { status: "error", message: "Invalid type of data." };
 	}
 	// Check every element
 	for (const QA of QAs) {
-		if (typeof QA.question !== "string" || QA.question.trim() === "") {
+		if (!QA.question) {
 			return {
 				status: "error",
-				message: "Q&A question is required and must be a non-empty string.",
+				message: "Q&A question is required.",
 			};
 		}
-		if (QA.response !== undefined && typeof QA.response !== "string") {
+		if (typeof QA.question !== "string") {
+			return {
+				status: "error",
+				message: "Invalid type of data for Q&A question.",
+			};
+		}
+		if (!QA.response) {
+			return {
+				status: "error",
+				message: "Q&A response is required.",
+			};
+		}
+		if (typeof QA.response !== "string") {
 			return {
 				status: "error",
 				message: "Invalid type of data for Q&A response.",
 			};
 		}
-		if (QA.published !== undefined && typeof QA.published !== "boolean") {
+		if (typeof QA.published !== "boolean") {
 			return {
 				status: "error",
 				message: "Invalid type of data for Q&A published.",

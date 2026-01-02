@@ -54,23 +54,21 @@ const addQAs = async (req, res) => {
 const updateQAs = async (req, res) => {
 	try {
 		const userId = req.userId;
-
 		const { projectId = "", QAs = [] } = req.body;
-
 		const ids = {
 			userId,
 			projectId,
 		};
 
 		// Validate input data for updating project QAs
-		const validationResult = idsValidation.validateIdsInputs(ids);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
+		const validationIdsResult = idsValidation.validateIdsInputs(ids);
+		if (validationIdsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
 		}
 
-		const QAValidationResult = stringValidation.validateQAs(QAs);
-		if (QAValidationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, QAValidationResult.message);
+		const validationQAsResult = stringValidation.validateQAs(QAs);
+		if (validationQAsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationQAsResult.message);
 		}
 
 		// Retrieve Project Rights of the user

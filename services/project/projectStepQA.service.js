@@ -100,6 +100,7 @@ const editSteps = async (projectId, userIdUpdater, steps, actionType) => {
 			logger.info(`Project steps updated successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater}`);
 			return { status: "success", message: "Project steps updated successfully." };
 		}
+
 		if (actionType === "publish" || actionType === "unpublish") {
 			const stepTitle = steps;
 			// Find the step with the given title
@@ -138,6 +139,7 @@ const editSteps = async (projectId, userIdUpdater, steps, actionType) => {
 			logger.info(`Project step ${actionType}ed successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater}`);
 			return { status: "success", message: `Project step ${actionType}ed successfully` };
 		}
+
 		if (actionType === "remove") {
 			const stepTitle = steps;
 			// Find the index of the step with the given title
@@ -254,7 +256,6 @@ const editQAs = async (projectId, userIdUpdater, QAs, actionType) => {
 		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
-
 		if (!project) {
 			return { status: "error", message: "Project not found." };
 		}
@@ -290,17 +291,21 @@ const editQAs = async (projectId, userIdUpdater, QAs, actionType) => {
 		}
 
 		if (actionType === "update") {
-			// Check if there are already QAs
-			if (!project.QAs.QAsList || project.QAs.QAsList.length === 0) {
-				return { status: "error", message: "No Q&A found for this project." };
+			// Ensure QAs object exists
+			if (!project.QAs) {
+				project.QAs = {};
 			}
 
-			// Update all QAs with the provided data
-			project.QAs.QAsList = QAs.map((updatedQA) => ({
-				question: updatedQA.question,
-				response: updatedQA.response || "",
-				published: updatedQA.published ? true : false,
-			}));
+			project.QAs.QAsList = [];
+
+			for (const QA of QAs) {
+				// Add the QA to the project's QAs list
+				project.QAs.QAsList.push({
+					question: QA.question,
+					response: QA.response,
+					published: QA.published ? true : false,
+				});
+			}
 
 			// Update timestamps and the user who made the changes
 			project.updatedBy = objectIdUserIdUpdater;
@@ -313,6 +318,7 @@ const editQAs = async (projectId, userIdUpdater, QAs, actionType) => {
 			logger.info(`Project Q&A updated successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater}`);
 			return { status: "success", message: "Project Q&A updated successfully." };
 		}
+
 		if (actionType === "publish" || actionType === "unpublish") {
 			const QAQuestion = QAs;
 			// Find the QA with the given question
@@ -351,6 +357,7 @@ const editQAs = async (projectId, userIdUpdater, QAs, actionType) => {
 			logger.info(`Project Q&A ${actionType}ed successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater}`);
 			return { status: "success", message: `Project Q&A ${actionType}ed successfully` };
 		}
+
 		if (actionType === "remove") {
 			const QAQuestion = QAs;
 			// Find the index of the QA with the given question

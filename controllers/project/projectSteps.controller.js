@@ -61,14 +61,14 @@ const updateSteps = async (req, res) => {
 		};
 
 		// Validate input data for updating project steps
-		const validationResult = idsValidation.validateIdsInputs(ids);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
+		const validationIdsResult = idsValidation.validateIdsInputs(ids);
+		if (validationIdsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
 		}
 
-		const stepValidationResult = stringValidation.validateSteps(steps);
-		if (stepValidationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, stepValidationResult.message);
+		const validationStepsResult = stringValidation.validateSteps(steps);
+		if (validationStepsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationStepsResult.message);
 		}
 
 		// Retrieve Project Rights of the user
