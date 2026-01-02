@@ -1,4 +1,4 @@
-const { Project } = require("../../models");
+const { Project, Status } = require("../../models");
 const { logger, encryptTools, filterTools } = require("../../utils");
 const { DateTime } = require("luxon");
 
@@ -24,7 +24,6 @@ const editSteps = async (projectId, userIdUpdater, steps, actionType) => {
 		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
-
 		if (!project) {
 			return { status: "error", message: "Project not found." };
 		}
@@ -61,12 +60,34 @@ const editSteps = async (projectId, userIdUpdater, steps, actionType) => {
 		}
 
 		if (actionType === "update") {
-			// Update all steps with the provided data
-			project.steps.stepsList = steps.map((updatedStep) => ({
-				title: updatedStep.title,
-				details: updatedStep.details || "",
-				published: updatedStep.published ? true : false,
-			}));
+			// Ensure steps object exists
+			if (!project.steps) {
+				project.steps = {};
+			}
+
+			project.steps.stepsList = [];
+
+			for (const step of steps) {
+				// Convert status id to ObjectId
+				const objectIdStatusId = encryptTools.convertIdToObjectId(step.statusId);
+				if (objectIdStatusId.status == "error") {
+					return { status: "error", message: objectIdStatusId.message };
+				}
+
+				//Check if the steps status exist
+				statusExist = await Status.findOne({ _id: objectIdStatusId });
+				if (!statusExist) {
+					return { status: "error", message: `Status with ID ${step.statusId} not found.` };
+				}
+
+				// Add the step to the project's steps list
+				project.steps.stepsList.push({
+					title: step.title,
+					details: step.details || "",
+					published: step.published ? true : false,
+					status: objectIdStatusId,
+				});
+			}
 
 			// Update timestamps and the user who made the changes
 			project.updatedBy = objectIdUserIdUpdater;

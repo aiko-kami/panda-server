@@ -30,46 +30,22 @@ const validateStep = (step) => {
 			message: "Invalid type of data for step details.",
 		};
 	}
-	if (!step.published) {
-		return {
-			status: "error",
-			message: "Step published is required.",
-		};
-	}
 	if (typeof step.published !== "boolean") {
 		return {
 			status: "error",
 			message: "Invalid type of data for step published.",
 		};
 	}
-	if (!step.status) {
+	if (!step.statusId) {
 		return {
 			status: "error",
-			message: "Step status is required.",
+			message: "Step status ID is required.",
 		};
 	}
-	if (typeof step.status !== "string") {
+	if (typeof step.statusId !== "string") {
 		return {
 			status: "error",
-			message: "Invalid type of data for step status.",
-		};
-	}
-	if (!projectStepStatus.includes(step.status)) {
-		return {
-			status: "error",
-			message: "Invalid step status.",
-		};
-	}
-	if (step.index === undefined) {
-		return {
-			status: "error",
-			message: "Step index is required.",
-		};
-	}
-	if (typeof step.index !== "number" || !Number.isInteger(step.index) || step.index < 0) {
-		return {
-			status: "error",
-			message: "Step index must be a non-negative integer.",
+			message: "Invalid type of data for step status ID.",
 		};
 	}
 	// If all validations passed
@@ -87,11 +63,6 @@ const validateSteps = (steps) => {
 		if (result.status !== "success") {
 			return result; // return the first error found
 		}
-	}
-	// Validate uniqueness of indexes across all steps
-	const indexes = steps.map((s) => s.index);
-	if (new Set(indexes).size !== indexes.length) {
-		return { status: "error", message: "Step indexes must be unique." };
 	}
 	// If all validations passed
 	return { status: "success" };
@@ -116,25 +87,19 @@ const validateQAs = (QAs) => {
 	}
 	// Check every element
 	for (const QA of QAs) {
-		if (!QA.question) {
+		if (typeof QA.question !== "string" || QA.question.trim() === "") {
 			return {
 				status: "error",
-				message: "Q&A question required.",
+				message: "Q&A question is required and must be a non-empty string.",
 			};
 		}
-		if (typeof QA.question !== "string") {
-			return {
-				status: "error",
-				message: "Invalid type of data for Q&A question.",
-			};
-		}
-		if (QA.response && typeof QA.response !== "string") {
+		if (QA.response !== undefined && typeof QA.response !== "string") {
 			return {
 				status: "error",
 				message: "Invalid type of data for Q&A response.",
 			};
 		}
-		if (QA.published && typeof QA.published !== "boolean") {
+		if (QA.published !== undefined && typeof QA.published !== "boolean") {
 			return {
 				status: "error",
 				message: "Invalid type of data for Q&A published.",

@@ -42,7 +42,7 @@ projectExtendedRoute.get("/projectLikes", projectLikeController.retrieveProjectL
 
 // Project steps
 projectExtendedRoute.patch("/addProjectSteps", verifyAccess, projectStepsController.addSteps);
-projectExtendedRoute.patch("/editProjectSteps", verifyAccess, projectStepsController.editSteps);
+projectExtendedRoute.patch("/editProjectSteps", verifyAccess, projectStepsController.updateSteps);
 projectExtendedRoute.patch("/publishProjectStep", verifyAccess, projectStepsController.publishStep);
 projectExtendedRoute.patch("/unpublishProjectStep", verifyAccess, projectStepsController.unpublishStep);
 projectExtendedRoute.delete("/removeProjectStep", verifyAccess, projectStepsController.removeStep);
@@ -51,7 +51,7 @@ projectExtendedRoute.get("/projectStepsAll", verifyAccess, projectStepsControlle
 
 // Project Q and A
 projectExtendedRoute.patch("/addProjectQAs", verifyAccess, projectQAController.addQAs);
-projectExtendedRoute.patch("/editProjectQAs", verifyAccess, projectQAController.editQAs);
+projectExtendedRoute.patch("/editProjectQAs", verifyAccess, projectQAController.updateQAs);
 projectExtendedRoute.patch("/publishProjectQA", verifyAccess, projectQAController.publishQA);
 projectExtendedRoute.patch("/unpublishProjectQA", verifyAccess, projectQAController.unpublishQA);
 projectExtendedRoute.delete("/removeProjectQA", verifyAccess, projectQAController.removeQA);

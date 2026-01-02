@@ -89,6 +89,16 @@ const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => 
 				}
 			}
 
+			// For the section Steps, retrieve all available statues for edition
+			if (projectSectionEdition === "SectionSteps") {
+				const retrievedStatuses = await statusService.retrieveAllStatuses("projectStep", ["-_id", "status", "statusId", "description", "colors"]);
+				if (retrievedStatuses.status !== "success") {
+					return apiResponse.serverErrorResponse(res, retrievedStatuses.message);
+				}
+
+				responseData.statusesList = retrievedStatuses.statuses;
+			}
+
 			// For the section Members, retrieve joinProject requests and invitations
 			if (projectSectionEdition === "SectionMembers") {
 				responseData.joinProject = {};

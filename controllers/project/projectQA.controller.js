@@ -51,7 +51,7 @@ const addQAs = async (req, res) => {
 	}
 };
 
-const editQAs = async (req, res) => {
+const updateQAs = async (req, res) => {
 	try {
 		const userId = req.userId;
 
@@ -291,7 +291,7 @@ const retrieveProjectQAsAll = async (req, res) => {
 
 module.exports = {
 	addQAs,
-	editQAs,
+	updateQAs,
 	publishQA,
 	unpublishQA,
 	removeQA,

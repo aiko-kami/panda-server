@@ -34,7 +34,7 @@ const stepSchema = new Schema({
 	title: { type: String, required: true, trim: true },
 	details: { type: String },
 	published: { type: Boolean, default: false },
-	status: { type: Schema.Types.ObjectId, ref: "ProjectStepConfig", required: true },
+	status: { type: Schema.Types.ObjectId, ref: "Status", required: true },
 });
 
 const QASchema = new Schema({

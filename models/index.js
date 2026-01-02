@@ -18,7 +18,6 @@ db.LikeProject = require("./likeProject.model");
 db.Project = require("./project.model");
 db.ProjectRights = require("./projectRights.model");
 db.Status = require("./status.model");
-db.ProjectStepConfig = require("./projectStepConfig.model");
 db.Tag = require("./tag.model");
 
 // Import tokens models

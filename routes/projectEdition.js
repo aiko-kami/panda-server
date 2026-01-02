@@ -14,6 +14,8 @@ const {
 	statusController,
 	tagController,
 	objectiveController,
+	projectStepsController,
+	projectQAController,
 } = require("../controllers");
 const { verifyAccess } = require("../middlewares/verifyAccess.middleware");
 
@@ -48,6 +50,8 @@ projectRoute.patch("/rights/:projectId", verifyAccess, projectRightsController.u
 projectRoute.patch("/status/:projectId", verifyAccess, statusController.updateProjectStatus);
 projectRoute.patch("/visibility/:projectId", verifyAccess, projectController.updateProject);
 projectRoute.patch("/location/:projectId", verifyAccess, projectController.updateProject);
+projectRoute.patch("/steps/:projectId", verifyAccess, projectStepsController.updateSteps);
+projectRoute.patch("/QAs/:projectId", verifyAccess, projectQAController.updateQAs);
 // projectRoute.patch("/attachements/:projectId", verifyAccess, projectEditionController.updateProjectAttachements);
 // projectRoute.patch("/steps/:projectId", verifyAccess, projectEditionController.updateProjectSteps);
 // projectRoute.patch("/QAs/:projectId", verifyAccess, projectEditionController.updateProjectQAs);

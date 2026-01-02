@@ -51,12 +51,10 @@ const addSteps = async (req, res) => {
 	}
 };
 
-const editSteps = async (req, res) => {
+const updateSteps = async (req, res) => {
 	try {
 		const userId = req.userId;
-
 		const { projectId = "", steps } = req.body;
-
 		const ids = {
 			userId,
 			projectId,
@@ -290,7 +288,7 @@ const retrieveProjectStepsAll = async (req, res) => {
 
 module.exports = {
 	addSteps,
-	editSteps,
+	updateSteps,
 	publishStep,
 	unpublishStep,
 	removeStep,
