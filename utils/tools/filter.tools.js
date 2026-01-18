@@ -159,45 +159,67 @@ const handleUserFiltering = (user, userIdViewer) => {
 		if (userCopy.profilePicture) {
 			if (userCopy.profilePicture.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.profilePicture = undefined;
+			} else {
+				delete userCopy.profilePicture.privacy;
 			}
 		}
 		if (userCopy.backgroundPicture) {
 			if (userCopy.backgroundPicture.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.backgroundPicture = undefined;
+			} else {
+				delete userCopy.backgroundPicture.privacy;
 			}
 		}
 		if (userCopy.location && userCopy.location.city) {
 			if (userCopy.location.city.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.location.city = undefined;
+			} else {
+				userCopy.location.city = userCopy.location.city.data;
+				delete userCopy.location.city.privacy;
 			}
 		}
 		if (userCopy.location && userCopy.location.country) {
 			if (userCopy.location.country.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.location.country = undefined;
+			} else {
+				userCopy.location.country = userCopy.location.country.data;
+				delete userCopy.location.country.privacy;
 			}
 		}
 		if (userCopy.company) {
 			if (userCopy.company.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.company = undefined;
+			} else {
+				userCopy.company = userCopy.company.data;
+				delete userCopy.company.privacy;
 			}
 		}
 		if (userCopy.bio) {
 			if (userCopy.bio.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.bio = undefined;
+			} else {
+				userCopy.bio = userCopy.bio.data;
+				delete userCopy.bio.privacy;
 			}
 		}
 		if (userCopy.languages) {
 			if (userCopy.languages.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.languages = undefined;
+			} else {
+				userCopy.languages = userCopy.languages.data;
+				delete userCopy.languages.privacy;
 			}
 		}
 		if (userCopy.website) {
 			if (userCopy.website.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
 				userCopy.website = undefined;
+			} else {
+				userCopy.website = userCopy.website.data;
+				delete userCopy.website.privacy;
 			}
 		}
 		if (userCopy._id) {
-			userCopy._id = undefined;
+			delete userCopy._id;
 		}
 		return userCopy;
 	} catch (error) {
@@ -222,6 +244,7 @@ const filterUserPrivacyFields = (user) => {
 
 		const privacySettings = {
 			privacyProfilePicture: user.profilePicture?.privacy || null,
+			privacyBackgroundPicture: user.backgroundPicture?.privacy || null,
 			privacyBio: user.bio?.privacy || null,
 			privacyLocationCity: user.location?.city?.privacy || null,
 			privacyLocationCountry: user.location?.country?.privacy || null,

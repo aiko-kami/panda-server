@@ -309,6 +309,7 @@ const updateUserSettingsPrivacy = async (req, res) => {
 		//Retrieve and initialize user privacy data
 		const updatedPrivacyInputs = {
 			profilePicture: req.body.userNewData.privacyProfilePicture || "",
+			backgroundPicture: req.body.userNewData.privacyBackgroundPicture || "",
 			bio: req.body.userNewData.privacyBio || "",
 			locationCity: req.body.userNewData.privacyLocationCity || "",
 			locationCountry: req.body.userNewData.privacyLocationCountry || "",
@@ -780,7 +781,7 @@ const retrieveUserOverview = async (req, res) => {
 		if (userFiltered.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userFiltered.message);
 		}
-		return apiResponse.successResponseWithData(res, userData.message, userFiltered.user);
+		return apiResponse.successResponseWithData(res, userData.message, { user: userFiltered.user });
 	} catch (error) {
 		// Throw error in json response with status 500.
 		return apiResponse.serverErrorResponse(res, error.message);
@@ -797,7 +798,19 @@ const retrieveUserPublicData = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
-		const userData = await userService.retrieveUserById(userId, ["username", "createdAt", "location", "company", "description", "bio", "languages", "website", "profilePicture"]);
+		const userData = await userService.retrieveUserById(userId, [
+			"username",
+			"createdAt",
+			"location",
+			"company",
+			"description",
+			"bio",
+			"languages",
+			"website",
+			"profilePicture",
+			"backgroundPicture",
+			"talents",
+		]);
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);
 		}
@@ -807,7 +820,7 @@ const retrieveUserPublicData = async (req, res) => {
 		if (userFiltered.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userFiltered.message);
 		}
-		return apiResponse.successResponseWithData(res, userData.message, userFiltered.user);
+		return apiResponse.successResponseWithData(res, userData.message, { user: userFiltered.user });
 	} catch (error) {
 		// Throw error in json response with status 500.
 		return apiResponse.serverErrorResponse(res, error.message);
