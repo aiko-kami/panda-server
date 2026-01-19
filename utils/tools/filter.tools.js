@@ -290,6 +290,9 @@ const handleProjectFiltering = (project, userIdViewer) => {
 		if (project.updatedBy) {
 			project.updatedBy = filterUserOutputFields(project.updatedBy, userIdViewer).user;
 		}
+		if (project.createdBy) {
+			project.createdBy = filterUserOutputFields(project.createdBy, userIdViewer).user;
+		}
 		if (project.steps && project.steps.updatedBy) {
 			project.steps.updatedBy = filterUserOutputFields(project.steps.updatedBy, userIdViewer).user;
 		}

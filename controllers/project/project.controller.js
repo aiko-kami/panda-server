@@ -600,7 +600,7 @@ const retrieveProjectPublicDataWithId = async (req, res) => {
 				"link",
 				"likes",
 			],
-			{ visibility: "public" }
+			{ visibility: "public" },
 		);
 
 		if (projectData.status !== "success") {
@@ -647,7 +647,7 @@ const retrieveProjectPublicDataWithLink = async (req, res) => {
 				"link",
 				"likes",
 			],
-			{ visibility: "public" }
+			{ visibility: "public" },
 		);
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
@@ -656,6 +656,9 @@ const retrieveProjectPublicDataWithLink = async (req, res) => {
 		projectData.project.statusInfo.statusHistory = undefined;
 
 		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project, "unknown");
+
+		console.log("🚀 ~ retrieveProjectPublicDataWithLink ~ projectFiltered:", projectFiltered);
+
 		if (projectFiltered.status !== "success") {
 			return apiResponse.clientErrorResponse(res, projectFiltered.message);
 		}
@@ -682,7 +685,7 @@ const retrieveNewProjects = async (req, res) => {
 				visibility: "public",
 				"statusInfo.currentStatus.status": "active",
 			},
-			4
+			4,
 		);
 		if (newProjects.status !== "success") {
 			return apiResponse.serverErrorResponse(res, newProjects.message);
@@ -729,7 +732,7 @@ const retrieveSubmittedProjects = async (req, res) => {
 			{
 				"statusInfo.currentStatus.status": "submitted",
 			},
-			999
+			999,
 		);
 
 		if (submittedProjects.status !== "success") {

@@ -223,13 +223,31 @@ const retrieveProjectRights = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, membersProjectRightsResult.message);
 		}
 
-		const enrichedMembers = membersProjectRightsResult.membersProjectRights.map((memberRights) => {
+		//Filter members public data from users
+		const users = membersProjectRightsResult.membersProjectRights.map((item) => item.user);
+
+		const membersFiltered = filterTools.filterUsersOutputFields(users, "unknown");
+		if (membersFiltered.status !== "success") {
+			return apiResponse.serverErrorResponse(res, membersFiltered.message);
+		}
+
+		const filteredUsersMap = new Map(membersFiltered.users.map((user) => [user.userId, user]));
+
+		// Recompose membersProjectRights
+		const membersProjectRightsFiltered = membersProjectRightsResult.membersProjectRights.map((item) => ({
+			...item,
+			user: filteredUsersMap.get(item.user.userId) ?? item.user,
+		}));
+
+		const enrichedMembers = membersProjectRightsFiltered.map((memberRights) => {
 			const correspondingMember = projectMembers.find((m) => m.user.userId === memberRights.user.userId);
 			return {
 				...memberRights,
 				role: correspondingMember?.role || null,
 			};
 		});
+
+		console.log("🚀 ~ retrieveProjectRights ~ enrichedMembers:", enrichedMembers);
 
 		// Build the base response
 		const responseData = { projectId: projectId, membersProjectRights: enrichedMembers, userPermissions: UserProjectRightsResult.projectRights.permissions };
