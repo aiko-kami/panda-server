@@ -656,9 +656,6 @@ const retrieveProjectPublicDataWithLink = async (req, res) => {
 		projectData.project.statusInfo.statusHistory = undefined;
 
 		const projectFiltered = filterTools.filterProjectOutputFields(projectData.project, "unknown");
-
-		console.log("🚀 ~ retrieveProjectPublicDataWithLink ~ projectFiltered:", projectFiltered);
-
 		if (projectFiltered.status !== "success") {
 			return apiResponse.clientErrorResponse(res, projectFiltered.message);
 		}

@@ -13,6 +13,7 @@ const retrieveMyUserData = async (req, res) => {
 
 		const userData = await userService.retrieveUserById(userId, [
 			"username",
+			"userId",
 			"email",
 			"createdAt",
 			"updatedAt",
@@ -84,6 +85,7 @@ const retrieveMyUserSettings = async (req, res) => {
 		};
 
 		return apiResponse.successResponseWithData(res, "User settings retrieved successfully.", {
+			userId,
 			userSettings: responseSettings,
 		});
 	} catch (error) {

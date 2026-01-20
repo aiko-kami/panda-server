@@ -247,8 +247,6 @@ const retrieveProjectRights = async (req, res) => {
 			};
 		});
 
-		console.log("🚀 ~ retrieveProjectRights ~ enrichedMembers:", enrichedMembers);
-
 		// Build the base response
 		const responseData = { projectId: projectId, membersProjectRights: enrichedMembers, userPermissions: UserProjectRightsResult.projectRights.permissions };
 
