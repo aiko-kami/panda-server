@@ -156,8 +156,75 @@ const removeTalent = async (talentName, userId) => {
 	}
 };
 
+const updateQuickSkills = async (userId, skill, action) => {
+	try {
+		// Convert id to ObjectId
+		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (ObjectIdUserId.status == "error") {
+			return { status: "error", message: ObjectIdUserId.message };
+		}
+
+		// Find the user by userId
+		const user = await User.findOne({ _id: ObjectIdUserId });
+
+		// Check if the user exists
+		if (!user) {
+			return { status: "error", message: "User not found." };
+		}
+
+		// Find the index of the skill to be updated based on its unique name
+		const existingSkillIndex = user.quickSkills.data.findIndex((sk) => sk.toLowerCase() === skill.toLowerCase());
+
+		if (action === "add") {
+			if (existingSkillIndex !== -1) {
+				return { status: "error", message: "Skill already present." };
+			}
+
+			// Max objectives limit
+			const MAX_QUICK_SKILLS = 10;
+
+			if (user.quickSkills.data.length >= MAX_QUICK_SKILLS) {
+				return {
+					status: "error",
+					message: `You cannot add more than ${MAX_QUICK_SKILLS} skills.`,
+				};
+			}
+
+			// Add new objective
+			user.quickSkills.data.push(skill);
+
+			await user.save();
+
+			logger.info(`Skill added successfully. User ID: ${userId} - Skill: ${skill}`);
+			return { status: "success", message: "Skill added successfully." };
+		} else if (action === "remove") {
+			if (existingSkillIndex === -1) {
+				return { status: "error", message: "Skill not found." };
+			}
+
+			// Remove Objective from the list
+			user.quickSkills.data.splice(existingSkillIndex, 1);
+
+			// Save the updated project
+			await user.save();
+
+			logger.info(`Skill removed successfully. User ID: ${userId} - Skill: ${skill}`);
+			return { status: "success", message: "Skill removed successfully." };
+		} else {
+			throw new Error("Invalid action specified.");
+		}
+	} catch (error) {
+		logger.error("Error while updating the quick skills in the database: ", error);
+		return {
+			status: "error",
+			message: "An error occurred while updating the quick skills in the database.",
+		};
+	}
+};
+
 module.exports = {
 	createTalent,
 	updateTalent,
 	removeTalent,
+	updateQuickSkills,
 };

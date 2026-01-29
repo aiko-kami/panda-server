@@ -92,15 +92,26 @@ const userSchema = new Schema(
 			message: "The value {VALUE} is not valid.",
 		},
 		website: privacyString,
+		quickSkills: {
+			data: [{ type: String }],
+			privacy: {
+				type: String,
+				required: true,
+				default: userVisibility[0],
+				enum: userVisibility,
+				message: "The value {VALUE} is not valid.",
+			},
+		},
 		talents: [
 			{
 				_id: false,
 				name: { type: String, required: true, unique: true },
 				description: { type: String },
-				skills: { type: String },
+				skills: [{ type: String }],
 				experience: { type: String },
 				portfolio: { type: String },
-				certifications: { type: String },
+				certifications: [{ type: String }],
+				published: { type: Boolean, default: false },
 			},
 		],
 		settings: {
@@ -130,17 +141,17 @@ const userSchema = new Schema(
 			},
 		},
 		notifications: {
-			globalNotif: {
-				type: Number,
-				required: true,
-				default: 0,
-			},
 			myProfileNotif: {
 				type: Number,
 				required: true,
 				default: 0,
 			},
 			myProjectsNotif: {
+				type: Number,
+				required: true,
+				default: 0,
+			},
+			myTalentsNotif: {
 				type: Number,
 				required: true,
 				default: 0,
@@ -175,7 +186,7 @@ const userSchema = new Schema(
 	{
 		collection: "users",
 		timestamps: true, // Automatically add createdAt and updatedAt timestamps
-	}
+	},
 );
 
 /*

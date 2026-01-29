@@ -47,9 +47,9 @@ const signupUser = async (username, email, password) => {
 			languages: { data: [] },
 			website: { data: "" },
 			notifications: {
-				globalNotif: 0,
 				myProfileNotif: 0,
 				myProjectsNotif: 0,
+				myTalentsNotif: 0,
 				myMessagesNotif: 0,
 				mySettingsNotif: 0,
 				helpNotif: 0,

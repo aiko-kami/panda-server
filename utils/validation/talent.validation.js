@@ -35,7 +35,23 @@ const validateTalentName = (talentName) => {
 	return { status: "success", message: "All talent inputs are valid." };
 };
 
+const validateSkillInput = (skill) => {
+	//Type validation
+	if (typeof skill !== "string") {
+		return { status: "error", message: "Invalid type of data." };
+	}
+
+	// Check if required fields are present
+	if (!skill) {
+		return { status: "error", message: "Skill is required." };
+	}
+
+	// If all validations passed
+	return { status: "success", message: "All skill inputs are valid." };
+};
+
 module.exports = {
 	validateTalentInputs,
 	validateTalentName,
+	validateSkillInput,
 };

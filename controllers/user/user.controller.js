@@ -23,6 +23,8 @@ const retrieveMyUserData = async (req, res) => {
 			"bio",
 			"languages",
 			"website",
+			"talents",
+			"quickSkills",
 			"profilePicture",
 			"backgroundPicture",
 			"talents",
@@ -812,6 +814,7 @@ const retrieveUserPublicData = async (req, res) => {
 			"profilePicture",
 			"backgroundPicture",
 			"talents",
+			"quickSkills",
 		]);
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);

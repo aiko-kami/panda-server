@@ -218,6 +218,15 @@ const handleUserFiltering = (user, userIdViewer) => {
 				delete userCopy.website.privacy;
 			}
 		}
+		if (userCopy.quickSkills) {
+			if (userCopy.quickSkills.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
+				userCopy.quickSkills = undefined;
+			} else {
+				userCopy.quickSkills = userCopy.quickSkills.data;
+				delete userCopy.quickSkills.privacy;
+			}
+		}
+
 		if (userCopy._id) {
 			delete userCopy._id;
 		}

@@ -30,6 +30,10 @@ usersRoute.post("/talent/add", verifyAccess, talentController.createTalent);
 usersRoute.patch("/talent/update", verifyAccess, talentController.updateTalent);
 usersRoute.delete("/talent/remove", verifyAccess, talentController.removeTalent);
 
+// Quick Skills
+usersRoute.post("/skill", verifyAccess, talentController.addQuickSkill);
+usersRoute.delete("/skill", verifyAccess, talentController.removeQuickSkill);
+
 // Change email
 usersRoute.patch("/changeMyEmail", verifyAccess, userController.updateUserEmail);
 usersRoute.get("/changeMyEmail/:emailChangeValidationId", userController.verifyEmailChangeLink);

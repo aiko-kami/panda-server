@@ -96,8 +96,60 @@ const removeTalent = async (req, res) => {
 	}
 };
 
+const addQuickSkill = async (req, res) => {
+	try {
+		const userId = req.userId;
+		//Retrieve and initialize talent data
+		const quickSkill = req.body.quickSkill || "";
+
+		// Validate input data for creating a quick skill
+		const validationResult = talentValidation.validateSkillInput(quickSkill);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Add the skill in user's quick skills
+		const updateSkillResult = await talentService.updateQuickSkills(userId, quickSkill, "add");
+		if (updateSkillResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateSkillResult.message);
+		}
+
+		return apiResponse.successResponseWithData(res, updateSkillResult.message, updateSkillResult.quickSkillsData);
+	} catch (error) {
+		// Throw error in json response with status 500.
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const removeQuickSkill = async (req, res) => {
+	try {
+		const userId = req.userId;
+		//Retrieve and initialize talent data
+		const quickSkill = req.body.quickSkill || "";
+
+		// Validate input data for creating a quick skill
+		const validationResult = talentValidation.validateSkillInput(quickSkill);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Remove the skill in user's quick skills
+		const updateSkillResult = await talentService.updateQuickSkills(userId, quickSkill, "remove");
+		if (updateSkillResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateSkillResult.message);
+		}
+
+		return apiResponse.successResponseWithData(res, updateSkillResult.message, updateSkillResult.quickSkillsData);
+	} catch (error) {
+		// Throw error in json response with status 500.
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 module.exports = {
 	createTalent,
 	updateTalent,
 	removeTalent,
+	addQuickSkill,
+	removeQuickSkill,
 };
