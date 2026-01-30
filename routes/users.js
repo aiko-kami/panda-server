@@ -26,9 +26,10 @@ usersRoute.delete("/removeMyPicture", verifyAccess, userController.removeUserPic
 usersRoute.delete("/removeMyBackgroundPicture", verifyAccess, userController.removeUserBackgroundPicture);
 
 // Talents
-usersRoute.post("/talent/add", verifyAccess, talentController.createTalent);
-usersRoute.patch("/talent/update", verifyAccess, talentController.updateTalent);
-usersRoute.delete("/talent/remove", verifyAccess, talentController.removeTalent);
+usersRoute.post("/talent/addTalent", verifyAccess, talentController.createTalent);
+usersRoute.patch("/talent/updateTalent", verifyAccess, talentController.updateTalent);
+usersRoute.patch("/talent/updateTalents", verifyAccess, talentController.updateTalents);
+usersRoute.delete("/talent/removeTalent", verifyAccess, talentController.removeTalent);
 
 // Quick Skills
 usersRoute.post("/skill", verifyAccess, talentController.addQuickSkill);

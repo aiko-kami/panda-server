@@ -70,6 +70,33 @@ const updateTalent = async (req, res) => {
 	}
 };
 
+const updateTalents = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		//Retrieve and initialize talents data
+		const talents = req.body.talents;
+
+		// Validate input data for updating a talent
+		const validationResult = talentValidation.validateTalentsInputs(talents);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Call the service to update the talent
+		const updatedTalent = await talentService.updateTalents(talents, userId);
+
+		if (updatedTalent.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updatedTalent.message);
+		}
+
+		return apiResponse.successResponseWithData(res, updatedTalent.message, updatedTalent.talentData);
+	} catch (error) {
+		// Throw error in json response with status 500.
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 const removeTalent = async (req, res) => {
 	try {
 		const userId = req.userId;
@@ -149,6 +176,7 @@ const removeQuickSkill = async (req, res) => {
 module.exports = {
 	createTalent,
 	updateTalent,
+	updateTalents,
 	removeTalent,
 	addQuickSkill,
 	removeQuickSkill,

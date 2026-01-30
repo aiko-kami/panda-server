@@ -111,6 +111,45 @@ const updateTalent = async (updatedTalentData, userId) => {
 	}
 };
 
+const updateTalents = async (talents, userId) => {
+	try {
+		// Convert id to ObjectId
+		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (ObjectIdUserId.status == "error") {
+			return { status: "error", message: ObjectIdUserId.message };
+		}
+
+		// Find the user by userId
+		const user = await User.findOne({ _id: ObjectIdUserId });
+
+		// Check if the user exists
+		if (!user) {
+			return { status: "error", message: "User not found." };
+		}
+
+		// Set the updated talents array
+		user.talents = talents;
+
+		// Save the updated user
+		await user.save();
+
+		// Save the updated talent
+		logger.info("Talents updated successfully.");
+
+		return {
+			status: "success",
+			message: "Talents updated successfully.",
+			talents,
+		};
+	} catch (error) {
+		logger.error("Error while updating the talents in the database: ", error);
+		return {
+			status: "error",
+			message: "An error occurred while updating the talents in the database.",
+		};
+	}
+};
+
 const removeTalent = async (talentName, userId) => {
 	try {
 		// Convert id to ObjectId
@@ -225,6 +264,7 @@ const updateQuickSkills = async (userId, skill, action) => {
 module.exports = {
 	createTalent,
 	updateTalent,
+	updateTalents,
 	removeTalent,
 	updateQuickSkills,
 };
