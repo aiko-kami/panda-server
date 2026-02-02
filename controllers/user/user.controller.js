@@ -1,5 +1,5 @@
 const { apiResponse, userValidation, authValidation, filterTools, uploadFiles } = require("../../utils");
-const { userService, uploadService, emailService } = require("../../services");
+const { userService, projectService, uploadService, emailService } = require("../../services");
 
 const retrieveMyUserData = async (req, res) => {
 	try {
@@ -802,6 +802,7 @@ const retrieveUserPublicData = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
 		}
 
+		// Retrieve user data from database
 		const userData = await userService.retrieveUserById(userId, [
 			"username",
 			"createdAt",
@@ -820,12 +821,22 @@ const retrieveUserPublicData = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, userData.message);
 		}
 
+		// Retrieve user projects
+		const userProjectsData = await projectService.retrievePublicProjectsFromUser(
+			userId,
+			["-_id", "projectId", "link", "title", "summary", "cover", "category", "subCategory", "tags"],
+			["created", "onGoing", "completed"],
+		);
+		if (userProjectsData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userProjectsData.message);
+		}
+
 		//Filter user public data from user
 		const userFiltered = filterTools.filterUserOutputFields(userData.user, "unknown");
 		if (userFiltered.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userFiltered.message);
 		}
-		return apiResponse.successResponseWithData(res, userData.message, { user: userFiltered.user });
+		return apiResponse.successResponseWithData(res, userData.message, { user: userFiltered.user, projects: userProjectsData.projects, projectsCount: userProjectsData.projectsCount });
 	} catch (error) {
 		// Throw error in json response with status 500.
 		return apiResponse.serverErrorResponse(res, error.message);

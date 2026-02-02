@@ -563,7 +563,7 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
 		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: "Project not found." };
+			return { status: "error", message: objectIdProjectId.message };
 		}
 
 		const fieldsString = fields.join(" ");
@@ -717,6 +717,134 @@ const retrieveProjectByLink = async (projectLink, fields, conditions) => {
 		return {
 			status: "error",
 			message: "An error occurred while retrieving the project.",
+		};
+	}
+};
+
+const retrievePublicProjectsFromUser = async (userId, fields = [], types = []) => {
+	try {
+		// Convert id to ObjectId
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserId.status == "error") {
+			return apiResponse.serverErrorResponse(res, objectIdUserId.message);
+		}
+
+		if (!types || types.length === 0) {
+			return { status: "error", message: "No project type provided." };
+		}
+
+		const populateConfig = [
+			{ path: "category", select: "-_id categoryId name link colors subCategories" },
+			{ path: "tags", select: "-_id tagId name description link" },
+			{ path: "updatedBy", select: "username profilePicture userId" },
+			{ path: "steps.updatedBy", select: "username profilePicture userId" },
+			{ path: "members.user", select: "username profilePicture userId" },
+			{ path: "statusInfo.currentStatus", select: "-_id status colors description key" },
+			{ path: "statusInfo.statusHistory.updatedBy", select: "username profilePicture userId" },
+		];
+
+		const buildQuery = async (conditions) => {
+			let query = Project.find(conditions).sort({ createdAt: -1 });
+
+			if (fields.length) {
+				query = query.select(fields.join(" ")).populate(populateConfig);
+			}
+
+			return query;
+		};
+
+		const sanitize = (projects) => {
+			return projects.map((project) => {
+				const p = project.toObject();
+
+				if (!fields.includes("category")) delete p.category;
+				if (!fields.includes("tags")) delete p.tags;
+				if (!fields.includes("updatedBy")) delete p.updatedBy;
+				if (!fields.includes("steps")) delete p.steps;
+				if (!fields.includes("members")) delete p.members;
+				if (!fields.includes("statusInfo")) delete p.statusInfo;
+
+				return p;
+			});
+		};
+
+		const results = {
+			created: [],
+			onGoing: [],
+			completed: [],
+		};
+
+		/* ===== CREATED ===== */
+		if (types.includes("created")) {
+			const conditions = {
+				createdBy: objectIdUserId,
+				visibility: "public",
+			};
+
+			const data = await buildQuery(conditions);
+			results.created = sanitize(data);
+		}
+
+		/* ===== COMPLETED ===== */
+		if (types.includes("completed")) {
+			const completedStatus = await Status.findOne({ status: "completed", type: "project" }).select("_id");
+			if (!completedStatus) {
+				return {
+					status: "error",
+					message: "Completed status not found in the database.",
+				};
+			}
+			const conditions = {
+				"members.user": objectIdUserId,
+				visibility: "public",
+				"statusInfo.currentStatus": completedStatus._id,
+			};
+
+			const data = await buildQuery(conditions);
+			results.completed = sanitize(data);
+		}
+
+		/* ===== ON-GOING ===== */
+		if (types.includes("onGoing")) {
+			const activeStatus = await Status.findOne({ status: "active", type: "project" }).select("_id");
+			if (!activeStatus) {
+				return {
+					status: "error",
+					message: "Active status not found in the database.",
+				};
+			}
+			const conditions = {
+				"members.user": objectIdUserId,
+				visibility: "public",
+				"statusInfo.currentStatus": activeStatus._id,
+			};
+
+			const data = await buildQuery(conditions);
+			results.onGoing = sanitize(data);
+		}
+
+		/* ===== TOTAL ===== */
+		const total = results.created.length + results.onGoing.length + results.completed.length;
+
+		if (!total) {
+			return { status: "success", message: "No project found.", projects: results };
+		}
+
+		return {
+			status: "success",
+			message: `${total} project${total > 1 ? "s" : ""} retrieved successfully.`,
+			projects: results,
+			projectsCount: {
+				created: results.created.length,
+				onGoing: results.onGoing.length,
+				completed: results.completed.length,
+			},
+		};
+	} catch (error) {
+		logger.error("Error while retrieving projects:", error);
+		return {
+			status: "error",
+			message: "An error occurred while retrieving the projects.",
 		};
 	}
 };
@@ -1019,6 +1147,7 @@ module.exports = {
 	updateProjectDraftSection,
 	retrieveProjectById,
 	retrieveProjectByLink,
+	retrievePublicProjectsFromUser,
 	retrieveProjects,
 	countNumberProjects,
 	countNumberProjectsPerCategory,
