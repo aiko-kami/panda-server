@@ -165,8 +165,38 @@ const retrieveProjectLikes = async (projectId) => {
 	}
 };
 
+const verifyUserLikeProject = async (projectId, userId) => {
+	try {
+		// Convert id to ObjectId
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserId.status == "error") {
+			return { status: "error", message: objectIdUserId.message };
+		}
+
+		const likeRecord = await LikeProject.findOne({ project: objectIdProjectId, user: objectIdUserId });
+
+		if (likeRecord) {
+			return { status: "success", message: "User likes this project.", userLikeProject: true };
+		} else {
+			return { status: "success", message: "User does not like this project.", userLikeProject: false };
+		}
+	} catch (error) {
+		logger.error("Error while verifying user like on project:", error);
+		return {
+			status: "error",
+			message: "An error occurred while verifying user like on project.",
+		};
+	}
+};
+
 module.exports = {
 	updateLike,
 	retrieveUserLikes,
 	retrieveProjectLikes,
+	verifyUserLikeProject,
 };

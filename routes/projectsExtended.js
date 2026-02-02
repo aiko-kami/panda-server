@@ -34,8 +34,8 @@ projectExtendedRoute.patch("/removeProjectCrush", verifyAdminAccess, projectCrus
 projectExtendedRoute.get("/crushProjects", projectCrushController.retrieveCrushProjects);
 
 // Project like
-projectExtendedRoute.patch("/likeProject", verifyAccess, projectLikeController.likeProject);
-projectExtendedRoute.patch("/unlikeProject", verifyAccess, projectLikeController.unlikeProject);
+projectExtendedRoute.patch("/likeProject/:projectId", verifyAccess, projectLikeController.likeProject);
+projectExtendedRoute.patch("/unlikeProject/:projectId", verifyAccess, projectLikeController.unlikeProject);
 projectExtendedRoute.get("/projectsUserPublicLikes", verifyAccess, projectLikeController.retrieveUserPublicLikes);
 projectExtendedRoute.get("/projectsUserPrivateLikes", verifyAccess, projectLikeController.retrieveUserPrivateLikes);
 projectExtendedRoute.get("/projectLikes", projectLikeController.retrieveProjectLikes);

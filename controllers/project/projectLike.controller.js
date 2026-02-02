@@ -10,8 +10,7 @@ const { apiResponse, idsValidation, filterTools } = require("../../utils");
 const likeProject = async (req, res) => {
 	try {
 		const userId = req.userId;
-
-		const { projectId = "" } = req.body;
+		const { projectId = "" } = req.params;
 
 		const ids = {
 			userId,
@@ -38,7 +37,7 @@ const likeProject = async (req, res) => {
 const unlikeProject = async (req, res) => {
 	try {
 		const userId = req.userId;
-		const { projectId = "" } = req.body;
+		const { projectId = "" } = req.params;
 
 		const ids = {
 			userId,

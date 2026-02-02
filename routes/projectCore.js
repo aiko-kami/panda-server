@@ -5,7 +5,7 @@
 const projectRoute = require("express").Router();
 
 const { projectController } = require("../controllers");
-const { verifyAccess, verifyAdminAccess } = require("../middlewares/verifyAccess.middleware");
+const { verifyAccess, verifyAdminAccess, verifyUserPresence } = require("../middlewares/verifyAccess.middleware");
 
 // Project creation
 // createProjectDraft, updateProjectDraft, removeProjectDraft to be completed
@@ -22,10 +22,10 @@ projectRoute.patch("/updateProjectDraftSection/:projectId", verifyAccess, projec
 
 // Retrieve project data
 projectRoute.get("/projectData/:projectId", verifyAccess, projectController.retrieveProjectData);
-projectRoute.get("/projectOverview/:projectId", projectController.retrieveProjectOverview);
-projectRoute.get("/projectPublic/id/:projectId", projectController.retrieveProjectPublicDataWithId);
-projectRoute.get("/projectPublic/link/:projectLink", projectController.retrieveProjectPublicDataWithLink);
-projectRoute.get("/lastProjectsOverview", projectController.retrieveNewProjects);
+projectRoute.get("/projectOverview/:projectId", verifyUserPresence, projectController.retrieveProjectOverview);
+projectRoute.get("/projectPublic/id/:projectId", verifyUserPresence, projectController.retrieveProjectPublicDataWithId);
+projectRoute.get("/projectPublic/link/:projectLink", verifyUserPresence, projectController.retrieveProjectPublicDataWithLink);
+projectRoute.get("/lastProjectsOverview", verifyUserPresence, projectController.retrieveNewProjects);
 projectRoute.get("/submittedProjects", verifyAdminAccess, projectController.retrieveSubmittedProjects);
 
 // Count projects

@@ -1,4 +1,4 @@
-const { projectService, categoryService, userService, userRightsService, statusService, adminService, emailService } = require("../../services");
+const { projectService, categoryService, userService, userRightsService, likeProjectService, statusService, adminService, emailService } = require("../../services");
 const { apiResponse, projectValidation, filterTools, encryptTools, idsValidation } = require("../../utils");
 
 /**
@@ -621,6 +621,9 @@ const retrieveProjectPublicDataWithId = async (req, res) => {
 const retrieveProjectPublicDataWithLink = async (req, res) => {
 	try {
 		const { projectLink = "" } = req.params;
+		const userId = req.userId;
+
+		console.log("🚀 ~ retrieveProjectPublicDataWithLink ~ userId:", userId);
 
 		const projectData = await projectService.retrieveProjectByLink(
 			projectLink,
@@ -666,6 +669,16 @@ const retrieveProjectPublicDataWithLink = async (req, res) => {
 
 		if (projectFiltered.project?.QAs?.QAsList) {
 			projectFiltered.project.QAs.QAsList = projectFiltered.project.QAs.QAsList.filter((QA) => QA.published === true);
+		}
+
+		if (userId !== "unknown") {
+			// Check if the user likes the project
+			const likeResult = await likeProjectService.verifyUserLikeProject(projectFiltered.project.projectId, userId);
+			if (likeResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, likeResult.message);
+			}
+
+			return apiResponse.successResponseWithData(res, projectData.message, { project: { ...projectFiltered.project, userLikeProject: likeResult.userLikeProject } });
 		}
 
 		return apiResponse.successResponseWithData(res, projectData.message, { project: projectFiltered.project });
