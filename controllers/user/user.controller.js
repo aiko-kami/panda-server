@@ -29,6 +29,7 @@ const retrieveMyUserData = async (req, res) => {
 			"backgroundPicture",
 			"talents",
 			"notifications",
+			"settings",
 		]);
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);
