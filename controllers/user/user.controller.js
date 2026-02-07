@@ -817,6 +817,7 @@ const retrieveUserPublicData = async (req, res) => {
 			"backgroundPicture",
 			"talents",
 			"quickSkills",
+			"projectLikePrivacy",
 		]);
 		if (userData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userData.message);
@@ -826,17 +827,25 @@ const retrieveUserPublicData = async (req, res) => {
 		const userProjectsData = await projectService.retrievePublicProjectsFromUser(
 			userId,
 			["-_id", "projectId", "link", "title", "summary", "cover", "category", "subCategory", "tags"],
-			["created", "onGoing", "completed"],
+			["created", "onGoing", "completed", "like"],
 		);
+
 		if (userProjectsData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userProjectsData.message);
 		}
 
 		//Filter user public data from user
 		const userFiltered = filterTools.filterUserOutputFields(userData.user, "unknown");
-		if (userFiltered.status !== "success") {
+		if (userFiltered.projectLikePrivacy == "success") {
 			return apiResponse.serverErrorResponse(res, userFiltered.message);
 		}
+
+		//Filter projects if user like is private
+		if (userFiltered.user.projectLikePrivacy !== "public") {
+			delete userProjectsData.projects.like;
+			delete userProjectsData.projectsCount.like;
+		}
+
 		return apiResponse.successResponseWithData(res, userData.message, { user: userFiltered.user, projects: userProjectsData.projects, projectsCount: userProjectsData.projectsCount });
 	} catch (error) {
 		// Throw error in json response with status 500.

@@ -1,4 +1,4 @@
-const { Project, Category, Status } = require("../../models");
+const { Project, Category, Status, LikeProject } = require("../../models");
 const { logger, encryptTools } = require("../../utils");
 const userRightsService = require("./userRights.service");
 const { DateTime } = require("luxon");
@@ -772,6 +772,7 @@ const retrievePublicProjectsFromUser = async (userId, fields = [], types = []) =
 			created: [],
 			onGoing: [],
 			completed: [],
+			like: [],
 		};
 
 		/* ===== CREATED ===== */
@@ -823,11 +824,35 @@ const retrievePublicProjectsFromUser = async (userId, fields = [], types = []) =
 			results.onGoing = sanitize(data);
 		}
 
+		/* ===== LIKES ===== */
+		if (types.includes("like")) {
+			const data = await LikeProject.find({ user: objectIdUserId })
+				.select("project")
+				.populate({
+					path: "project",
+					select: fields?.join(" "),
+					populate: populateConfig,
+				});
+			const projects = data.map((l) => l.project).filter(Boolean);
+
+			results.like = sanitize(projects);
+		}
+
 		/* ===== TOTAL ===== */
-		const total = results.created.length + results.onGoing.length + results.completed.length;
+		const total = results.created.length + results.onGoing.length + results.completed.length + results.like.length;
 
 		if (!total) {
-			return { status: "success", message: "No project found.", projects: results };
+			return {
+				status: "success",
+				message: "No project found.",
+				projects: results,
+				projectsCount: {
+					created: results.created.length,
+					onGoing: results.onGoing.length,
+					completed: results.completed.length,
+					like: results.like.length,
+				},
+			};
 		}
 
 		return {
@@ -838,6 +863,7 @@ const retrievePublicProjectsFromUser = async (userId, fields = [], types = []) =
 				created: results.created.length,
 				onGoing: results.onGoing.length,
 				completed: results.completed.length,
+				like: results.like.length,
 			},
 		};
 	} catch (error) {
