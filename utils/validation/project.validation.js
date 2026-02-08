@@ -11,6 +11,16 @@ const projectSummaryMaxLength = config.project_summary_max_length;
 const projectDescriptionMinLength = config.project_description_min_length;
 const projectDescriptionMaxLength = config.project_description_max_length;
 
+const isValidExistingTag = (tag) => {
+	return (
+		tag &&
+		typeof tag === "object" &&
+		typeof tag.name === "string" &&
+		typeof tag.tagId === "string" &&
+		(typeof tag.description === "string" || tag.description === undefined) &&
+		(typeof tag.link === "string" || tag.link === undefined)
+	);
+};
 const validateDraftProjectInputs = (projectData) => {
 	//Types validation
 	const invalidType =
@@ -26,11 +36,18 @@ const validateDraftProjectInputs = (projectData) => {
 		typeof projectData.startDate !== "string" ||
 		typeof projectData.creatorMotivation !== "string" ||
 		typeof projectData.visibility !== "string" ||
+		//arrays
 		!Array.isArray(projectData.tags) ||
+		!Array.isArray(projectData.tagsExisting) ||
 		!Array.isArray(projectData.talentsNeeded) ||
 		!Array.isArray(projectData.objectives) ||
+		// primitives
 		!projectData.tags.every((tag) => typeof tag === "string") ||
-		!projectData.talentsNeeded.every((t) => t && typeof t === "object" && typeof t.talent === "string" && typeof t.description === "string");
+		!projectData.objectives.every((obj) => typeof obj === "string") ||
+		// objects
+		!projectData.talentsNeeded.every((t) => t && typeof t === "object" && typeof t.talent === "string" && typeof t.description === "string") ||
+		!projectData.tagsExisting.every(isValidExistingTag);
+
 	if (invalidType) {
 		return { status: "error", message: "Invalid type of data." };
 	}
@@ -78,11 +95,12 @@ const validateSubmittedProjectInputs = (projectData) => {
 		typeof projectData.startDate !== "string" ||
 		typeof projectData.creatorMotivation !== "string" ||
 		typeof projectData.visibility !== "string" ||
-		!Array.isArray(projectData.tags) ||
+		//arrays
 		!Array.isArray(projectData.talentsNeeded) ||
 		!Array.isArray(projectData.objectives) ||
-		!projectData.tags.every((tag) => typeof tag === "string") ||
+		// primitives
 		!projectData.objectives.every((obj) => typeof obj === "string") ||
+		// objects
 		!projectData.talentsNeeded.every((t) => t && typeof t === "object" && typeof t.talent === "string" && typeof t.description === "string");
 
 	if (invalidType) {

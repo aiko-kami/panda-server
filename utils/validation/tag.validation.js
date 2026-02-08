@@ -10,10 +10,10 @@ const validateTagInputs = (tagName, description) => {
 	return { status: "success", message: "All tag inputs are valid." };
 };
 
-const validateTagsInputs = (tags) => {
+const validateNewTagsInputs = (tags) => {
 	// Check if tags is a valid array
 	if (!Array.isArray(tags)) {
-		return { status: "error", message: "Tags must be provided as an list." };
+		return { status: "error", message: "Tags must be provided as a list." };
 	}
 
 	// Check if array is empty
@@ -24,15 +24,53 @@ const validateTagsInputs = (tags) => {
 	// nameSet to be used for duplicates check
 	const nameSet = new Set();
 	for (let i = 0; i < tags.length; i++) {
-		const { tagName, description } = tags[i];
+		const { name, description } = tags[i];
 		//String type validation
-		if (typeof tagName !== "string" || typeof description !== "string") {
+		if (typeof name !== "string" || typeof description !== "string") {
 			return { status: "error", message: `Invalid data type at tag index ${i}.` };
 		}
-		if (!tagName.trim()) {
+		if (!name.trim()) {
 			return { status: "error", message: `Tag name is required at index ${i}.` };
 		}
-		const normalizedUpper = tagName.trim().toUpperCase();
+		const normalizedUpper = name.trim().toUpperCase();
+		if (nameSet.has(normalizedUpper)) {
+			return { status: "error", message: `Duplicate tag found: "${normalizedName}" at index ${i}.` };
+		}
+		nameSet.add(normalizedUpper);
+	}
+	// If all validations passed
+	return { status: "success", message: "All tags inputs are valid." };
+};
+
+const validateExistingTagsInputs = (tags) => {
+	// Check if tags is a valid array
+	if (!Array.isArray(tags)) {
+		return { status: "error", message: "Tags must be provided as a list." };
+	}
+
+	// Check if array is empty
+	if (tags.length === 0) {
+		return { status: "error", message: "Tags list cannot be empty." };
+	}
+
+	// nameSet to be used for duplicates check
+	const nameSet = new Set();
+	for (let i = 0; i < tags.length; i++) {
+		const { name, description, link, tagId } = tags[i];
+		//String type validation
+		if (typeof name !== "string" || typeof description !== "string" || typeof link !== "string" || typeof tagId !== "string") {
+			return { status: "error", message: `Invalid data type at tag index ${i}.` };
+		}
+		if (!name.trim()) {
+			return { status: "error", message: `Tag name is required at index ${i}.` };
+		}
+		if (!link.trim()) {
+			return { status: "error", message: `Tag link is required at index ${i}.` };
+		}
+		if (!tagId) {
+			return { status: "error", message: `Tag ID is required at index ${i}.` };
+		}
+		const normalizedUpper = name.trim().toUpperCase();
 		if (nameSet.has(normalizedUpper)) {
 			return { status: "error", message: `Duplicate tag found: "${normalizedName}" at index ${i}.` };
 		}
@@ -78,7 +116,8 @@ const validateUpdateTagFromProjectInputs = (userIdUpdater, projectId, tagIdOrNam
 
 module.exports = {
 	validateTagInputs,
-	validateTagsInputs,
+	validateNewTagsInputs,
+	validateExistingTagsInputs,
 	validateTagId,
 	validateUpdateTagFromProjectInputs,
 };

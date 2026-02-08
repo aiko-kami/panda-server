@@ -56,15 +56,15 @@ const createTags = async (tags) => {
 		const inputTagsMap = new Map();
 
 		for (const tagItem of tags) {
-			const tagNameCapitalized = tagItem.tagName.trim().toUpperCase();
+			const tagNameCapitalized = tagItem.name.trim().toUpperCase();
 
 			// Last occurrence in the payload wins for duplicates in same payload
 			inputTagsMap.set(tagNameCapitalized, {
-				tagRawName: tagItem.tagName,
-				tagNameTrimmed: tagItem.tagName.trim(),
+				tagRawName: tagItem.name,
+				tagNameTrimmed: tagItem.name.trim(),
 				tagNameCapitalized,
 				tagDescription: tagItem.description?.trim() ?? "",
-				tagLink: tagItem.tagName.trim().replace(/\s&\s/g, "-").replace(/\//g, "-").replace(/\s+/g, "-").toLowerCase(),
+				tagLink: tagItem.name.trim().replace(/\s&\s/g, "-").replace(/\//g, "-").replace(/\s+/g, "-").toLowerCase(),
 			});
 		}
 
@@ -120,13 +120,44 @@ const createTags = async (tags) => {
 		return {
 			status: "success",
 			message: "Tags created successfully.",
-			data: { createdTags },
+			data: { tags: createdTags },
 		};
 	} catch (error) {
 		logger.error("Error while creating the tag: ", error);
 		return {
 			status: "error",
 			message: "An error occurred while creating the tag.",
+		};
+	}
+};
+
+const verifyTagsExist = async (tags) => {
+	try {
+		for (const tagItem of tags) {
+			// Convert id to ObjectId
+			const objectIdTagId = encryptTools.convertIdToObjectId(tagItem.tagId);
+			if (objectIdTagId.status == "error") {
+				return { status: "error", message: objectIdTagId.message };
+			}
+
+			// Check if a tag with the given tagId exists
+			const existingTag = await Tag.findOne({ _id: objectIdTagId });
+			if (!existingTag) {
+				logger.error("Error while verifying the tags: Tag not found.");
+				return { status: "error", message: "Tag not found." };
+			}
+		}
+
+		return {
+			status: "success",
+			message: "Tags verified successfully.",
+			data: { tags },
+		};
+	} catch (error) {
+		logger.error("Error while verifying the tags: ", error);
+		return {
+			status: "error",
+			message: "An error occurred while verifying the tags.",
 		};
 	}
 };
@@ -376,6 +407,7 @@ const retrieveAllTags = async () => {
 module.exports = {
 	createTag,
 	createTags,
+	verifyTagsExist,
 	updateTag,
 	updateTagFromProject,
 	removeTag,

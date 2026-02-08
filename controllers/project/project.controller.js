@@ -1,5 +1,5 @@
-const { projectService, categoryService, userService, userRightsService, likeProjectService, statusService, adminService, emailService } = require("../../services");
-const { apiResponse, projectValidation, filterTools, encryptTools, idsValidation } = require("../../utils");
+const { projectService, categoryService, tagService, userService, userRightsService, likeProjectService, statusService, adminService, emailService } = require("../../services");
+const { apiResponse, projectValidation, tagValidation, filterTools, encryptTools, idsValidation } = require("../../utils");
 
 /**
  * Create new project draft controller.
@@ -216,7 +216,8 @@ const submitProject = async (req, res) => {
 			startDate: req.body.projectInputs.startDate ?? "",
 			creatorMotivation: req.body.projectInputs.creatorMotivation ?? "",
 			visibility: req.body.projectInputs.visibility ?? "public",
-			tags: req.body.projectInputs.tags ?? [],
+			tagsNew: req.body.projectInputs.tagsNew ?? [],
+			tagsExisting: req.body.projectInputs.tagsExisting ?? [],
 			talentsNeeded: req.body.projectInputs.talentsNeeded ?? [],
 			objectives: req.body.projectInputs.objectives ?? [],
 		};
@@ -233,6 +234,22 @@ const submitProject = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, validationIdsResult.message);
 		}
 
+		// Validate new tag data
+		if (projectData.tagsNew !== 0) {
+			const validationNewTagsInputsResult = tagValidation.validateNewTagsInputs(projectData.tagsNew);
+			if (validationNewTagsInputsResult.status !== "success") {
+				return apiResponse.clientErrorResponse(res, validationNewTagsInputsResult.message);
+			}
+		}
+
+		// Validate existing tag data
+		if (projectData.tagsExisting !== 0) {
+			const validationExistingTagsInputsResult = tagValidation.validateNewTagsInputs(projectData.tagsExisting);
+			if (validationExistingTagsInputsResult.status !== "success") {
+				return apiResponse.clientErrorResponse(res, validationExistingTagsInputsResult.message);
+			}
+		}
+
 		//Verify that user (project creator) exists in the database
 		const existingCreator = await userService.retrieveUserById(userId, ["-_id"]);
 		if (existingCreator.status !== "success") {
@@ -245,12 +262,28 @@ const submitProject = async (req, res) => {
 			return apiResponse.clientErrorResponse(res, categoryVerified.message);
 		}
 
+		// Verify the existing tags
+		const TagsVerified = await tagService.verifyTagsExist(projectData.tagsExisting);
+		if (TagsVerified.status !== "success") {
+			return apiResponse.clientErrorResponse(res, TagsVerified.message);
+		}
+
+		projectData.tagIds = TagsVerified.data.tags.map((tag) => tag.tagId);
+
+		// Add the new tags in the database
+		const createdTags = await tagService.createTags(projectData.tagsNew);
+		if (createdTags.status !== "success") {
+			return apiResponse.serverErrorResponse(res, createdTags.message);
+		}
+
+		projectData.tagIds.push(...createdTags.data.tags.map((tag) => tag.tagId));
+
 		projectData.creatorId = userId;
 
 		let projectUpdatedResult;
 		if (!projectId) {
 			//statusId for draft
-			const draftStatusId = "f35d3b4736351487c6dc8bb91d3a3e49-096c4c807f04ae84bc10ce1f77dd02c987c8ca7b7697d627";
+			const draftStatusId = "77a85bb1a7afb17f584df68f09a44d3b-f3bbf4059f00b23d3b52f865db745e9c8144aedfa8aab115";
 			projectData.statusId = draftStatusId;
 			projectData.statusReason = "Project creation before submission";
 			// Create the project and set project status to submitted
@@ -269,8 +302,8 @@ const submitProject = async (req, res) => {
 			}
 		}
 
-		//statusId for draft
-		const submittedStatusId = "8604d9b894e43af309a2bed4012a2f8b-724f6359c7506df92da8fc41c915f8eaa528407503c15eaf";
+		//statusId for submitted
+		const submittedStatusId = "f1871d39949ca4140c921e35a3b16ada-9aa645998481299c27faa9a33f53bbe390f4c80a603aba06";
 		// Set project status to Submitted
 		const projectSubmittedResult = await statusService.updateProjectStatus(projectUpdatedResult.project.projectId, userId, submittedStatusId, "Project submission after creation");
 		if (projectSubmittedResult.status !== "success") {

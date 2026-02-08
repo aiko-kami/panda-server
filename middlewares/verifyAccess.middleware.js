@@ -34,7 +34,6 @@ const verifyAdminAccess = (req, res, next) => {
 	} else {
 		try {
 			const verifyResult = verifyTokenService.verifyAdminAccessToken(accessToken);
-
 			// Check if the token is valid and not expired
 			if (verifyResult.status === "success") {
 				// If token is valid, set user ID on request for future use if needed
@@ -55,8 +54,6 @@ const verifyAdminAccess = (req, res, next) => {
 
 const verifyUserPresence = (req, res, next) => {
 	const accessToken = req.cookies.access_token;
-
-	console.log("🚀 ~ verifyUserPresence ~ accessToken:", accessToken);
 
 	if (!accessToken) {
 		req.userId = "unknown";

@@ -24,6 +24,13 @@ const joinProjectSchema = new Schema(
 			required: true,
 			message: "The value {VALUE} is not valid.",
 		},
+		actions: {
+			view: { type: Boolean, default: true },
+			accept: { type: Boolean, default: true },
+			decline: { type: Boolean, default: true },
+			sendMessage: { type: Boolean, default: true },
+			report: { type: Boolean, default: true },
+		},
 		createdAt: {
 			type: Date,
 			required: true,
@@ -33,7 +40,7 @@ const joinProjectSchema = new Schema(
 	{
 		collection: "joinProjects",
 		timestamps: true, // Automatically add createdAt and updatedAt timestamps
-	}
+	},
 );
 
 const JoinProject = dbConnectionPrivate.model("JoinProject", joinProjectSchema);

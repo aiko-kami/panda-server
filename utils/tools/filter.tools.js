@@ -151,7 +151,6 @@ const handleUserFiltering = (user, userIdViewer) => {
 		if (userIdViewer !== "unknown") {
 			// Convert id to ObjectId
 			objectIdUserIdViewer = convertIdToObjectId(userIdViewer);
-
 			if (objectIdUserIdViewer.status == "error") {
 				return { status: "error", message: objectIdUserIdViewer.message };
 			}

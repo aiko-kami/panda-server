@@ -8,7 +8,7 @@ function generateAccessToken(userId, expires = process.env.ACCESS_TOKEN_EXPIRATI
 		sub: userId,
 	};
 	const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expires });
-	logger.info(`Access token generated: ${token}`);
+	logger.info("Access token generated");
 	return token;
 }
 
@@ -17,7 +17,7 @@ function generateAdminAccessToken(userId, expires = process.env.ACCESS_TOKEN_EXP
 		sub: userId,
 	};
 	const token = jwt.sign(payload, process.env.ACCESS_TOKEN_ADMIN_SECRET, { expiresIn: expires });
-	logger.info(`Admin access token generated: ${token}`);
+	logger.info("Admin access token generated");
 	return token;
 }
 
@@ -26,7 +26,7 @@ function generateRefreshToken(userId, expires = process.env.REFRESH_TOKEN_EXPIRA
 		sub: userId,
 	};
 	const token = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: expires });
-	logger.info(`Refresh token generated: ${token}`);
+	logger.info("Refresh token generated");
 	return token;
 }
 
@@ -41,7 +41,7 @@ function generateResetPasswordToken(userId) {
 	// (return the encoded one for URL use)
 	const resetPasswordToken = encodeURIComponent(encryptedData);
 
-	logger.info(`reset password token generated (for URL): ${resetPasswordToken}`);
+	logger.info("Reset password token generated (for URL)");
 	return {
 		rawToken: encryptedData, // rawToken to be saved in DB
 		encodedToken: resetPasswordToken, // encodedToken to be used in the URL

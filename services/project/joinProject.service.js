@@ -120,7 +120,7 @@ const createJoinProject = async (joinProjectData) => {
 		logger.info(
 			`${capitalizedRequestType} created successfully. JoinProject ID: ${joinProject.joinProjectId} - Project ID: ${joinProject.projectId} - Sender User ID: ${
 				joinProject.userIdSender
-			} - Receiver User ID: ${joinProject.userIdReceiver || "N/A"} - ${capitalizedRequestType} status: ${joinProject.status}`
+			} - Receiver User ID: ${joinProject.userIdReceiver || "N/A"} - ${capitalizedRequestType} status: ${joinProject.status}`,
 		);
 		return { status: "success", message: `${capitalizedRequestType} created successfully.`, joinProject };
 	} catch (error) {
@@ -234,7 +234,7 @@ const updateJoinProject = async (joinProjectData) => {
 		logger.info(
 			`${capitalizedRequestType} updated successfully. JoinProject ID: ${joinProject.joinProjectId} - Project ID: ${joinProject.projectId} - Sender User ID: ${
 				joinProject.userIdSender
-			} - Receiver User ID: ${joinProject.userIdSender || "N/A"} - ${capitalizedRequestType} status: ${joinProject.status}`
+			} - Receiver User ID: ${joinProject.userIdSender || "N/A"} - ${capitalizedRequestType} status: ${joinProject.status}`,
 		);
 		return { status: "success", message: `${capitalizedRequestType} updated successfully.`, joinProject };
 	} catch (error) {
@@ -358,7 +358,7 @@ const updateStatusJoinProject = async (userIdUpdater, joinProjectId, newJoinProj
 		logger.info(
 			`Status of ${capitalizedRequestType} updated successfully. JoinProject ID: ${joinProject.joinProjectId} - Project ID: ${joinProject.projectId} - Sender User ID: ${
 				joinProject.userIdSender
-			} - Receiver User ID: ${joinProject.userIdReceiver || "N/A"} - ${capitalizedRequestType} new status: ${joinProject.status}`
+			} - Receiver User ID: ${joinProject.userIdReceiver || "N/A"} - ${capitalizedRequestType} new status: ${joinProject.status}`,
 		);
 		return { status: "success", message: `Status of ${capitalizedRequestType} updated successfully.`, joinProject };
 	} catch (error) {
@@ -419,7 +419,7 @@ const removeJoinProject = async (userIdSender, joinProjectId, requestType) => {
 		logger.info(
 			`${capitalizedRequestType} removed successfully. JoinProject ID: ${joinProjectRemoved.joinProjectId} - Project ID: ${joinProjectRemoved.projectId} - Sender User ID: ${
 				joinProjectRemoved.userIdSender
-			} - Receiver User ID: ${joinProjectRemoved.userIdReceiver || "N/A"}`
+			} - Receiver User ID: ${joinProjectRemoved.userIdReceiver || "N/A"}`,
 		);
 		return { status: "success", message: `${capitalizedRequestType} removed successfully.`, joinProjectRemoved };
 	} catch (error) {
@@ -434,36 +434,31 @@ const retrieveMyJoinProjects = async (userIdSender, requestType, statusType) => 
 			return { status: "error", message: objectIdUserIdSender.message };
 		}
 
-		let query;
-		if (statusType === "all") {
-			query = { sender: objectIdUserIdSender, requestType };
-		} else {
-			query = { sender: objectIdUserIdSender, requestType, status: statusType };
+		const query = {
+			[requestType === "join project invitation" ? "receiver" : "sender"]: objectIdUserIdSender,
+			requestType,
+		};
+
+		if (statusType !== "all") {
+			query.status = statusType;
 		}
 
-		const existingJoinProjects = await JoinProject.find(query).select("-_id -__v");
-
-		const joinProjects = existingJoinProjects.map((jp) => {
-			const container = {};
-			let retrievedReceiver;
-
-			if (jp.receiver) {
-				retrievedReceiver = encryptTools.convertObjectIdToId(jp.receiver.toString());
-			}
-			container.projectId = encryptTools.convertObjectIdToId(jp.project.toString());
-			container.userIdSender = encryptTools.convertObjectIdToId(jp.sender.toString());
-			container.userIdReceiver = retrievedReceiver;
-			container.requestType = jp.requestType;
-			container.talent = jp.talent;
-			container.message = jp.message;
-			container.updatedBy = encryptTools.convertObjectIdToId(jp.updatedBy.toString());
-			container.status = jp.status;
-			container.joinProjectId = jp.joinProjectId;
-			container.createdAt = jp.createdAt;
-			container.updatedAt = jp.updatedAt;
-
-			return container;
-		});
+		const joinProjects = await JoinProject.find(query)
+			.select("-_id -__v")
+			.populate([
+				{
+					path: "project",
+					select: "-_id title summary category subCategory goal likes cover projectId",
+					populate: {
+						path: "category",
+						select: "-_id categoryId name link colors subCategories",
+					},
+				},
+				{ path: "sender", select: "username profilePicture userId" },
+				{ path: "receiver", select: "username profilePicture userId" },
+				{ path: "updatedBy", select: "username profilePicture userId" },
+				{ path: "status", select: "-_id status colors description key" },
+			]);
 
 		const nbJoinProject = joinProjects.length;
 
@@ -522,7 +517,7 @@ const retrieveMyJoinProject = async (userIdSender, requestType, joinProjectId) =
 		logger.info(
 			`${capitalizedRequestType} retrieved successfully. JoinProject ID: ${joinProject.joinProjectId} - Project ID: ${joinProject.projectId} - Sender User ID: ${
 				joinProject.userIdSender
-			} - Receiver User ID: ${joinProject.userIdReceiver || "N/A"} - ${capitalizedRequestType} status: ${joinProject.status}`
+			} - Receiver User ID: ${joinProject.userIdReceiver || "N/A"} - ${capitalizedRequestType} status: ${joinProject.status}`,
 		);
 		return { status: "success", message: `${capitalizedRequestType} retrieved successfully.`, joinProject };
 	} catch (error) {
@@ -568,7 +563,7 @@ const retrieveJoinProject = async (requestType, joinProjectId) => {
 		logger.info(
 			`${capitalizedRequestType} retrieved successfully. JoinProject ID: ${joinProject.joinProjectId} - Project ID: ${joinProject.projectId} - Sender User ID: ${
 				joinProject.userIdSender
-			} - Receiver User ID: ${joinProject.userIdReceiver || "N/A"} - ${capitalizedRequestType} status: ${joinProject.status}`
+			} - Receiver User ID: ${joinProject.userIdReceiver || "N/A"} - ${capitalizedRequestType} status: ${joinProject.status}`,
 		);
 		return { status: "success", message: `${capitalizedRequestType} retrieved successfully.`, joinProject };
 	} catch (error) {

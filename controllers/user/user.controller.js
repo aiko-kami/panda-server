@@ -1,5 +1,5 @@
 const { apiResponse, userValidation, authValidation, filterTools, uploadFiles } = require("../../utils");
-const { userService, projectService, uploadService, emailService } = require("../../services");
+const { userService, projectService, joinProjectService, uploadService, emailService } = require("../../services");
 
 const retrieveMyUserData = async (req, res) => {
 	try {
@@ -148,13 +148,156 @@ const retrieveNewUsers = async (req, res) => {
 	}
 };
 
-/**
- * Update User Controller
- * This controller handles the update of user personal information.
- * @param {Object} req - The HTTP request object.
- * @param {Object} res - The HTTP response object.
- * @returns {Object} - The response containing the updated user or an error message.
- */
+const retrieveUserOverview = async (req, res) => {
+	try {
+		const { userId = "" } = req.params;
+
+		// Validate user ID
+		const validationResult = userValidation.validateUserId(userId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		const userData = await userService.retrieveUserById(userId, ["username", "location", "description", "talents", "profilePicture"]);
+		if (userData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userData.message);
+		}
+
+		//Filter user public data from user
+		const userFiltered = filterTools.filterUserOutputFields(userData.user, "unknown");
+		if (userFiltered.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userFiltered.message);
+		}
+		return apiResponse.successResponseWithData(res, userData.message, { user: userFiltered.user });
+	} catch (error) {
+		// Throw error in json response with status 500.
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const retrieveUserPublicData = async (req, res) => {
+	try {
+		const { userId = "" } = req.params;
+
+		// Validate user ID
+		const validationResult = userValidation.validateUserId(userId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Retrieve user data from database
+		const userData = await userService.retrieveUserById(userId, [
+			"username",
+			"createdAt",
+			"location",
+			"company",
+			"description",
+			"bio",
+			"languages",
+			"website",
+			"profilePicture",
+			"backgroundPicture",
+			"talents",
+			"quickSkills",
+			"projectLikePrivacy",
+		]);
+		if (userData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userData.message);
+		}
+
+		// Retrieve user projects
+		const userProjectsData = await projectService.retrieveProjectsFromUser(
+			userId,
+			["-_id", "projectId", "link", "title", "summary", "cover", "category", "subCategory", "tags"],
+			["created", "onGoing", "completed", "like"],
+			"public",
+		);
+
+		if (userProjectsData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userProjectsData.message);
+		}
+
+		//Filter user public data from user
+		const userFiltered = filterTools.filterUserOutputFields(userData.user, "unknown");
+		if (userFiltered.projectLikePrivacy == "success") {
+			return apiResponse.serverErrorResponse(res, userFiltered.message);
+		}
+
+		//Filter projects if user like is private
+		if (userFiltered.user.projectLikePrivacy !== "public") {
+			delete userProjectsData.projects.like;
+			delete userProjectsData.projectsCount.like;
+		}
+
+		return apiResponse.successResponseWithData(res, userData.message, { user: userFiltered.user, projects: userProjectsData.projects, projectsCount: userProjectsData.projectsCount });
+	} catch (error) {
+		// Throw error in json response with status 500.
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const retrieveUserPrivateProjects = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		// Validate user ID
+		const validationResult = userValidation.validateUserId(userId);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Retrieve user data from database
+		const userData = await userService.retrieveUserById(userId, ["settings", "notifications"]);
+		if (userData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userData.message);
+		}
+
+		//Filter user public data from user
+		const userFiltered = filterTools.filterUserOutputFields(userData.user, userId);
+		if (userFiltered.projectLikePrivacy == "success") {
+			return apiResponse.serverErrorResponse(res, userFiltered.message);
+		}
+
+		// Retrieve user projects
+		const userProjectsData = await projectService.retrieveProjectsFromUser(
+			userId,
+			["-_id", "projectId", "link", "title", "summary", "cover", "category", "subCategory", "statusInfo", "likes", "tags"],
+			["created", "onGoing", "like"],
+			"private",
+		);
+
+		console.log("🚀 ~ retrieveUserPrivateProjects ~ userProjectsData:", userProjectsData.projects.created[0].statusInfo);
+		console.log("🚀 ~ retrieveUserPrivateProjects ~ userProjectsData:", userProjectsData.projects.created[1].statusInfo);
+
+		if (userProjectsData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, userProjectsData.message);
+		}
+
+		// Retrieve user's join project invitations
+		const joinProjectInvitationsResult = await joinProjectService.retrieveMyJoinProjects(userId, "join project invitation", "all");
+		if (joinProjectInvitationsResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, joinProjectInvitationsResult.message);
+		}
+
+		// Retrieve user's join project requests
+		const joinProjectRequestsResult = await joinProjectService.retrieveMyJoinProjects(userId, "join project request", "all");
+		if (joinProjectRequestsResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, joinProjectRequestsResult.message);
+		}
+
+		return apiResponse.successResponseWithData(res, userProjectsData.message, {
+			user: userFiltered.user,
+			projects: userProjectsData.projects,
+			projectsCount: userProjectsData.projectsCount,
+			joinProjectInvitations: joinProjectInvitationsResult.joinProjects,
+			joinProjectRequests: joinProjectRequestsResult.joinProjects,
+		});
+	} catch (error) {
+		// Throw error in json response with status 500.
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 const updateUser = async (req, res) => {
 	try {
 		const userId = req.userId;
@@ -492,19 +635,33 @@ const updateUserEmail = async (req, res) => {
 	}
 };
 
-// Verify the email address via the personalized link sent to the user
-const verifyEmailChangeLink = async (req, res) => {
+const updateUserPassword = async (req, res) => {
 	try {
-		const emailChangeValidationId = req.params.emailChangeValidationId;
+		const userId = req.userId;
 
-		const emailVerified = await emailService.verifyEmailChangeValidationId(emailChangeValidationId);
-		if (emailVerified.status !== "success") {
-			return apiResponse.serverErrorResponse(res, emailVerified.message);
+		//Retrieve and initialize user data
+		const { oldPassword = "", newPassword = "", confirmNewPassword = "" } = req.body.userNewData;
+
+		// Validate user ID
+		const idValidationResult = userValidation.validateUserId(userId);
+		if (idValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, idValidationResult.message);
 		}
 
-		return apiResponse.successResponse(res, emailVerified.message);
+		// Validate input data
+		const validationResult = authValidation.validatePasswordChange(oldPassword, newPassword, confirmNewPassword);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
 
-		//catch error if occurred during email verification link
+		// Update the user's password in the database
+		const updatePasswordResult = await userService.updateUserPassword(userId, oldPassword, newPassword);
+		// Check the result of the update operation
+		if (updatePasswordResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updatePasswordResult.message);
+		}
+
+		return apiResponse.successResponse(res, updatePasswordResult.message);
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
@@ -727,128 +884,20 @@ const removeUserBackgroundPicture = async (req, res) => {
 	}
 };
 
-/**
- * Change User's password Controller
- * This controller handles the update of user's password.
- * @param {Object} req - The HTTP request object.
- * @param {Object} res - The HTTP response object.
- * @returns {Object} - The response containing the updated password status or an error message.
- */
-const updateUserPassword = async (req, res) => {
+// Verify the email address via the personalized link sent to the user
+const verifyEmailChangeLink = async (req, res) => {
 	try {
-		const userId = req.userId;
+		const emailChangeValidationId = req.params.emailChangeValidationId;
 
-		//Retrieve and initialize user data
-		const { oldPassword = "", newPassword = "", confirmNewPassword = "" } = req.body.userNewData;
-
-		// Validate user ID
-		const idValidationResult = userValidation.validateUserId(userId);
-		if (idValidationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, idValidationResult.message);
+		const emailVerified = await emailService.verifyEmailChangeValidationId(emailChangeValidationId);
+		if (emailVerified.status !== "success") {
+			return apiResponse.serverErrorResponse(res, emailVerified.message);
 		}
 
-		// Validate input data
-		const validationResult = authValidation.validatePasswordChange(oldPassword, newPassword, confirmNewPassword);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
-		}
+		return apiResponse.successResponse(res, emailVerified.message);
 
-		// Update the user's password in the database
-		const updatePasswordResult = await userService.updateUserPassword(userId, oldPassword, newPassword);
-		// Check the result of the update operation
-		if (updatePasswordResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, updatePasswordResult.message);
-		}
-
-		return apiResponse.successResponse(res, updatePasswordResult.message);
+		//catch error if occurred during email verification link
 	} catch (error) {
-		return apiResponse.serverErrorResponse(res, error.message);
-	}
-};
-
-const retrieveUserOverview = async (req, res) => {
-	try {
-		const { userId = "" } = req.params;
-
-		// Validate user ID
-		const validationResult = userValidation.validateUserId(userId);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
-		}
-
-		const userData = await userService.retrieveUserById(userId, ["username", "location", "description", "talents", "profilePicture"]);
-		if (userData.status !== "success") {
-			return apiResponse.serverErrorResponse(res, userData.message);
-		}
-
-		//Filter user public data from user
-		const userFiltered = filterTools.filterUserOutputFields(userData.user, "unknown");
-		if (userFiltered.status !== "success") {
-			return apiResponse.serverErrorResponse(res, userFiltered.message);
-		}
-		return apiResponse.successResponseWithData(res, userData.message, { user: userFiltered.user });
-	} catch (error) {
-		// Throw error in json response with status 500.
-		return apiResponse.serverErrorResponse(res, error.message);
-	}
-};
-
-const retrieveUserPublicData = async (req, res) => {
-	try {
-		const { userId = "" } = req.params;
-
-		// Validate user ID
-		const validationResult = userValidation.validateUserId(userId);
-		if (validationResult.status !== "success") {
-			return apiResponse.clientErrorResponse(res, validationResult.message);
-		}
-
-		// Retrieve user data from database
-		const userData = await userService.retrieveUserById(userId, [
-			"username",
-			"createdAt",
-			"location",
-			"company",
-			"description",
-			"bio",
-			"languages",
-			"website",
-			"profilePicture",
-			"backgroundPicture",
-			"talents",
-			"quickSkills",
-			"projectLikePrivacy",
-		]);
-		if (userData.status !== "success") {
-			return apiResponse.serverErrorResponse(res, userData.message);
-		}
-
-		// Retrieve user projects
-		const userProjectsData = await projectService.retrievePublicProjectsFromUser(
-			userId,
-			["-_id", "projectId", "link", "title", "summary", "cover", "category", "subCategory", "tags"],
-			["created", "onGoing", "completed", "like"],
-		);
-
-		if (userProjectsData.status !== "success") {
-			return apiResponse.serverErrorResponse(res, userProjectsData.message);
-		}
-
-		//Filter user public data from user
-		const userFiltered = filterTools.filterUserOutputFields(userData.user, "unknown");
-		if (userFiltered.projectLikePrivacy == "success") {
-			return apiResponse.serverErrorResponse(res, userFiltered.message);
-		}
-
-		//Filter projects if user like is private
-		if (userFiltered.user.projectLikePrivacy !== "public") {
-			delete userProjectsData.projects.like;
-			delete userProjectsData.projectsCount.like;
-		}
-
-		return apiResponse.successResponseWithData(res, userData.message, { user: userFiltered.user, projects: userProjectsData.projects, projectsCount: userProjectsData.projectsCount });
-	} catch (error) {
-		// Throw error in json response with status 500.
 		return apiResponse.serverErrorResponse(res, error.message);
 	}
 };
@@ -858,6 +907,10 @@ module.exports = {
 	retrieveMyUserSettings,
 	retrieveMyUserPrivacySettings,
 	retrieveNewUsers,
+	retrieveUserOverview,
+	retrieveUserPublicData,
+	retrieveUserPrivateProjects,
+
 	updateUser,
 	updateUserBioDescription,
 	updateUserDetails,
@@ -866,12 +919,12 @@ module.exports = {
 	updateUserSettingsLanguage,
 	updateUserSettingsNotifications,
 	updateUserEmail,
-	verifyEmailChangeLink,
+	updateUserPassword,
+
 	updateUserPicture,
 	updateUserBackgroundPicture,
 	removeUserPicture,
 	removeUserBackgroundPicture,
-	updateUserPassword,
-	retrieveUserOverview,
-	retrieveUserPublicData,
+
+	verifyEmailChangeLink,
 };

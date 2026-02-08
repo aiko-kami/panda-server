@@ -25,6 +25,15 @@ const createProject = async (projectData) => {
 			return { status: "error", message: objectIdCreatorId.message };
 		}
 
+		const objectIdTagIds = [];
+		for (const id of projectData.tagIds) {
+			const objectIdTagId = encryptTools.convertIdToObjectId(id);
+			if (objectIdTagId.status == "error") {
+				return { status: "error", message: objectIdTagId.message };
+			}
+			objectIdTagIds.push(objectIdTagId);
+		}
+
 		// Converts the project title into a URL-friendly format by replacing '&' and '/' with '-', removing spaces and setting to lowercase
 		const projectLink = projectData.title.replace(/\s&\s/g, "-").replace(/\//g, "-").replace(/\s+/g, "-").toLowerCase();
 
@@ -72,7 +81,7 @@ const createProject = async (projectData) => {
 			visibility: projectData.visibility,
 			createdBy: objectIdCreatorId,
 			updatedBy: objectIdCreatorId,
-			tags: projectData.tags,
+			tags: objectIdTagIds,
 			members: [{ user: objectIdCreatorId, role: "owner" }],
 			talentsNeeded: projectData.talentsNeeded,
 			objectives: projectData.objectives,
@@ -293,10 +302,41 @@ const processProjectApproval = async (projectId, projectApproval, adminUserId) =
 
 		// Update the project status
 		if (projectApproval.approval === "approved") {
-			project.statusInfo.currentStatus.status = "active";
+			// Retrieve status from newStatusId
+			const newStatus = await Status.findOne({ status: "active", type: "project" });
+			if (!newStatus) {
+				return { status: "error", message: "newStatus not found." };
+			}
+
+			// Update current status and reason
+			project.statusInfo.currentStatus = newStatus._id;
+			project.statusInfo.reason = "Project approved";
+
+			// Add the status change to the history
+			project.statusInfo.statusHistory.push({
+				status: newStatus._id,
+				updatedBy: project.createdBy,
+				reason: "Project approved",
+				timestamp: DateTime.now().toHTTP(),
+			});
 		} else if (projectApproval.approval === "rejected") {
-			project.statusInfo.currentStatus.status = "rejected";
+			// Retrieve status from newStatusId
+			const newStatus = await Status.findOne({ status: "rejected", type: "project" });
+			if (!newStatus) {
+				return { status: "error", message: "newStatus not found." };
+			}
+
+			// Update current status and reason
+			project.statusInfo.currentStatus = newStatus._id;
 			project.statusInfo.reason = projectApproval.reason;
+
+			// Add the status change to the history
+			project.statusInfo.statusHistory.push({
+				status: newStatus._id,
+				updatedBy: project.createdBy,
+				reason: projectApproval.reason,
+				timestamp: DateTime.now().toHTTP(),
+			});
 		}
 
 		// Save the updated project
@@ -721,7 +761,7 @@ const retrieveProjectByLink = async (projectLink, fields, conditions) => {
 	}
 };
 
-const retrievePublicProjectsFromUser = async (userId, fields = [], types = []) => {
+const retrieveProjectsFromUser = async (userId, fields = [], types = [], privacy = "public") => {
 	try {
 		// Convert id to ObjectId
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
@@ -757,6 +797,10 @@ const retrievePublicProjectsFromUser = async (userId, fields = [], types = []) =
 			return projects.map((project) => {
 				const p = project.toObject();
 
+				// compute if user is a member of the project
+				p.isMember = Array.isArray(p.members) ? p.members.some((m) => String(m.user?._id) === String(objectIdUserId)) : false;
+
+				delete p.statusInfo.statusHistory;
 				if (!fields.includes("category")) delete p.category;
 				if (!fields.includes("tags")) delete p.tags;
 				if (!fields.includes("updatedBy")) delete p.updatedBy;
@@ -768,19 +812,20 @@ const retrievePublicProjectsFromUser = async (userId, fields = [], types = []) =
 			});
 		};
 
-		const results = {
-			created: [],
-			onGoing: [],
-			completed: [],
-			like: [],
-		};
+		const results = {};
 
 		/* ===== CREATED ===== */
 		if (types.includes("created")) {
-			const conditions = {
-				createdBy: objectIdUserId,
-				visibility: "public",
-			};
+			const conditions =
+				privacy === "private"
+					? {
+							createdBy: objectIdUserId,
+							$or: [{ visibility: "public" }, { visibility: "private", "members.user": objectIdUserId }],
+						}
+					: {
+							createdBy: objectIdUserId,
+							visibility: "public",
+						};
 
 			const data = await buildQuery(conditions);
 			results.created = sanitize(data);
@@ -795,11 +840,18 @@ const retrievePublicProjectsFromUser = async (userId, fields = [], types = []) =
 					message: "Completed status not found in the database.",
 				};
 			}
-			const conditions = {
-				"members.user": objectIdUserId,
-				visibility: "public",
-				"statusInfo.currentStatus": completedStatus._id,
-			};
+
+			const conditions =
+				privacy === "private"
+					? {
+							"members.user": objectIdUserId,
+							"statusInfo.currentStatus": completedStatus._id,
+						}
+					: {
+							"members.user": objectIdUserId,
+							visibility: "public",
+							"statusInfo.currentStatus": completedStatus._id,
+						};
 
 			const data = await buildQuery(conditions);
 			results.completed = sanitize(data);
@@ -814,11 +866,18 @@ const retrievePublicProjectsFromUser = async (userId, fields = [], types = []) =
 					message: "Active status not found in the database.",
 				};
 			}
-			const conditions = {
-				"members.user": objectIdUserId,
-				visibility: "public",
-				"statusInfo.currentStatus": activeStatus._id,
-			};
+
+			const conditions =
+				privacy === "private"
+					? {
+							"members.user": objectIdUserId,
+							"statusInfo.currentStatus": activeStatus._id,
+						}
+					: {
+							"members.user": objectIdUserId,
+							visibility: "public",
+							"statusInfo.currentStatus": activeStatus._id,
+						};
 
 			const data = await buildQuery(conditions);
 			results.onGoing = sanitize(data);
@@ -839,7 +898,7 @@ const retrievePublicProjectsFromUser = async (userId, fields = [], types = []) =
 		}
 
 		/* ===== TOTAL ===== */
-		const total = results.created.length + results.onGoing.length + results.completed.length + results.like.length;
+		const total = results.created?.length + results.onGoing?.length + results.completed?.length + results.like?.length;
 
 		if (!total) {
 			return {
@@ -847,10 +906,10 @@ const retrievePublicProjectsFromUser = async (userId, fields = [], types = []) =
 				message: "No project found.",
 				projects: results,
 				projectsCount: {
-					created: results.created.length,
-					onGoing: results.onGoing.length,
-					completed: results.completed.length,
-					like: results.like.length,
+					created: results.created?.length,
+					onGoing: results.onGoing?.length,
+					completed: results.completed?.length,
+					like: results.like?.length,
 				},
 			};
 		}
@@ -860,10 +919,10 @@ const retrievePublicProjectsFromUser = async (userId, fields = [], types = []) =
 			message: `${total} project${total > 1 ? "s" : ""} retrieved successfully.`,
 			projects: results,
 			projectsCount: {
-				created: results.created.length,
-				onGoing: results.onGoing.length,
-				completed: results.completed.length,
-				like: results.like.length,
+				created: results.created?.length,
+				onGoing: results.onGoing?.length,
+				completed: results.completed?.length,
+				like: results.like?.length,
 			},
 		};
 	} catch (error) {
@@ -1173,7 +1232,7 @@ module.exports = {
 	updateProjectDraftSection,
 	retrieveProjectById,
 	retrieveProjectByLink,
-	retrievePublicProjectsFromUser,
+	retrieveProjectsFromUser,
 	retrieveProjects,
 	countNumberProjects,
 	countNumberProjectsPerCategory,

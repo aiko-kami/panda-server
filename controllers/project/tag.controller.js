@@ -28,7 +28,7 @@ const createTags = async (req, res) => {
 		const { tags } = req.body;
 
 		// Validate input data for creating a tag
-		const validationInputsResult = tagValidation.validateTagsInputs(tags);
+		const validationInputsResult = tagValidation.validateNewTagsInputs(tags);
 		if (validationInputsResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationInputsResult.message);
 		}
