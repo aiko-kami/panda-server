@@ -656,7 +656,15 @@ const retrieveProjectPublicDataWithLink = async (req, res) => {
 		const { projectLink = "" } = req.params;
 		const userId = req.userId;
 
-		console.log("🚀 ~ retrieveProjectPublicDataWithLink ~ userId:", userId);
+		//Retrieve allowed statuses IDs
+		const allowedStatuses = ["active", "on hold", "completed", "archived"];
+
+		const statusIdsRetrieved = await statusService.retrieveStatusesByNames(allowedStatuses, "project", ["-_id", "statusId"]);
+		if (statusIdsRetrieved.status !== "success") {
+			return apiResponse.serverErrorResponse(res, statusIdsRetrieved.message);
+		}
+
+		const statusObjectIds = statusIdsRetrieved.statuses.map((s) => encryptTools.convertIdToObjectId(s.statusId));
 
 		const projectData = await projectService.retrieveProjectByLink(
 			projectLink,
@@ -683,7 +691,10 @@ const retrieveProjectPublicDataWithLink = async (req, res) => {
 				"link",
 				"likes",
 			],
-			{ visibility: "public" },
+			{
+				visibility: "public",
+				"statusInfo.currentStatus": { $in: statusObjectIds },
+			},
 		);
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);

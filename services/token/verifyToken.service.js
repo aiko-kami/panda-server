@@ -22,12 +22,8 @@ const verifyAccessToken = (accessToken) => {
 };
 
 const verifyAdminAccessToken = (accessToken) => {
-	console.log("🚀 ~ verifyAdminAccessToken ~ accessToken:", accessToken);
-
 	try {
 		const tokenDecoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_ADMIN_SECRET);
-
-		console.log("🚀 ~ verifyAdminAccessToken ~ tokenDecoded:", tokenDecoded);
 
 		// Check if the token is still valid (not expired)
 		if (tokenDecoded.exp > Date.now() / 1000) {

@@ -135,6 +135,47 @@ const retrieveStatusByName = async (statusName, statusType, fields) => {
 	}
 };
 
+const retrieveStatusesByNames = async (statusNames, statusType, fields) => {
+	try {
+		if (!Array.isArray(statusNames) || statusNames.length === 0) {
+			return {
+				status: "error",
+				message: "Status names must be a non-empty array.",
+			};
+		}
+
+		const fieldsString = fields.join(" ");
+
+		const search = {
+			status: { $in: statusNames },
+			type: statusType,
+		};
+
+		const statusesRetrieved = await Status.find(search).select(fieldsString);
+
+		if (!statusesRetrieved || statusesRetrieved.length === 0) {
+			return {
+				status: "error",
+				message: "No matching statuses found.",
+			};
+		}
+
+		const statuses = statusesRetrieved.map((s) => s.toObject());
+
+		return {
+			status: "success",
+			message: "Statuses retrieved successfully.",
+			statuses,
+		};
+	} catch (error) {
+		logger.error("Error while retrieving statuses from the database:", error);
+		return {
+			status: "error",
+			message: "An error occurred while retrieving the statuses.",
+		};
+	}
+};
+
 const retrieveAllStatuses = async (statusType, fields) => {
 	try {
 		const fieldsString = fields.join(" ");
@@ -281,6 +322,7 @@ module.exports = {
 	updateProjectStatus,
 	retrieveStatusById,
 	retrieveStatusByName,
+	retrieveStatusesByNames,
 	retrieveAllStatuses,
 	createStatus,
 	editStatus,

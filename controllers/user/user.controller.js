@@ -265,10 +265,6 @@ const retrieveUserPrivateProjects = async (req, res) => {
 			["created", "onGoing", "like"],
 			"private",
 		);
-
-		console.log("🚀 ~ retrieveUserPrivateProjects ~ userProjectsData:", userProjectsData.projects.created[0].statusInfo);
-		console.log("🚀 ~ retrieveUserPrivateProjects ~ userProjectsData:", userProjectsData.projects.created[1].statusInfo);
-
 		if (userProjectsData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, userProjectsData.message);
 		}
@@ -495,7 +491,7 @@ const updateUserSettingsAppearance = async (req, res) => {
 	try {
 		const userId = req.userId;
 
-		const updatedsettingsInputs = {
+		const updatedSettingsInputs = {
 			appearance: req.body.userNewData.appearance || "",
 		};
 
@@ -506,13 +502,45 @@ const updateUserSettingsAppearance = async (req, res) => {
 		}
 
 		// Validate input data for updating a user
-		const validationWebsiteSettingsResult = userValidation.validateAppearanceSettingsInputs(updatedsettingsInputs);
+		const validationWebsiteSettingsResult = userValidation.validateAppearanceSettingsInputs(updatedSettingsInputs);
 		if (validationWebsiteSettingsResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationWebsiteSettingsResult.message);
 		}
 
 		// Update the user appearamce settings in the database
-		const updateUserResult = await userService.updateUser(userId, updatedsettingsInputs);
+		const updateUserResult = await userService.updateUser(userId, updatedSettingsInputs);
+		if (updateUserResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, updateUserResult.message);
+		}
+
+		return apiResponse.successResponse(res, updateUserResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const updateUserSettingsDisplayMode = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		const updatedDisplayModeInputs = {
+			displayMode: req.body.userNewData?.displayMode || "",
+		};
+
+		// Validate user ID
+		const idValidationResult = userValidation.validateUserId(userId);
+		if (idValidationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, idValidationResult.message);
+		}
+
+		// Validate input data for updating a user
+		const validationWebsiteSettingsResult = userValidation.validateDisplayModeSettingsInputs(updatedDisplayModeInputs);
+		if (validationWebsiteSettingsResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationWebsiteSettingsResult.message);
+		}
+
+		// Update the user appearamce settings in the database
+		const updateUserResult = await userService.updateUser(userId, updatedDisplayModeInputs);
 		if (updateUserResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updateUserResult.message);
 		}
@@ -916,6 +944,7 @@ module.exports = {
 	updateUserDetails,
 	updateUserSettingsPrivacy,
 	updateUserSettingsAppearance,
+	updateUserSettingsDisplayMode,
 	updateUserSettingsLanguage,
 	updateUserSettingsNotifications,
 	updateUserEmail,

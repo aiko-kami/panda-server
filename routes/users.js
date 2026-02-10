@@ -17,6 +17,7 @@ usersRoute.patch("/updateMyBioDescription", verifyAccess, userController.updateU
 usersRoute.patch("/updateMyDetails", verifyAccess, userController.updateUserDetails);
 usersRoute.patch("/updateMySettingsPrivacy", verifyAccess, userController.updateUserSettingsPrivacy);
 usersRoute.patch("/updateMySettingsAppearance", verifyAccess, userController.updateUserSettingsAppearance);
+usersRoute.patch("/updateMySettingsDisplayMode", verifyAccess, userController.updateUserSettingsDisplayMode);
 usersRoute.patch("/updateMySettingsLanguage", verifyAccess, userController.updateUserSettingsLanguage);
 usersRoute.patch("/updateMySettingsNotifications", verifyAccess, userController.updateUserSettingsNotifications);
 
