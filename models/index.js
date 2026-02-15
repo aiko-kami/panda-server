@@ -5,11 +5,11 @@ const db = {};
 
 db.mongoose = mongoose;
 
-// Import user model
+// Import user related models
 db.User = require("./user.model");
 db.AdminUser = require("./admin.model");
 
-// Import project related model
+// Import project related models
 db.Category = require("./category.model");
 db.Comment = require("./comment.model");
 db.CrushProject = require("./crushProject.model");
@@ -20,7 +20,7 @@ db.ProjectRights = require("./projectRights.model");
 db.Status = require("./status.model");
 db.Tag = require("./tag.model");
 
-// Import tokens models
+// Import tokens related models
 const tokenModels = require("./token.model");
 db.RefreshToken = tokenModels.RefreshToken;
 db.ResetPasswordToken = tokenModels.ResetPasswordToken;

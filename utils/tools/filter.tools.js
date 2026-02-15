@@ -156,21 +156,21 @@ const handleUserFiltering = (user, userIdViewer) => {
 			}
 		}
 		if (userCopy.profilePicture) {
-			if (userCopy.profilePicture.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
+			if (userCopy.profilePicture.privacy !== "public" && userCopy._id.toString() !== objectIdUserIdViewer.toString()) {
 				userCopy.profilePicture = undefined;
 			} else {
 				delete userCopy.profilePicture.privacy;
 			}
 		}
 		if (userCopy.backgroundPicture) {
-			if (userCopy.backgroundPicture.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
+			if (userCopy.backgroundPicture.privacy !== "public" && userCopy._id.toString() !== objectIdUserIdViewer.toString()) {
 				userCopy.backgroundPicture = undefined;
 			} else {
 				delete userCopy.backgroundPicture.privacy;
 			}
 		}
 		if (userCopy.location && userCopy.location.city) {
-			if (userCopy.location.city.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
+			if (userCopy.location.city.privacy !== "public" && userCopy._id.toString() !== objectIdUserIdViewer.toString()) {
 				userCopy.location.city = undefined;
 			} else {
 				userCopy.location.city = userCopy.location.city.data;
@@ -178,7 +178,7 @@ const handleUserFiltering = (user, userIdViewer) => {
 			}
 		}
 		if (userCopy.location && userCopy.location.country) {
-			if (userCopy.location.country.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
+			if (userCopy.location.country.privacy !== "public" && userCopy._id.toString() !== objectIdUserIdViewer.toString()) {
 				userCopy.location.country = undefined;
 			} else {
 				userCopy.location.country = userCopy.location.country.data;
@@ -186,7 +186,7 @@ const handleUserFiltering = (user, userIdViewer) => {
 			}
 		}
 		if (userCopy.company) {
-			if (userCopy.company.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
+			if (userCopy.company.privacy !== "public" && userCopy._id.toString() !== objectIdUserIdViewer.toString()) {
 				userCopy.company = undefined;
 			} else {
 				userCopy.company = userCopy.company.data;
@@ -194,7 +194,7 @@ const handleUserFiltering = (user, userIdViewer) => {
 			}
 		}
 		if (userCopy.bio) {
-			if (userCopy.bio.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
+			if (userCopy.bio.privacy !== "public" && userCopy._id.toString() !== objectIdUserIdViewer.toString()) {
 				userCopy.bio = undefined;
 			} else {
 				userCopy.bio = userCopy.bio.data;
@@ -202,7 +202,7 @@ const handleUserFiltering = (user, userIdViewer) => {
 			}
 		}
 		if (userCopy.languages) {
-			if (userCopy.languages.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
+			if (userCopy.languages.privacy !== "public" && userCopy._id.toString() !== objectIdUserIdViewer.toString()) {
 				userCopy.languages = undefined;
 			} else {
 				userCopy.languages = userCopy.languages.data;
@@ -210,7 +210,7 @@ const handleUserFiltering = (user, userIdViewer) => {
 			}
 		}
 		if (userCopy.website) {
-			if (userCopy.website.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
+			if (userCopy.website.privacy !== "public" && userCopy._id.toString() !== objectIdUserIdViewer.toString()) {
 				userCopy.website = undefined;
 			} else {
 				userCopy.website = userCopy.website.data;
@@ -218,12 +218,21 @@ const handleUserFiltering = (user, userIdViewer) => {
 			}
 		}
 		if (userCopy.quickSkills) {
-			if (userCopy.quickSkills.privacy !== "public" && userCopy._id !== objectIdUserIdViewer.toString()) {
+			if (userCopy.quickSkills.privacy !== "public" && userCopy._id.toString() !== objectIdUserIdViewer.toString()) {
 				userCopy.quickSkills = undefined;
 			} else {
 				userCopy.quickSkills = userCopy.quickSkills.data;
 				delete userCopy.quickSkills.privacy;
 			}
+		}
+		if (userCopy.talents) {
+			// Remove unpublished talents if viewer is not the owner
+			userCopy.talents = userCopy.talents.filter((talent) => {
+				if (!talent.published && userCopy._id.toString() !== objectIdUserIdViewer.toString()) {
+					return false; // remove it
+				}
+				return true;
+			});
 		}
 
 		if (userCopy._id) {
