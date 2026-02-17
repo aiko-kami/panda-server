@@ -22,7 +22,7 @@ const config = {
 
 	// Website appearance possible values
 	// Note: the first value is used for default value
-	website_appearance: ["night", "dark", "light", "unreal"],
+	website_appearance: ["night", "dark", "light", "starfield", "unreal"],
 
 	// Website language possible values
 	// Note: the first value is used for default value
