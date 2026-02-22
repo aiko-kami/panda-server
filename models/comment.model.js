@@ -18,10 +18,12 @@ const commentSchema = new Schema(
 		isDeleted: { type: Boolean },
 		isAnswerTo: { type: Schema.Types.ObjectId, ref: "Comment" },
 		isReportedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
+		isLikedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
+		isUnlikedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
 	},
 	{
 		collection: "comments",
-	}
+	},
 );
 
 const Comment = dbConnectionPrivate.model("Comment", commentSchema);

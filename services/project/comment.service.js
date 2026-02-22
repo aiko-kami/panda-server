@@ -290,8 +290,6 @@ const retrieveProjectComments = async (projectId) => {
 			//Filter users public data from comment
 			comment.author = filterTools.filterUserOutputFields(comment.author, "unknown").user;
 
-			comment.isReportedBy = comment.isReportedBy.length;
-
 			buildCommentTree(comment);
 		}
 

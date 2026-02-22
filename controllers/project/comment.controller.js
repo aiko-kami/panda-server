@@ -1,5 +1,5 @@
 const { commentService } = require("../../services");
-const { apiResponse, idsValidation, stringValidation } = require("../../utils");
+const { apiResponse, idsValidation, stringValidation, commentTools } = require("../../utils");
 
 /**
  * Update project comments controller.
@@ -199,7 +199,8 @@ const removeComment = async (req, res) => {
 // Retrive for one project the list of users that like this project and count them
 const retrieveProjectComments = async (req, res) => {
 	try {
-		const { projectId = "" } = req.body;
+		const { projectId = "" } = req.params;
+		const userId = req.userId;
 
 		// Validate input data for updating project like
 		const validationResult = idsValidation.validateIdInput(projectId);
@@ -208,11 +209,41 @@ const retrieveProjectComments = async (req, res) => {
 		}
 
 		const commentsResult = await commentService.retrieveProjectComments(projectId);
-
 		if (commentsResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, commentsResult.message);
 		}
-		return apiResponse.successResponseWithData(res, commentsResult.message, commentsResult.projectComments);
+
+		if (userId !== "unknown") {
+			// Check if the user reported the comments and add this information to the comments
+			const flaggedCommentsResult = commentTools.flagUserReportedComments(commentsResult.projectComments, userId);
+			if (flaggedCommentsResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, flaggedCommentsResult.message);
+			}
+
+			commentsResult.projectComments = flaggedCommentsResult.comments;
+
+			// Check if the user is the author of the comments and add this information to the comments
+			const flaggedOwnCommentsResult = commentTools.flagUserOwnComments(flaggedCommentsResult.comments, userId);
+			if (flaggedOwnCommentsResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, flaggedOwnCommentsResult.message);
+			}
+
+			commentsResult.projectComments = flaggedOwnCommentsResult.comments;
+		}
+
+		// Remove the list of users that liked and unliked the comments and replace it with the count of likes and unlikes for security and privacy
+		commentsLikesListResult = commentTools.countLikesComments(commentsResult.projectComments);
+		if (commentsLikesListResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, commentsLikesListResult.message);
+		}
+
+		// Remove the list of users that reported the comments for security and privacy
+		commentsReportListResult = commentTools.removeReportUserList(commentsLikesListResult.comments);
+		if (commentsReportListResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, commentsReportListResult.message);
+		}
+
+		return apiResponse.successResponseWithData(res, commentsResult.message, { comments: commentsReportListResult.comments });
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}

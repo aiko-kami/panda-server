@@ -16,7 +16,7 @@ const {
 	projectQAController,
 	commentController,
 } = require("../controllers");
-const { verifyAccess, verifyAdminAccess } = require("../middlewares/verifyAccess.middleware");
+const { verifyAccess, verifyAdminAccess, verifyUserPresence } = require("../middlewares/verifyAccess.middleware");
 
 // Project cover
 projectExtendedRoute.post("/updateProjectCover/:projectId", verifyAccess, projectCoverController.updateCover);
@@ -65,7 +65,7 @@ projectExtendedRoute.patch("/editProjectComment", verifyAccess, commentControlle
 projectExtendedRoute.patch("/reportProjectComment", verifyAccess, commentController.reportComment);
 projectExtendedRoute.patch("/unreportProjectComment", verifyAccess, commentController.unreportComment);
 projectExtendedRoute.delete("/removeProjectComment", verifyAccess, commentController.removeComment);
-projectExtendedRoute.get("/projectComments", commentController.retrieveProjectComments);
+projectExtendedRoute.get("/projectComments/:projectId", verifyUserPresence, commentController.retrieveProjectComments);
 
 // User's rights
 projectExtendedRoute.patch("/projectUserRights/:projectId", verifyAccess, projectRightsController.updateUserProjectRights);

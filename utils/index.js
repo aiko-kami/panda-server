@@ -15,6 +15,7 @@ module.exports.stringValidation = require("./validation/string.validation");
 
 // Tools
 module.exports.filterTools = require("./tools/filter.tools");
+module.exports.commentTools = require("./tools/comment.tools");
 module.exports.idTools = require("./tools/id.tools");
 module.exports.statusTools = require("./tools/status.tools");
 module.exports.encryptTools = require("./tools/encrypt.tools");
