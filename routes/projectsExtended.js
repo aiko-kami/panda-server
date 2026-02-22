@@ -64,6 +64,11 @@ projectExtendedRoute.post("/answerProjectComment", verifyAccess, commentControll
 projectExtendedRoute.patch("/editProjectComment", verifyAccess, commentController.editComment);
 projectExtendedRoute.patch("/reportProjectComment", verifyAccess, commentController.reportComment);
 projectExtendedRoute.patch("/unreportProjectComment", verifyAccess, commentController.unreportComment);
+
+projectExtendedRoute.patch("/likeProjectComment", verifyAccess, commentController.likeComment);
+projectExtendedRoute.patch("/unlikeProjectComment", verifyAccess, commentController.unlikeComment);
+projectExtendedRoute.patch("/dislikeProjectComment", verifyAccess, commentController.dislikeComment);
+projectExtendedRoute.patch("/undislikeProjectComment", verifyAccess, commentController.undislikeComment);
 projectExtendedRoute.delete("/removeProjectComment", verifyAccess, commentController.removeComment);
 projectExtendedRoute.get("/projectComments/:projectId", verifyUserPresence, commentController.retrieveProjectComments);
 

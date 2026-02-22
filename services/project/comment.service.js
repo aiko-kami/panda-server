@@ -177,6 +177,126 @@ const editComment = async (projectId, userIdUpdater, commentContent, actionType,
 			return { status: "success", message: "Comment unreported successfully." };
 		}
 
+		if (actionType === "like") {
+			// Convert id to ObjectId
+			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);
+			if (objectIdCommentId.status == "error") {
+				return { status: "error", message: objectIdCommentId.message };
+			}
+
+			// Find the existing comment
+			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
+
+			if (!existingComment || existingComment.isDeleted) {
+				return { status: "error", message: "Comment not found." };
+			}
+
+			// Check if the user has already liked the comment
+			if (existingComment.isLikedBy.includes(objectIdUserIdUpdater)) {
+				return { status: "error", message: "You have already liked this comment." };
+			}
+
+			// Add the user to the list of users who liked the comment
+			existingComment.isLikedBy.push(objectIdUserIdUpdater);
+
+			// Save the updated comment
+			await existingComment.save();
+
+			logger.info(`Comment liked successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater} - Comment ID: ${commentId}`);
+			return { status: "success", message: "Comment liked successfully." };
+		}
+
+		if (actionType === "unlike") {
+			// Convert id to ObjectId
+			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);
+			if (objectIdCommentId.status == "error") {
+				return { status: "error", message: objectIdCommentId.message };
+			}
+
+			// Find the existing comment
+			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
+
+			if (!existingComment || existingComment.isDeleted) {
+				return { status: "error", message: "Comment not found." };
+			}
+
+			// Check if the user making the unlike is in the list of users who liked the comment
+			const likeIndex = existingComment.isLikedBy.indexOf(objectIdUserIdUpdater);
+
+			if (likeIndex === -1) {
+				return { status: "error", message: "You have not liked this comment." };
+			}
+
+			// Remove the user from the list of users who liked the comment
+			existingComment.isLikedBy.splice(likeIndex, 1);
+
+			// Save the updated comment
+			await existingComment.save();
+
+			logger.info(`Comment unliked successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater} - Comment ID: ${commentId}`);
+			return { status: "success", message: "Comment unliked successfully." };
+		}
+
+		if (actionType === "dislike") {
+			// Convert id to ObjectId
+			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);
+			if (objectIdCommentId.status == "error") {
+				return { status: "error", message: objectIdCommentId.message };
+			}
+
+			// Find the existing comment
+			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
+
+			if (!existingComment || existingComment.isDeleted) {
+				return { status: "error", message: "Comment not found." };
+			}
+
+			// Check if the user has already disliked the comment
+			if (existingComment.isDislikedBy.includes(objectIdUserIdUpdater)) {
+				return { status: "error", message: "You have already disliked this comment." };
+			}
+
+			// Add the user to the list of users who liked the comment
+			existingComment.isDislikedBy.push(objectIdUserIdUpdater);
+
+			// Save the updated comment
+			await existingComment.save();
+
+			logger.info(`Comment disliked successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater} - Comment ID: ${commentId}`);
+			return { status: "success", message: "Comment disliked successfully." };
+		}
+
+		if (actionType === "undislike") {
+			// Convert id to ObjectId
+			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);
+			if (objectIdCommentId.status == "error") {
+				return { status: "error", message: objectIdCommentId.message };
+			}
+
+			// Find the existing comment
+			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
+
+			if (!existingComment || existingComment.isDeleted) {
+				return { status: "error", message: "Comment not found." };
+			}
+
+			// Check if the user making the undislike is in the list of users who disliked the comment
+			const dislikeIndex = existingComment.isDislikedBy.indexOf(objectIdUserIdUpdater);
+
+			if (dislikeIndex === -1) {
+				return { status: "error", message: "You have not disliked this comment." };
+			}
+
+			// Remove the user from the list of users who disliked the comment
+			existingComment.isDislikedBy.splice(dislikeIndex, 1);
+
+			// Save the updated comment
+			await existingComment.save();
+
+			logger.info(`Comment undisliked successfully. Project ID: ${projectId} - User ID updater: ${userIdUpdater} - Comment ID: ${commentId}`);
+			return { status: "success", message: "Comment undisliked successfully." };
+		}
+
 		if (actionType === "remove") {
 			// Convert id to ObjectId
 			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);

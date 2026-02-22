@@ -166,7 +166,122 @@ const unreportComment = async (req, res) => {
 	}
 };
 
-// Retrive all the project that a user likes
+const likeComment = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		const { projectId = "", commentId = "" } = req.body;
+
+		const ids = {
+			userId,
+			projectId,
+			commentId,
+		};
+
+		// Validate input data for creating project comment
+		const validationResult = idsValidation.validateIdsInputs(ids);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		const commentResult = await commentService.editComment(projectId, userId, "", "like", commentId);
+		if (commentResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, commentResult.message);
+		}
+
+		return apiResponse.successResponse(res, commentResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const unlikeComment = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		const { projectId = "", commentId = "" } = req.body;
+
+		const ids = {
+			userId,
+			projectId,
+			commentId,
+		};
+
+		// Validate input data for creating project comment
+		const validationResult = idsValidation.validateIdsInputs(ids);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		const commentResult = await commentService.editComment(projectId, userId, "", "unlike", commentId);
+		if (commentResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, commentResult.message);
+		}
+
+		return apiResponse.successResponse(res, commentResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const dislikeComment = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		const { projectId = "", commentId = "" } = req.body;
+
+		const ids = {
+			userId,
+			projectId,
+			commentId,
+		};
+
+		// Validate input data for creating project comment
+		const validationResult = idsValidation.validateIdsInputs(ids);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		const commentResult = await commentService.editComment(projectId, userId, "", "dislike", commentId);
+		if (commentResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, commentResult.message);
+		}
+
+		return apiResponse.successResponse(res, commentResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
+const undislikeComment = async (req, res) => {
+	try {
+		const userId = req.userId;
+
+		const { projectId = "", commentId = "" } = req.body;
+
+		const ids = {
+			userId,
+			projectId,
+			commentId,
+		};
+
+		// Validate input data for creating project comment
+		const validationResult = idsValidation.validateIdsInputs(ids);
+		if (validationResult.status !== "success") {
+			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		const commentResult = await commentService.editComment(projectId, userId, "", "undislike", commentId);
+		if (commentResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, commentResult.message);
+		}
+
+		return apiResponse.successResponse(res, commentResult.message);
+	} catch (error) {
+		return apiResponse.serverErrorResponse(res, error.message);
+	}
+};
+
 const removeComment = async (req, res) => {
 	try {
 		const userId = req.userId;
@@ -229,6 +344,22 @@ const retrieveProjectComments = async (req, res) => {
 			}
 
 			commentsResult.projectComments = flaggedOwnCommentsResult.comments;
+
+			// Check if the user liked the comments and add this information to the comments
+			const flaggedLikedCommentsResult = commentTools.flagUserLikedComments(flaggedOwnCommentsResult.comments, userId);
+			if (flaggedLikedCommentsResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, flaggedLikedCommentsResult.message);
+			}
+
+			commentsResult.projectComments = flaggedLikedCommentsResult.comments;
+
+			// Check if the user disliked the comments and add this information to the comments
+			const flaggedDislikedCommentsResult = commentTools.flagUserDislikedComments(flaggedLikedCommentsResult.comments, userId);
+			if (flaggedDislikedCommentsResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, flaggedDislikedCommentsResult.message);
+			}
+
+			commentsResult.projectComments = flaggedDislikedCommentsResult.comments;
 		}
 
 		// Remove the list of users that liked and unliked the comments and replace it with the count of likes and unlikes for security and privacy
@@ -255,6 +386,10 @@ module.exports = {
 	editComment,
 	reportComment,
 	unreportComment,
+	likeComment,
+	unlikeComment,
+	dislikeComment,
+	undislikeComment,
 	removeComment,
 	retrieveProjectComments,
 };

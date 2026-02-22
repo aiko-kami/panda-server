@@ -114,14 +114,14 @@ const countLikesComments = (comments = []) => {
 
 	const processCommentThread = (commentList) => {
 		return commentList.map((commentItem) => {
-			const { isLikedBy = [], isUnlikedBy = [], ...restComment } = commentItem.comment;
+			const { isLikedBy = [], isDislikedBy = [], ...restComment } = commentItem.comment;
 
 			return {
 				...commentItem,
 				comment: {
 					...restComment,
 					likesCount: isLikedBy.length,
-					unlikesCount: isUnlikedBy.length,
+					dislikesCount: isDislikedBy.length,
 				},
 				answers: commentItem.answers?.length ? processCommentThread(commentItem.answers) : [],
 			};
@@ -135,9 +135,87 @@ const countLikesComments = (comments = []) => {
 	};
 };
 
+const flagUserLikedComments = (comments = [], userId) => {
+	try {
+		if (!comments || comments.length === 0 || !userId) {
+			return { status: "error", message: "No comments or user ID provided." };
+		}
+
+		// Convert id to ObjectId
+		const objectIdUserId = convertIdToObjectId(userId);
+		if (objectIdUserId.status == "error") {
+			return { status: "error", message: objectIdUserId.message };
+		}
+
+		const processCommentThread = (commentList) => {
+			return commentList.map((commentItem) => {
+				const hasLiked = commentItem?.comment?.isLikedBy?.some((id) => id.toString() === objectIdUserId.toString()) || false;
+
+				return {
+					...commentItem,
+					comment: {
+						...commentItem.comment,
+						hasUserLiked: hasLiked,
+					},
+					answers: commentItem.answers?.length ? processCommentThread(commentItem.answers) : [],
+				};
+			});
+		};
+
+		const updatedComments = processCommentThread(comments);
+
+		return {
+			status: "success",
+			comments: updatedComments,
+		};
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
+
+const flagUserDislikedComments = (comments = [], userId) => {
+	try {
+		if (!comments || comments.length === 0 || !userId) {
+			return { status: "error", message: "No comments or user ID provided." };
+		}
+
+		// Convert id to ObjectId
+		const objectIdUserId = convertIdToObjectId(userId);
+		if (objectIdUserId.status == "error") {
+			return { status: "error", message: objectIdUserId.message };
+		}
+
+		const processCommentThread = (commentList) => {
+			return commentList.map((commentItem) => {
+				const hasDisliked = commentItem?.comment?.isDislikedBy?.some((id) => id.toString() === objectIdUserId.toString()) || false;
+
+				return {
+					...commentItem,
+					comment: {
+						...commentItem.comment,
+						hasUserDisliked: hasDisliked,
+					},
+					answers: commentItem.answers?.length ? processCommentThread(commentItem.answers) : [],
+				};
+			});
+		};
+
+		const updatedComments = processCommentThread(comments);
+
+		return {
+			status: "success",
+			comments: updatedComments,
+		};
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
+
 module.exports = {
 	flagUserReportedComments,
 	removeReportUserList,
 	flagUserOwnComments,
 	countLikesComments,
+	flagUserLikedComments,
+	flagUserDislikedComments,
 };

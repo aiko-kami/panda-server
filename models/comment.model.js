@@ -19,7 +19,7 @@ const commentSchema = new Schema(
 		isAnswerTo: { type: Schema.Types.ObjectId, ref: "Comment" },
 		isReportedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		isLikedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
-		isUnlikedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
+		isDislikedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
 	},
 	{
 		collection: "comments",
