@@ -374,7 +374,13 @@ const retrieveProjectComments = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, commentsReportListResult.message);
 		}
 
-		return apiResponse.successResponseWithData(res, commentsResult.message, { comments: commentsReportListResult.comments });
+		// Remove the field isAnswerTo for the answers to avoid confusion on the frontend and replace it with a field answerToCommentId which contains the id of the comment to which it is an answer
+		commentsAnswerCleanResult = commentTools.removeIsAnswerToField(commentsReportListResult.comments);
+		if (commentsAnswerCleanResult.status !== "success") {
+			return apiResponse.serverErrorResponse(res, commentsAnswerCleanResult.message);
+		}
+
+		return apiResponse.successResponseWithData(res, commentsResult.message, { comments: commentsAnswerCleanResult.comments });
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}

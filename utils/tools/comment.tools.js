@@ -62,6 +62,31 @@ const removeReportUserList = (comments = []) => {
 	};
 };
 
+const removeIsAnswerToField = (comments = []) => {
+	if (!comments || comments.length === 0) {
+		return { status: "error", message: "No comments provided." };
+	}
+
+	const cleanThread = (commentList) => {
+		return commentList.map((commentItem) => {
+			const { isAnswerTo, ...restComment } = commentItem.comment;
+
+			return {
+				...commentItem,
+				comment: restComment, // ✅ isAnswerTo removed
+				answers: commentItem.answers?.length ? cleanThread(commentItem.answers) : [],
+			};
+		});
+	};
+
+	const cleanedComments = cleanThread(comments);
+
+	return {
+		status: "success",
+		comments: cleanedComments,
+	};
+};
+
 const flagUserOwnComments = (comments = [], userId) => {
 	try {
 		if (!comments || comments.length === 0 || !userId) {
@@ -214,6 +239,7 @@ const flagUserDislikedComments = (comments = [], userId) => {
 module.exports = {
 	flagUserReportedComments,
 	removeReportUserList,
+	removeIsAnswerToField,
 	flagUserOwnComments,
 	countLikesComments,
 	flagUserLikedComments,

@@ -62,14 +62,17 @@ projectExtendedRoute.get("/projectQAsAll", verifyAccess, projectQAController.ret
 projectExtendedRoute.post("/addProjectComment", verifyAccess, commentController.addComment);
 projectExtendedRoute.post("/answerProjectComment", verifyAccess, commentController.answerComment);
 projectExtendedRoute.patch("/editProjectComment", verifyAccess, commentController.editComment);
+projectExtendedRoute.delete("/removeProjectComment", verifyAccess, commentController.removeComment);
+
 projectExtendedRoute.patch("/reportProjectComment", verifyAccess, commentController.reportComment);
 projectExtendedRoute.patch("/unreportProjectComment", verifyAccess, commentController.unreportComment);
 
 projectExtendedRoute.patch("/likeProjectComment", verifyAccess, commentController.likeComment);
 projectExtendedRoute.patch("/unlikeProjectComment", verifyAccess, commentController.unlikeComment);
+
 projectExtendedRoute.patch("/dislikeProjectComment", verifyAccess, commentController.dislikeComment);
 projectExtendedRoute.patch("/undislikeProjectComment", verifyAccess, commentController.undislikeComment);
-projectExtendedRoute.delete("/removeProjectComment", verifyAccess, commentController.removeComment);
+
 projectExtendedRoute.get("/projectComments/:projectId", verifyUserPresence, commentController.retrieveProjectComments);
 
 // User's rights
