@@ -75,7 +75,7 @@ const updateUserProjectRights = async (req, res) => {
 		return apiResponse.serverErrorResponse(
 			res,
 
-			error.message
+			error.message,
 		);
 	}
 };
@@ -157,6 +157,31 @@ const retrieveUserProjectRights = async (req, res) => {
 		const validationResult = projectValidation.validateProjectLinkAndUserId(projectLink, userId, "mandatory");
 		if (validationResult.status !== "success") {
 			return apiResponse.clientErrorResponse(res, validationResult.message);
+		}
+
+		// Retrieve project data with requested fields
+		const projectData = await projectService.retrieveProjectByLink(projectLink, ["-_id", "projectId", "members"]);
+		if (projectData.status !== "success") {
+			return apiResponse.serverErrorResponse(res, projectData.message);
+		}
+
+		//Verify user is member of the project
+		const project = projectData.project;
+		const projectMembers = project?.members || [];
+
+		// Convert id to ObjectId
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserId && objectIdUserId.status === "error") {
+			return apiResponse.serverErrorResponse(res, objectIdUserId.message);
+		}
+
+		// Find the user in the project's members
+		const isUserProjectMember = projectMembers.find((member) => encryptTools.convertIdToObjectId(member.user.userId).toString() === objectIdUserId.toString());
+
+		// If user is not member of the project, return error
+
+		if (!isUserProjectMember) {
+			return apiResponse.unauthorizedResponse(res, "Data only available for the members of the project.");
 		}
 
 		// Retrieve Project Rights of the updater

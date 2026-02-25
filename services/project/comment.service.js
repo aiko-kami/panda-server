@@ -348,7 +348,7 @@ const retrieveProjectComments = async (projectId) => {
 
 		if (!projectComments || projectComments.length === 0) {
 			logger.info(`No comment found for this project.`);
-			return { status: "success", message: "No comment found for this project." };
+			return { status: "success", message: "No comment found for this project.", projectComments: [] };
 		}
 
 		// Initialize the comment tree to store comments and their answers

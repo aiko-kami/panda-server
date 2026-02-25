@@ -328,6 +328,10 @@ const retrieveProjectComments = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, commentsResult.message);
 		}
 
+		if (!commentsResult.projectComments || commentsResult.projectComments.length === 0) {
+			return apiResponse.successResponse(res, commentsResult.message);
+		}
+
 		if (userId !== "unknown") {
 			// Check if the user reported the comments and add this information to the comments
 			const flaggedCommentsResult = commentTools.flagUserReportedComments(commentsResult.projectComments, userId);
