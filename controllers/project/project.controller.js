@@ -722,7 +722,10 @@ const retrieveProjectPublicDataWithLink = async (req, res) => {
 				return apiResponse.serverErrorResponse(res, likeResult.message);
 			}
 
-			return apiResponse.successResponseWithData(res, projectData.message, { project: { ...projectFiltered.project, userLikeProject: likeResult.userLikeProject } });
+			// Check if the user is a project member
+			const isUserProjectMember = projectFiltered.project.members.some((member) => member.user.userId === userId);
+
+			return apiResponse.successResponseWithData(res, projectData.message, { project: { ...projectFiltered.project, userLikeProject: likeResult.userLikeProject, isUserProjectMember } });
 		}
 
 		return apiResponse.successResponseWithData(res, projectData.message, { project: projectFiltered.project });
