@@ -1,7 +1,9 @@
-const { Project, JoinProject } = require("../../models");
+const { Project, JoinProject, Status } = require("../../models");
 const { logger, encryptTools } = require("../../utils");
 
 const createJoinProject = async (joinProjectData) => {
+	console.log("🚀 ~ createJoinProject ~ joinProjectData:", joinProjectData);
+
 	try {
 		const objectIdUserIdSender = encryptTools.convertIdToObjectId(joinProjectData.userIdSender);
 		if (objectIdUserIdSender.status == "error") {
@@ -15,6 +17,12 @@ const createJoinProject = async (joinProjectData) => {
 		const project = await Project.findOne({ _id: objectIdProjectId });
 		if (!project) {
 			return { status: "error", message: "Project not found." };
+		}
+
+		// Retrieve the status document for the join project
+		const joinProjectStatus = await Status.findOne({ status: joinProjectData.joinProjectStatus, type: "joinProject" });
+		if (!joinProjectStatus) {
+			return { status: "error", message: "Join project status not found." };
 		}
 
 		let createdRequest;
@@ -45,7 +53,7 @@ const createJoinProject = async (joinProjectData) => {
 				talent: joinProjectData.talent,
 				message: joinProjectData.message,
 				updatedBy: objectIdUserIdSender,
-				status: joinProjectData.joinProjectStatus,
+				status: joinProjectStatus._id,
 			});
 
 			// Save the new join project request
@@ -86,7 +94,7 @@ const createJoinProject = async (joinProjectData) => {
 				talent: joinProjectData.talent,
 				message: joinProjectData.message,
 				updatedBy: objectIdUserIdSender,
-				status: joinProjectData.joinProjectStatus,
+				status: joinProjectStatus._id,
 			});
 
 			// Save the new join project request
@@ -457,7 +465,14 @@ const retrieveMyJoinProjects = async (userIdSender, requestType, statusType) => 
 				{ path: "sender", select: "username profilePicture userId" },
 				{ path: "receiver", select: "username profilePicture userId" },
 				{ path: "updatedBy", select: "username profilePicture userId" },
-				{ path: "status", select: "-_id status colors description key" },
+				{
+					path: "statuses.statusSender",
+					select: "-_id status colors description permissions",
+				},
+				{
+					path: "statuses.statusReceiver",
+					select: "-_id status colors description permissions",
+				},
 			]);
 
 		const nbJoinProject = joinProjects.length;
@@ -602,6 +617,34 @@ const retrieveProjectJoinProjects = async (requestType, projectId) => {
 	}
 };
 
+const verifyUserJoinProject = async (requestType, userId, projectId) => {
+	try {
+		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
+		if (objectIdUserId.status == "error") {
+			return { status: "error", message: objectIdUserId.message };
+		}
+
+		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
+		if (objectIdProjectId.status == "error") {
+			return { status: "error", message: objectIdProjectId.message };
+		}
+
+		const existingRequest = await JoinProject.findOne({
+			project: objectIdProjectId,
+			sender: objectIdUserId,
+			requestType: requestType,
+		});
+
+		if (existingRequest) {
+			return { status: "success", message: "A join request already exists for this user and project.", userAppliedProject: true };
+		} else {
+			return { status: "success", message: "No join request found for this user and project.", userAppliedProject: false };
+		}
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
+
 module.exports = {
 	createJoinProject,
 	updateJoinProject,
@@ -611,4 +654,5 @@ module.exports = {
 	retrieveMyJoinProject,
 	retrieveJoinProject,
 	retrieveProjectJoinProjects,
+	verifyUserJoinProject,
 };

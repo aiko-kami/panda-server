@@ -49,7 +49,7 @@ const updateProjectStatus = async (projectId, userIdUpdater, newStatusId, reason
 		// Update project status
 		const formerStatus = project.statusInfo.currentStatus.status;
 
-		const statusUpdateValidated = statusTools.validateStatusUpdate(newStatus.status, formerStatus);
+		const statusUpdateValidated = statusTools.validateProjectStatusUpdate(newStatus.status, formerStatus);
 		if (statusUpdateValidated.status == "error") {
 			return { status: "error", message: statusUpdateValidated.message };
 		}

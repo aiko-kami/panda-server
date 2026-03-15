@@ -32,6 +32,9 @@ MainRouter.use("/auth", require("./auth"));
 // Atlas (general public data)
 MainRouter.use("/atlas", require("./atlas"));
 
+// Tests routes
+MainRouter.use("/tests", require("./tests"));
+
 // throw 404 if URL not found
 MainRouter.all("/*splat", function (req, res) {
 	return apiResponse.notFoundResponse(res, "Page not found");

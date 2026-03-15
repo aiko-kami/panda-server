@@ -18,18 +18,17 @@ const joinProjectSchema = new Schema(
 		talent: { type: String }, // talent of the future project member
 		message: { type: String },
 		updatedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
-		status: {
-			type: Schema.Types.ObjectId,
-			ref: "Status",
-			required: true,
-			message: "The value {VALUE} is not valid.",
-		},
-		actions: {
-			view: { type: Boolean, default: true },
-			accept: { type: Boolean, default: true },
-			decline: { type: Boolean, default: true },
-			sendMessage: { type: Boolean, default: true },
-			report: { type: Boolean, default: true },
+		statuses: {
+			statusSender: {
+				type: Schema.Types.ObjectId,
+				ref: "Status",
+				required: true,
+			},
+			statusReceiver: {
+				type: Schema.Types.ObjectId,
+				ref: "Status",
+				required: true,
+			},
 		},
 		createdAt: {
 			type: Date,

@@ -363,6 +363,44 @@ const filterProjectOutputFields = (project, userIdViewer) => {
 	}
 };
 
+const filterJoinProjectsOutputFields = (joinProjects, userIdViewer, privacyLevel) => {
+	try {
+		// Create a deep copy of the joinProjects object
+		const joinProjectsCopy = JSON.parse(JSON.stringify(joinProjects));
+
+		for (let joinProject of joinProjectsCopy) {
+			if (joinProject.project) {
+				joinProject.project = handleProjectFiltering(joinProject.project, userIdViewer);
+			}
+			if (joinProject.sender) {
+				joinProject.sender = filterUserOutputFields(joinProject.sender, userIdViewer).user;
+			}
+			if (privacyLevel === "privateSender" && joinProject.statuses.statusSender.permissions) {
+				joinProject.permissions = Object.fromEntries((joinProject.statuses.statusSender.permissions.find((p) => p.actor === "sender")?.actions || []).map((a) => [a, true]));
+				joinProject.status = {
+					status: joinProject.statuses.statusSender.status,
+					colors: joinProject.statuses.statusSender.colors,
+					description: joinProject.statuses.statusSender.description,
+				};
+				delete joinProject.statuses;
+			}
+
+			if (privacyLevel === "privateReceiver" && joinProject.statuses.statusReceiver.permissions) {
+				joinProject.permissions = Object.fromEntries((joinProject.statuses.statusReceiver.permissions.find((p) => p.actor === "receiver")?.actions || []).map((a) => [a, true]));
+				joinProject.status = {
+					status: joinProject.statuses.statusReceiver.status,
+					colors: joinProject.statuses.statusReceiver.colors,
+					description: joinProject.statuses.statusReceiver.description,
+				};
+				delete joinProject.statuses;
+			}
+		}
+		return { status: "success", message: "Join projects filtered successfully.", joinProjects: joinProjectsCopy };
+	} catch (error) {
+		return { status: "error", message: error.message };
+	}
+};
+
 module.exports = {
 	filterProjectFieldsToUpdate,
 	filterUserFieldsToUpdate,
@@ -371,4 +409,5 @@ module.exports = {
 	filterUsersOutputFields,
 	filterProjectsOutputFields,
 	filterProjectOutputFields,
+	filterJoinProjectsOutputFields,
 };

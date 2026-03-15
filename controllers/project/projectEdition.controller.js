@@ -78,7 +78,7 @@ const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => 
 				}
 
 				// Depending on the current status string, return only the available statuses for update
-				const allowedStatuses = statusTools.getAllowedStatuses(retrievedStatuses.statuses, project.statusInfo.currentStatus);
+				const allowedStatuses = statusTools.getAllowedProjectStatuses(retrievedStatuses.statuses, project.statusInfo.currentStatus);
 				responseData.statusesList = allowedStatuses;
 
 				// Map current status to include correct statusId

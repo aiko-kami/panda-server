@@ -23,11 +23,23 @@ const statusSchema = new Schema(
 			bgColor: { type: String, required: true, default: "" },
 			bgColorHover: { type: String, required: true, default: "" },
 		},
+		permissions: [
+			{
+				actor: {
+					type: String,
+					required: true,
+				},
+				actions: {
+					type: [String],
+					default: [],
+				},
+			},
+		],
 	},
 	{
 		collection: "statuses",
 		timestamps: true,
-	}
+	},
 );
 
 const Status = dbConnectionPrivate.model("Status", statusSchema);

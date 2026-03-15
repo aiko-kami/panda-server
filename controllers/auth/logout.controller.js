@@ -7,10 +7,10 @@ const logout = async (req, res) => {
 		const refreshToken = req.cookies.refresh_token;
 
 		// Remove the refresh token from the database
-		const removeRefreshTokenResult = await removeTokenService.removeRefreshTokenFromDatabase(refreshToken);
-		if (removeRefreshTokenResult.status !== "success") {
-			return apiResponse.serverErrorResponse(res, removeRefreshTokenResult.message);
+		if (refreshToken) {
+			await removeTokenService.removeRefreshTokenFromDatabase(refreshToken);
 		}
+
 		// Clear the access and refresh tokens from cookies
 
 		const isDevelopment = process.env.NODE_ENV === "development";

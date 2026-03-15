@@ -1,4 +1,4 @@
-const { projectService, categoryService, tagService, userService, userRightsService, likeProjectService, statusService, adminService, emailService } = require("../../services");
+const { projectService, categoryService, tagService, userService, userRightsService, likeProjectService, statusService, adminService, emailService, joinProjectService } = require("../../services");
 const { apiResponse, projectValidation, tagValidation, filterTools, encryptTools, idsValidation } = require("../../utils");
 
 /**
@@ -699,6 +699,7 @@ const retrieveProjectPublicDataWithLink = async (req, res) => {
 		if (projectData.status !== "success") {
 			return apiResponse.serverErrorResponse(res, projectData.message);
 		}
+
 		//Filter users public data from project
 		projectData.project.statusInfo.statusHistory = undefined;
 
@@ -722,10 +723,18 @@ const retrieveProjectPublicDataWithLink = async (req, res) => {
 				return apiResponse.serverErrorResponse(res, likeResult.message);
 			}
 
+			// Check if the user applied for the project
+			const appliedResult = await joinProjectService.verifyUserJoinProject("join project request", userId, projectFiltered.project.projectId);
+			if (appliedResult.status !== "success") {
+				return apiResponse.serverErrorResponse(res, appliedResult.message);
+			}
+
 			// Check if the user is a project member
 			const isUserProjectMember = projectFiltered.project.members.some((member) => member.user.userId === userId);
 
-			return apiResponse.successResponseWithData(res, projectData.message, { project: { ...projectFiltered.project, userLikeProject: likeResult.userLikeProject, isUserProjectMember } });
+			return apiResponse.successResponseWithData(res, projectData.message, {
+				project: { ...projectFiltered.project, userLikeProject: likeResult.userLikeProject, userAppliedProject: appliedResult.userAppliedProject, isUserProjectMember },
+			});
 		}
 
 		return apiResponse.successResponseWithData(res, projectData.message, { project: projectFiltered.project });

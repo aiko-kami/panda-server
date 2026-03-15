@@ -33,3 +33,6 @@ module.exports.loginController = require("./auth/login.controller");
 module.exports.logoutController = require("./auth/logout.controller");
 module.exports.forgotPasswordController = require("./auth/forgotPassword.controller");
 module.exports.deleteAllTokensController = require("./auth/deleteAllTokens.controller");
+
+// Tests Controllers
+module.exports.testsController = require("./project/tests.controller");

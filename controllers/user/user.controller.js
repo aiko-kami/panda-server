@@ -281,12 +281,19 @@ const retrieveUserPrivateProjects = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, joinProjectRequestsResult.message);
 		}
 
+		//Filter user's join project invitations and requests
+		const joinProjectInvitationsFiltered = filterTools.filterJoinProjectsOutputFields(joinProjectInvitationsResult.joinProjects, userId, "privateReceiver");
+
+		console.log("🚀 ~ retrieveUserPrivateProjects ~ joinProjectInvitationsFiltered:", joinProjectInvitationsFiltered);
+
+		const joinProjectRequestsFiltered = filterTools.filterJoinProjectsOutputFields(joinProjectRequestsResult.joinProjects, userId, "privateSender");
+
 		return apiResponse.successResponseWithData(res, userProjectsData.message, {
 			user: userFiltered.user,
 			projects: userProjectsData.projects,
 			projectsCount: userProjectsData.projectsCount,
-			joinProjectInvitations: joinProjectInvitationsResult.joinProjects,
-			joinProjectRequests: joinProjectRequestsResult.joinProjects,
+			joinProjectInvitations: joinProjectInvitationsFiltered.joinProjects,
+			joinProjectRequests: joinProjectRequestsFiltered.joinProjects,
 		});
 	} catch (error) {
 		// Throw error in json response with status 500.
