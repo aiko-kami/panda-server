@@ -11,14 +11,7 @@ const setProjectOwnerRights = async (projectId, userId) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		// Create owner's rights in the database
 		const ownerRights = new ProjectRights({
@@ -93,19 +86,8 @@ const setProjectNewMemberRights = async (userId, projectId, userIdUpdater) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
-
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 
 		// Create new member's rights in the database
 		const newMemberRights = new ProjectRights({
@@ -188,14 +170,7 @@ const validateUserRights = async (userId, projectId, updatedFields) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		// Find the user's rights for the specified project
 		const userRights = await ProjectRights.findOne({
@@ -261,14 +236,7 @@ const retrieveProjectRights = async (projectId, userId) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		const projectRights = await ProjectRights.findOne({
 			project: objectIdProjectId,
@@ -299,9 +267,6 @@ const retrieveProjectRights = async (projectId, userId) => {
 const retrieveProjectRightsByLink = async (projectLink, userId) => {
 	try {
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status === "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		const project = await Project.findOne({ link: projectLink })
 			.select("_id statusInfo")
@@ -350,18 +315,13 @@ const retrieveMembersProjectRights = async (projectId, members = []) => {
 	try {
 		// Convert projectId to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 
 		// Convert members userId to ObjectId
 		const userIdStrings = members.map((m) => m.user?.userId);
 		const memberObjectIds = [];
 		for (const userId of userIdStrings) {
 			const objectIdMemberId = encryptTools.convertIdToObjectId(userId);
-			if (objectIdMemberId.status === "error") {
-				return { status: "error", message: objectIdMemberId.message };
-			}
+
 			memberObjectIds.push(objectIdMemberId);
 		}
 
@@ -407,19 +367,8 @@ const updateUserProjectRights = async (projectId, member, userIdUpdater) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-
 		const objectIdUserIdUpdated = encryptTools.convertIdToObjectId(member.userId);
-		if (objectIdUserIdUpdated.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdated.message };
-		}
-
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 
 		// Find the project rights document for the specified project and user
 		const projectRights = await ProjectRights.findOne({
@@ -485,14 +434,7 @@ const removeUserProjectRights = async (projectId, userId) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		// Find the project rights document for the specified project and user
 		const projectRights = await ProjectRights.findOneAndDelete({

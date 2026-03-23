@@ -64,9 +64,6 @@ const updateCategory = async (categoryId, newName, newDescription, newColors) =>
 	try {
 		// Convert id to ObjectId
 		const objectIdCategoryId = encryptTools.convertIdToObjectId(categoryId);
-		if (objectIdCategoryId.status == "error") {
-			return { status: "error", message: objectIdCategoryId.message };
-		}
 
 		// Check if a category with the given categoryId exists
 		const existingCategory = await Category.findOne({ _id: objectIdCategoryId });
@@ -119,9 +116,6 @@ const removeCategory = async (categoryId) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdCategoryId = encryptTools.convertIdToObjectId(categoryId);
-		if (objectIdCategoryId.status == "error") {
-			return { status: "error", message: objectIdCategoryId.message };
-		}
 
 		// Check if a category with the given categoryId exists
 		const existingCategory = await Category.findOne({ _id: objectIdCategoryId });
@@ -153,9 +147,6 @@ const addSubCategory = async (categoryId, subCategoryName) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdCategoryId = encryptTools.convertIdToObjectId(categoryId);
-		if (objectIdCategoryId.status == "error") {
-			return { status: "error", message: objectIdCategoryId.message };
-		}
 
 		// Check if category exists
 		const existingCategory = await Category.findOne({ _id: objectIdCategoryId });
@@ -191,9 +182,6 @@ const updateSubCategory = async (categoryId, subCategoryOldName, subCategoryNewN
 	try {
 		// Convert id to ObjectId
 		const objectIdCategoryId = encryptTools.convertIdToObjectId(categoryId);
-		if (objectIdCategoryId.status == "error") {
-			return { status: "error", message: objectIdCategoryId.message };
-		}
 
 		// Check if category exists
 		const existingCategory = await Category.findOne({ _id: objectIdCategoryId });
@@ -237,9 +225,6 @@ const removeSubCategory = async (categoryId, subCategoryName) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdCategoryId = encryptTools.convertIdToObjectId(categoryId);
-		if (objectIdCategoryId.status == "error") {
-			return { status: "error", message: objectIdCategoryId.message };
-		}
 
 		// Check if the category and sub-category exist
 		// Check if category exists
@@ -279,9 +264,6 @@ const verifyCategoryAndSubCategoryExist = async (categoryId, subCategoryName) =>
 	try {
 		// Convert id to ObjectId
 		const objectIdCategoryId = encryptTools.convertIdToObjectId(categoryId);
-		if (objectIdCategoryId.status == "error") {
-			return { status: "error", message: objectIdCategoryId.message };
-		}
 
 		const existingCategory = await Category.findOne({ _id: objectIdCategoryId }).select("-__v");
 		if (!existingCategory) {
@@ -303,9 +285,6 @@ const retrieveCategoryById = async (categoryId, fields) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdCategoryId = encryptTools.convertIdToObjectId(categoryId);
-		if (objectIdCategoryId.status == "error") {
-			return { status: "error", message: objectIdCategoryId.message };
-		}
 
 		let query = Category.findOne({ _id: objectIdCategoryId });
 		if (fields) {

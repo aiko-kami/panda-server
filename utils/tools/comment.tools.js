@@ -8,9 +8,6 @@ const flagUserReportedComments = (comments = [], userId) => {
 
 		// Convert id to ObjectId
 		const objectIdUserId = convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		const processCommentThread = (commentList) => {
 			return commentList.map((commentItem) => {
@@ -95,17 +92,11 @@ const flagUserOwnComments = (comments = [], userId) => {
 
 		// Convert id to ObjectId
 		const objectIdUserId = convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		const processCommentThread = (commentList) => {
 			return commentList.map((commentItem) => {
 				// Convert id to ObjectId
 				const objectIdAuthorUserId = convertIdToObjectId(commentItem?.comment?.author?.userId);
-				if (objectIdAuthorUserId.status == "error") {
-					return { status: "error", message: objectIdAuthorUserId.message };
-				}
 
 				// Flag if the user owns this comment
 				const isUserOwnComment = objectIdAuthorUserId.toString() === objectIdUserId.toString();
@@ -168,9 +159,6 @@ const flagUserLikedComments = (comments = [], userId) => {
 
 		// Convert id to ObjectId
 		const objectIdUserId = convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		const processCommentThread = (commentList) => {
 			return commentList.map((commentItem) => {
@@ -206,9 +194,6 @@ const flagUserDislikedComments = (comments = [], userId) => {
 
 		// Convert id to ObjectId
 		const objectIdUserId = convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		const processCommentThread = (commentList) => {
 			return commentList.map((commentItem) => {

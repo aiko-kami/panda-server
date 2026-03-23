@@ -1,18 +1,10 @@
 const { Project, JoinProject, Status } = require("../../models");
-const { logger, encryptTools } = require("../../utils");
+const { logger, encryptTools, statusTools } = require("../../utils");
 
 const createJoinProject = async (joinProjectData) => {
-	console.log("🚀 ~ createJoinProject ~ joinProjectData:", joinProjectData);
-
 	try {
 		const objectIdUserIdSender = encryptTools.convertIdToObjectId(joinProjectData.userIdSender);
-		if (objectIdUserIdSender.status == "error") {
-			return { status: "error", message: objectIdUserIdSender.message };
-		}
 		const objectIdProjectId = encryptTools.convertIdToObjectId(joinProjectData.projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
 		if (!project) {
@@ -64,9 +56,6 @@ const createJoinProject = async (joinProjectData) => {
 			createdRequest = await JoinProject.findOneAndUpdate({ _id: created._id }, { joinProjectId: encryptedId }, { new: true }).select("-_id -__v");
 		} else if (joinProjectData.requestType === "join project invitation") {
 			const objectIduserIdReceiver = encryptTools.convertIdToObjectId(joinProjectData.userIdReceiver);
-			if (objectIduserIdReceiver.status == "error") {
-				return { status: "error", message: objectIduserIdReceiver.message };
-			}
 
 			// Check if the sender is already a member of the project
 			const existingMemberIndex = project.members.findIndex((member) => member.user.toString() === objectIduserIdReceiver.toString());
@@ -139,17 +128,8 @@ const createJoinProject = async (joinProjectData) => {
 const updateJoinProject = async (joinProjectData) => {
 	try {
 		const objectIdJoinProjectId = encryptTools.convertIdToObjectId(joinProjectData.joinProjectId);
-		if (objectIdJoinProjectId.status == "error") {
-			return { status: "error", message: objectIdJoinProjectId.message };
-		}
 		const objectIdUserIdSender = encryptTools.convertIdToObjectId(joinProjectData.userIdSender);
-		if (objectIdUserIdSender.status == "error") {
-			return { status: "error", message: objectIdUserIdSender.message };
-		}
 		const objectIdProjectId = encryptTools.convertIdToObjectId(joinProjectData.projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 
 		//Check if request exists for the user and this project
 		const existingJoinProject = await JoinProject.findOne({ _id: objectIdJoinProjectId });
@@ -196,9 +176,6 @@ const updateJoinProject = async (joinProjectData) => {
 			updatedJoinProject = await existingJoinProject.save();
 		} else if (joinProjectData.requestType === "join project invitation") {
 			const objectIduserIdReceiver = encryptTools.convertIdToObjectId(joinProjectData.userIdReceiver);
-			if (objectIduserIdReceiver.status == "error") {
-				return { status: "error", message: objectIduserIdReceiver.message };
-			}
 
 			// Check if the sender is already a member of the project
 			const existingMemberIndex = project.members.findIndex((member) => member.user.toString() === objectIduserIdReceiver.toString());
@@ -253,26 +230,21 @@ const updateJoinProject = async (joinProjectData) => {
 const updateStatusJoinProject = async (userIdUpdater, joinProjectId, newJoinProjectStatus, requestType) => {
 	try {
 		const objectIdJoinProjectId = encryptTools.convertIdToObjectId(joinProjectId);
-		if (objectIdJoinProjectId.status == "error") {
-			return { status: "error", message: objectIdJoinProjectId.message };
-		}
-
-		//Check if join project exists for the user and the project
-		const existingJoinProject = await JoinProject.findOne({ _id: objectIdJoinProjectId });
-
+		const ObjectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
 		const capitalizedRequestType = requestType.charAt(0).toUpperCase() + requestType.slice(1);
 
+		//Check if join project exists for the user and the project
+		const existingJoinProject = await JoinProject.findOne({ _id: objectIdJoinProjectId }).populate([
+			{
+				path: "status",
+				select: "-_id status",
+			},
+		]);
 		if (!existingJoinProject) {
 			return { status: "error", message: `${capitalizedRequestType} not found.` };
 		}
 
-		const ObjectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (ObjectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: ObjectIdUserIdUpdater.message };
-		}
-
 		const project = await Project.findOne({ _id: existingJoinProject.project });
-
 		if (!project) {
 			return { status: "error", message: "Project not found." };
 		}
@@ -300,11 +272,30 @@ const updateStatusJoinProject = async (userIdUpdater, joinProjectId, newJoinProj
 				return { status: "error", message: `Only the sender of the ${requestType} can cancel it.` };
 			}
 
-			if (existingJoinProject.status !== "sent" && existingJoinProject.status !== "read") {
-				return { status: "error", message: `You can only update sent ${requestType}.` };
+			// Allow cancelling if the status is draft or pending
+			if (existingJoinProject.status.status === "draft") {
+				newJoinProjectStatus = "cancelledDraft";
+			} else if (existingJoinProject.status.status === "pending") {
+				newJoinProjectStatus = "cancelledSent";
 			}
 
-			existingJoinProject.status = newJoinProjectStatus;
+			const statusUpdateValidated = statusTools.validateJoinProjectStatusUpdate(requestType, newJoinProjectStatus, existingJoinProject.status.status);
+			if (statusUpdateValidated.status == "error") {
+				return { status: "error", message: statusUpdateValidated.message };
+			}
+
+			const statusDoc = await Status.findOne({
+				status: newJoinProjectStatus,
+				type: "joinProject",
+			});
+			if (!statusDoc) {
+				return {
+					status: "error",
+					message: `Status '${newJoinProjectStatus}' not found.`,
+				};
+			}
+
+			existingJoinProject.status = statusDoc._id;
 			existingJoinProject.updatedBy = ObjectIdUserIdUpdater;
 			updatedJoinProject = await existingJoinProject.save();
 		} else if (newJoinProjectStatus === "accepted") {
@@ -377,13 +368,7 @@ const updateStatusJoinProject = async (userIdUpdater, joinProjectId, newJoinProj
 const removeJoinProject = async (userIdSender, joinProjectId, requestType) => {
 	try {
 		const objectIdJoinProjectId = encryptTools.convertIdToObjectId(joinProjectId);
-		if (objectIdJoinProjectId.status == "error") {
-			return { status: "error", message: objectIdJoinProjectId.message };
-		}
 		const objectIdUserIdSender = encryptTools.convertIdToObjectId(userIdSender);
-		if (objectIdUserIdSender.status == "error") {
-			return { status: "error", message: objectIdUserIdSender.message };
-		}
 
 		//Check if request exists for the user and this project
 		const existingJoinProject = await JoinProject.findOne({ _id: objectIdJoinProjectId, requestType });
@@ -438,9 +423,6 @@ const removeJoinProject = async (userIdSender, joinProjectId, requestType) => {
 const retrieveMyJoinProjects = async (userIdSender, requestType, statusType) => {
 	try {
 		const objectIdUserIdSender = encryptTools.convertIdToObjectId(userIdSender);
-		if (objectIdUserIdSender.status == "error") {
-			return { status: "error", message: objectIdUserIdSender.message };
-		}
 
 		const query = {
 			[requestType === "join project invitation" ? "receiver" : "sender"]: objectIdUserIdSender,
@@ -465,14 +447,7 @@ const retrieveMyJoinProjects = async (userIdSender, requestType, statusType) => 
 				{ path: "sender", select: "username profilePicture userId" },
 				{ path: "receiver", select: "username profilePicture userId" },
 				{ path: "updatedBy", select: "username profilePicture userId" },
-				{
-					path: "statuses.statusSender",
-					select: "-_id status colors description permissions",
-				},
-				{
-					path: "statuses.statusReceiver",
-					select: "-_id status colors description permissions",
-				},
+				{ path: "status", select: "-_id status colors description permissions" },
 			]);
 
 		const nbJoinProject = joinProjects.length;
@@ -493,13 +468,7 @@ const retrieveMyJoinProjects = async (userIdSender, requestType, statusType) => 
 const retrieveMyJoinProject = async (userIdSender, requestType, joinProjectId) => {
 	try {
 		const objectIdJoinProjectId = encryptTools.convertIdToObjectId(joinProjectId);
-		if (objectIdJoinProjectId.status == "error") {
-			return { status: "error", message: objectIdJoinProjectId.message };
-		}
 		const objectIdUserIdSender = encryptTools.convertIdToObjectId(userIdSender);
-		if (objectIdUserIdSender.status == "error") {
-			return { status: "error", message: objectIdUserIdSender.message };
-		}
 
 		const existingJoinProject = await JoinProject.findOne({ _id: objectIdJoinProjectId, sender: objectIdUserIdSender, requestType }).select("-_id -__v");
 
@@ -543,9 +512,6 @@ const retrieveMyJoinProject = async (userIdSender, requestType, joinProjectId) =
 const retrieveJoinProject = async (requestType, joinProjectId) => {
 	try {
 		const objectIdJoinProjectId = encryptTools.convertIdToObjectId(joinProjectId);
-		if (objectIdJoinProjectId.status == "error") {
-			return { status: "error", message: objectIdJoinProjectId.message };
-		}
 
 		const existingJoinProject = await JoinProject.findOne({ _id: objectIdJoinProjectId, requestType }).select("-_id -__v");
 
@@ -589,9 +555,6 @@ const retrieveJoinProject = async (requestType, joinProjectId) => {
 const retrieveProjectJoinProjects = async (requestType, projectId) => {
 	try {
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 
 		const joinProjects = await JoinProject.find({ project: objectIdProjectId, requestType })
 			.select("-_id -__v -project -requestType")
@@ -620,14 +583,7 @@ const retrieveProjectJoinProjects = async (requestType, projectId) => {
 const verifyUserJoinProject = async (requestType, userId, projectId) => {
 	try {
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
-
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 
 		const existingRequest = await JoinProject.findOne({
 			project: objectIdProjectId,

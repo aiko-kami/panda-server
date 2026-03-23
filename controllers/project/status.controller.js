@@ -98,10 +98,6 @@ const retrieveProjectStatusInfo = async (req, res) => {
 		// Convert id to ObjectId
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
 
-		if (objectIdUserId.status == "error") {
-			return apiResponse.serverErrorResponse(res, objectIdUserId.message);
-		}
-
 		// Find the user in the project's members
 		const isUserProjectMember = projectMembers.find((member) => encryptTools.convertIdToObjectId(member.user.userId).toString() === objectIdUserId.toString());
 

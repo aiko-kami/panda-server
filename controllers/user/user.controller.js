@@ -284,8 +284,6 @@ const retrieveUserPrivateProjects = async (req, res) => {
 		//Filter user's join project invitations and requests
 		const joinProjectInvitationsFiltered = filterTools.filterJoinProjectsOutputFields(joinProjectInvitationsResult.joinProjects, userId, "privateReceiver");
 
-		console.log("🚀 ~ retrieveUserPrivateProjects ~ joinProjectInvitationsFiltered:", joinProjectInvitationsFiltered);
-
 		const joinProjectRequestsFiltered = filterTools.filterJoinProjectsOutputFields(joinProjectRequestsResult.joinProjects, userId, "privateSender");
 
 		return apiResponse.successResponseWithData(res, userProjectsData.message, {

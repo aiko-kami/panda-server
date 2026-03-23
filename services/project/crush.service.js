@@ -14,14 +14,7 @@ const updateCrush = async (projectId, userIdUpdater, updateType) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-		// Convert id to ObjectId
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUpdaterId.status == "error") {
-			return { status: "error", message: objectIdUpdaterId.message };
-		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
 

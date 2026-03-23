@@ -6,9 +6,7 @@ const retrieveUserById = async (userId, fields) => {
 	try {
 		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (ObjectIdUserId.status == "error") {
-			return { status: "error", message: ObjectIdUserId.message };
-		}
+
 		const fieldsString = fields.join(" ");
 
 		const user = await AdminUser.findOne({ _id: ObjectIdUserId }).select(fieldsString);
@@ -58,9 +56,6 @@ const updateUser = async (userId, updatedData) => {
 	try {
 		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (ObjectIdUserId.status == "error") {
-			return { status: "error", message: ObjectIdUserId.message };
-		}
 
 		// Find the user by userId
 		const user = await AdminUser.findOne({ _id: ObjectIdUserId });
@@ -121,9 +116,6 @@ const updateUserPassword = async (userId, oldPassword, newPassword) => {
 	try {
 		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (ObjectIdUserId.status == "error") {
-			return { status: "error", message: ObjectIdUserId.message };
-		}
 
 		// Retrieve the user from the database
 		const user = await AdminUser.findById(ObjectIdUserId);

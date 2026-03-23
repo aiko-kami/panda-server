@@ -43,9 +43,6 @@ const removeResetPasswordTokenFromDatabase = async (userId, resetToken) => {
 	try {
 		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (ObjectIdUserId.status == "error") {
-			return { status: "error", message: ObjectIdUserId.message };
-		}
 
 		// Find and remove the reset password token associated with the given user ID
 		const removeResult = await ResetPasswordToken.findOneAndDelete({ user: ObjectIdUserId, token: resetToken });

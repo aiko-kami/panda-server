@@ -29,9 +29,6 @@ const storeRefreshTokenInDatabase = async (userId, refreshTokenToStore) => {
 	try {
 		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (ObjectIdUserId.status == "error") {
-			return { status: "error", message: ObjectIdUserId.message };
-		}
 
 		// Check if a refresh token already exists for the user
 		const existingToken = await RefreshToken.findOne({ user: ObjectIdUserId });
@@ -69,9 +66,6 @@ const storeResetPasswordTokenInDatabase = async (userId, ResetPasswordTokenToSto
 	try {
 		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (ObjectIdUserId.status == "error") {
-			return { status: "error", message: ObjectIdUserId.message };
-		}
 
 		// Check if a reset password token already exists for the user
 		const existingToken = await ResetPasswordToken.find({ user: ObjectIdUserId });

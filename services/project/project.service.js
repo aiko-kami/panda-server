@@ -11,26 +11,13 @@ const { DateTime } = require("luxon");
 const createProject = async (projectData) => {
 	try {
 		const objectIdCategoryId = encryptTools.convertIdToObjectId(projectData.categoryId);
-		if (objectIdCategoryId.status == "error") {
-			return { status: "error", message: objectIdCategoryId.message };
-		}
-
 		const objectIdStatusId = encryptTools.convertIdToObjectId(projectData.statusId);
-		if (objectIdStatusId.status == "error") {
-			return { status: "error", message: objectIdStatusId.message };
-		}
-
 		const objectIdCreatorId = encryptTools.convertIdToObjectId(projectData.creatorId);
-		if (objectIdCreatorId.status == "error") {
-			return { status: "error", message: objectIdCreatorId.message };
-		}
 
 		const objectIdTagIds = [];
 		for (const id of projectData.tagIds) {
 			const objectIdTagId = encryptTools.convertIdToObjectId(id);
-			if (objectIdTagId.status == "error") {
-				return { status: "error", message: objectIdTagId.message };
-			}
+
 			objectIdTagIds.push(objectIdTagId);
 		}
 
@@ -122,18 +109,8 @@ const updateProjectDraft = async (projectId, updatedData, userIdUpdater) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
-
-		objectIdCategoryId = encryptTools.convertIdToObjectId(updatedData.categoryId);
-		if (objectIdCategoryId.status == "error") {
-			return { status: "error", message: objectIdCategoryId.message };
-		}
+		const objectIdCategoryId = encryptTools.convertIdToObjectId(updatedData.categoryId);
 
 		// Find the project by projectId
 		const project = await Project.findOne({ _id: objectIdProjectId }).populate([{ path: "statusInfo.currentStatus", select: "-_id status colors description" }]);
@@ -231,13 +208,7 @@ const removeProjectDraft = async (projectId, userIdUpdater) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 
 		// Find the project by projectId
 		const project = await Project.findOne({ _id: objectIdProjectId }).populate([{ path: "statusInfo.currentStatus", select: "-_id status colors description" }]);
@@ -276,9 +247,6 @@ const processProjectApproval = async (projectId, projectApproval, adminUserId) =
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 
 		// Find the project by projectId
 		const project = await Project.findOne({ _id: objectIdProjectId })
@@ -358,13 +326,7 @@ const updateProject = async (projectId, updatedData, userIdUpdater) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 
 		// Find the project by projectId
 		const project = await Project.findOne({ _id: objectIdProjectId }).populate([{ path: "statusInfo.currentStatus", select: "-_id status colors description" }]);
@@ -454,13 +416,7 @@ const updateProjectCategorySubCategory = async (projectId, categoryId, subCatego
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 
 		// Find the project by projectId
 		const project = await Project.findOne({ _id: objectIdProjectId });
@@ -473,9 +429,6 @@ const updateProjectCategorySubCategory = async (projectId, categoryId, subCatego
 		let objectIdCategoryId = "";
 		if (categoryId) {
 			objectIdCategoryId = encryptTools.convertIdToObjectId(categoryId);
-			if (objectIdCategoryId.status == "error") {
-				return { status: "error", message: objectIdCategoryId.message };
-			}
 
 			project.category = objectIdCategoryId;
 		}
@@ -509,13 +462,7 @@ const updateProjectDraftSection = async (projectId, updatedData, userIdUpdater) 
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 
 		// Find the project by projectId
 		const project = await Project.findOne({ _id: objectIdProjectId }).populate([{ path: "statusInfo.currentStatus", select: "-_id status colors description" }]);
@@ -602,9 +549,6 @@ const retrieveProjectById = async (projectId, fields, conditions) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 
 		const fieldsString = fields.join(" ");
 
@@ -765,9 +709,6 @@ const retrieveProjectsFromUser = async (userId, fields = [], types = [], privacy
 	try {
 		// Convert id to ObjectId
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return apiResponse.serverErrorResponse(res, objectIdUserId.message);
-		}
 
 		if (!types || types.length === 0) {
 			return { status: "error", message: "No project type provided." };
@@ -1050,9 +991,6 @@ const countNumberProjectsPerCategory = async () => {
 			for (const subCategory of category.subCategories) {
 				// Convert id to ObjectId
 				const objectIdCategoryId = encryptTools.convertIdToObjectId(category.categoryId);
-				if (objectIdCategoryId.status == "error") {
-					return { status: "error", message: objectIdCategoryId.message };
-				}
 
 				const subCategoryCount = await Project.countDocuments({
 					category: objectIdCategoryId,
@@ -1090,9 +1028,6 @@ const canUpdateProject = async (projectData) => {
 		const update = permission.substring(7).toLowerCase();
 
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 
 		// Retrieve the updated project
 		const projectRetrieved = await retrieveProjectById(projectId, ["-_id", "cover", "statusInfo", "createdBy", "privateData.attachments"]);
@@ -1157,16 +1092,9 @@ const canUpdateProject = async (projectData) => {
 	}
 };
 
-const updateObjective = async (projectId, userIdUpdater, objective, action) => {
+const updateObjective = async (projectId, objective, action) => {
 	try {
-		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
 

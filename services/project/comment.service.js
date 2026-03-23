@@ -14,14 +14,7 @@ const editComment = async (projectId, userIdUpdater, commentContent, actionType,
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-		// Convert id to ObjectId
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
 
@@ -52,9 +45,6 @@ const editComment = async (projectId, userIdUpdater, commentContent, actionType,
 		if (actionType === "update") {
 			// Convert id to ObjectId
 			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);
-			if (objectIdCommentId.status == "error") {
-				return { status: "error", message: objectIdCommentId.message };
-			}
 
 			// Find the existing comment
 			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
@@ -82,9 +72,6 @@ const editComment = async (projectId, userIdUpdater, commentContent, actionType,
 		if (actionType === "answer") {
 			// Convert id to ObjectId
 			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);
-			if (objectIdCommentId.status == "error") {
-				return { status: "error", message: objectIdCommentId.message };
-			}
 
 			// Find the existing comment
 			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
@@ -120,9 +107,6 @@ const editComment = async (projectId, userIdUpdater, commentContent, actionType,
 		if (actionType === "report") {
 			// Convert id to ObjectId
 			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);
-			if (objectIdCommentId.status == "error") {
-				return { status: "error", message: objectIdCommentId.message };
-			}
 
 			// Find the existing comment
 			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
@@ -149,9 +133,6 @@ const editComment = async (projectId, userIdUpdater, commentContent, actionType,
 		if (actionType === "unreport") {
 			// Convert id to ObjectId
 			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);
-			if (objectIdCommentId.status == "error") {
-				return { status: "error", message: objectIdCommentId.message };
-			}
 
 			// Find the existing comment
 			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
@@ -180,9 +161,6 @@ const editComment = async (projectId, userIdUpdater, commentContent, actionType,
 		if (actionType === "like") {
 			// Convert id to ObjectId
 			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);
-			if (objectIdCommentId.status == "error") {
-				return { status: "error", message: objectIdCommentId.message };
-			}
 
 			// Find the existing comment
 			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
@@ -209,9 +187,6 @@ const editComment = async (projectId, userIdUpdater, commentContent, actionType,
 		if (actionType === "unlike") {
 			// Convert id to ObjectId
 			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);
-			if (objectIdCommentId.status == "error") {
-				return { status: "error", message: objectIdCommentId.message };
-			}
 
 			// Find the existing comment
 			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
@@ -240,9 +215,6 @@ const editComment = async (projectId, userIdUpdater, commentContent, actionType,
 		if (actionType === "dislike") {
 			// Convert id to ObjectId
 			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);
-			if (objectIdCommentId.status == "error") {
-				return { status: "error", message: objectIdCommentId.message };
-			}
 
 			// Find the existing comment
 			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
@@ -269,9 +241,6 @@ const editComment = async (projectId, userIdUpdater, commentContent, actionType,
 		if (actionType === "undislike") {
 			// Convert id to ObjectId
 			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);
-			if (objectIdCommentId.status == "error") {
-				return { status: "error", message: objectIdCommentId.message };
-			}
 
 			// Find the existing comment
 			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
@@ -300,9 +269,6 @@ const editComment = async (projectId, userIdUpdater, commentContent, actionType,
 		if (actionType === "remove") {
 			// Convert id to ObjectId
 			const objectIdCommentId = encryptTools.convertIdToObjectId(commentId);
-			if (objectIdCommentId.status == "error") {
-				return { status: "error", message: objectIdCommentId.message };
-			}
 
 			// Find the existing comment
 			const existingComment = await Comment.findOne({ _id: objectIdCommentId });
@@ -334,9 +300,6 @@ const retrieveProjectComments = async (projectId) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 
 		const projectComments = await Comment.find({
 			project: objectIdProjectId,

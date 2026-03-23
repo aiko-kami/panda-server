@@ -12,16 +12,9 @@ const { DateTime } = require("luxon");
 
 const editSteps = async (projectId, userIdUpdater, steps, actionType) => {
 	try {
-		// Convert project id to ObjectId
+		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-		// Convert user id to ObjectId
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
 		if (!project) {
@@ -70,9 +63,6 @@ const editSteps = async (projectId, userIdUpdater, steps, actionType) => {
 			for (const step of steps) {
 				// Convert status id to ObjectId
 				const objectIdStatusId = encryptTools.convertIdToObjectId(step.statusId);
-				if (objectIdStatusId.status == "error") {
-					return { status: "error", message: objectIdStatusId.message };
-				}
 
 				//Check if the steps status exist
 				statusExist = await Status.findOne({ _id: objectIdStatusId });
@@ -172,9 +162,6 @@ const retrieveProjectSteps = async (projectId, actionType) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 
 		if (actionType === "all") {
 			const projectSteps = await Project.findOne({ _id: objectIdProjectId })
@@ -246,14 +233,7 @@ const editQAs = async (projectId, userIdUpdater, QAs, actionType) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-		// Convert id to ObjectId
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
 		if (!project) {
@@ -390,9 +370,6 @@ const retrieveProjectQAs = async (projectId, actionType) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 
 		if (actionType === "all") {
 			const projectQAs = await Project.findOne({ _id: objectIdProjectId })

@@ -11,9 +11,6 @@ const sendVerificationEmail = async (userId) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		//Find user in the database
 		const user = await User.findOne({ _id: objectIdUserId });
@@ -73,7 +70,7 @@ const sendVerificationEmail = async (userId) => {
 			{
 				"emailVerified.emailId": emailId,
 				"emailVerified.expirationTimestamp": Date.now() + 172800000, //email verification valid 48h
-			}
+			},
 		);
 
 		logger.info("Verification email sent successfully.");
@@ -116,9 +113,6 @@ const verifyEmailValidationId = async (validationId) => {
 
 		// Convert id to ObjectId
 		const objectIdUserId = encryptTools.convertIdToObjectId(userIdDecrypted);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		//Find user in the database
 		const user = await User.findOne({ _id: objectIdUserId });
@@ -142,7 +136,7 @@ const verifyEmailValidationId = async (validationId) => {
 				{
 					"emailVerified.verified": true,
 					"emailVerified.expirationTimestamp": 0,
-				}
+				},
 			);
 			logger.info(`Email has been successfully verified. emailId: ${user.emailVerified.emailId}`);
 			return { status: "success", message: "Email has been successfully verified." };
@@ -189,9 +183,6 @@ const verifyEmailChangeValidationId = async (validationId) => {
 
 		// Convert id to ObjectId
 		const objectIdUserId = encryptTools.convertIdToObjectId(userIdDecrypted);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		//Find user in the database
 		const user = await User.findOne({ _id: objectIdUserId });
@@ -217,7 +208,7 @@ const verifyEmailChangeValidationId = async (validationId) => {
 					email: user.changeEmailVerified.newEmail,
 					"changeEmailVerified.expirationTimestamp": 0,
 					"changeEmailVerified.newEmail": "",
-				}
+				},
 			);
 			logger.info(`New email has been successfully verified. emailId: ${user.emailVerified.emailId}`);
 			return { status: "success", message: "New email has been successfully verified." };
@@ -287,9 +278,6 @@ const sendVerificationEmailChangeEmail = async (userId) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		//Find user in the database
 		const user = await User.findOne({ _id: objectIdUserId });
@@ -349,7 +337,7 @@ const sendVerificationEmailChangeEmail = async (userId) => {
 			{
 				"changeEmailVerified.emailId": emailId,
 				"changeEmailVerified.expirationTimestamp": Date.now() + 172800000, //email verification valid 48h
-			}
+			},
 		);
 
 		logger.info("Verification email sent successfully.");

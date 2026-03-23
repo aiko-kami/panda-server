@@ -188,7 +188,7 @@ const addTagToProject = async (req, res) => {
 		}
 
 		// Add the tag to the project
-		const updateTagResult = await tagService.updateTagFromProject(projectId, userIdUpdater, tagId, "add");
+		const updateTagResult = await tagService.updateTagFromProject(projectId, tagId, "add");
 		if (updateTagResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updateTagResult.message);
 		}
@@ -224,7 +224,7 @@ const removeTagFromProject = async (req, res) => {
 		}
 
 		// Remove the tag from the project
-		const removeTagResult = await tagService.updateTagFromProject(projectId, userIdUpdater, tagId, "remove");
+		const removeTagResult = await tagService.updateTagFromProject(projectId, tagId, "remove");
 		if (removeTagResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, removeTagResult.message);
 		}

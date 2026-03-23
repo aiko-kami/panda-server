@@ -12,13 +12,7 @@ const addAttachment = async (projectId, userId) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 
 		// Find the project by projectId
 		const project = await Project.findOne({ _id: objectIdProjectId }).populate([{ path: "statusInfo.currentStatus", select: "-_id status colors description" }]);
@@ -69,13 +63,7 @@ const updateAttachment = async (projectId, attachmentFormerKey, updatedData, use
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 
 		// Find the project by projectId
 		const project = await Project.findOne({ _id: objectIdProjectId }).populate([{ path: "statusInfo.currentStatus", select: "-_id status colors description" }]);
@@ -132,13 +120,7 @@ const deleteAttachment = async (projectId, attachmentKey, userIdUpdater) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 
 		// Find the project by projectId
 		const project = await Project.findOne({ _id: objectIdProjectId }).populate([{ path: "statusInfo.currentStatus", select: "-_id status colors description" }]);
@@ -187,9 +169,6 @@ const retrieveAttachments = async (projectId, userId) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		const projectData = await projectService.retrieveProjectById(projectId, ["-_id", "privateData", "members", "projectId"]);
 		if (projectData.status !== "success") {
@@ -244,9 +223,6 @@ const retrieveAttachment = async (projectId, userId, attachmentTitle) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		const projectData = await projectService.retrieveProjectById(projectId, ["-_id", "privateData", "members", "projectId"]);
 		if (projectData.status !== "success") {

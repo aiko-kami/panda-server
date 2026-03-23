@@ -192,7 +192,7 @@ const cancelRequest = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, joinProjectResult.message);
 		}
 
-		return apiResponse.successResponseWithData(res, "Join project request cancelled successfully.", joinProjectResult.joinProject);
+		return apiResponse.successResponse(res, "Join project request cancelled successfully.");
 	} catch (error) {
 		return apiResponse.serverErrorResponse(res, error.message);
 	}

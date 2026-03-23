@@ -15,19 +15,8 @@ const updateProjectStatus = async (projectId, userIdUpdater, newStatusId, reason
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-
 		const objectIdNewStatusId = encryptTools.convertIdToObjectId(newStatusId);
-		if (objectIdNewStatusId.status == "error") {
-			return { status: "error", message: objectIdNewStatusId.message };
-		}
-
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 
 		// Retrieve project
 		const project = await Project.findOne({ _id: objectIdProjectId }).populate([
@@ -79,9 +68,6 @@ const retrieveStatusById = async (statusId, statusType, fields) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdStatusId = encryptTools.convertIdToObjectId(statusId);
-		if (objectIdStatusId.status == "error") {
-			return { status: "error", message: objectIdStatusId.message };
-		}
 
 		const fieldsString = fields.join(" ");
 
@@ -235,9 +221,6 @@ const editStatus = async (statusId, newName, newDescription, newColors, statusTy
 	try {
 		// Convert id to ObjectId
 		const objectIdStatusId = encryptTools.convertIdToObjectId(statusId);
-		if (objectIdStatusId.status == "error") {
-			return { status: "error", message: objectIdStatusId.message };
-		}
 
 		// Check if a status with the given statusId exists
 		const existingStatus = await Status.findOne({ _id: objectIdStatusId, type: statusType });
@@ -288,9 +271,6 @@ const removeStatus = async (statusId, statusType) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdStatusId = encryptTools.convertIdToObjectId(statusId);
-		if (objectIdStatusId.status == "error") {
-			return { status: "error", message: objectIdStatusId.message };
-		}
 
 		// Check if a status with the given statusId and statusType exists
 		const existingStatus = await Status.findOne({ _id: objectIdStatusId, statusType: statusType }, "-_id");

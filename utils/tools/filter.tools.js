@@ -151,9 +151,6 @@ const handleUserFiltering = (user, userIdViewer) => {
 		if (userIdViewer !== "unknown") {
 			// Convert id to ObjectId
 			objectIdUserIdViewer = convertIdToObjectId(userIdViewer);
-			if (objectIdUserIdViewer.status == "error") {
-				return { status: "error", message: objectIdUserIdViewer.message };
-			}
 		}
 		if (userCopy.profilePicture) {
 			if (userCopy.profilePicture.privacy !== "public" && userCopy._id.toString() !== objectIdUserIdViewer.toString()) {
@@ -375,24 +372,22 @@ const filterJoinProjectsOutputFields = (joinProjects, userIdViewer, privacyLevel
 			if (joinProject.sender) {
 				joinProject.sender = filterUserOutputFields(joinProject.sender, userIdViewer).user;
 			}
-			if (privacyLevel === "privateSender" && joinProject.statuses.statusSender.permissions) {
-				joinProject.permissions = Object.fromEntries((joinProject.statuses.statusSender.permissions.find((p) => p.actor === "sender")?.actions || []).map((a) => [a, true]));
+			if (privacyLevel === "privateSender" && joinProject.status.permissions) {
+				joinProject.permissions = Object.fromEntries((joinProject.status.permissions.find((p) => p.actor === "sender")?.actions || []).map((a) => [a, true]));
 				joinProject.status = {
-					status: joinProject.statuses.statusSender.status,
-					colors: joinProject.statuses.statusSender.colors,
-					description: joinProject.statuses.statusSender.description,
+					status: joinProject.status.status.startsWith("cancelled") ? "cancelled" : joinProject.status.status,
+					colors: joinProject.status.colors,
+					description: joinProject.status.description,
 				};
-				delete joinProject.statuses;
 			}
 
-			if (privacyLevel === "privateReceiver" && joinProject.statuses.statusReceiver.permissions) {
-				joinProject.permissions = Object.fromEntries((joinProject.statuses.statusReceiver.permissions.find((p) => p.actor === "receiver")?.actions || []).map((a) => [a, true]));
+			if (privacyLevel === "privateReceiver" && joinProject.status.permissions) {
+				joinProject.permissions = Object.fromEntries((joinProject.status.permissions.find((p) => p.actor === "receiver")?.actions || []).map((a) => [a, true]));
 				joinProject.status = {
-					status: joinProject.statuses.statusReceiver.status,
-					colors: joinProject.statuses.statusReceiver.colors,
-					description: joinProject.statuses.statusReceiver.description,
+					status: joinProject.status.status.startsWith("cancelled") ? "cancelled" : rawStatus,
+					colors: joinProject.status.colors,
+					description: joinProject.status.description,
 				};
-				delete joinProject.statuses;
 			}
 		}
 		return { status: "success", message: "Join projects filtered successfully.", joinProjects: joinProjectsCopy };

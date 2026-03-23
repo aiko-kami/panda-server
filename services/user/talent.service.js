@@ -5,9 +5,6 @@ const createTalent = async (talentData, userId) => {
 	try {
 		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (ObjectIdUserId.status == "error") {
-			return { status: "error", message: ObjectIdUserId.message };
-		}
 
 		// Find the user by userId
 		const user = await User.findOne({ _id: ObjectIdUserId });
@@ -50,9 +47,6 @@ const updateTalent = async (updatedTalentData, userId) => {
 	try {
 		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (ObjectIdUserId.status == "error") {
-			return { status: "error", message: ObjectIdUserId.message };
-		}
 
 		// Find the user by userId
 		const user = await User.findOne({ _id: ObjectIdUserId });
@@ -115,9 +109,6 @@ const updateTalents = async (talents, userId) => {
 	try {
 		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (ObjectIdUserId.status == "error") {
-			return { status: "error", message: ObjectIdUserId.message };
-		}
 
 		// Find the user by userId
 		const user = await User.findOne({ _id: ObjectIdUserId });
@@ -154,9 +145,6 @@ const removeTalent = async (talentName, userId) => {
 	try {
 		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (ObjectIdUserId.status == "error") {
-			return { status: "error", message: ObjectIdUserId.message };
-		}
 
 		// Find the user by userId
 		const user = await User.findOne({ _id: ObjectIdUserId });
@@ -199,9 +187,6 @@ const updateQuickSkills = async (userId, skill, action) => {
 	try {
 		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (ObjectIdUserId.status == "error") {
-			return { status: "error", message: ObjectIdUserId.message };
-		}
 
 		// Find the user by userId
 		const user = await User.findOne({ _id: ObjectIdUserId });

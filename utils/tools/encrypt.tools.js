@@ -22,7 +22,7 @@ const convertIdToObjectId = (encryptedData) => {
 		decrypted += decipher.final("utf-8");
 		return new mongoose.Types.ObjectId(decrypted);
 	} catch (error) {
-		return { status: "error", message: "wrong ID format" };
+		throw new Error("Wrong ID format");
 	}
 };
 

@@ -167,9 +167,6 @@ const deleteProjectAttachment = async (req, res) => {
 
 		// Convert id to ObjectId
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return apiResponse.serverErrorResponse(res, objectIdUserId.message);
-		}
 
 		// Add new cover link to database (replace with new link or simply remove the former one if there is no new input)
 		const updateAttachmentResult = await attachmentService.deleteAttachment(projectId, attachmentKey, userId);

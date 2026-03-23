@@ -83,10 +83,6 @@ const verifyResetPasswordToken = async (resetToken) => {
 		// Convert id to ObjectId
 		const ObjectIdUserId = encryptTools.convertIdToObjectId(userIdDecrypted);
 
-		if (ObjectIdUserId.status == "error") {
-			return { status: "error", message: ObjectIdUserId.message };
-		}
-
 		const existingToken = await ResetPasswordToken.findOne({
 			user: ObjectIdUserId,
 			token: decodedToken,

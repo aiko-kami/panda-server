@@ -14,14 +14,7 @@ const updateLike = async (projectId, userId, updateType) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-		// Convert id to ObjectId
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
 		if (!project) {
@@ -83,9 +76,6 @@ const retrieveUserLikes = async (userId) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		const userLikes = await LikeProject.find({ user: objectIdUserId })
 			.select("-_id likeProjectId createdAt")
@@ -125,9 +115,6 @@ const retrieveProjectLikes = async (projectId) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
 		if (!project) {
@@ -169,14 +156,7 @@ const verifyUserLikeProject = async (projectId, userId) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		const likeRecord = await LikeProject.findOne({ project: objectIdProjectId, user: objectIdUserId });
 

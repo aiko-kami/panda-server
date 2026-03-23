@@ -28,7 +28,7 @@ const addObjective = async (req, res) => {
 		}
 
 		// Add the objective to the project
-		const updateObjectiveResult = await projectService.updateObjective(projectId, userIdUpdater, updatedObjectiveInputs.objective, "add");
+		const updateObjectiveResult = await projectService.updateObjective(projectId, updatedObjectiveInputs.objective, "add");
 		if (updateObjectiveResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updateObjectiveResult.message);
 		}
@@ -66,7 +66,7 @@ const removeObjective = async (req, res) => {
 		}
 
 		// Remove the objective from the project
-		const removeObjectiveResult = await projectService.updateObjective(projectId, userIdUpdater, objectiveToRemove.objective, "remove");
+		const removeObjectiveResult = await projectService.updateObjective(projectId, objectiveToRemove.objective, "remove");
 		if (removeObjectiveResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, removeObjectiveResult.message);
 		}

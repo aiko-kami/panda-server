@@ -76,6 +76,24 @@ function getAllowedJoinProjectStatusesForReceiver(statusesList, currentStatus) {
 }
 
 const validateJoinProjectStatusUpdate = (requestType, newStatus, formerStatus) => {
+	// requestType can be either "join project request" or "join project invitation"
+	if (requestType !== "join project request" && requestType !== "join project invitation") {
+		return { status: "error", message: `Invalid request type: ${requestType}.` };
+	}
+
+	if (formerStatus === "accepted" || formerStatus === "refused" || formerStatus === "cancelledDraft" || formerStatus === "cancelledSent" || formerStatus === "cancelled") {
+		return {
+			status: "error",
+			message: `Status cannot be updated anymore because ${requestType.charAt(0).toUpperCase() + requestType.slice(1)} has been ${formerStatus.startsWith("cancelled") ? "cancelled" : formerStatus}.`,
+		};
+	}
+
+	// newStatus and formerStatus can be either "draft", "pending", "accepted", "refused", "cancelledDraft" or "cancelledSent"
+	const validStatuses = ["draft", "pending", "accepted", "refused", "cancelledDraft", "cancelledSent"];
+	if (!validStatuses.includes(newStatus) || !validStatuses.includes(formerStatus)) {
+		return { status: "error", message: `Invalid status. Status must be one of the following: ${validStatuses.join(", ")}.` };
+	}
+
 	// Check if the new status is different from the current one
 	if (formerStatus === newStatus) {
 		return {
@@ -85,20 +103,12 @@ const validateJoinProjectStatusUpdate = (requestType, newStatus, formerStatus) =
 	}
 
 	// Check if the status can be updated
-	if (formerStatus === "draft" && newStatus !== "sent" && newStatus !== "cancelled") {
+	if (formerStatus === "draft" && newStatus !== "pending" && newStatus !== "cancelledDraft") {
 		return { status: "error", message: `Status cannot be updated from ${formerStatus.toUpperCase()} to ${newStatus.toUpperCase()}.` };
 	}
 
-	if (formerStatus === "sent" && newStatus !== "read" && newStatus !== "accepted" && newStatus !== "refused" && newStatus !== "cancelled") {
+	if (formerStatus === "pending" && newStatus !== "accepted" && newStatus !== "refused" && newStatus !== "cancelledSent") {
 		return { status: "error", message: `Status cannot be updated from ${formerStatus.toUpperCase()} to ${newStatus.toUpperCase()}.` };
-	}
-
-	if (formerStatus === "read" && newStatus !== "accepted" && newStatus !== "refused" && newStatus !== "cancelled") {
-		return { status: "error", message: `Status cannot be updated from ${formerStatus.toUpperCase()} to ${newStatus.toUpperCase()}.` };
-	}
-
-	if (formerStatus === "accepted" || formerStatus === "refused" || formerStatus === "cancelled") {
-		return { status: "error", message: `Status cannot be updated anymore because ${requestType.charAt(0).toUpperCase() + requestType.slice(1)} has been ${formerStatus}.` };
 	}
 
 	return { status: "success" };

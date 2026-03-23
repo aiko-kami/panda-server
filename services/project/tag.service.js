@@ -136,9 +136,6 @@ const verifyTagsExist = async (tags) => {
 		for (const tagItem of tags) {
 			// Convert id to ObjectId
 			const objectIdTagId = encryptTools.convertIdToObjectId(tagItem.tagId);
-			if (objectIdTagId.status == "error") {
-				return { status: "error", message: objectIdTagId.message };
-			}
 
 			// Check if a tag with the given tagId exists
 			const existingTag = await Tag.findOne({ _id: objectIdTagId });
@@ -166,9 +163,6 @@ const updateTag = async (tagId, newName, newDescription) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdTagId = encryptTools.convertIdToObjectId(tagId);
-		if (objectIdTagId.status == "error") {
-			return { status: "error", message: objectIdTagId.message };
-		}
 
 		// Check if a tag with the given tagId exists
 		const existingTag = await Tag.findOne({ _id: objectIdTagId });
@@ -222,20 +216,10 @@ const updateTag = async (tagId, newName, newDescription) => {
 	}
 };
 
-const updateTagFromProject = async (projectId, userIdUpdater, tagId, action) => {
+const updateTagFromProject = async (projectId, tagId, action) => {
 	try {
-		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 		const objectIdTagId = encryptTools.convertIdToObjectId(tagId);
-		if (objectIdTagId.status == "error") {
-			return { status: "error", message: objectIdTagId.message };
-		}
 
 		// Verify if tag exists
 		const existingTag = await Tag.findOne({ _id: objectIdTagId });
@@ -311,9 +295,6 @@ const removeTag = async (tagId) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdTagId = encryptTools.convertIdToObjectId(tagId);
-		if (objectIdTagId.status == "error") {
-			return { status: "error", message: objectIdTagId.message };
-		}
 
 		// Check if a tag with the given tagId exists
 		const existingTag = await Tag.findOne({ _id: objectIdTagId });
@@ -345,9 +326,6 @@ const retrieveTagById = async (tagId, fields) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdTagId = encryptTools.convertIdToObjectId(tagId);
-		if (objectIdTagId.status == "error") {
-			return { status: "error", message: objectIdTagId.message };
-		}
 
 		let query = Tag.findOne({ _id: objectIdTagId });
 		if (fields) {

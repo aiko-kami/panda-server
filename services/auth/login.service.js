@@ -35,15 +35,12 @@ const comparePasswords = async (password, hashedPassword) => {
 const updateLastConnection = async (userId) => {
 	try {
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		// Find the user by userId and update the lastConnection field
 		const updatedUser = await User.findOneAndUpdate(
 			{ _id: objectIdUserId },
 			{ lastConnection: DateTime.now().toHTTP() }, // Set the lastConnection field to the current date
-			{ new: true } // Return the updated user document
+			{ new: true }, // Return the updated user document
 		).select("-_id -talents._id -__v");
 
 		if (!updatedUser) {
@@ -86,15 +83,12 @@ const retrieveAdminUserByUsernameOrEmail = async (identifier) => {
 const updateAdminLastConnection = async (userId) => {
 	try {
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId.status == "error") {
-			return { status: "error", message: objectIdUserId.message };
-		}
 
 		// Find the user by userId and update the lastConnection field
 		const updatedUser = await AdminUser.findOneAndUpdate(
 			{ _id: objectIdUserId },
 			{ lastConnection: DateTime.now().toHTTP() }, // Set the lastConnection field to the current date
-			{ new: true } // Return the updated user document
+			{ new: true }, // Return the updated user document
 		).select("-_id -__v");
 
 		if (!updatedUser) {

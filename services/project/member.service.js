@@ -10,18 +10,10 @@ const { logger, encryptTools } = require("../../utils");
  */
 const updateMemberFromProject = async (projectId, userIdUpdater, userIdUpdated, action, talent) => {
 	try {
+		// Convert id to ObjectId
 		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 		const objectIdUserIdUpdated = encryptTools.convertIdToObjectId(userIdUpdated);
-		if (objectIdUserIdUpdated.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdated.message };
-		}
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 
 		if (objectIdUserIdUpdater.equals(objectIdUserIdUpdated)) {
 			return { status: "error", message: "You cannot add or remove yourself as a project member." };
@@ -89,14 +81,7 @@ const updateMemberRole = async (projectId, memberId, newRole) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-
 		const objectIdMemberId = encryptTools.convertIdToObjectId(memberId);
-		if (objectIdMemberId.status == "error") {
-			return { status: "error", message: objectIdMemberId.message };
-		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
 
@@ -139,14 +124,7 @@ const updateMemberstartDate = async (projectId, memberId, newStartDate) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-
 		const objectIdMemberId = encryptTools.convertIdToObjectId(memberId);
-		if (objectIdMemberId.status == "error") {
-			return { status: "error", message: objectIdMemberId.message };
-		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
 
@@ -181,14 +159,7 @@ const removeMemberstartDate = async (projectId, memberId) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-
 		const objectIdMemberId = encryptTools.convertIdToObjectId(memberId);
-		if (objectIdMemberId.status == "error") {
-			return { status: "error", message: objectIdMemberId.message };
-		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
 
@@ -221,14 +192,7 @@ const updateMemberTalent = async (projectId, memberId, newTalent) => {
 	try {
 		// Convert id to ObjectId
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
-
 		const objectIdMemberId = encryptTools.convertIdToObjectId(memberId);
-		if (objectIdMemberId.status == "error") {
-			return { status: "error", message: objectIdMemberId.message };
-		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
 
@@ -257,17 +221,10 @@ const updateMemberTalent = async (projectId, memberId, newTalent) => {
 	}
 };
 
-const updateTalentNeeded = async (projectId, userIdUpdater, talentNeeded, action) => {
+const updateTalentNeeded = async (projectId, talentNeeded, action) => {
 	const { talent, description = "" } = talentNeeded;
 	try {
-		const objectIdUserIdUpdater = encryptTools.convertIdToObjectId(userIdUpdater);
-		if (objectIdUserIdUpdater.status == "error") {
-			return { status: "error", message: objectIdUserIdUpdater.message };
-		}
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
-		if (objectIdProjectId.status == "error") {
-			return { status: "error", message: objectIdProjectId.message };
-		}
 
 		const project = await Project.findOne({ _id: objectIdProjectId });
 

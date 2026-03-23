@@ -49,9 +49,6 @@ const updateUserProjectRights = async (req, res) => {
 
 		// Convert id to ObjectId
 		const objectIdUserIdUpdated = encryptTools.convertIdToObjectId(member.userIdUpdated);
-		if (objectIdUserIdUpdated.status == "error") {
-			return apiResponse.serverErrorResponse(res, objectIdUserIdUpdated.message);
-		}
 
 		// Find the user to be updated in the project's members
 		const userToBeUpdated = projectMembers.find((projectMember) => projectMember.user.toString() === objectIdUserIdUpdated.toString());
@@ -120,9 +117,6 @@ const updateUsersProjectRights = async (req, res) => {
 		for (const member of members) {
 			// Convert id to ObjectId
 			const objectIdUserIdUpdated = encryptTools.convertIdToObjectId(member.userId);
-			if (objectIdUserIdUpdated.status == "error") {
-				return apiResponse.serverErrorResponse(res, objectIdUserIdUpdated.message);
-			}
 
 			// Find the user to be updated in the project's members
 			const userToBeUpdated = projectMembers.find((projectMember) => projectMember.user._id.toString() === objectIdUserIdUpdated.toString());
@@ -171,9 +165,6 @@ const retrieveUserProjectRights = async (req, res) => {
 
 		// Convert id to ObjectId
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
-		if (objectIdUserId && objectIdUserId.status === "error") {
-			return apiResponse.serverErrorResponse(res, objectIdUserId.message);
-		}
 
 		// Find the user in the project's members
 		const isUserProjectMember = projectMembers.find((member) => encryptTools.convertIdToObjectId(member.user.userId).toString() === objectIdUserId.toString());

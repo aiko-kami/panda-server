@@ -29,7 +29,7 @@ const addTalentNeeded = async (req, res) => {
 		}
 
 		// Add the new talent needed to the project
-		const updateTalentNeededResult = await memberService.updateTalentNeeded(projectId, userIdUpdater, updatedTalentNeededInputs, "add");
+		const updateTalentNeededResult = await memberService.updateTalentNeeded(projectId, updatedTalentNeededInputs, "add");
 		if (updateTalentNeededResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, updateTalentNeededResult.message);
 		}
@@ -68,7 +68,7 @@ const removeTalentNeeded = async (req, res) => {
 		}
 
 		// Remove the talent needed from the project
-		const removeTalentNeededResult = await memberService.updateTalentNeeded(projectId, userIdUpdater, talentToRemove, "remove");
+		const removeTalentNeededResult = await memberService.updateTalentNeeded(projectId, talentToRemove, "remove");
 		if (removeTalentNeededResult.status !== "success") {
 			return apiResponse.serverErrorResponse(res, removeTalentNeededResult.message);
 		}
