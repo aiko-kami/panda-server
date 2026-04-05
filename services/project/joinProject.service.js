@@ -27,13 +27,21 @@ const createJoinProject = async (joinProjectData) => {
 			}
 
 			//Check if request does not already exist for the user and this project
-			const existingRequest = await JoinProject.findOne({
+
+			const statuses = await Status.find({
+				status: { $in: ["draft", "pending"] },
+				type: "joinProject",
+			}).select("_id");
+
+			const statusIds = statuses.map((s) => s._id);
+
+			const existingRequests = await JoinProject.find({
 				project: objectIdProjectId,
 				sender: objectIdUserIdSender,
 				requestType: joinProjectData.requestType,
+				status: { $in: statusIds },
 			});
-
-			if (existingRequest) {
+			if (existingRequests.length > 0) {
 				return { status: "error", message: "A join request already exists for this user and project." };
 			}
 
@@ -132,7 +140,12 @@ const updateJoinProject = async (joinProjectData) => {
 		const objectIdProjectId = encryptTools.convertIdToObjectId(joinProjectData.projectId);
 
 		//Check if request exists for the user and this project
-		const existingJoinProject = await JoinProject.findOne({ _id: objectIdJoinProjectId });
+		const existingJoinProject = await JoinProject.findOne({ _id: objectIdJoinProjectId }).populate([
+			{
+				path: "status",
+				select: "-_id status",
+			},
+		]);
 
 		const capitalizedRequestType = joinProjectData.requestType.charAt(0).toUpperCase() + joinProjectData.requestType.slice(1);
 
@@ -144,7 +157,7 @@ const updateJoinProject = async (joinProjectData) => {
 			return { status: "error", message: `Only the sender of the ${joinProjectData.requestType} can update it.` };
 		}
 
-		if (existingJoinProject.status !== "draft") {
+		if (existingJoinProject.status.status !== "draft") {
 			return { status: "error", message: `You can only update draft ${joinProjectData.requestType}.` };
 		}
 
@@ -164,9 +177,6 @@ const updateJoinProject = async (joinProjectData) => {
 			}
 
 			// Update join project request
-			existingJoinProject.project = objectIdProjectId;
-			existingJoinProject.sender = objectIdUserIdSender;
-			existingJoinProject.requestType = joinProjectData.requestType;
 			existingJoinProject.talent = joinProjectData.talent;
 			existingJoinProject.message = joinProjectData.message;
 			existingJoinProject.updatedBy = objectIdUserIdSender;
@@ -300,11 +310,27 @@ const updateStatusJoinProject = async (userIdUpdater, joinProjectId, newJoinProj
 			updatedJoinProject = await existingJoinProject.save();
 		} else if (newJoinProjectStatus === "accepted") {
 			if (requestType === "join project request") {
-				if (existingJoinProject.status !== "sent" && existingJoinProject.status !== "read") {
+				if (existingJoinProject.status.status !== "pending") {
 					return { status: "error", message: `You can only update sent ${requestType}.` };
 				}
 
-				existingJoinProject.status = newJoinProjectStatus;
+				const statusUpdateValidated = statusTools.validateJoinProjectStatusUpdate(requestType, newJoinProjectStatus, existingJoinProject.status.status);
+				if (statusUpdateValidated.status == "error") {
+					return { status: "error", message: statusUpdateValidated.message };
+				}
+
+				const statusDoc = await Status.findOne({
+					status: newJoinProjectStatus,
+					type: "joinProject",
+				});
+				if (!statusDoc) {
+					return {
+						status: "error",
+						message: `Status '${newJoinProjectStatus}' not found.`,
+					};
+				}
+
+				existingJoinProject.status = statusDoc._id;
 				existingJoinProject.updatedBy = ObjectIdUserIdUpdater;
 				updatedJoinProject = await existingJoinProject.save();
 			} else if (requestType === "join project invitation") {
@@ -438,7 +464,7 @@ const retrieveMyJoinProjects = async (userIdSender, requestType, statusType) => 
 			.populate([
 				{
 					path: "project",
-					select: "-_id title summary category subCategory goal likes cover projectId",
+					select: "-_id title summary category subCategory goal likes cover projectId link",
 					populate: {
 						path: "category",
 						select: "-_id categoryId name link colors subCategories",
@@ -556,7 +582,15 @@ const retrieveProjectJoinProjects = async (requestType, projectId) => {
 	try {
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
 
-		const joinProjects = await JoinProject.find({ project: objectIdProjectId, requestType })
+		const pendingStatus = await Status.findOne({
+			status: "pending",
+			type: "joinProject",
+		}).select("_id");
+		if (!pendingStatus) {
+			return { status: "error", message: "Pending status not found." };
+		}
+
+		const joinProjects = await JoinProject.find({ project: objectIdProjectId, requestType, status: pendingStatus._id })
 			.select("-_id -__v -project -requestType")
 			.populate([
 				{ path: "sender", select: "username profilePicture userId" },
@@ -585,10 +619,20 @@ const verifyUserJoinProject = async (requestType, userId, projectId) => {
 		const objectIdUserId = encryptTools.convertIdToObjectId(userId);
 		const objectIdProjectId = encryptTools.convertIdToObjectId(projectId);
 
+		const pendingStatus = await Status.findOne({
+			status: "pending",
+			type: "joinProject",
+		}).select("_id");
+
+		if (!pendingStatus) {
+			return { status: "error", message: "Pending status not found." };
+		}
+
 		const existingRequest = await JoinProject.findOne({
 			project: objectIdProjectId,
 			sender: objectIdUserId,
 			requestType: requestType,
+			status: pendingStatus._id,
 		});
 
 		if (existingRequest) {

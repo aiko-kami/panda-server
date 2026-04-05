@@ -85,7 +85,7 @@ const sendRequest = async (req, res) => {
 		const userIdSender = req.userId;
 		const { projectId = "", talent = "", message = "", joinProjectId = "" } = req.body;
 
-		const joinProjectData = { userIdSender, projectId, talent, message, requestType: "join project request", joinProjectStatus: "sent", joinProjectId };
+		const joinProjectData = { userIdSender, projectId, talent, message, requestType: "join project request", joinProjectStatus: "pending", joinProjectId };
 
 		// If join project ID is present, validate join project ID and sender ID
 		if (joinProjectId) {
@@ -211,7 +211,6 @@ const acceptRequest = async (req, res) => {
 
 		// Retrieve join project request
 		const joinProjectRetrieved = await joinProjectService.retrieveJoinProject("join project request", joinProjectId);
-
 		if (joinProjectRetrieved.status !== "success") {
 			return apiResponse.serverErrorResponse(res, joinProjectRetrieved.message);
 		}
@@ -226,8 +225,8 @@ const acceptRequest = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
 		}
 
-		// Check if the user has canAnswerJoinProjectRequests permission
-		if (!rightsCheckResult.projectRights.permissions.canAnswerJoinProjectRequests) {
+		// Check if the user has canEditJoinProjectRequests permission
+		if (!rightsCheckResult.projectRights.permissions.canEditJoinProjectRequests) {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to answer join project requests for this project.");
 		}
 

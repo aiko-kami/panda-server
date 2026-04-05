@@ -41,7 +41,6 @@ const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => 
 
 			// Find the user in the project's members
 			const isUserProjectMember = projectMembers.find((member) => encryptTools.convertIdToObjectId(member.user.userId).toString() === objectIdUserId.toString());
-
 			// If user is not member of the project, return error
 			if (!isUserProjectMember) {
 				return apiResponse.unauthorizedResponse(res, "Data only available for the members of the project.");

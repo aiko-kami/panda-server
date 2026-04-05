@@ -37,6 +37,7 @@ const updateMemberFromProject = async (projectId, userIdUpdater, userIdUpdated, 
 				user: objectIdUserIdUpdated,
 				talent: talent,
 				role: "member",
+				startDate: new Date(),
 			};
 
 			project.members.push(newMember);
