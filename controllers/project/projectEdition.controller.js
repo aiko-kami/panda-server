@@ -97,22 +97,34 @@ const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => 
 
 			// For the section Members, retrieve joinProject requests and invitations
 			if (projectSectionEdition === "SectionMembers") {
-				responseData.joinProject = {};
-				// Check the user's permission to see join project requests
-				const hasPermissionToSeejoinRequests = userPermissions["canViewJoinProjectRequests"];
-				if (hasPermissionToSeejoinRequests) {
+				responseData.joinProject = { archives: {} };
+
+				// Check the user's permission to see join project requests and invitations
+				const hasPermissionToSeeJoinRequests = userPermissions["canViewJoinProjectRequests"];
+				const hasPermissionToSeejoinInvitations = userPermissions["canViewJoinProjectInvitations"];
+
+				if (hasPermissionToSeeJoinRequests) {
+					// Retrieve pending join project requests for the project
 					const joinProjectRequestsResult = await joinProjectService.retrieveProjectJoinProjects("join project request", project.projectId);
 					if (joinProjectRequestsResult.status !== "success") {
 						return apiResponse.serverErrorResponse(res, joinProjectRequestsResult.message);
 					}
 
-					// Add joinRequests and joinInvitations if successfully retrieved
+					// Add joinRequests if successfully retrieved
 					responseData.joinProject.joinRequests = joinProjectRequestsResult.joinProjects;
+
+					//Retrieve archive join project requests for the project
+					const joinProjectRequestsArchiveResult = await joinProjectService.retrieveProjectJoinProjectsArchive("join project request", project.projectId);
+					if (joinProjectRequestsArchiveResult.status !== "success") {
+						return apiResponse.serverErrorResponse(res, joinProjectRequestsArchiveResult.message);
+					}
+
+					// Add joinRequestsArchive if successfully retrieved
+					responseData.joinProject.archives.joinRequests = joinProjectRequestsArchiveResult.joinProjects;
 				}
 
-				// Check the user's permission to see join project invitations
-				const hasPermissionToSeejoinInvitations = userPermissions["canViewJoinProjectInvitations"];
 				if (hasPermissionToSeejoinInvitations) {
+					// Retrieve pending join project invitations for the project
 					const joinProjectInvitationsResult = await joinProjectService.retrieveProjectJoinProjects("join project invitation", project.projectId);
 					if (joinProjectInvitationsResult.status !== "success") {
 						return apiResponse.serverErrorResponse(res, joinProjectInvitationsResult.message);
@@ -120,6 +132,15 @@ const retrieveProjectHandler = (projectSectionEdition, requestedFields = []) => 
 
 					// Add joinInvitations if successfully retrieved
 					responseData.joinProject.joinInvitations = joinProjectInvitationsResult.joinProjects;
+
+					//Retrieve archive join project invitations for the project
+					const joinProjectInvitationsArchiveResult = await joinProjectService.retrieveProjectJoinProjectsArchive("join project invitation", project.projectId);
+					if (joinProjectInvitationsArchiveResult.status !== "success") {
+						return apiResponse.serverErrorResponse(res, joinProjectInvitationsArchiveResult.message);
+					}
+
+					// Add joinInvitationsArchive if successfully retrieved
+					responseData.joinProject.archives.joinInvitations = joinProjectInvitationsArchiveResult.joinProjects;
 				}
 				if (Object.keys(responseData.joinProject).length === 0) {
 					delete responseData.joinProject;

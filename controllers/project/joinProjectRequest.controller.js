@@ -278,8 +278,8 @@ const refuseRequest = async (req, res) => {
 			return apiResponse.serverErrorResponse(res, rightsCheckResult.message);
 		}
 
-		// Check if the user has canAnswerJoinProjectRequests permission
-		if (!rightsCheckResult.projectRights.permissions.canAnswerJoinProjectRequests) {
+		// Check if the user has canEditJoinProjectRequests permission
+		if (!rightsCheckResult.projectRights.permissions.canEditJoinProjectRequests) {
 			return apiResponse.unauthorizedResponse(res, "You do not have permission to answer join project requests for this project.");
 		}
 
